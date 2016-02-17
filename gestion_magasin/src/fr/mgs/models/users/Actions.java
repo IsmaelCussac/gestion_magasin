@@ -1,4 +1,4 @@
-package fr.mgs.models;
+package fr.mgs.models.users;
 
 /**
  * Contains the different actions a store keeper can do. 

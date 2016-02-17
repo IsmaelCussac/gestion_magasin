@@ -1,4 +1,4 @@
-package fr.mgs.models;
+package fr.mgs.models.users;
 
 /**
  * Contains the different privileges a user can have.

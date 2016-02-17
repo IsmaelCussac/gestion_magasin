@@ -1,4 +1,4 @@
-package fr.mgs.models;
+package fr.mgs.models.orders;
 
 /**
  * Contains the different status an order can have. 

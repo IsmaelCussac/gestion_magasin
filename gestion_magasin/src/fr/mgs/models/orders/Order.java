@@ -1,4 +1,4 @@
-package fr.mgs.models;
+package fr.mgs.models.orders;
 
 import java.io.Serializable;
 
