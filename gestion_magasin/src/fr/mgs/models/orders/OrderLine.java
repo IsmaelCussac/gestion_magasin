@@ -14,8 +14,7 @@ import javax.persistence.Table;
  * @author Ismaël
  *
  */
-@Entity(name = "orderLines")
-@Table(name = "order_line_t")
-public class OrderLine implements Serializable{
 
+public class OrderLine implements Serializable{
+	//sera une map
 }
