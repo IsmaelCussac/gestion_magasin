@@ -2,7 +2,9 @@ package fr.mgs.models.orders;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -21,5 +23,9 @@ import javax.persistence.Table;
 @Entity(name = "orders")
 @Table(name = "order_t")
 public class Order implements Serializable {
+	
+	@Id
+	@Column(name = "order_id")
+	private int id;
 
 }

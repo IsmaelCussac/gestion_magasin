@@ -2,7 +2,9 @@ package fr.mgs.models.users;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -19,4 +21,7 @@ import javax.persistence.Table;
 @Table(name = "team_t")
 public class Team implements Serializable {
 
+	@Id
+	@Column(name = "team_id")
+	private int String;
 }

@@ -2,7 +2,9 @@ package fr.mgs.models.products;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -24,4 +26,8 @@ import javax.persistence.Table;
 @Table(name = "product_t")
 public class Product implements Serializable {
 
+	
+	@Id
+	@Column(name = "product_id")
+	private int id;
 }
