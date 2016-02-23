@@ -1,21 +1,24 @@
 package fr.mgs.models.products;
 
-import java.io.Serializable;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 /**
-* This class describes a category entity in database. It contains : 
- * - an id
- * - a name
- * - a sub-category 
+ * This class describes a level 1 category. 
  * 
  * @author Ismaël
  *
  */
-@Entity(name = "categories")
-@Table(name = "categories_t")
-public class Category  implements Serializable {
+public enum Category {
+	PAPER("Papêterie"),
+	PLASTIC("Plastique"),
+	CULTURE_PLASTIC("Plastique de culture");
+	
+	private final String text;
 
+	private Category(final String text) {
+		this.text = text;
+	}
+
+	@Override
+	public String toString() {
+		return text;
+	}
 }

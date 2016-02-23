@@ -8,7 +8,7 @@ import javax.persistence.Table;
 /**
 * This class describes a historical entity in database. It contains : 
  * - an id
- * - a store keeper user
+ * - a store keeper id
  * - a product
  * - an action
  * - a date
@@ -18,7 +18,7 @@ import javax.persistence.Table;
  *
  */
 @Entity(name = "historicals")
-@Table(name = "historicals_t")
-public class Historical  implements Serializable {
+@Table(name = "historical_t")
+public class Historical implements Serializable {
 
 }

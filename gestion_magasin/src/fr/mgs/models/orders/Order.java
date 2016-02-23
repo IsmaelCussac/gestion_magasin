@@ -19,7 +19,7 @@ import javax.persistence.Table;
  *
  */
 @Entity(name = "orders")
-@Table(name = "orders_t")
-public class Order  implements Serializable {
+@Table(name = "order_t")
+public class Order implements Serializable {
 
 }

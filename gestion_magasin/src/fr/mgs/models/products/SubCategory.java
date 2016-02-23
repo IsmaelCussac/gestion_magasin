@@ -6,15 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
-* This class describes a sub-category entity in database. It contains : 
+* This class describes a level 2 category entity in database. It contains : 
  * - an id
  * - a name 
+ * - a level 1 category
  * 
  * @author Ismaël
  *
  */
 @Entity(name = "subCategories")
-@Table(name = "subcategories_t")
-public class SubCategory  implements Serializable {
+@Table(name = "sub_category_t")
+public class SubCategory implements Serializable {
 
 }

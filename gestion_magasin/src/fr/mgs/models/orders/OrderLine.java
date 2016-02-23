@@ -8,14 +8,14 @@ import javax.persistence.Table;
 /**
 * This class describes an order line entity in database. It contains : 
  * - an order id
- * - a product
+ * - a product id
  * - a quantity
  * 
  * @author Ismaël
  *
  */
 @Entity(name = "orderLines")
-@Table(name = "orderlines_t")
+@Table(name = "order_line_t")
 public class OrderLine implements Serializable{
 
 }

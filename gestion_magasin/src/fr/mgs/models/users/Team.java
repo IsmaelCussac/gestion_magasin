@@ -16,7 +16,7 @@ import javax.persistence.Table;
  *
  */
 @Entity(name = "teams")
-@Table(name = "teams_t")
-public class Team  implements Serializable {
+@Table(name = "team_t")
+public class Team implements Serializable {
 
 }

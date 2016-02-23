@@ -16,7 +16,7 @@ import javax.persistence.Table;
  *
  */
 @Entity(name = "lots")
-@Table(name = "lots_t")
-public class Lot  implements Serializable {
+@Table(name = "lot_t")
+public class Lot implements Serializable {
 
 }

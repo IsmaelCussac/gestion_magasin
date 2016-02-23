@@ -7,9 +7,20 @@ package fr.mgs.models.users;
  *
  */
 public enum Privilege {
-	
-	CUSTOMER,
-	STOREKEEPER,
-	APP_ADMIN
+
+	CUSTOMER("Client"), 
+	STORE_KEEPER("Magasinier"), 
+	APP_ADMIN("Administrateur");
+
+	private final String text;
+
+	private Privilege(final String text) {
+		this.text = text;
+	}
+
+	@Override
+	public String toString() {
+		return text;
+	}
 
 }

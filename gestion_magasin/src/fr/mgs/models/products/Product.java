@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * This class describes a product entity in database. It contains : 
  * - an id
  * - a name
- * - a subcategory
+ * - a level 2 category
  * - a quantity
  * - a minimal quantity in stock
  * - a price
@@ -21,7 +21,7 @@ import javax.persistence.Table;
  *
  */
 @Entity(name = "products")
-@Table(name = "products_t")
-public class Product  implements Serializable {
+@Table(name = "product_t")
+public class Product implements Serializable {
 
 }
