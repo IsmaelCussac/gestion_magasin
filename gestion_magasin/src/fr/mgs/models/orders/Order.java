@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * - a comment
  * - an order status
  * 
- * @author Ismaël
+ * @author Ismaï¿½l
  *
  */
 @Entity(name = "orders")
