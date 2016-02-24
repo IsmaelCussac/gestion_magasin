@@ -22,6 +22,6 @@ import javax.persistence.Table;
 public class Lot implements Serializable {
 
 	@Id
-	@Column(name = "lots")
+	@Column(name = "lots_id")
 	private int id;
 }
