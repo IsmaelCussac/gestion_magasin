@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * - a product id
  * - a quantity
  *
- * @author Ismaël
+ * @author Ismaï¿½l
  *
  */
 @Entity(name = "lots")
@@ -22,6 +22,6 @@ import javax.persistence.Table;
 public class Lot implements Serializable {
 
 	@Id
-	@Column(name = "lot_id")
+	@Column(name = "lotd")
 	private int id;
 }

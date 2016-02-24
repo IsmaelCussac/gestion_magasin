@@ -19,7 +19,7 @@ import javax.persistence.Table;
  * - a picture
  * - a conditioning
  * 
- * @author Ismaël
+ * @author Ismaï¿½l
  *
  */
 @Entity(name = "products")
