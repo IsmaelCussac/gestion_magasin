@@ -4,37 +4,20 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-
-
-<h:head>
-	<f:facet name="first">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Accueil Magasin</title>
-	</f:facet>
-	<f:facet name="middle">
-		<h:outputStylesheet library="css" name="bootstrap.css" />
-		<h:outputStylesheet library="css" name="style.css" />
-		<script
-			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
-		<h:outputScript library="js" name="bootstrap.js" />
-	</f:facet>
-	<f:facet name="last">
-	</f:facet>
-
-</h:head>
 <h:body>
 
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">Accueil</ui:define>
 
-	<div class="container">
-		<ui:include src="header.xhtml" />
+		<ui:define name="content">
+			<div class="row">
+				<section class="col-lg-12">
+					<div class="row">Contenu principal ......</div>
 
-		<ui:include src="content.xhtml" />
-
-		<ui:include src="footer.xhtml" />
-	</div>
-
+				</section>
+			</div>
+		</ui:define>
+	</ui:composition>
 
 
 </h:body>
