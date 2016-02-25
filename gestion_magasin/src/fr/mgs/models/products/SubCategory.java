@@ -23,5 +23,30 @@ public class SubCategory implements Serializable {
 	@Column(name = "sub_category_name")
 	private String name;
 	
-	private Category father;
+	@Column(name = "category")
+	private Category category;
+	
+	public SubCategory(){}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	@Override
+	public String toString() {
+		return "SubCategory [name=" + name + ", category=" + category + "]";
+	}
+
 }

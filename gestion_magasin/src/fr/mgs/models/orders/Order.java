@@ -2,12 +2,14 @@ package fr.mgs.models.orders;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import fr.mgs.models.products.Product;
 import fr.mgs.models.users.User;
 
 /**
@@ -37,7 +39,7 @@ public class Order implements Serializable {
 	
 	private Date deliveryDate;
 	
-	// order line //
+	private HashMap<Product, Integer> orderList;
 	
 	private String comment;
 	
