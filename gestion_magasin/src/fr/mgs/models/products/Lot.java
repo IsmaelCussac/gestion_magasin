@@ -1,6 +1,7 @@
 package fr.mgs.models.products;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
  * - a product id
  * - a quantity
  *
- * @author Isma�l
+ * @author Ismaël
  *
  */
 @Entity(name = "lots")
@@ -24,4 +25,10 @@ public class Lot implements Serializable {
 	@Id
 	@Column(name = "lots_id")
 	private int id;
+	
+	private Date expirationDate;
+	
+	private Product product;
+	
+	private double quantity;
 }

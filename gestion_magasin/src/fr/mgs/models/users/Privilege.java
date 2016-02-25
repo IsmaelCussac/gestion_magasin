@@ -3,7 +3,7 @@ package fr.mgs.models.users;
 /**
  * Contains the different privileges a user can have.
  * 
- * @author Ismaël
+ * @author IsmaÃ«l
  *
  */
 public enum Privilege {

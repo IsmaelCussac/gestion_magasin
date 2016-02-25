@@ -12,22 +12,37 @@ import javax.persistence.Table;
  * - an id
  * - a name
  * - a level 2 category
- * - a quantity
+ * - a warning period
  * - a minimal quantity in stock
  * - a price
  * - a visibility state
  * - a picture
  * - a conditioning
  * 
- * @author Isma�l
+ * @author Ismaël
  *
  */
 @Entity(name = "products")
 @Table(name = "product_t")
 public class Product implements Serializable {
 
-	
 	@Id
 	@Column(name = "product_id")
 	private int id;
+	
+	private String name;
+	
+	private Category category;
+	
+	private Integer warningPeriod;
+	
+	private double minQuantity;
+	
+	private Double price;
+	
+	private boolean visibility;
+	
+	private String picture;
+	
+	private Double conditioning;
 }

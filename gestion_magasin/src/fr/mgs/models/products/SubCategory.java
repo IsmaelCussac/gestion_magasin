@@ -9,11 +9,10 @@ import javax.persistence.Table;
 
 /**
 * This class describes a level 2 category entity in database. It contains : 
- * - an id
  * - a name 
  * - a level 1 category
  * 
- * @author Ismaël
+ * @author IsmaÃ«l
  *
  */
 @Entity(name = "subCategories")
@@ -21,6 +20,8 @@ import javax.persistence.Table;
 public class SubCategory implements Serializable {
 
 	@Id
-	@Column(name = "sub_category_id")
-	private int id;
+	@Column(name = "sub_category_name")
+	private String name;
+	
+	private Category father;
 }

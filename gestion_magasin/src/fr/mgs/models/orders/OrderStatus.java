@@ -3,16 +3,16 @@ package fr.mgs.models.orders;
 /**
  * Contains the different status an order can have. 
  * 
- * @author Ismaël
+ * @author IsmaÃ«l
  *
  */
 public enum OrderStatus {
 	
-	NOT_VALIDATED("Non validée"),
-	VALIDATED("Validée"),
+	NOT_VALIDATED("Non validÃ©e"),
+	VALIDATED("ValidÃ©e"),
 	IN_PROGRESS("En cours"),
-	SHORTAGE("Livrée avec reliquats"),
-	DELIVERED("Livrée");
+	SHORTAGE("LivrÃ©e avec reliquats"),
+	DELIVERED("LivrÃ©e");
 	
 	private final String text;
 

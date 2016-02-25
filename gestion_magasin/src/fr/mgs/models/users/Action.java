@@ -2,16 +2,16 @@ package fr.mgs.models.users;
 
 /**
  * Contains the different actions a store keeper can do. 
- * @author Ismaël
+ * @author IsmaÃ«l
  *
  */
 public enum Action {
 	
-	CREATE(" a créé le produit "),
-	UPDATE(" a mis à jour le produit "),
-	DELETE(" a caché le produit "),
-	INCREASING(" a augmenté la quantité du produit "),
-	DECREASING(" a réduit la quantité du produit ");
+	CREATE(" a crÃ©Ã© le produit "),
+	UPDATE(" a mis Ã  jour le produit "),
+	DELETE(" a cachÃ© le produit "),
+	INCREASING(" a augmentÃ© la quantitÃ© du produit "),
+	DECREASING(" a rÃ©duit la quantitÃ© du produit ");
 	
 	private final String text;
 

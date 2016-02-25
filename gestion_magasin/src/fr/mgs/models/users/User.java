@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * - a mail
  * - a password
  * 
- * @author Ismaël
+ * @author IsmaÃ«l
  *
  */
 @Entity(name = "users")
@@ -27,4 +27,16 @@ public class User implements Serializable {
 	@Id
 	@Column(name = "user_id")
 	private String id;
+	
+	private String firstName;
+	
+	private String lastName;
+	
+	private Team team;
+	
+	private Integer phone;
+	
+	private String email;
+	
+	private String password;
 }

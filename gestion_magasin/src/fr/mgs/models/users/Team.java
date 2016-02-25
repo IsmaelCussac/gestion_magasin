@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * - a floor
  * - a privilege
  * 
- * @author Ismaël
+ * @author IsmaÃ«l
  *
  */
 @Entity(name = "teams")
@@ -24,4 +24,10 @@ public class Team implements Serializable {
 	@Id
 	@Column(name = "team_id")
 	private int String;
+	
+	private String name;
+	
+	private int floor;
+	
+	private Privilege privilege;
 }
