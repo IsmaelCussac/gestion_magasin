@@ -1,4 +1,4 @@
-package fr.mgs.models.users;
+package fr.mgs.models.user;
 
 import java.io.Serializable;
 
@@ -38,7 +38,7 @@ public class User implements Serializable {
 	private String lastName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team_id")
+	@JoinColumn(name = "team")
 	private Team team;
 	
 	@Column(name = "phone_number", length = 10, nullable = true)

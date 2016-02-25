@@ -1,4 +1,4 @@
-package fr.mgs.models.products;
+package fr.mgs.models.product;
 
 import java.io.Serializable;
 import java.util.Date;

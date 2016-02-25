@@ -1,4 +1,4 @@
-package fr.mgs.models.orders;
+package fr.mgs.models.order;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -9,8 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import fr.mgs.models.products.Product;
-import fr.mgs.models.users.User;
+import fr.mgs.models.product.Product;
+import fr.mgs.models.user.User;
 
 /**
 * This class describes an order entity in database. It contains : 

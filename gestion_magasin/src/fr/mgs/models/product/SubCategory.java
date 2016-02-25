@@ -1,10 +1,14 @@
-package fr.mgs.models.products;
+package fr.mgs.models.product;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -26,6 +30,9 @@ public class SubCategory implements Serializable {
 	@Column(name = "category")
 	private Category category;
 	
+	@OneToMany(mappedBy="subCategory", fetch=FetchType.LAZY, orphanRemoval=false)
+	private Set<Product> products = new HashSet<Product>();
+	
 	public SubCategory(){}
 
 	public String getName() {
@@ -42,6 +49,14 @@ public class SubCategory implements Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(Set<Product> products) {
+		this.products = products;
 	}
 
 	@Override

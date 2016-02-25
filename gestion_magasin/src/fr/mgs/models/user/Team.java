@@ -1,4 +1,4 @@
-package fr.mgs.models.users;
+package fr.mgs.models.user;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -12,8 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Range;
-
-import com.jpa.model.JpaPerson;
 
 /**
 * This class describes a team entity in database. It contains : 

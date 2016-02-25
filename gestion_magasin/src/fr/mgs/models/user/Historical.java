@@ -1,4 +1,4 @@
-package fr.mgs.models.users;
+package fr.mgs.models.user;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import fr.mgs.models.products.Product;
+import fr.mgs.models.product.Product;
 
 /**
 * This class describes a historical entity in database. It contains : 
