@@ -9,11 +9,12 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 	
-<!-- 	<beans:bean id="hashClass" class="com.toolbox.Hasher" /> -->
+	<beans:bean id="hashClass" class="fr.mgs.toolbox.Hasher" />
+	<beans:bean id="authManager" class="fr.mgs.services.business.UserService" />
 
 	<!-- enable use-expressions -->
 	<http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/" access="permitAll" />
+		<intercept-url pattern="/**" access="permitAll" />
 
 		<!-- Session unique -->
 		<session-management>
@@ -35,10 +36,10 @@
 		<csrf />
 	</http>
 
-<!-- 	<authentication-manager> -->
-<!-- 		<authentication-provider user-service-ref="authManager"> -->
-<!-- 			<password-encoder ref="hashClass" /> -->
-<!-- 		</authentication-provider> -->
-<!-- 	</authentication-manager> -->
+	<authentication-manager>
+		<authentication-provider user-service-ref="authManager">
+			<password-encoder ref="hashClass" />
+		</authentication-provider>
+	</authentication-manager>
 
 </beans:beans>

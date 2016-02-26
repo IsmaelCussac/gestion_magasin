@@ -28,24 +28,24 @@
 	<div id="page">
 		<div id="header">
 			<ui:insert name="header">
-				<ui:include src="/template/header.xhtml" />
+				<ui:include src="header.xhtml" />
 			</ui:insert>
 		</div>
 		<!-- 		Menu    Client -->
-<!-- 		<ui:insert name="customerMenu"> -->
-<!-- 			<ui:include src="/template/customerMenu.xhtml" /> -->
-<!-- 		</ui:insert> -->
+		<ui:insert name="customerMenu">
+			<ui:include src="customerMenu.xhtml" />
+		</ui:insert>
 		
 		<!-- 		Menu  Magasinier -->
 		
 		<ui:insert name="storekeeperMenu">
-			<ui:include src="/template/storekeeperMenu.xhtml" />
+			<ui:include src="storekeeperMenu.xhtml" />
 		</ui:insert>
 
 		<!-- 		Menu    Admin -->
 
 <!-- 		<ui:insert name="app_adminMenu"> -->
-<!-- 			<ui:include src="/template/app_adminMenu.xhtml" /> -->
+<!-- 			<ui:include src="app_adminMenu.xhtml" /> -->
 <!-- 		</ui:insert> -->
 
 
@@ -56,7 +56,7 @@
 		</div>
 		<div id="footer">
 			<ui:insert name="footer">
-				<ui:include src="/template/footer.xhtml" />
+				<ui:include src="footer.xhtml" />
 			</ui:insert>
 		</div>
 	</div>
