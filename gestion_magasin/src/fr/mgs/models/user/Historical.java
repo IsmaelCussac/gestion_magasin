@@ -5,8 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import fr.mgs.models.product.Product;
 
@@ -27,16 +31,89 @@ import fr.mgs.models.product.Product;
 public class Historical implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "historical_id")
-	private int id;
+	private int historicalId;
 	
-	private User storeKeeper;
+	@Column(name = "store_keeper_id", length = 10, nullable = false)
+	private String storeKeeper;
 	
-	private Product product;
+	@Column(name = "product_name", length = 100, nullable = false)
+	private String product;
 	
-	private Action action;
+	@Column(name = "action", nullable = false)
+	private String action;
 	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date", nullable = false)
 	private Date date;
 	
+	@Column(name = "comment", length = 250, nullable = true)
 	private String comment;
+	
+	public Historical(){}
+
+	public int getHistoricalId() {
+		return historicalId;
+	}
+
+	public void setHistoricalId(int historicalId) {
+		this.historicalId = historicalId;
+	}
+
+	public String getStoreKeeper() {
+		return storeKeeper;
+	}
+
+	public void setStoreKeeper(String storeKeeper) {
+		this.storeKeeper = storeKeeper;
+	}
+
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public String getAction() {
+		return action;
+	}
+
+	public void setAction(String action) {
+		this.action = action;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	
+	public void setHistorical(String storeKeeper, Product product, Action action, Date date, String comment){
+		setStoreKeeper(storeKeeper);
+		setProduct(product.getName());
+		setAction(action.toString());
+		setDate(date);
+		setComment(comment);
+	}
+
+	@Override
+	public String toString() {
+		return "Historical [historicalId=" + historicalId + ", storeKeeper=" + storeKeeper + ", product=" + product
+				+ ", action=" + action + ", date=" + date + ", comment=" + comment + "]";
+	}
+	
+	
 }

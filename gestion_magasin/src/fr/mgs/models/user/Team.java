@@ -29,9 +29,9 @@ public class Team implements Serializable {
 
 	@Id
 	@Column(name = "team_id")
-	private int String;
+	private String teamId;
 
-	@Column(name = "first_name", length = 100, nullable = false)
+	@Column(name = "name", length = 100, nullable = false)
 	private String name;
 
 	@Column(name = "floor")
@@ -46,12 +46,12 @@ public class Team implements Serializable {
 	
 	public Team(){}
 
-	public int getString() {
-		return String;
+	public String getTeamId() {
+		return teamId;
 	}
 
-	public void setString(int string) {
-		String = string;
+	public void setTeamId(String teamId) {
+		this.teamId = teamId;
 	}
 
 	public String getName() {
@@ -85,10 +85,17 @@ public class Team implements Serializable {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
+	
+	public void setTeam(){
+		setTeamId(teamId);
+		setName(name);
+		setFloor(floor);
+		setPrivilege(privilege);
+	}
 
 	@Override
 	public String toString() {
-		return "Team [String=" + String + ", name=" + name + ", floor=" + floor + ", privilege=" + privilege
+		return "Team [teamId=" + teamId + ", name=" + name + ", floor=" + floor + ", privilege=" + privilege
 				+ ", users=" + users + "]";
 	}
 

@@ -29,7 +29,7 @@ public class User implements Serializable {
 
 	@Id
 	@Column(name = "user_id")
-	private String id;
+	private String userId;
 	
 	@Column(name = "first_name", length = 100, nullable = false)
 	private String firstName;
@@ -38,7 +38,7 @@ public class User implements Serializable {
 	private String lastName;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "team")
+	@JoinColumn(name = "user_team")
 	private Team team;
 	
 	@Column(name = "phone_number", length = 10, nullable = true)
@@ -52,12 +52,12 @@ public class User implements Serializable {
 	
 	public User(){}
 
-	public String getId() {
-		return id;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -108,8 +108,8 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public void setUser(String id, String firstName, String lastName, Team team, String phoneNumber, String email, String password){
-		setId(id);
+	public void setUser(String userId, String firstName, String lastName, Team team, String phoneNumber, String email, String password){
+		setUserId(userId);
 		setFirstName(firstName);
 		setLastName(lastName);
 		setTeam(team);
@@ -121,7 +121,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", team=" + team
+		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", team=" + team
 				+ ", phoneNumber=" + phoneNumber + ", email=" + email + ", password=" + password + "]";
 	}
 

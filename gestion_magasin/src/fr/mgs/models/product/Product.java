@@ -1,15 +1,22 @@
 package fr.mgs.models.product;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+
+import fr.mgs.models.user.User;
 
 /**
  * This class describes a product entity in database. It contains : 
@@ -31,6 +38,7 @@ import javax.validation.constraints.Min;
 public class Product implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "product_id")
 	private int id;
 	
@@ -62,6 +70,7 @@ public class Product implements Serializable {
 	@Column(name = "conditioning", nullable = true)
 	@Min(0)
 	private Double conditioning;
+	
 
 	public Product(){}
 
@@ -135,6 +144,17 @@ public class Product implements Serializable {
 
 	public void setConditioning(Double conditioning) {
 		this.conditioning = conditioning;
+	}
+	
+	public void setProduct(String name, SubCategory subCategory, Integer warningPeriod, double minQuantity, double price, boolean visibility, String picture, double conditioning){
+		setName(name);
+		setSubCategory(subCategory);
+		setWarningPeriod(warningPeriod);
+		setMinQuantity(minQuantity);
+		setPrice(price);
+		setVisibility(visibility);
+		setPicture(picture);
+		setConditioning(conditioning);
 	}
 
 	@Override
