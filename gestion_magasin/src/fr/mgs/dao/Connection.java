@@ -28,7 +28,7 @@ public class Connection {
 	public void initEmf() {
 		setEmf(Persistence.createEntityManagerFactory("gestion_magasin"));
 	}
-
+	
 	public void initEmf(String base) {
 		setEmf(Persistence.createEntityManagerFactory(base));
 	}
