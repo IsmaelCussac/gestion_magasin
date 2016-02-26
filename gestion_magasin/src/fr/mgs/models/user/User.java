@@ -108,6 +108,17 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	public void setUser(String id, String firstName, String lastName, Team team, String phoneNumber, String email, String password){
+		setId(id);
+		setFirstName(firstName);
+		setLastName(lastName);
+		setTeam(team);
+		setPhoneNumber(phoneNumber);
+		setEmail(email);
+		setPassword(password);
+		
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", team=" + team

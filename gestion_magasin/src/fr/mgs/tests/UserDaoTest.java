@@ -1,5 +1,7 @@
 package fr.mgs.tests;
 
+import static org.junit.Assert.*;
+
 import java.sql.SQLException;
 
 import org.junit.After;
@@ -39,13 +41,9 @@ public class UserDaoTest {
 	@Test
 	public void testAddPerson() throws SQLException {
 		User user = new User();
-		user.setEmail("fgeger");
-		user.setFirstName("eeee");
-		user.setId("1");
-		user.setLastName("grg");
-		user.setPassword("vrbr");
-		user.setTeam(null);
+		user.setUser("d1102526", "Jean-Louis", "De Beauregard", null, "0442060504", "jean-louis.de-beauregard@mail.fr", "secret");
 		dao.add(user);
 		
+		assertNotNull(dao.find("d1102526"));
 	}
 }
