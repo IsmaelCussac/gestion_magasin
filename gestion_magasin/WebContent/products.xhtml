@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template/myHomeLayout.xhtml">
+		<ui:define name="content">
+			<f:view>
+
+
+				<ui:repeat var="cat" value="${categories}">
+					<p:growl id="msgs" showDetail="true" />
+					<p:fieldset legend="${cat.key}" toggleable="true" toggleSpeed="500">
+						<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
+						<ui:repeat var="subCat" value="${cat.value}">
+
+							<p:fieldset legend="${subCat}" toggleable="true"
+								toggleSpeed="500">
+								<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
+
+								<ui:repeat var="product" value="${subCat.products}">
+
+									<p:fieldset legend="${product.designation}" toggleable="true"
+										toggleSpeed="500">
+										<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
+										<h:form>
+											<p:accordionPanel multiple="true" activeIndex="null">
+												<!-- 												<p:tab title="${product.designation}"> -->
+												<!-- 													<h:outputText value="Description " -->
+												<!-- 														style="font-weight: bold" /> -->
+												<!-- 													<h:outputText value="${product.designation}" /> -->
+												<!-- 													<p:separator /> -->
+
+												<!-- 													<h:outputText value="Quantité minimun :" -->
+												<!-- 														style="font-weight: bold" /> -->
+
+												<!-- 													<h:outputText value="${product.quantityMin}" /> -->
+												<!-- 													<p:separator /> -->
+												<!-- 													<p:separator /> -->
+
+												<!-- 													<h:outputText value="Prix : " style="font-weight: bold" /> -->
+
+												<!-- 													<h:outputText value="${product.price}" /> -->
+												<!-- 													<p:separator /> -->
+
+												<!-- 													<p:separator /> -->
+
+												<!-- 													<h:outputText value="Visibilité " style="font-weight: bold" /> -->
+												<!-- 													<h:outputText value="${product.visibility}" /> -->
+
+												<!-- 													<p:separator /> -->
+
+												<!-- 													<p:separator /> -->
+
+												<!-- 													<h:outputText value="Conditionnement" -->
+												<!-- 														style="font-weight: bold" /> -->
+
+												<!-- 													<h:outputText value="${product.conditonning" /> -->
+												<!-- 													<p:separator /> -->
+
+
+
+												<!-- 													<p:commandButton value="Supprimer &{product.id}" id="supprimer" -->
+												<!-- 														action="#{person.deleteActivity(act)}" -->
+												<!-- 														styleClass="ui-priority-primary"> -->
+												<!-- 														<f:ajax execute="" render="@all" /> -->
+												<!-- 													</p:commandButton> -->
+												<!-- 													<p:commandButton value="Modifier" id="modify" -->
+												<!-- 														action="#{person.updateActivity(act)}" -->
+												<!-- 														styleClass="ui-priority-primary"> -->
+												<!--
+													 													</p:commandButton> -->
+												<!-- 								</ui:tabt> -->
+
+											</p:accordionPanel>
+										</h:form>
+									</p:fieldset>
+								</ui:repeat>
+							</p:fieldset>
+						</ui:repeat>
+					</p:fieldset>
+				</ui:repeat>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
