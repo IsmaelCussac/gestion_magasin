@@ -26,14 +26,15 @@ public class SubCategory implements Serializable {
 	@Id
 	@Column(name = "sub_category_name")
 	private String name;
-	
+
 	@Column(name = "category")
 	private Category category;
-	
-	@OneToMany(mappedBy="subCategory", fetch=FetchType.LAZY, orphanRemoval=false)
+
+	@OneToMany(mappedBy = "subCategory", fetch = FetchType.LAZY, orphanRemoval = false)
 	private Set<Product> products = new HashSet<Product>();
-	
-	public SubCategory(){}
+
+	public SubCategory() {
+	}
 
 	public String getName() {
 		return name;

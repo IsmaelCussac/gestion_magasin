@@ -38,41 +38,44 @@ import fr.mgs.models.user.User;
 public class Product implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")
 	private int id;
-	
+
 	@Column(name = "name", length = 100, nullable = false)
 	private String name;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sub_category")
 	private SubCategory subCategory;
-	
+
 	@Column(name = "warning_period", nullable = true)
 	@Min(0)
 	private Integer warningPeriod;
-	
+
 	@Column(name = "min_quantity", nullable = true)
 	@Min(0)
 	private double minQuantity;
-	
+
 	@Column(name = "price", nullable = true)
 	@Min(0)
 	private Double price;
-	
+
 	@Column(name = "visibility", nullable = false)
 	private boolean visibility;
-	
+
 	@Column(name = "picture", length = 100, nullable = true)
 	private String picture;
-	
+
 	@Column(name = "conditioning", nullable = true)
 	@Min(0)
 	private Double conditioning;
-	
 
-	public Product(){}
+	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<Lot> lots = new HashSet<Lot>();
+
+	public Product() {
+	}
 
 	public int getId() {
 		return id;
@@ -145,8 +148,9 @@ public class Product implements Serializable {
 	public void setConditioning(Double conditioning) {
 		this.conditioning = conditioning;
 	}
-	
-	public void setProduct(String name, SubCategory subCategory, Integer warningPeriod, double minQuantity, double price, boolean visibility, String picture, double conditioning){
+
+	public void setProduct(String name, SubCategory subCategory, Integer warningPeriod, double minQuantity,
+			double price, boolean visibility, String picture, double conditioning) {
 		setName(name);
 		setSubCategory(subCategory);
 		setWarningPeriod(warningPeriod);
@@ -163,5 +167,5 @@ public class Product implements Serializable {
 				+ warningPeriod + ", minQuantity=" + minQuantity + ", price=" + price + ", visibility=" + visibility
 				+ ", picture=" + picture + ", conditioning=" + conditioning + "]";
 	}
-	
+
 }

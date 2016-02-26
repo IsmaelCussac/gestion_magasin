@@ -3,13 +3,22 @@ package fr.mgs.models.order;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import fr.mgs.models.product.Product;
 import fr.mgs.models.user.User;
@@ -32,23 +41,36 @@ import fr.mgs.models.user.User;
 public class Order implements Serializable {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "order_id")
 	private int orderId;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_user")
 	private User orderUser;
-	
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "submission_date", nullable = true)
 	private Date submissionDate;
-	
+
+	@Temporal(TemporalType.DATE)
+	@Column(name = "delivery_date", nullable = true)
 	private Date deliveryDate;
-	
-	private HashMap<Product, Integer> orderLines;
-	
+
+	@ElementCollection
+	@CollectionTable(name = "order_line_t", joinColumns = @JoinColumn(name = "order_id_line"))
+	@MapKeyJoinColumn(name = "product_id_line")
+	@Column(name = "quantity", nullable = false)
+	private Map<Product, Integer> orderLines;
+
+	@Column(name = "comment", length = 250, nullable = true)
 	private String comment;
-	
+
+	@Column(name = "status")
 	private OrderStatus status;
-	
-	public Order(){}
+
+	public Order() {
+	}
 
 	public int getOrderId() {
 		return orderId;
@@ -82,11 +104,11 @@ public class Order implements Serializable {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public HashMap<Product, Integer> getOrderLines() {
+	public Map<Product, Integer> getOrderLines() {
 		return orderLines;
 	}
 
-	public void setOrderLines(HashMap<Product, Integer> orderLines) {
+	public void setOrderLines(Map<Product, Integer> orderLines) {
 		this.orderLines = orderLines;
 	}
 
@@ -105,8 +127,9 @@ public class Order implements Serializable {
 	public void setStatus(OrderStatus status) {
 		this.status = status;
 	}
-	
-	public void setOrder(User orderUser, Date submissionDate, Date deliveryDate, HashMap<Product, Integer> orderLines, String comment, OrderStatus status){
+
+	public void setOrder(User orderUser, Date submissionDate, Date deliveryDate, Map<Product, Integer> orderLines,
+			String comment, OrderStatus status) {
 		setOrderUser(orderUser);
 		setSubmissionDate(submissionDate);
 		setDeliveryDate(deliveryDate);

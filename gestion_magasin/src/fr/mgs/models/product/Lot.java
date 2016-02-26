@@ -31,7 +31,7 @@ import javax.persistence.TemporalType;
 public class Lot implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "lots_id")
 	private int lotId;
 
@@ -39,13 +39,15 @@ public class Lot implements Serializable {
 	@Column(name = "expiration_date", nullable = true)
 	private Date expirationDate;
 
-	
-	private Product lotProduct;
-
 	@Column(name = "quantity")
 	private double quantity;
-	
-	public Lot(){}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "lot_product")
+	private Product lotProduct;
+
+	public Lot() {
+	}
 
 	public int getLotId() {
 		return lotId;
@@ -78,8 +80,8 @@ public class Lot implements Serializable {
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-	
-	public void setLot(Date expirationDate, Product lotProduct, double quantity){
+
+	public void setLot(Date expirationDate, Product lotProduct, double quantity) {
 		setExpirationDate(expirationDate);
 		setLotProduct(lotProduct);
 		setQuantity(quantity);

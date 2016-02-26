@@ -40,11 +40,12 @@ public class Team implements Serializable {
 
 	@Column(name = "privilege", nullable = false)
 	private Privilege privilege;
-	
-	@OneToMany(mappedBy="team", fetch=FetchType.LAZY, orphanRemoval=false)
+
+	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY, orphanRemoval = false)
 	private Set<User> users = new HashSet<User>();
-	
-	public Team(){}
+
+	public Team() {
+	}
 
 	public String getTeamId() {
 		return teamId;
@@ -85,8 +86,8 @@ public class Team implements Serializable {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-	
-	public void setTeam(){
+
+	public void setTeam() {
 		setTeamId(teamId);
 		setName(name);
 		setFloor(floor);

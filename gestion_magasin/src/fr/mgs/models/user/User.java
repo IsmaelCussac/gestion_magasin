@@ -1,6 +1,8 @@
 package fr.mgs.models.user;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import fr.mgs.models.order.Order;
+import fr.mgs.models.product.Lot;
 
 /**
 * This class describes an user entity in database. It contains : 
@@ -30,27 +36,31 @@ public class User implements Serializable {
 	@Id
 	@Column(name = "user_id")
 	private String userId;
-	
+
 	@Column(name = "first_name", length = 100, nullable = false)
 	private String firstName;
-	
+
 	@Column(name = "last_name", length = 100, nullable = false)
 	private String lastName;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_team")
 	private Team team;
-	
+
 	@Column(name = "phone_number", length = 10, nullable = true)
 	private String phoneNumber;
-	
+
 	@Column(name = "email", length = 100, nullable = false)
 	private String email;
-	
+
 	@Column(name = "password", length = 100, nullable = false)
 	private String password;
-	
-	public User(){}
+
+	@OneToMany(mappedBy = "orderUser", fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<Order> orders = new HashSet<Order>();
+
+	public User() {
+	}
 
 	public String getUserId() {
 		return userId;
@@ -108,7 +118,8 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public void setUser(String userId, String firstName, String lastName, Team team, String phoneNumber, String email, String password){
+	public void setUser(String userId, String firstName, String lastName, Team team, String phoneNumber, String email,
+			String password) {
 		setUserId(userId);
 		setFirstName(firstName);
 		setLastName(lastName);
@@ -116,7 +127,7 @@ public class User implements Serializable {
 		setPhoneNumber(phoneNumber);
 		setEmail(email);
 		setPassword(password);
-		
+
 	}
 
 	@Override

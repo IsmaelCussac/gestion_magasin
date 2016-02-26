@@ -31,27 +31,28 @@ import fr.mgs.models.product.Product;
 public class Historical implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "historical_id")
 	private int historicalId;
-	
+
 	@Column(name = "store_keeper_id", length = 10, nullable = false)
 	private String storeKeeper;
-	
+
 	@Column(name = "product_name", length = 100, nullable = false)
 	private String product;
-	
+
 	@Column(name = "action", nullable = false)
 	private String action;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date", nullable = false)
 	private Date date;
-	
-	@Column(name = "comment", length = 250, nullable = true)
-	private String comment;
-	
-	public Historical(){}
+
+	@Column(name = "resume", length = 250, nullable = true)
+	private String resume;
+
+	public Historical() {
+	}
 
 	public int getHistoricalId() {
 		return historicalId;
@@ -93,27 +94,26 @@ public class Historical implements Serializable {
 		this.date = date;
 	}
 
-	public String getComment() {
-		return comment;
+	public String getResume() {
+		return resume;
 	}
 
-	public void setComment(String comment) {
-		this.comment = comment;
+	public void setResume(String resume) {
+		this.resume = resume;
 	}
-	
-	public void setHistorical(String storeKeeper, Product product, Action action, Date date, String comment){
+
+	public void setHistorical(String storeKeeper, Product product, Action action, Date date, String resume) {
 		setStoreKeeper(storeKeeper);
 		setProduct(product.getName());
 		setAction(action.toString());
 		setDate(date);
-		setComment(comment);
+		setResume(resume);
 	}
 
 	@Override
 	public String toString() {
 		return "Historical [historicalId=" + historicalId + ", storeKeeper=" + storeKeeper + ", product=" + product
-				+ ", action=" + action + ", date=" + date + ", comment=" + comment + "]";
+				+ ", action=" + action + ", date=" + date + ", resume=" + resume + "]";
 	}
-	
-	
+
 }
