@@ -16,8 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
-import fr.mgs.models.user.User;
-
 /**
  * This class describes a product entity in database. It contains : 
  * - an id

@@ -2,7 +2,6 @@ package fr.mgs.models.order;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CollectionTable;

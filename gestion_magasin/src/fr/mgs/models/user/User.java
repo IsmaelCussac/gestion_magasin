@@ -14,7 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import fr.mgs.models.order.Order;
-import fr.mgs.models.product.Lot;
 
 /**
 * This class describes an user entity in database. It contains : 
