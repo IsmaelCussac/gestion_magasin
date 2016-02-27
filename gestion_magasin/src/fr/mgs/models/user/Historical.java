@@ -104,7 +104,7 @@ public class Historical implements Serializable {
 
 	public void setHistorical(String storeKeeper, Product product, Action action, Date date, String resume) {
 		setStoreKeeper(storeKeeper);
-		setProduct(product.getName());
+		setProduct(product.getDesignation());
 		setAction(action.toString());
 		setDate(date);
 		setResume(resume);
