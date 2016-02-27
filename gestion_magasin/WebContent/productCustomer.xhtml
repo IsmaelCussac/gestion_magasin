@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">Liste des produits</ui:define>
+		<ui:define name="content">
+			<h:form>
+				<p:growl var="categories" value="#{categories}">
+					<ui:repeat var="subcategory" value="categories">
+						<p:accordionPanel>
+							<p:tab title="subcategory.category">
+<!-- 							<p:ajax event="mousemove" listener="#{ProductCustomerController.listProd}" /> -->
+								<ui:repeat var="product" value="subcategory.products">
+									<p:dataTable>
+										<h:column headerText="Nom">
+											<h:outputText value="product.name" />
+										</h:column>
+										<h:column headerText="Prix">
+											<h:outputText value="product.price" />
+										</h:column>
+									</p:dataTable>
+								</ui:repeat>
+							</p:tab>
+						</p:accordionPanel>
+					</ui:repeat>
+				</p:growl>
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
