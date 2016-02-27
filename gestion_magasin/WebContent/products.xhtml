@@ -10,7 +10,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:body>
-	<ui:composition template="/template/myHomeLayout.xhtml">
+	<ui:composition template="/template/layout.xhtml">
 		<ui:define name="content">
 			<f:view>
 
@@ -32,53 +32,52 @@
 										<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
 										<h:form>
 											<p:accordionPanel multiple="true" activeIndex="null">
-												<!-- 												<p:tab title="${product.designation}"> -->
-												<!-- 													<h:outputText value="Description " -->
-												<!-- 														style="font-weight: bold" /> -->
-												<!-- 													<h:outputText value="${product.designation}" /> -->
-												<!-- 													<p:separator /> -->
+<!-- 												<p:tab title="${product.designation}"> -->
+<!-- 													<h:outputText value="Description " -->
+<!-- 														style="font-weight: bold" /> -->
+<!-- 													<h:outputText value="${product.designation}" /> -->
+<!-- 													<p:separator /> -->
 
-												<!-- 													<h:outputText value="Quantité minimun :" -->
-												<!-- 														style="font-weight: bold" /> -->
+<!-- 													<h:outputText value="Quantité minimun :" -->
+<!-- 														style="font-weight: bold" /> -->
 
-												<!-- 													<h:outputText value="${product.quantityMin}" /> -->
-												<!-- 													<p:separator /> -->
-												<!-- 													<p:separator /> -->
+<!-- 													<h:outputText value="${product.quantityMin}" /> -->
+<!-- 													<p:separator /> -->
+<!-- 													<p:separator /> -->
 
-												<!-- 													<h:outputText value="Prix : " style="font-weight: bold" /> -->
+<!-- 													<h:outputText value="Prix : " style="font-weight: bold" /> -->
 
-												<!-- 													<h:outputText value="${product.price}" /> -->
-												<!-- 													<p:separator /> -->
+<!-- 													<h:outputText value="${product.price}" /> -->
+<!-- 													<p:separator /> -->
 
-												<!-- 													<p:separator /> -->
+<!-- 													<p:separator /> -->
 
-												<!-- 													<h:outputText value="Visibilité " style="font-weight: bold" /> -->
-												<!-- 													<h:outputText value="${product.visibility}" /> -->
+<!-- 													<h:outputText value="Visibilité " style="font-weight: bold" /> -->
+<!-- 													<h:outputText value="${product.visibility}" /> -->
 
-												<!-- 													<p:separator /> -->
+<!-- 													<p:separator /> -->
 
-												<!-- 													<p:separator /> -->
+<!-- 													<p:separator /> -->
 
-												<!-- 													<h:outputText value="Conditionnement" -->
-												<!-- 														style="font-weight: bold" /> -->
+<!-- 													<h:outputText value="Conditionnement" -->
+<!-- 														style="font-weight: bold" /> -->
 
-												<!-- 													<h:outputText value="${product.conditonning" /> -->
-												<!-- 													<p:separator /> -->
+<!-- 													<h:outputText value="${product.conditioning}" /> -->
+<!-- 													<p:separator /> -->
 
 
 
-												<!-- 													<p:commandButton value="Supprimer &{product.id}" id="supprimer" -->
-												<!-- 														action="#{person.deleteActivity(act)}" -->
-												<!-- 														styleClass="ui-priority-primary"> -->
-												<!-- 														<f:ajax execute="" render="@all" /> -->
-												<!-- 													</p:commandButton> -->
-												<!-- 													<p:commandButton value="Modifier" id="modify" -->
-												<!-- 														action="#{person.updateActivity(act)}" -->
-												<!-- 														styleClass="ui-priority-primary"> -->
-												<!--
-													 													</p:commandButton> -->
-												<!-- 								</ui:tabt> -->
+<!-- 													<p:commandButton value="Supprimer ${product.id}" -->
+<!-- 														id="supprimer" action="#{person.deleteActivity(act)}" -->
+<!-- 														styleClass="ui-priority-primary"> -->
+<!-- 														<f:ajax execute="" render="@all" /> -->
+<!-- 													</p:commandButton> -->
+<!-- 													<p:commandButton value="Modifier" id="modify" -->
+<!-- 														action="#{person.updateActivity(act)}" -->
+<!-- 														styleClass="ui-priority-primary"> -->
 
+<!-- 													</p:commandButton> -->
+<!-- 													</p:tab> -->
 											</p:accordionPanel>
 										</h:form>
 									</p:fieldset>
