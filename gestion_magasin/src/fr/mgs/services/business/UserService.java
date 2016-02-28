@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
 			e.printStackTrace();
 		}
 
-		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam().getPrivilege());
+		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam().getPrivilege().toString());
 		return buildUserForAuthentication(user, authorities);
 	}
 
@@ -68,10 +68,10 @@ public class UserService implements UserDetailsService {
 	 *            person's authorization list
 	 * @return a properly built authorization list
 	 */
-	private List<GrantedAuthority> buildAuthorities(Privilege privilege) {
+	private List<GrantedAuthority> buildAuthorities(String string) {
 		ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 
-		auths.add(new SimpleGrantedAuthority(privilege.toString()));
+		auths.add(new SimpleGrantedAuthority(string));
 
 		return auths;
 	}
