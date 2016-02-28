@@ -4,10 +4,8 @@ language: java
 mvn test
 
 # skip JavaDoc generation
--Dmaven.javadoc.skip=true
-
 # install Maven dependencies before running tests
-mvn install -DskipTests=true
+install: mvn install --quiet -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 # test multiple JDK
 jdk:
