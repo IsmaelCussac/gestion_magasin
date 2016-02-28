@@ -1,0 +1,21 @@
+language: java
+
+# run test suite
+mvn test
+
+# skip JavaDoc generation
+-Dmaven.javadoc.skip=true
+
+# install Maven dependencies before running tests
+mvn install -DskipTests=true
+
+# test multiple JDK
+jdk:
+  - oraclejdk8
+  - oraclejdk7
+  
+before_install:
+  - pip install --user codecov
+  
+after_success:
+  - codecov
