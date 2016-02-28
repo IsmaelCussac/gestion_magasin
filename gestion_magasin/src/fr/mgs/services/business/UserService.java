@@ -15,7 +15,8 @@ import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.User;
 
 /**
- * 
+ * UserDetailService implementation used by Spring Security
+ *
  * @author Ismaël
  *
  */
@@ -30,8 +31,8 @@ public class UserService implements UserDetailsService {
 	/**
 	 * Overrided method which load a spring security user
 	 * 
-	 * @param mail
-	 *            the person's mail (used as login)
+	 * @param userId
+	 *            the user's id
 	 */
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		User user = null;
@@ -46,10 +47,9 @@ public class UserService implements UserDetailsService {
 	}
 
 	/**
-	 * Build a spring security user using a JpaPerson
+	 * Build a spring security user
 	 * 
 	 * @param user
-	 *            the target person
 	 * @param authorities
 	 *            previously built authority list
 	 * @return a built spring security user
@@ -61,17 +61,16 @@ public class UserService implements UserDetailsService {
 	}
 
 	/**
-	 * Use a person's authorization list to build a spring security
+	 * Use a user's authorization list to build a spring security
 	 * authorization list
 	 * 
-	 * @param userAuthorization
-	 *            person's authorization list
+	 * @param privilege
 	 * @return a properly built authorization list
 	 */
-	private List<GrantedAuthority> buildAuthorities(String string) {
+	private List<GrantedAuthority> buildAuthorities(String privilege) {
 		ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 
-		auths.add(new SimpleGrantedAuthority(string));
+		auths.add(new SimpleGrantedAuthority(privilege));
 
 		return auths;
 	}
