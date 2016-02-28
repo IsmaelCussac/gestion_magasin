@@ -1,4 +1,4 @@
-package fr.mgs.models.product;
+package fr.mgs.model.product;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -58,6 +58,12 @@ public class SubCategory implements Serializable {
 
 	public void setProducts(Set<Product> products) {
 		this.products = products;
+	}
+	
+	public void setSubCategory(String name, Category category){
+		setName(name);
+		setCategory(category);
+		
 	}
 
 	@Override

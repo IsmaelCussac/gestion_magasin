@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import fr.mgs.models.product.Lot;
-import fr.mgs.models.product.Product;
+import fr.mgs.model.product.Lot;
+import fr.mgs.model.product.Product;
 
 
 public class ProductManager {

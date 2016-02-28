@@ -1,4 +1,4 @@
-package fr.mgs.models.user;
+package fr.mgs.model.user;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import fr.mgs.models.order.Order;
+import fr.mgs.model.order.Order;
 
 /**
 * This class describes an user entity in database. It contains : 

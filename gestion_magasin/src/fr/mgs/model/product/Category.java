@@ -1,4 +1,4 @@
-package fr.mgs.models.product;
+package fr.mgs.model.product;
 
 /**
  * This class describes a level 1 category. 

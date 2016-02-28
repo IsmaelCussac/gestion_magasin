@@ -1,4 +1,4 @@
-package fr.mgs.models.user;
+package fr.mgs.model.historical;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import fr.mgs.models.product.Product;
+import fr.mgs.model.product.Product;
 
 /**
 * This class describes a historical entity in database. It contains : 
