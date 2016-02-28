@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.bean.ManagedBean;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
@@ -18,15 +21,18 @@ import fr.mgs.model.product.SubCategory;
  *
  */
 
-@Controller
+//@Controller
+//@RequestMapping("/product")
+@ManagedBean(name="products")
 public class ProductCustomerController {
 
 	private List<SubCategory> listSub;
 	private List<Product> listProd;
 	// private int count = 0;
 
-	@ModelAttribute("products")
-	public List<Product> getProducts() {
+	
+//	@ModelAttribute("products")
+	public Product getProducts() {
 		
 		listSub = new ArrayList<SubCategory>();
 
@@ -47,10 +53,10 @@ public class ProductCustomerController {
 
 		Product prod2 = new Product();
 		prod2.setId(2);
-		prod1.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
+		prod2.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
 		listProd.add(prod2);
 		
-		return listProd;
+		return prod2;
 	}
 
 	// public void setList(){
