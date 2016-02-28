@@ -32,7 +32,7 @@ public class ProductCustomerController {
 
 	
 //	@ModelAttribute("products")
-	public Product getProducts() {
+	public List<Product> getProducts() {
 		
 		listSub = new ArrayList<SubCategory>();
 
@@ -56,7 +56,7 @@ public class ProductCustomerController {
 		prod2.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
 		listProd.add(prod2);
 		
-		return prod2;
+		return listProd;
 	}
 
 	// public void setList(){
