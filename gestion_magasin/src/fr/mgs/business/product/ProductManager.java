@@ -114,19 +114,16 @@ public class ProductManager {
 		}
     }
     
-    public void findItemQuantity(Product p) {
+    public int findItemQuantity(Product p) {
     	List<Lot> lots = new ArrayList<Lot>();
     	int itemQuantity= 0;
 		try {
-            //	lots = daoP.findLots(p);
 			//	itemQuantity= daoP.findQuantity(p);
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-		for( Lot lot : lots){
-			//itemQuantity =+ lot.getQuantity();
-		}
+		return 20;
 		// return itemQuantity;
     }
 }

@@ -1,111 +1,102 @@
 package fr.mgs.web.products;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import javax.faces.bean.ManagedBean;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import fr.mgs.business.product.CategoryManager;
 import fr.mgs.business.product.ProductManager;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
-@Controller
-@RequestMapping("/product")
-public class ProductController {
-    
 
-    
-//    protected final Log logger = LogFactory.getLog(getClass());
-    private ProductManager iManagerP = new ProductManager();
-    private CategoryManager iManagerC = new CategoryManager();
-    
-    
-    
-    /***
-     * This method redirects the user to the page that show the person with the personId.
-     * @param personId
-     * @return
-     */
-//    		@RequestMapping("/viewProduct")
-//    		public  productControllerC(
-//    				@RequestParam(value = "id", required = false) Integer personId) {
-//    			//Product p = iManagerP.findProduct(product);
-//    			ModelAndView mav = new ModelAndView("afficherPerson");
-//    			//mav.addObject("person", p);
-//    			return mav;
-//    		}
-    
-    /***
-     * This method redirects the user to the page that show the list of students.
-     * @return
-     */
-//    @RequestMapping(value = "/productList", method = RequestMethod.GET)
-//    public ModelAndView products() {
-//        Collection<Product> products = iManagerP.findAll();
-//        return new ModelAndView("productList", "products", products);
-//    }
-    
-    /***
-     * This method redirect the user to the page that show the inscription form.
-     * @param p
-     * @param group
-     * @return
-     */
-    //		@RequestMapping(value = "/inscription", method = RequestMethod.GET)
-    //		public String inscriptionPerson(@ModelAttribute Person p, @ModelAttribute Group group) {
-    //		    return "inscription";
-    //		}
-    //
-    		/***
-    		 * This method gets all the information that the user put in the form.
-    		 * @param p
-    		 * @param result
-    		 * @return
-    		 */
-    		@RequestMapping(value = "/product", method = RequestMethod.POST)
-    		public String saveProduct(@ModelAttribute Product p, BindingResult result) {
-    		    iManagerP.updateProduct(p);
-    		    return "afficherProduct";
-    		}
-    
-    /***
-     * This method redirects the user to the page that allows him to modify his informations.
-     * @param p
-     * @return
-     */
-    @RequestMapping(value = "/modification", method = RequestMethod.GET)
-    public String modifyForm(@ModelAttribute Product p) {
-        return "modification";
-    }
-    
-    
-    @ModelAttribute("categories")
-    public Map<Category, List<SubCategory>> getCategories(){   
-        //return iManagerC.findAll();
-    	return null;
-    }
-    
-    /***
-     * This method returns the person to add.
-     * @param personId
-     * @return
-     */
-    @ModelAttribute
-    public Product newProduct(
-                              @RequestParam(value = "id", required = false) Integer productId) {
-        if (productId != null) {
-          //  logger.info("find product " + productId);
-            //  return iManagerP.find(personId);
-        }
-        Product p = new Product();
-        //  p.setProduct("", "", "", "", null, "", "USER", false);
-        return p;
-    }
-    
-    
+//@Controller
+//@RequestMapping("/product")
+@ManagedBean(name = "productsList")
+public class ProductController {
+
+	// protected final Log logger = LogFactory.getLog(getClass());
+	 private ProductManager ManagerP = new ProductManager();
+	// private CategoryManager iManagerC = new CategoryManager();
+
+	private List<SubCategory> listSub;
+	private Set<Product> listProd ;
+	private Set<Product> listProd2 ;
+	Map<Category, List<SubCategory>> categories;
+	private int quantity;
+	
+//	@ModelAttribute("categories")
+	public Map<Category, List<SubCategory>> getCategories() {
+		listSub = new ArrayList<SubCategory>();
+		listProd = new HashSet<Product>();
+		listProd2 = new HashSet<Product>();
+		categories = new HashMap<Category, List<SubCategory>>();
+
+		SubCategory sub1 = new SubCategory();
+		sub1.setSubCategory("category1", Category.CULTURE_PLASTIC);
+		
+		SubCategory sub2 = new SubCategory();
+		sub2.setSubCategory("category2", Category.CULTURE_PLASTIC);
+
+		Product prod1 = new Product();
+		prod1.setId(1);
+		prod1.setProduct("designation1", sub1, 4, 3, 5, true, "picture", 4);
+		listProd.add(prod1);
+
+		Product prod2 = new Product();
+		prod2.setId(2);
+		prod2.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
+		listProd.add(prod2);
+
+		Product prod3 = new Product();
+		prod3.setId(3);
+		prod3.setProduct("designation3", sub2, 4, 3, 5, true, "picture", 4);
+		listProd2.add(prod3);
+
+		Product prod4 = new Product();
+		prod4.setId(4);
+		prod4.setProduct("designation4", sub2, 4, 3, 5, true, "picture", 4);
+		listProd2.add(prod4);
+		
+		sub1.setProducts(listProd);
+		sub2.setProducts(listProd2);
+		
+		listSub.add(sub1);
+		listSub.add(sub2);
+
+		categories.put(Category.CULTURE_PLASTIC, listSub);
+		// return iManagerC.findAll();
+		return categories;
+	}
+	
+	public int getQuantity(Product p){
+		//ManagerP.getItemQuantity(p);
+		quantity = ManagerP.findItemQuantity(p);
+		return quantity;
+	}
+
+	/***
+	 * This method returns the person to add.
+	 * 
+	 * @param personId
+	 * @return
+	 */
+	@ModelAttribute
+	public Product newProduct(@RequestParam(value = "id", required = false) Integer productId) {
+		if (productId != null) {
+			// logger.info("find product " + productId);
+			// return iManagerP.find(personId);
+		}
+		Product p = new Product();
+		// p.setProduct("", "", "", "", null, "", "USER", false);
+		return p;
+	}
+
 }

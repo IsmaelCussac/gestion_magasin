@@ -15,70 +15,73 @@
 			<f:view>
 
 
-				<ui:repeat var="cat" value="${categories}">
+				<ui:repeat var="cat"
+					value="#{productsList.categories.entrySet().toArray()}">
 					<p:growl id="msgs" showDetail="true" />
-					<p:fieldset legend="${cat.key}" toggleable="true" toggleSpeed="500">
+					<p:fieldset legend="#{cat.key.toString()}" toggleable="true"
+						toggleSpeed="500">
 						<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
-						<ui:repeat var="subCat" value="${cat.value}">
+						<ui:repeat var="subCat" value="#{cat.value}">
 
-							<p:fieldset legend="${subCat}" toggleable="true"
+							<p:fieldset legend="#{subCat.name}" toggleable="true"
 								toggleSpeed="500">
 								<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
 
-								<ui:repeat var="product" value="${subCat.products}">
+								<ui:repeat var="product" value="#{subCat.products.toArray()}">
 
-									<p:fieldset legend="${product.designation}" toggleable="true"
+									<p:fieldset legend="#{product.designation}" toggleable="true"
 										toggleSpeed="500">
 										<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
 										<h:form>
-											<p:accordionPanel multiple="true" activeIndex="null">
-<!-- 												<p:tab title="${product.designation}"> -->
-<!-- 													<h:outputText value="Description " -->
-<!-- 														style="font-weight: bold" /> -->
-<!-- 													<h:outputText value="${product.designation}" /> -->
-<!-- 													<p:separator /> -->
+											<!-- 											<p:accordionPanel multiple="true" activeIndex="null"> -->
+											<p:tab title="${product.designation}">
+												<h:outputText value="Description " style="font-weight: bold" />
+												<h:outputText value="${product.designation}" />
+												<p:separator />
 
-<!-- 													<h:outputText value="Quantité minimun :" -->
-<!-- 														style="font-weight: bold" /> -->
+												<h:outputText value="Quantité minimun :"
+													style="font-weight: bold" />
 
-<!-- 													<h:outputText value="${product.quantityMin}" /> -->
-<!-- 													<p:separator /> -->
-<!-- 													<p:separator /> -->
+												<h:outputText value="${product.minQuantity}" />
+												<p:separator />
 
-<!-- 													<h:outputText value="Prix : " style="font-weight: bold" /> -->
+												<h:outputText value="Prix : " style="font-weight: bold" />
 
-<!-- 													<h:outputText value="${product.price}" /> -->
-<!-- 													<p:separator /> -->
+												<h:outputText value="${product.price}" />
 
-<!-- 													<p:separator /> -->
+												<p:separator />
 
-<!-- 													<h:outputText value="Visibilité " style="font-weight: bold" /> -->
-<!-- 													<h:outputText value="${product.visibility}" /> -->
+												<h:outputText value="Visibilité " style="font-weight: bold" />
+												<h:outputText value="${product.visibility}" />
 
-<!-- 													<p:separator /> -->
-
-<!-- 													<p:separator /> -->
-
-<!-- 													<h:outputText value="Conditionnement" -->
-<!-- 														style="font-weight: bold" /> -->
-
-<!-- 													<h:outputText value="${product.conditioning}" /> -->
-<!-- 													<p:separator /> -->
+												<p:separator />
 
 
+												<h:outputText value="Conditionnement"
+													style="font-weight: bold" />
 
-<!-- 													<p:commandButton value="Supprimer ${product.id}" -->
-<!-- 														id="supprimer" action="#{person.deleteActivity(act)}" -->
-<!-- 														styleClass="ui-priority-primary"> -->
-<!-- 														<f:ajax execute="" render="@all" /> -->
-<!-- 													</p:commandButton> -->
-<!-- 													<p:commandButton value="Modifier" id="modify" -->
-<!-- 														action="#{person.updateActivity(act)}" -->
-<!-- 														styleClass="ui-priority-primary"> -->
+												<h:outputText value="${product.conditioning}" />
+												<p:separator />
 
-<!-- 													</p:commandButton> -->
-<!-- 													</p:tab> -->
-											</p:accordionPanel>
+												<h:outputText value="Quantité en stock"
+													style="font-weight: bold" />
+
+<!-- 												<h:outputText value="${productList.getQuantity(product)}" /> -->
+												<p:separator />
+
+
+												<p:commandButton value="Supprimer"
+													id="supprimer" action="#{person.deleteActivity(act)}"
+													styleClass="ui-priority-primary">
+													<f:ajax execute="" render="@all" />
+												</p:commandButton>
+												<p:commandButton value="Modifier" id="modify"
+													action="#{person.updateActivity(act)}"
+													styleClass="ui-priority-primary">
+
+												</p:commandButton>
+											</p:tab>
+											<!-- 											</p:accordionPanel> -->
 										</h:form>
 									</p:fieldset>
 								</ui:repeat>
