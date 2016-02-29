@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
-import fr.mgs.models.user.User;
+import fr.mgs.model.user.User;
 
 /**
  * Dao used to manage user entity
@@ -73,7 +73,7 @@ public class UserDAO extends DAO {
 
 	/**
 	 * return all the stored users
-	 * ordered by their firstname at first, then their name
+	 * ordered by their first name at first, then their name
 	 */
 	public Collection<User> findAll() throws SQLException {
 		loadEm();
@@ -83,4 +83,5 @@ public class UserDAO extends DAO {
 		closeEm();
 		return result;
 	}
+	
 }

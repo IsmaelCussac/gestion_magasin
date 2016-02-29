@@ -6,13 +6,13 @@
 	
 	<persistence-unit name="gestion_magasin" transaction-type="RESOURCE_LOCAL">
 
-		<class>fr.mgs.models.order.Order</class>
-		<class>fr.mgs.models.product.Lot</class>
-		<class>fr.mgs.models.product.Product</class>
-		<class>fr.mgs.models.product.SubCategory</class>
-		<class>fr.mgs.models.user.Historical</class>
-		<class>fr.mgs.models.user.Team</class>
-		<class>fr.mgs.models.user.User</class>
+		<class>fr.mgs.model.order.Order</class>
+		<class>fr.mgs.model.product.Lot</class>
+		<class>fr.mgs.model.product.Product</class>
+		<class>fr.mgs.model.product.SubCategory</class>
+		<class>fr.mgs.model.historical.Historical</class>
+		<class>fr.mgs.model.user.Team</class>
+		<class>fr.mgs.model.user.User</class>
 
 		<properties>
 

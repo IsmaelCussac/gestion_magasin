@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.mgs.business.product.CategoryManager;
 import fr.mgs.business.product.ProductManager;
-import fr.mgs.models.product.Category;
-import fr.mgs.models.product.Product;
-import fr.mgs.models.product.SubCategory;
+import fr.mgs.model.product.Category;
+import fr.mgs.model.product.Product;
+import fr.mgs.model.product.SubCategory;
 @Controller
 @RequestMapping("/product")
 public class ProductController {

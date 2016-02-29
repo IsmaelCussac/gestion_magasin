@@ -11,7 +11,7 @@ public abstract class DAO {
 	 * Method to init the Entity Manager Factory
 	 */
 	public void init() {
-		connection = new Connection();
+		connection = Connection.getInstance();
 		this.connection.initEmf();
 	}
 	

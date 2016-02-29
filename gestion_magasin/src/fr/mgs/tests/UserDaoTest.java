@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import fr.mgs.dao.UserDAO;
-import fr.mgs.models.user.User;
+import fr.mgs.model.user.User;
 
 public class UserDaoTest {
 	

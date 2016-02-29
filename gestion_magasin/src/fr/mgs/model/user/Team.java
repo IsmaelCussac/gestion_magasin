@@ -1,4 +1,4 @@
-package fr.mgs.models.user;
+package fr.mgs.model.user;
 
 import java.io.Serializable;
 import java.util.HashSet;

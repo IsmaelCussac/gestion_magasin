@@ -1,4 +1,4 @@
-package fr.mgs.models.product;
+package fr.mgs.model.product;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -40,8 +40,8 @@ public class Product implements Serializable {
 	@Column(name = "product_id")
 	private int id;
 
-	@Column(name = "name", length = 100, nullable = false)
-	private String name;
+	@Column(name = "designation", length = 100, nullable = false)
+	private String designation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sub_category")
@@ -83,12 +83,12 @@ public class Product implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getDesignation() {
+		return designation;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDesignation(String designation) {
+		this.designation = designation;
 	}
 
 	public SubCategory getSubCategory() {
@@ -147,9 +147,9 @@ public class Product implements Serializable {
 		this.conditioning = conditioning;
 	}
 
-	public void setProduct(String name, SubCategory subCategory, Integer warningPeriod, double minQuantity,
+	public void setProduct(String designation, SubCategory subCategory, Integer warningPeriod, double minQuantity,
 			double price, boolean visibility, String picture, double conditioning) {
-		setName(name);
+		setDesignation(designation);
 		setSubCategory(subCategory);
 		setWarningPeriod(warningPeriod);
 		setMinQuantity(minQuantity);
@@ -161,7 +161,7 @@ public class Product implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", subCategory=" + subCategory + ", warningPeriod="
+		return "Product [id=" + id + ", designation=" + designation + ", subCategory=" + subCategory + ", warningPeriod="
 				+ warningPeriod + ", minQuantity=" + minQuantity + ", price=" + price + ", visibility=" + visibility
 				+ ", picture=" + picture + ", conditioning=" + conditioning + "]";
 	}

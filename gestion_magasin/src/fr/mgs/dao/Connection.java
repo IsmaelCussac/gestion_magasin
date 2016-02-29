@@ -13,9 +13,16 @@ import javax.persistence.Persistence;
 public class Connection {
 	
 	protected EntityManagerFactory emf;
+	
+	private static Connection connection = new Connection();
 
-	public Connection() {
+	private Connection() {
 	}
+	
+	public static Connection getInstance(){
+		return connection;
+	}
+	
 
 	public EntityManagerFactory getEmf() {
 		return emf;

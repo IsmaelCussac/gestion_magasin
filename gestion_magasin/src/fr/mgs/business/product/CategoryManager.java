@@ -6,9 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.mgs.models.product.Category;
-
-import fr.mgs.models.product.SubCategory;
+import fr.mgs.model.product.Category;
+import fr.mgs.model.product.SubCategory;
 
 public class CategoryManager {
 	//private CategoryDao daoC = new CategoryDao();
