@@ -27,6 +27,7 @@ import javax.validation.constraints.Min;
  * - a visibility state
  * - a picture
  * - a conditioning
+ * - a list of Lots
  * 
  * @author Ismaël
  *
