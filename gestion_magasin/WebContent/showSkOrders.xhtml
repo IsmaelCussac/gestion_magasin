@@ -1,0 +1,90 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/layout.xhtml">
+	<ui:define name="title">Livraison</ui:define>
+
+	<ui:define name="content">
+		<div class="row">
+			<p:panel styleClass="col-lg-offset-1 col-lg-10"
+				header="Commandes par équipes">
+				<h:form id="form" prependId="false">
+					<p:growl id="msgs" showDetail="true" />
+
+					<p:panel id="toggleable" header="Equipe TOTO" toggleable="true"
+						toggleSpeed="500" widgetVar="panel">
+
+
+						<p:accordionPanel value="#{ordersView.od}" var="order">
+
+							<p:tab id="tab" title="Destinataire: ddddd">
+								<p:dataTable id="basicDT" var="ord" value="#{ordersView.od}">
+
+									<p:column headerText="Numéro">
+										<h:outputText value="#{ord.orderId}" />
+									</p:column>
+									<p:column headerText="Soumission">
+										<h:outputText value="#{ord.submissionDate}" />
+									</p:column>
+									<p:column headerText="Status">
+										<h:outputText value="#{ord.status}" />
+									</p:column>
+
+									<p:column style="width:52px;text-align: center">
+										<p:commandButton action="#{ordersView.editOrder()}"
+											oncomplete="PF('ordOP').show()" icon="ui-icon-search"
+											title="View">
+										</p:commandButton>
+									</p:column>
+
+								</p:dataTable>
+
+
+							</p:tab>
+
+						</p:accordionPanel>
+
+						<p:dialog widgetVar="ordOP" showEffect="fade" hideEffect="fade"
+							dismissable="false" showCloseIcon="true">
+							<p:outputPanel id="ordDetail"
+								style="width:400;text-align:center;">
+								<h:outputText value="#{ordersView.var}" />
+								<p:panelGrid columns="3"
+									rendered="#{ordersView.selectedOrder != null}">
+									<h:outputText value="Classeur A4 4 anneaux " />
+									<h:outputText value="Ref : 000000" />
+									<h:outputText value="0/2" />
+
+
+									<h:outputText value="Classeur A2 2 anneaux " />
+									<h:outputText value="Ref : 111111" />
+									<h:outputText value="0/3" />
+
+									<h:outputText value="Feuille double X10 A4 " />
+									<h:outputText value="Ref : 222222" />
+									<h:outputText value="0/1" />
+
+
+									<p:commandButton action="#{ordersView.editOrder()}"
+										oncomplete="PF('ordOP').show()" value="Modifier" title="View">
+									</p:commandButton>
+
+								</p:panelGrid>
+							</p:outputPanel>
+						</p:dialog>
+
+					</p:panel>
+
+
+
+				</h:form>
+
+			</p:panel>
+		</div>
+	</ui:define>
+</ui:composition>
+
+</html>
