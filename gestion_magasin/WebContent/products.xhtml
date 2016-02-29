@@ -11,6 +11,10 @@
 
 <h:body>
 	<ui:composition template="/template/layout.xhtml">
+
+		<ui:define name="menu">
+			<ui:include src="/template/storekeeperMenu.xhtml" />
+		</ui:define>
 		<ui:define name="content">
 			<f:view>
 

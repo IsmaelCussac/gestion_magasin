@@ -14,7 +14,7 @@
 		<form-login 
 		    login-page="/login"
 		    login-processing-url="/login_check"
-		    default-target-url="/homePage.xhtml" 
+		    default-target-url="/productCustomer.xhtml" 
 			authentication-failure-url="/login.xhtml?error" 
 			username-parameter="username"
 			password-parameter="password" />
@@ -26,7 +26,7 @@
 	<authentication-manager>
 	  <authentication-provider>
 	    <user-service>
-		<user name="mkyong" password="123456" authorities="ROLE_USER" />
+		<user name="admin" password="123456" authorities="ROLE_USER" />
 	    </user-service>
 	  </authentication-provider>
 	</authentication-manager>

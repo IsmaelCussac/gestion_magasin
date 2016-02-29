@@ -6,6 +6,9 @@
 
 <ui:composition template="/template/layout.xhtml">
 	<ui:define name="title">Livraison</ui:define>
+	<ui:define name="menu">
+		<ui:include src="/template/storekeeperMenu.xhtml" />
+	</ui:define>
 
 	<ui:define name="content">
 		<div class="row">
@@ -51,7 +54,7 @@
 							dismissable="false" showCloseIcon="true">
 							<p:outputPanel id="ordDetail"
 								style="width:400;text-align:center;">
-								<h:outputText value="#{ordersView.var}" />
+								
 								<p:panelGrid columns="3"
 									rendered="#{ordersView.selectedOrder != null}">
 									<h:outputText value="Classeur A4 4 anneaux " />
