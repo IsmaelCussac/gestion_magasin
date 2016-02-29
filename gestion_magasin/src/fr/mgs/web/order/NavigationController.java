@@ -1,4 +1,4 @@
-package fr.mgs.web.orders;
+package fr.mgs.web.order;
 
 import javax.faces.bean.ManagedBean;
 

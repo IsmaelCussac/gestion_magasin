@@ -1,4 +1,4 @@
-package fr.mgs.web.orders;
+package fr.mgs.web.order;
 
 import java.io.Serializable;
 import java.util.ArrayList;

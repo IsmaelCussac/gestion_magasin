@@ -1,4 +1,4 @@
-package fr.mgs.web.products;
+package fr.mgs.web.product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
