@@ -87,7 +87,7 @@ public class Team implements Serializable {
 		this.users = users;
 	}
 
-	public void setTeam() {
+	public void setTeam(String teamId, String name, int floor, Privilege privilege) {
 		setTeamId(teamId);
 		setName(name);
 		setFloor(floor);
@@ -97,7 +97,7 @@ public class Team implements Serializable {
 	@Override
 	public String toString() {
 		return "Team [teamId=" + teamId + ", name=" + name + ", floor=" + floor + ", privilege=" + privilege
-				+ ", users=" + users + "]";
+				+ "]";
 	}
 
 }

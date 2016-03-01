@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import fr.mgs.dao.UserDAO;
-import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.User;
 
 /**
@@ -34,15 +33,20 @@ public class UserService implements UserDetailsService {
 	 * @param userId
 	 *            the user's id
 	 */
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userId)
+			throws UsernameNotFoundException {
 		User user = null;
 		try {
 			user = userDao.find(userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println(user.toString());
+		System.out.println(user.getTeam()
+				.getPrivilege().toString());
 
-		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam().getPrivilege().toString());
+		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam()
+				.getPrivilege().toString());
 		return buildUserForAuthentication(user, authorities);
 	}
 
@@ -54,15 +58,19 @@ public class UserService implements UserDetailsService {
 	 *            previously built authority list
 	 * @return a built spring security user
 	 */
-	private UserDetailWithName buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
-		UserDetailWithName result = new UserDetailWithName(user.getUserId(), user.getPassword(), authorities);
+	private UserDetailWithName buildUserForAuthentication(User user,
+			List<GrantedAuthority> authorities) {
+		UserDetailWithName result = new UserDetailWithName(user.getUserId(),
+				user.getPassword(), authorities);
+
 		result.setFirstname(user.getFirstName());
+		System.out.println(result.toString());
 		return result;
 	}
 
 	/**
-	 * Use a user's authorization list to build a spring security
-	 * authorization list
+	 * Use a user's authorization list to build a spring security authorization
+	 * list
 	 * 
 	 * @param privilege
 	 * @return a properly built authorization list
@@ -70,7 +78,7 @@ public class UserService implements UserDetailsService {
 	private List<GrantedAuthority> buildAuthorities(String privilege) {
 		ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 
-		auths.add(new SimpleGrantedAuthority(privilege));
+		auths.add(new SimpleGrantedAuthority(privilege.toString()));
 
 		return auths;
 	}
