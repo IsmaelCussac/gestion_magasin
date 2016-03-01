@@ -41,9 +41,6 @@ public class UserService implements UserDetailsService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println(user.toString());
-		System.out.println(user.getTeam()
-				.getPrivilege().toString());
 
 		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam()
 				.getPrivilege().toString());
@@ -64,7 +61,7 @@ public class UserService implements UserDetailsService {
 				user.getPassword(), authorities);
 
 		result.setFirstname(user.getFirstName());
-		System.out.println(result.toString());
+
 		return result;
 	}
 

@@ -17,15 +17,15 @@
 		<!-- Unique session -->
 		<session-management>
 			<concurrency-control max-sessions="1"
-				expired-url="/homePage" />
+				expired-url="/homePage.xhtml" />
 		</session-management>
 
 		<intercept-url pattern="/connection" access="permitAll" />
 		<intercept-url pattern="/**" access="permitAll" />
 
-		<form-login login-page="/login" 
+		<form-login login-page="/login.xhtml" 
 			login-processing-url="/login_check"
-			default-target-url="/productCustomer"
+			default-target-url="/productCustomer.xhtml"
 			authentication-failure-url="/login.xhtml?error" 
 			username-parameter="username"
 			password-parameter="password" />

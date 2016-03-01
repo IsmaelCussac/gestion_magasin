@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import fr.mgs.model.order.Order;
+import fr.mgs.toolbox.Hasher;
 
 /**
 * This class describes an user entity in database. It contains : 
@@ -114,7 +115,7 @@ public class User implements Serializable {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = Hasher.hash(password);
 	}
 
 	public void setUser(String userId, String firstName, String lastName, Team team, String phoneNumber, String email,
