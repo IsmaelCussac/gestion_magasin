@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +44,8 @@ public class Historical implements Serializable {
 	private String product;
 
 	@Column(name = "action", nullable = false)
-	private String action;
+	@Enumerated(EnumType.STRING)
+	private Action action;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "date", nullable = false)
@@ -78,11 +81,11 @@ public class Historical implements Serializable {
 		this.product = product;
 	}
 
-	public String getAction() {
+	public Action getAction() {
 		return action;
 	}
 
-	public void setAction(String action) {
+	public void setAction(Action action) {
 		this.action = action;
 	}
 
@@ -105,7 +108,7 @@ public class Historical implements Serializable {
 	public void setHistorical(String storeKeeper, Product product, Action action, Date date, String resume) {
 		setStoreKeeper(storeKeeper);
 		setProduct(product.getDesignation());
-		setAction(action.toString());
+		setAction(action);
 		setDate(date);
 		setResume(resume);
 	}

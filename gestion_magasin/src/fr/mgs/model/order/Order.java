@@ -2,12 +2,16 @@ package fr.mgs.model.order;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +19,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -56,16 +61,14 @@ public class Order implements Serializable {
 	@Column(name = "delivery_date", nullable = true)
 	private Date deliveryDate;
 
-	@ElementCollection
-	@CollectionTable(name = "order_line_t", joinColumns = @JoinColumn(name = "order_id_line"))
-	@MapKeyJoinColumn(name = "product_id_line")
-	@Column(name = "quantity", nullable = false)
-	private Map<Product, Integer> orderLines;
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true)
+	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 
 	@Column(name = "comment", length = 250, nullable = true)
 	private String comment;
 
 	@Column(name = "status")
+	@Enumerated(EnumType.STRING)
 	private OrderStatus status;
 
 	public Order() {
@@ -103,11 +106,11 @@ public class Order implements Serializable {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public Map<Product, Integer> getOrderLines() {
+	public Set<OrderLine> getOrderLines() {
 		return orderLines;
 	}
 
-	public void setOrderLines(Map<Product, Integer> orderLines) {
+	public void setOrderLines(Set<OrderLine> orderLines) {
 		this.orderLines = orderLines;
 	}
 
@@ -127,7 +130,7 @@ public class Order implements Serializable {
 		this.status = status;
 	}
 
-	public void setOrder(User orderUser, Date submissionDate, Date deliveryDate, Map<Product, Integer> orderLines,
+	public void setOrder(User orderUser, Date submissionDate, Date deliveryDate, Set<OrderLine> orderLines,
 			String comment, OrderStatus status) {
 		setOrderUser(orderUser);
 		setSubmissionDate(submissionDate);

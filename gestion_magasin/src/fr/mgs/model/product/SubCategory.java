@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -28,6 +30,7 @@ public class SubCategory implements Serializable {
 	private String name;
 
 	@Column(name = "category")
+	@Enumerated(EnumType.STRING)
 	private Category category;
 
 	@OneToMany(mappedBy = "subCategory", fetch = FetchType.LAZY, orphanRemoval = false)

@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import fr.mgs.model.order.OrderLine;
+
 /**
  * This class describes a product entity in database. It contains : 
  * - an id
@@ -72,6 +74,9 @@ public class Product implements Serializable {
 
 	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Lot> lots = new HashSet<Lot>();
+	
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false)
+	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 
 	public Product() {
 	}
@@ -146,6 +151,22 @@ public class Product implements Serializable {
 
 	public void setConditioning(Double conditioning) {
 		this.conditioning = conditioning;
+	}
+
+	public Set<Lot> getLots() {
+		return lots;
+	}
+
+	public void setLots(Set<Lot> lots) {
+		this.lots = lots;
+	}
+
+	public Set<OrderLine> getOrderLines() {
+		return orderLines;
+	}
+
+	public void setOrderLines(Set<OrderLine> orderLines) {
+		this.orderLines = orderLines;
 	}
 
 	public void setProduct(String designation, SubCategory subCategory, Integer warningPeriod, double minQuantity,

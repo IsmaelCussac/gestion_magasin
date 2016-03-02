@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -39,6 +41,7 @@ public class Team implements Serializable {
 	private int floor;
 
 	@Column(name = "privilege", nullable = false)
+	@Enumerated(EnumType.STRING)
 	private Privilege privilege;
 
 	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY, orphanRemoval = false)
