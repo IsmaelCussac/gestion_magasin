@@ -12,7 +12,7 @@ import javax.faces.bean.ManagedBean;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import fr.mgs.business.product.ProductManager;
+import fr.mgs.business.ProductManager;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;

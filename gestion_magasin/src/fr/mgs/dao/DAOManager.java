@@ -2,7 +2,7 @@ package fr.mgs.dao;
 
 import javax.persistence.EntityManager;
 
-public abstract class DAO {
+public abstract class DAOManager {
 	
 	protected Connection connection;
 	protected EntityManager em;
@@ -11,7 +11,7 @@ public abstract class DAO {
 	 * Method to init the Entity Manager Factory
 	 */
 	public void init() {
-		connection = Connection.getInstance();
+		connection = new Connection();
 		this.connection.initEmf();
 	}
 	

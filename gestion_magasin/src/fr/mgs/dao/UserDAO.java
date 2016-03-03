@@ -14,7 +14,7 @@ import fr.mgs.model.user.User;
  * @author Ismaël
  *
  */
-public class UserDAO extends DAO {
+public class UserDAO extends DAOManager {
 
 	
 	/**

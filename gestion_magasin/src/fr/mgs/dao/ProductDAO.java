@@ -14,7 +14,7 @@ import fr.mgs.model.product.Product;
  * @author Ismaël
  *
  */
-public class ProductDAO extends DAO {
+public class ProductDAO extends DAOManager {
 
 	
 	/**
