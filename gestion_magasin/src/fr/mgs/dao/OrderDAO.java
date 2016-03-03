@@ -3,18 +3,20 @@ package fr.mgs.dao;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public class OrderDAO extends GenericDAO {
+import fr.mgs.model.order.Order;
+
+public class OrderDAO extends GenericDAO<Order> {
 
 	@Override
-	public void add(Object t) throws SQLException {
+	public void add(Order t) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void update(Object t) throws SQLException {
+	public void update(Order t) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -24,15 +26,17 @@ public class OrderDAO extends GenericDAO {
 	}
 
 	@Override
-	public Object find(String id) throws SQLException {
+	public Order find(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection findAll() throws SQLException {
+	public Collection<Order> findAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

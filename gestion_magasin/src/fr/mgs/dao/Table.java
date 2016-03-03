@@ -1,4 +1,4 @@
-package fr.mgs.business;
+package fr.mgs.dao;
 
 public enum Table {
 	

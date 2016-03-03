@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import fr.mgs.business.DAOManager;
-import fr.mgs.business.Table;
+import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
+import fr.mgs.dao.Table;
 import fr.mgs.dao.TeamDAO;
 import fr.mgs.dao.UserDAO;
 import fr.mgs.model.user.Privilege;

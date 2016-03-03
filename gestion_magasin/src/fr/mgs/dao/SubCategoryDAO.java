@@ -3,18 +3,20 @@ package fr.mgs.dao;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public class SubCategoryDAO extends GenericDAO {
+import fr.mgs.model.product.SubCategory;
+
+public class SubCategoryDAO extends GenericDAO<SubCategory> {
 
 	@Override
-	public void add(Object t) throws SQLException {
+	public void add(SubCategory t) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void update(Object t) throws SQLException {
+	public void update(SubCategory t) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -24,15 +26,17 @@ public class SubCategoryDAO extends GenericDAO {
 	}
 
 	@Override
-	public Object find(String id) throws SQLException {
+	public SubCategory find(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection findAll() throws SQLException {
+	public Collection<SubCategory> findAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }

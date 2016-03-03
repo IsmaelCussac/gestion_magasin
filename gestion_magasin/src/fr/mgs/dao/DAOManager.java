@@ -1,19 +1,10 @@
-package fr.mgs.business;
+package fr.mgs.dao;
 
 import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 
 import fr.mgs.connection.Connection;
-import fr.mgs.dao.GenericDAO;
-import fr.mgs.dao.HistoricalDAO;
-import fr.mgs.dao.LotDAO;
-import fr.mgs.dao.OrderDAO;
-import fr.mgs.dao.OrderLineDAO;
-import fr.mgs.dao.ProductDAO;
-import fr.mgs.dao.SubCategoryDAO;
-import fr.mgs.dao.TeamDAO;
-import fr.mgs.dao.UserDAO;
 import fr.mgs.model.user.Team;
 import fr.mgs.model.user.User;
 
@@ -55,5 +46,4 @@ public class DAOManager {
 			throw new SQLException("Trying to link to an unexistant table.");
 		}
 	}
-
 }

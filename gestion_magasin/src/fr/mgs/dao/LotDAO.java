@@ -3,18 +3,20 @@ package fr.mgs.dao;
 import java.sql.SQLException;
 import java.util.Collection;
 
-public class LotDAO extends GenericDAO {
+import fr.mgs.model.product.Lot;
+
+public class LotDAO extends GenericDAO<Lot> {
 
 	@Override
-	public void add(Object t) throws SQLException {
+	public void add(Lot t) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void update(Object t) throws SQLException {
+	public void update(Lot t) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -24,13 +26,13 @@ public class LotDAO extends GenericDAO {
 	}
 
 	@Override
-	public Object find(String id) throws SQLException {
+	public Lot find(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection findAll() throws SQLException {
+	public Collection<Lot> findAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
