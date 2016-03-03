@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import fr.mgs.business.UserManager;
 import fr.mgs.dao.UserDAO;
 import fr.mgs.model.user.User;
 
@@ -21,10 +22,12 @@ import fr.mgs.model.user.User;
  */
 public class UserService implements UserDetailsService {
 
-	private UserDAO userDao = new UserDAO();
+	private UserManager userManager;
 
-	public UserService() {
-		userDao.init();
+	public UserService() throws SQLException {
+		userManager = new UserManager();
+		userManager.init();
+
 	}
 
 	/**
@@ -37,7 +40,7 @@ public class UserService implements UserDetailsService {
 			throws UsernameNotFoundException {
 		User user = null;
 		try {
-			user = userDao.find(userId);
+			user = userManager.findUser(userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

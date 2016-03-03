@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import fr.mgs.connection.Connection;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.user.User;
 
@@ -18,6 +19,10 @@ import fr.mgs.model.user.User;
 public class ProductDAO extends GenericDAO<Product> {
 
 	
+	public ProductDAO(Connection connection) {
+		super.connection = connection;
+	}
+
 	/**
 	 * store a product in database
 	 * @param the product to add

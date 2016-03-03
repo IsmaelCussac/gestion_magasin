@@ -5,45 +5,53 @@ import java.sql.SQLException;
 import javax.annotation.PostConstruct;
 
 import fr.mgs.connection.Connection;
-import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
 
+/**
+ * DAO manager that implement the factory design pattern
+ * 
+ * @author Ismaël
+ *
+ */
 public class DAOManager {
 
 	private Connection connection;
-	private GenericDAO<?> dao;
-
 
 	public DAOManager() {
 	}
 
+	/**
+	 * Method to init the Entity Manager Factory
+	 */
 	@PostConstruct
 	public void init() {
 		connection = new Connection();
 		connection.initEmf();
-		dao.setConnection(connection);
 	}
 
-	public GenericDAO getDAO(Table table) throws SQLException {
+	public GenericDAO<?> getDAO(Table table) throws SQLException {
 		switch (table) {
 		case USER:
-			return new UserDAO();
+			return new UserDAO(connection);
 		case TEAM:
-			return new TeamDAO();
+			return new TeamDAO(connection);
 		case PRODUCT:
-			return new ProductDAO();
+			return new ProductDAO(connection);
 		case LOT:
-			return new LotDAO();
+			return new LotDAO(connection);
 		case SUB_CATEGORY:
-			return new SubCategoryDAO();
+			return new SubCategoryDAO(connection);
 		case ORDER:
-			return new OrderDAO();
+			return new OrderDAO(connection);
 		case ORDER_LINE:
-			return new OrderLineDAO();
+			return new OrderLineDAO(connection);
 		case HISTORICAL:
-			return new HistoricalDAO();
+			return new HistoricalDAO(connection);
 		default:
 			throw new SQLException("Trying to link to an unexistant table.");
 		}
+	}
+
+	public void close() {
+		connection.close();
 	}
 }

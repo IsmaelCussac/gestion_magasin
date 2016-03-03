@@ -3,9 +3,14 @@ package fr.mgs.dao;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import fr.mgs.connection.Connection;
 import fr.mgs.model.product.SubCategory;
 
 public class SubCategoryDAO extends GenericDAO<SubCategory> {
+
+	public SubCategoryDAO(Connection connection) {
+		super.connection = connection;
+	}
 
 	@Override
 	public void add(SubCategory t) throws SQLException {

@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import fr.mgs.business.UserManager;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
@@ -21,31 +22,29 @@ import fr.mgs.model.user.User;
 
 public class UserDaoTest {
 	
-	private static DAOManager daoManager = new DAOManager();
-	static GenericDAO<User> userDao;
-	static GenericDAO<Team> teamDao;
+	private static UserManager userManager;
 
-
+	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
-		userDao = daoManager.getDAO(Table.USER);
-		teamDao = daoManager.getDAO(Table.TEAM);
+		userManager = new UserManager();
+		userManager.init();
+		
 	}
 
 	@AfterClass
-	public static void tearDownAfterAll() {
+	public static void tearDownAfterAll() {	
+		userManager.getDaoManager().close();
 	}
 
 	@Before
 	public void setUp() throws SQLException {
-		userDao.init();
-		teamDao.init();
 	
 	}
 
 	@After
 	public void tearDown() {
-		userDao.close();
+	
 	}
 
 	@Test
@@ -53,12 +52,12 @@ public class UserDaoTest {
 		
 		Team team = new Team();
 		team.setTeam("ccc", "CCC", 2, Privilege.CUSTOMER);
-		teamDao.add(team);
+		userManager.addTeam(team);
 		
 		User user = new User();
 		user.setUser("d1102526", "Jean-Louis", "De Beauregard", team, "0442060504", "jean-louis.de-beauregard@mail.fr", "secret");
-		userDao.add(user);
+		userManager.addUser(user);
 		
-		assertNotNull(userDao.find("d1102526"));
+		assertNotNull(userManager.findUser("d1102526"));
 	}
 }

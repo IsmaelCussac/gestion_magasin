@@ -7,25 +7,24 @@ import javax.persistence.EntityManager;
 
 import fr.mgs.connection.Connection;
 
+/**
+ * Abstract class used that contains the connection instance for all the DAOs
+ * 
+ * @author Ismaël
+ *
+ * @param <T>
+ */
 public abstract class GenericDAO<T> {
-	
+
 	protected Connection connection;
 	protected EntityManager em;
-	
-	/**
-	 * Method to init the Entity Manager Factory
-	 */
-	public void init() {
-		connection = new Connection();
-		this.connection.initEmf();
-	}
-	
+
 	public Connection getConnection() {
 		return connection;
 	}
-	
-	public void setConnection(Connection connection){
-		this.connection = connection;	
+
+	public void setConnection(Connection connection) {
+		this.connection = connection;
 	}
 
 	/**
@@ -34,14 +33,14 @@ public abstract class GenericDAO<T> {
 	protected void loadEm() {
 		em = connection.createEm();
 	}
-	
+
 	/**
 	 * Close Entity Manager
 	 */
 	protected void closeEm() {
 		em.close();
 	}
-	
+
 	/**
 	 * Load a new EntityManager then begin a transaction
 	 */
@@ -49,14 +48,14 @@ public abstract class GenericDAO<T> {
 		loadEm();
 		em.getTransaction().begin();
 	}
-	
+
 	/**
 	 * Commit the persistence context
 	 */
 	protected void commit() {
 		em.getTransaction().commit();
 	}
-	
+
 	/**
 	 * Close the persistence unit
 	 */
@@ -69,9 +68,9 @@ public abstract class GenericDAO<T> {
 	public abstract void update(T t) throws SQLException;
 
 	public abstract boolean exists(String id) throws SQLException;
-	
+
 	public abstract T find(String id) throws SQLException;
-	
+
 	public abstract Collection<T> findAll() throws SQLException;
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import fr.mgs.connection.Connection;
 import fr.mgs.model.user.User;
 
 /**
@@ -16,10 +17,19 @@ import fr.mgs.model.user.User;
  */
 public class UserDAO extends GenericDAO<User> {
 
-	
+	public UserDAO(Connection connection) {
+		super.connection = connection;
+	}
+
+	public UserDAO() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * store a user in database
-	 * @param the user to add
+	 * 
+	 * @param the
+	 *            user to add
 	 */
 	public void add(User user) throws SQLException {
 		beginTransaction();
@@ -27,10 +37,12 @@ public class UserDAO extends GenericDAO<User> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
 	 * remove a user stored in database using his id
-	 * @param user's id
+	 * 
+	 * @param user's
+	 *            id
 	 */
 	public void remove(String userId) throws SQLException {
 		User user = find(userId);
@@ -39,11 +51,13 @@ public class UserDAO extends GenericDAO<User> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
-	 * update a user's attributes
-	 * according to the fact the user is already stored in database
-	 * @param user's bean updated
+	 * update a user's attributes according to the fact the user is already
+	 * stored in database
+	 * 
+	 * @param user's
+	 *            bean updated
 	 */
 	public void update(User user) throws SQLException {
 		beginTransaction();
@@ -51,18 +65,22 @@ public class UserDAO extends GenericDAO<User> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
 	 * Search if a user exists
-	 * @param user's id
+	 * 
+	 * @param user's
+	 *            id
 	 */
 	public boolean exists(String userId) throws SQLException {
 		return (find(userId) != null);
 	}
-	
+
 	/**
 	 * find a user using his id
-	 * @param user's id
+	 * 
+	 * @param user's
+	 *            id
 	 */
 	public User find(String userId) throws SQLException {
 		loadEm();
@@ -72,16 +90,15 @@ public class UserDAO extends GenericDAO<User> {
 	}
 
 	/**
-	 * return all the stored users
-	 * ordered by their first name at first, then their name
+	 * return all the stored users ordered by their first name at first, then
+	 * their name
 	 */
 	public Collection<User> findAll() throws SQLException {
 		loadEm();
-		TypedQuery<User> query = em.createQuery("FROM users u order by u.firstName, u.lastName asc",
-				User.class);
+		TypedQuery<User> query = em.createQuery("FROM users u order by u.firstName, u.lastName asc", User.class);
 		List<User> result = query.getResultList();
 		closeEm();
 		return result;
 	}
-	
+
 }

@@ -11,10 +11,11 @@ import javax.persistence.Persistence;
  *
  */
 public class Connection {
-	
+
 	protected EntityManagerFactory emf;
 
-	public Connection() {}
+	public Connection() {
+	}
 
 	public EntityManagerFactory getEmf() {
 		return emf;
@@ -27,7 +28,7 @@ public class Connection {
 	public void initEmf() {
 		setEmf(Persistence.createEntityManagerFactory("gestion_magasin"));
 	}
-	
+
 	public void initEmf(String base) {
 		setEmf(Persistence.createEntityManagerFactory(base));
 	}

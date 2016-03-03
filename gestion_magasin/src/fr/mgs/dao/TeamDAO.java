@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.TypedQuery;
 
+import fr.mgs.connection.Connection;
 import fr.mgs.model.user.Team;
 import fr.mgs.model.user.User;
 
@@ -17,6 +18,10 @@ import fr.mgs.model.user.User;
  */
 public class TeamDAO extends GenericDAO<Team> {
 
+
+	public TeamDAO(Connection connection) {
+		super.connection = connection;
+	}
 
 	/**
 	 * store a team in database
