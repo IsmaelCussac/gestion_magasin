@@ -1,8 +1,13 @@
 package fr.mgs.dao;
 
+import java.sql.SQLException;
+import java.util.Collection;
+
 import javax.persistence.EntityManager;
 
-public abstract class DAOManager {
+import fr.mgs.connection.Connection;
+
+public abstract class GenericDAO<T> {
 	
 	protected Connection connection;
 	protected EntityManager em;
@@ -19,7 +24,7 @@ public abstract class DAOManager {
 		return connection;
 	}
 	
-	protected void setConnection(Connection connection){
+	public void setConnection(Connection connection){
 		this.connection = connection;	
 	}
 
@@ -58,5 +63,15 @@ public abstract class DAOManager {
 	public void close() {
 		this.connection.close();
 	}
+
+	public abstract void add(T t) throws SQLException;
+
+	public abstract void update(T t) throws SQLException;
+
+	public abstract boolean exists(String id) throws SQLException;
+	
+	public abstract T find(String id) throws SQLException;
+	
+	public abstract Collection<T> findAll() throws SQLException;
 
 }

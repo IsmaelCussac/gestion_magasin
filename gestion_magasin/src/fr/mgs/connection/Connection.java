@@ -1,4 +1,4 @@
-package fr.mgs.dao;
+package fr.mgs.connection;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

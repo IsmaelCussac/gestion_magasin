@@ -7,7 +7,7 @@ import java.util.List;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 
-public class ProductManager extends Manager {
+public class ProductManager{
 
 	// private DaoPerson daoP = new DaoPerson("annuaire");
 

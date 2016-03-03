@@ -15,7 +15,7 @@ import fr.mgs.model.user.User;
  * @author Ismaël
  *
  */
-public class TeamDAO extends DAOManager {
+public class TeamDAO extends GenericDAO<Team> {
 
 
 	/**

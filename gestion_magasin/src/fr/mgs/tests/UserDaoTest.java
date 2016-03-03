@@ -1,6 +1,6 @@
 package fr.mgs.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLException;
 
@@ -10,6 +10,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import fr.mgs.business.DAOManager;
+import fr.mgs.business.Table;
+import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.TeamDAO;
 import fr.mgs.dao.UserDAO;
 import fr.mgs.model.user.Privilege;
@@ -18,14 +21,15 @@ import fr.mgs.model.user.User;
 
 public class UserDaoTest {
 	
-	static UserDAO userDao;
-	static TeamDAO teamDao;
+	private static DAOManager daoManager = new DAOManager();
+	static GenericDAO<User> userDao;
+	static GenericDAO<Team> teamDao;
 
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
-		userDao = new UserDAO();
-		teamDao = new TeamDAO();
+		userDao = daoManager.getDAO(Table.USER);
+		teamDao = daoManager.getDAO(Table.TEAM);
 	}
 
 	@AfterClass

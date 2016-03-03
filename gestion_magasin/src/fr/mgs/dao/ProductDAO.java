@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.TypedQuery;
 
 import fr.mgs.model.product.Product;
+import fr.mgs.model.user.User;
 
 /**
  * Dao used to manage product entity
@@ -14,7 +15,7 @@ import fr.mgs.model.product.Product;
  * @author Ismaël
  *
  */
-public class ProductDAO extends DAOManager {
+public class ProductDAO extends GenericDAO<Product> {
 
 	
 	/**
@@ -82,6 +83,18 @@ public class ProductDAO extends DAOManager {
 		List<Product> result = query.getResultList();
 		closeEm();
 		return result;
+	}
+
+	@Override
+	public boolean exists(String id) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Product find(String id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
