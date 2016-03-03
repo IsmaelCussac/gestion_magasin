@@ -10,7 +10,14 @@ import fr.mgs.dao.Table;
 import fr.mgs.model.user.Team;
 import fr.mgs.model.user.User;
 
-
+/**
+* Business class that manage the following DAOs to access database and process data :
+ * - UserDAO
+ * - TeamDAO
+ * 
+ * @author Ismaël
+ *
+ */
 public class UserManager{
 
 	private DAOManager daoManager;
@@ -27,13 +34,13 @@ public class UserManager{
 		userDao = (GenericDAO<User>) daoManager.getDAO(Table.USER);
 		teamDao = (GenericDAO<Team>) daoManager.getDAO(Table.TEAM);
 	}
+	
+	// GETTERS - SETTERS
 
 	public DAOManager getDaoManager() {
 		return daoManager;
 	}
 
-	// GETTERS - SETTERS
-	
 	public void setDaoManager(DAOManager daoManager) {
 		this.daoManager = daoManager;
 	}

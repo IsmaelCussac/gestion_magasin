@@ -1,24 +1,83 @@
 package fr.mgs.business;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
+import fr.mgs.dao.DAOManager;
+import fr.mgs.dao.GenericDAO;
+import fr.mgs.dao.Table;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
+import fr.mgs.model.product.SubCategory;
 
+/**
+ * Business class that manage the following DAOs to access database and process data :
+ * - LotDAO
+ * - ProductDAO
+ * - SubCategoryDAO
+ * 
+ * @author Ismaël
+ *
+ */
 public class ProductManager{
+	
+	private DAOManager daoManager;
+	private GenericDAO<Lot> lotDao;
+	private GenericDAO<Product> productDao;
+	private GenericDAO<SubCategory> subCategoryDao;
 
-	// private DaoPerson daoP = new DaoPerson("annuaire");
-
-	private ArrayList<Product> products;
-	private Product p;
-
-	public void init() {
-
-		products = new ArrayList<Product>();
+	public ProductManager(){}
+	
+	@SuppressWarnings("unchecked")
+	@PostConstruct
+	public void init() throws SQLException{
+		daoManager = new DAOManager();
+		daoManager.init();
+		lotDao = (GenericDAO<Lot>) daoManager.getDAO(Table.LOT);
+		productDao = (GenericDAO<Product>) daoManager.getDAO(Table.PRODUCT);
+		subCategoryDao = (GenericDAO<SubCategory>) daoManager.getDAO(Table.SUB_CATEGORY);
 
 	}
+	
+	// GETTERS - SETTERS
+
+	public DAOManager getDaoManager() {
+		return daoManager;
+	}
+
+	public void setDaoManager(DAOManager daoManager) {
+		this.daoManager = daoManager;
+	}
+
+	public GenericDAO<Lot> getLotDao() {
+		return lotDao;
+	}
+
+	public void setLotDao(GenericDAO<Lot> lotDao) {
+		this.lotDao = lotDao;
+	}
+
+	public GenericDAO<Product> getProductDao() {
+		return productDao;
+	}
+
+	public void setProductDao(GenericDAO<Product> productDao) {
+		this.productDao = productDao;
+	}
+
+	public GenericDAO<SubCategory> getSubCategoryDao() {
+		return subCategoryDao;
+	}
+
+	public void setSubCategoryDao(GenericDAO<SubCategory> subCategoryDao) {
+		this.subCategoryDao = subCategoryDao;
+	}
+	
+	// METHODS
 
 	/***
 	 * This method returns the group of the person "person".
@@ -104,7 +163,7 @@ public class ProductManager{
 		}
 	}
 
-	public void removeLot(Lot l) {
+	public void removeLot(Lot lot) {
 		try {
 			// daoP.removeLot(l);
 		} catch (Exception e) {
