@@ -1,4 +1,4 @@
-package fr.mgs.model.historical;
+package fr.mgs.model.monitor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 import fr.mgs.model.product.Product;
 
 /**
-* This class describes a historical entity in database. It contains : 
+* This class describes a log monitor entity in database. It contains : 
  * - an id
  * - a store keeper id
  * - a product
@@ -28,14 +28,14 @@ import fr.mgs.model.product.Product;
  * @author Ismaël
  *
  */
-@Entity(name = "historicals")
-@Table(name = "historical_t")
-public class Historical implements Serializable {
+@Entity(name = "logMonitors")
+@Table(name = "log_monitor_t")
+public class LogMonitor implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "historical_id")
-	private int historicalId;
+	@Column(name = "log_monitor_id")
+	private int logMonitorId;
 
 	@Column(name = "store_keeper_id", length = 10, nullable = false)
 	private String storeKeeper;
@@ -54,15 +54,15 @@ public class Historical implements Serializable {
 	@Column(name = "resume", length = 250, nullable = true)
 	private String resume;
 
-	public Historical() {
+	public LogMonitor() {
 	}
 
-	public int getHistoricalId() {
-		return historicalId;
+	public int getLogMonitorId() {
+		return logMonitorId;
 	}
 
-	public void setHistoricalId(int historicalId) {
-		this.historicalId = historicalId;
+	public void setLogMonitorId(int logMonitorId) {
+		this.logMonitorId = logMonitorId;
 	}
 
 	public String getStoreKeeper() {
@@ -115,7 +115,7 @@ public class Historical implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Historical [historicalId=" + historicalId + ", storeKeeper=" + storeKeeper + ", product=" + product
+		return "Historical [logMonitorId=" + logMonitorId + ", storeKeeper=" + storeKeeper + ", product=" + product
 				+ ", action=" + action + ", date=" + date + ", resume=" + resume + "]";
 	}
 

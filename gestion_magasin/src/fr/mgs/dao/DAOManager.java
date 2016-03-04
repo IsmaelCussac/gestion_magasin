@@ -44,8 +44,8 @@ public class DAOManager {
 			return new OrderDAO(connection);
 		case ORDER_LINE:
 			return new OrderLineDAO(connection);
-		case HISTORICAL:
-			return new HistoricalDAO(connection);
+		case LOG_MONITOR:
+			return new LogMonitorDAO(connection);
 		default:
 			throw new SQLException("Trying to link to an unexistant table.");
 		}

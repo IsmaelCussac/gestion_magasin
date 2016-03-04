@@ -4,22 +4,22 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 import fr.mgs.connection.Connection;
-import fr.mgs.model.historical.Historical;
+import fr.mgs.model.monitor.LogMonitor;
 
-public class HistoricalDAO extends GenericDAO<Historical> {
+public class LogMonitorDAO extends GenericDAO<LogMonitor> {
 
-	public HistoricalDAO(Connection connection) {
+	public LogMonitorDAO(Connection connection) {
 		super.connection = connection;
 	}
 
 	@Override
-	public void add(Historical t) throws SQLException {
+	public void add(LogMonitor t) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void update(Historical t) throws SQLException {
+	public void update(LogMonitor t) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -31,13 +31,13 @@ public class HistoricalDAO extends GenericDAO<Historical> {
 	}
 
 	@Override
-	public Historical find(String id) throws SQLException {
+	public LogMonitor find(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Collection<Historical> findAll() throws SQLException {
+	public Collection<LogMonitor> findAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

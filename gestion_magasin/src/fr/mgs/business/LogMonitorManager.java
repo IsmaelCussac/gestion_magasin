@@ -7,29 +7,29 @@ import javax.annotation.PostConstruct;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
-import fr.mgs.model.historical.Historical;
+import fr.mgs.model.monitor.LogMonitor;
 
 /**
  * Business class that manage the following DAO to access database and process data :
- * - HistoricalDAO
+ * - LogMonitorDAO
  * 
  * @author Ismaël
  *
  */
-public class HistoricalManager{
+public class LogMonitorManager{
 
 	
 	private DAOManager daoManager;
-	private GenericDAO<Historical> historicalDao;
+	private GenericDAO<LogMonitor> logMonitorDao;
 
-	public HistoricalManager(){}
+	public LogMonitorManager(){}
 	
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() throws SQLException{
 		daoManager = new DAOManager();
 		daoManager.init();
-		historicalDao = (GenericDAO<Historical>) daoManager.getDAO(Table.HISTORICAL);
+		logMonitorDao = (GenericDAO<LogMonitor>) daoManager.getDAO(Table.LOG_MONITOR);
 	}
 	
 	// GETTERS - SETTERS
@@ -42,12 +42,12 @@ public class HistoricalManager{
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<Historical> getHistoricalDao() {
-		return historicalDao;
+	public GenericDAO<LogMonitor> getLogMonitorDao() {
+		return logMonitorDao;
 	}
 
-	public void setHistoricalDao(GenericDAO<Historical> historicalDao) {
-		this.historicalDao = historicalDao;
+	public void setLogMonitorDao(GenericDAO<LogMonitor> logMonitorDao) {
+		this.logMonitorDao = logMonitorDao;
 	}
 	
 	// METHODS

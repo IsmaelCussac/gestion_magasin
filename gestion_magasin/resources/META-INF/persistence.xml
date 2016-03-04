@@ -11,7 +11,7 @@
 		<class>fr.mgs.model.product.Lot</class>
 		<class>fr.mgs.model.product.Product</class>
 		<class>fr.mgs.model.product.SubCategory</class>
-		<class>fr.mgs.model.historical.Historical</class>
+		<class>fr.mgs.model.monitor.LogMonitor</class>
 		<class>fr.mgs.model.user.Team</class>
 		<class>fr.mgs.model.user.User</class>
 

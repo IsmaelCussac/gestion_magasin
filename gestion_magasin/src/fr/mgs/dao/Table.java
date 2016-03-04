@@ -15,6 +15,5 @@ public enum Table {
 	SUB_CATEGORY,
 	ORDER,
 	ORDER_LINE,
-	HISTORICAL
-
+	LOG_MONITOR
 }
