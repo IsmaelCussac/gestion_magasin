@@ -6,6 +6,8 @@ import java.util.Collection;
 import fr.mgs.connection.Connection;
 import fr.mgs.model.product.SubCategory;
 
+//Claire GERARD
+
 public class SubCategoryDAO extends GenericDAO<SubCategory> {
 
 	public SubCategoryDAO(Connection connection) {
@@ -41,7 +43,5 @@ public class SubCategoryDAO extends GenericDAO<SubCategory> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 
 }

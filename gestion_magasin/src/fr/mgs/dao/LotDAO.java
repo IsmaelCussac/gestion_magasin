@@ -6,6 +6,9 @@ import java.util.Collection;
 import fr.mgs.connection.Connection;
 import fr.mgs.model.product.Lot;
 
+//Mariana ANDUJAR
+
+
 public class LotDAO extends GenericDAO<Lot> {
 
 	public LotDAO(Connection connection) {
