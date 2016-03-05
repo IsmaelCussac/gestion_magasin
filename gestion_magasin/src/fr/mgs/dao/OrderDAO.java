@@ -8,7 +8,9 @@ import javax.persistence.Query;
 
 import fr.mgs.connection.Connection;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Team;
+import fr.mgs.model.user.User;
 
 public class OrderDAO extends GenericDAO<Order, Integer> {
 
@@ -53,10 +55,27 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		return (Collection<Order>) query.getResultList();
 	}
 
+	public Collection<Order> findOrderByStatus(OrderStatus status) {
+		loadEm();
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.status = :os");
+		query.setParameter("os", status);
+		return (Collection<Order>) query.getResultList();
+	}
+
+	public List<Order> findOrderByTeam(Team t) {
+
+		return null;
+	}
+
+	public List<Order> findOrderByUser(User u) {
+
+		return null;
+	}
+
 	@Override
 	public void remove(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

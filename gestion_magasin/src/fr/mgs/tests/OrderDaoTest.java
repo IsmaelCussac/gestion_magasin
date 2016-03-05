@@ -46,8 +46,9 @@ public class OrderDaoTest {
 		orderManager.getDaoManager().close();
 	}
 
-	/* Ignored to avoid primary key constraint violation in database.
-	 * Remove Ignore annotation the first time you run this test
+	/*
+	 * Ignored to avoid primary key constraint violation in database. Remove
+	 * Ignore annotation the first time you run this test
 	 */
 
 	@Test
@@ -74,13 +75,17 @@ public class OrderDaoTest {
 
 	@Test
 	public void testOrderFindOrder() throws SQLException {
-
 		assertNotNull(orderManager.findOrder(1));
 	}
 
 	@Test
 	public void testOrderFindAllOrders() throws SQLException {
 		assertEquals(1, orderManager.findAllOrders().size());
+	}
+
+	@Test
+	public void testOrderByStatus() {
+
 	}
 
 }

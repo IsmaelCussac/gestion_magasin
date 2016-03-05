@@ -8,6 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
+import fr.mgs.business.OrderManager;
+import fr.mgs.business.UserManager;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.User;
@@ -25,10 +27,11 @@ public class OrdersView {
 
 	private List<Order> orders;
 	private Order selectedOrder;
+	private static OrderManager orderManager;
 
 	@PostConstruct
 	public void init() {
-
+		orderManager = new OrderManager();
 		orders = new ArrayList<Order>();
 		selectedOrder = new Order();
 		User u1 = new User();
