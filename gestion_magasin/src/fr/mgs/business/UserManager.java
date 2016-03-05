@@ -11,30 +11,31 @@ import fr.mgs.model.user.Team;
 import fr.mgs.model.user.User;
 
 /**
-* Business class that manage the following DAOs to access database and process data :
- * - UserDAO
- * - TeamDAO
+ * Business class that manage the following DAOs to access database and process
+ * data : - UserDAO - TeamDAO
  * 
  * @author Ismaël
+ * @author Ibrahima
  *
  */
-public class UserManager{
+public class UserManager {
 
 	private DAOManager daoManager;
-	private GenericDAO<User> userDao;
-	private GenericDAO<Team> teamDao;
+	private GenericDAO<User, String> userDao;
+	private GenericDAO<Team, ?> teamDao;
 
-	public UserManager(){}
-	
+	public UserManager() {
+	}
+
 	@SuppressWarnings("unchecked")
 	@PostConstruct
-	public void init() throws SQLException{
+	public void init() throws SQLException {
 		daoManager = new DAOManager();
 		daoManager.init();
-		userDao = (GenericDAO<User>) daoManager.getDAO(Table.USER);
-		teamDao = (GenericDAO<Team>) daoManager.getDAO(Table.TEAM);
+		userDao = (GenericDAO<User, String>) daoManager.getDAO(Table.USER);
+		teamDao = (GenericDAO<Team, ?>) daoManager.getDAO(Table.TEAM);
 	}
-	
+
 	// GETTERS - SETTERS
 
 	public DAOManager getDaoManager() {
@@ -45,29 +46,29 @@ public class UserManager{
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<User> getUserDao() {
+	public GenericDAO<User, String> getUserDao() {
 		return userDao;
 	}
 
-	public void setUserDao(GenericDAO<User> userDao) {
+	public void setUserDao(GenericDAO<User, String> userDao) {
 		this.userDao = userDao;
 	}
 
-	public GenericDAO<Team> getTeamDao() {
+	public GenericDAO<Team, ?> getTeamDao() {
 		return teamDao;
 	}
 
-	public void setTeamDao(GenericDAO<Team> teamDao) {
+	public void setTeamDao(GenericDAO<Team, ?> teamDao) {
 		this.teamDao = teamDao;
 	}
-	
+
 	// METHODS
-	
-	public void addUser(User user) throws SQLException{
+
+	public void addUser(User user) throws SQLException {
 		userDao.add(user);
 	}
-	
-	public void addTeam(Team team) throws SQLException{
+
+	public void addTeam(Team team) throws SQLException {
 		teamDao.add(team);
 	}
 

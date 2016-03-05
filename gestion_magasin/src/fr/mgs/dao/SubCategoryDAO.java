@@ -8,7 +8,7 @@ import fr.mgs.model.product.SubCategory;
 
 //Claire GERARD
 
-public class SubCategoryDAO extends GenericDAO<SubCategory> {
+public class SubCategoryDAO extends GenericDAO<SubCategory,String> {
 
 	public SubCategoryDAO(Connection connection) {
 		super.connection = connection;

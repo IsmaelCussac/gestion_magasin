@@ -15,34 +15,33 @@ import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 
 /**
- * Business class that manage the following DAOs to access database and process data :
- * - LotDAO
- * - ProductDAO
- * - SubCategoryDAO
+ * Business class that manage the following DAOs to access database and process
+ * data : - LotDAO - ProductDAO - SubCategoryDAO
  * 
  * @author Ismaël
- *
+ * @author Ibrahima
  */
-public class ProductManager{
-	
-	private DAOManager daoManager;
-	private GenericDAO<Lot> lotDao;
-	private GenericDAO<Product> productDao;
-	private GenericDAO<SubCategory> subCategoryDao;
+public class ProductManager {
 
-	public ProductManager(){}
-	
+	private DAOManager daoManager;
+	private GenericDAO<Lot, ?> lotDao;
+	private GenericDAO<Product, ?> productDao;
+	private GenericDAO<SubCategory, ?> subCategoryDao;
+
+	public ProductManager() {
+	}
+
 	@SuppressWarnings("unchecked")
 	@PostConstruct
-	public void init() throws SQLException{
+	public void init() throws SQLException {
 		daoManager = new DAOManager();
 		daoManager.init();
-		lotDao = (GenericDAO<Lot>) daoManager.getDAO(Table.LOT);
-		productDao = (GenericDAO<Product>) daoManager.getDAO(Table.PRODUCT);
-		subCategoryDao = (GenericDAO<SubCategory>) daoManager.getDAO(Table.SUB_CATEGORY);
+		lotDao = (GenericDAO<Lot, ?>) daoManager.getDAO(Table.LOT);
+		productDao = (GenericDAO<Product, ?>) daoManager.getDAO(Table.PRODUCT);
+		subCategoryDao = (GenericDAO<SubCategory, ?>) daoManager.getDAO(Table.SUB_CATEGORY);
 
 	}
-	
+
 	// GETTERS - SETTERS
 
 	public DAOManager getDaoManager() {
@@ -53,30 +52,30 @@ public class ProductManager{
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<Lot> getLotDao() {
+	public GenericDAO<Lot, ?> getLotDao() {
 		return lotDao;
 	}
 
-	public void setLotDao(GenericDAO<Lot> lotDao) {
+	public void setLotDao(GenericDAO<Lot, ?> lotDao) {
 		this.lotDao = lotDao;
 	}
 
-	public GenericDAO<Product> getProductDao() {
+	public GenericDAO<Product, ?> getProductDao() {
 		return productDao;
 	}
 
-	public void setProductDao(GenericDAO<Product> productDao) {
+	public void setProductDao(GenericDAO<Product, ?> productDao) {
 		this.productDao = productDao;
 	}
 
-	public GenericDAO<SubCategory> getSubCategoryDao() {
+	public GenericDAO<SubCategory, ?> getSubCategoryDao() {
 		return subCategoryDao;
 	}
 
-	public void setSubCategoryDao(GenericDAO<SubCategory> subCategoryDao) {
+	public void setSubCategoryDao(GenericDAO<SubCategory, ?> subCategoryDao) {
 		this.subCategoryDao = subCategoryDao;
 	}
-	
+
 	// METHODS
 
 	/***

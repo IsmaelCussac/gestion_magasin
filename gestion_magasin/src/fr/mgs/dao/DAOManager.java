@@ -10,7 +10,7 @@ import fr.mgs.connection.Connection;
  * DAO manager that implement the factory design pattern
  * 
  * @author Ismaël
- *
+ * @author Ibrahima
  */
 public class DAOManager {
 
@@ -28,7 +28,7 @@ public class DAOManager {
 		connection.initEmf();
 	}
 
-	public GenericDAO<?> getDAO(Table table) throws SQLException {
+	public GenericDAO<?, ?> getDAO(Table table) throws SQLException {
 		switch (table) {
 		case USER:
 			return new UserDAO(connection);

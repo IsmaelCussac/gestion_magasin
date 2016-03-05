@@ -1,3 +1,4 @@
+
 package fr.mgs.model.user;
 
 import java.io.Serializable;

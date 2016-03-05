@@ -6,7 +6,7 @@ import java.util.Collection;
 import fr.mgs.connection.Connection;
 import fr.mgs.model.monitor.LogMonitor;
 
-public class LogMonitorDAO extends GenericDAO<LogMonitor> {
+public class LogMonitorDAO extends GenericDAO<LogMonitor,String> {
 
 	public LogMonitorDAO(Connection connection) {
 		super.connection = connection;
@@ -15,13 +15,12 @@ public class LogMonitorDAO extends GenericDAO<LogMonitor> {
 	@Override
 	public void add(LogMonitor t) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(LogMonitor t) throws SQLException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

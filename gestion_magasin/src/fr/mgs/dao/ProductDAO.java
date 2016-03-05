@@ -14,18 +14,19 @@ import fr.mgs.model.user.User;
  * Dao used to manage product entity
  * 
  * @author Ismaël
- *
+ * @author Ibrahima
  */
-public class ProductDAO extends GenericDAO<Product> {
+public class ProductDAO extends GenericDAO<Product, Integer> {
 
-	
 	public ProductDAO(Connection connection) {
 		super.connection = connection;
 	}
 
 	/**
 	 * store a product in database
-	 * @param the product to add
+	 * 
+	 * @param the
+	 *            product to add
 	 */
 	public void add(Product product) throws SQLException {
 		beginTransaction();
@@ -33,10 +34,12 @@ public class ProductDAO extends GenericDAO<Product> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
 	 * remove a product stored in database using his id
-	 * @param product's id
+	 * 
+	 * @param product's
+	 *            id
 	 */
 	public void remove(int productId) throws SQLException {
 		Product product = find(productId);
@@ -45,11 +48,13 @@ public class ProductDAO extends GenericDAO<Product> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
-	 * update a product's attributes
-	 * according to the fact the product is already stored in database
-	 * @param product's bean updated
+	 * update a product's attributes according to the fact the product is
+	 * already stored in database
+	 * 
+	 * @param product's
+	 *            bean updated
 	 */
 	public void update(Product product) throws SQLException {
 		beginTransaction();
@@ -57,18 +62,22 @@ public class ProductDAO extends GenericDAO<Product> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
 	 * Search if a product exists
-	 * @param product's id
+	 * 
+	 * @param product's
+	 *            id
 	 */
 	public boolean exists(int productId) throws SQLException {
 		return (find(productId) != null);
 	}
-	
+
 	/**
 	 * find a product using his id
-	 * @param product's id
+	 * 
+	 * @param product's
+	 *            id
 	 */
 	public Product find(int productId) throws SQLException {
 		loadEm();
@@ -78,28 +87,26 @@ public class ProductDAO extends GenericDAO<Product> {
 	}
 
 	/**
-	 * return all the stored products
-	 * ordered by their designation
+	 * return all the stored products ordered by their designation
 	 */
 	public Collection<Product> findAll() throws SQLException {
 		loadEm();
-		TypedQuery<Product> query = em.createQuery("FROM products p order by p.designation asc",
-				Product.class);
+		TypedQuery<Product> query = em.createQuery("FROM products p order by p.designation asc", Product.class);
 		List<Product> result = query.getResultList();
 		closeEm();
 		return result;
 	}
 
 	@Override
-	public boolean exists(String id) throws SQLException {
+	public boolean exists(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Product find(String id) throws SQLException {
+	public Product find(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }

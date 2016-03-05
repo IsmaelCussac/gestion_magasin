@@ -8,8 +8,7 @@ import fr.mgs.model.product.Lot;
 
 //Mariana ANDUJAR
 
-
-public class LotDAO extends GenericDAO<Lot> {
+public class LotDAO extends GenericDAO<Lot, String> {
 
 	public LotDAO(Connection connection) {
 		super.connection = connection;
@@ -18,13 +17,13 @@ public class LotDAO extends GenericDAO<Lot> {
 	@Override
 	public void add(Lot t) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(Lot t) throws SQLException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

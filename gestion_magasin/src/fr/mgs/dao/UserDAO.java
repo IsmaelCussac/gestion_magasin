@@ -15,7 +15,7 @@ import fr.mgs.model.user.User;
  * @author Ismaël
  *
  */
-public class UserDAO extends GenericDAO<User> {
+public class UserDAO extends GenericDAO<User,String> {
 
 	public UserDAO(Connection connection) {
 		super.connection = connection;
