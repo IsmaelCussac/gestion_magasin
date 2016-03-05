@@ -1,18 +1,20 @@
 package fr.mgs.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
+import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Privilege;
@@ -28,6 +30,11 @@ import fr.mgs.model.user.User;
 public class OrderDaoTest {
 	private static OrderManager orderManager;
 	private static UserManager userManager;
+	private static OrderDAO specificOrderDao;
+	private static Order order;
+	private static Order order2;
+	private static Team team;
+	private static User user;
 
 	@SuppressWarnings("unchecked")
 	@BeforeClass
@@ -38,6 +45,12 @@ public class OrderDaoTest {
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.H2);
 
+		specificOrderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
+
+		team = new Team();
+		order = new Order();
+		user = new User();
+		order2 = new Order();
 	}
 
 	@AfterClass
@@ -46,30 +59,25 @@ public class OrderDaoTest {
 		orderManager.getDaoManager().close();
 	}
 
-	/*
-	 * Ignored to avoid primary key constraint violation in database. Remove
-	 * Ignore annotation the first time you run this test
-	 */
-
 	@Test
 	public void testOrderCreateOrder() throws SQLException {
 		assertNotNull(userManager);
 		assertNotNull(orderManager);
 		assertNotNull(orderManager.getOrderDao());
 
-		Team team = new Team();
 		team.setTeam("20", "Approches physiques de la dynamique cellulaire et de la morphogénèse des tissus", 8,
 				Privilege.CUSTOMER);
 		userManager.addTeam(team);
 
-		User user = new User();
 		user.setUser("s14027279", "Marc", "Dupont", team, "0452050554", "marc.dupont@mail.fr", "pass");
 		userManager.addUser(user);
 
-		Order order = new Order();
 		order.setOrder(user, new Date(), new Date(), null, "", OrderStatus.NOT_VALIDATED);
 
+		order2.setOrder(user, new Date(), new Date(), null, "", OrderStatus.VALIDATED);
+
 		orderManager.addOrder(order);
+		orderManager.addOrder(order2);
 
 	}
 
@@ -80,12 +88,20 @@ public class OrderDaoTest {
 
 	@Test
 	public void testOrderFindAllOrders() throws SQLException {
-		assertEquals(1, orderManager.findAllOrders().size());
+		assertEquals(2, orderManager.findAllOrders().size());
 	}
 
 	@Test
 	public void testOrderByStatus() {
+		assertNotNull(specificOrderDao);
+		assertEquals(1, specificOrderDao.findOrderByStatus(OrderStatus.VALIDATED).size());
+	}
 
+	@Test
+	public void testOrderByUser() {
+		assertNotNull(specificOrderDao);
+		ArrayList<Order> ordersByUser = (ArrayList<Order>) specificOrderDao.findOrderByUser(user);
+		assertEquals(2,ordersByUser.size());
 	}
 
 }
