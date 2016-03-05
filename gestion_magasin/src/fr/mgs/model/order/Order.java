@@ -23,14 +23,9 @@ import javax.persistence.TemporalType;
 import fr.mgs.model.user.User;
 
 /**
-* This class describes an order entity in database. It contains : 
- * - an id
- * - an user id
- * - a submission date
- * - a delivery date
- * - a list of order lines
- * - a comment
- * - an order status
+ * This class describes an order entity in database. It contains : - an id - an
+ * user id - a submission date - a delivery date - a list of order lines - a
+ * comment - an order status
  * 
  * @author Ismaël
  *
@@ -38,7 +33,7 @@ import fr.mgs.model.user.User;
 @Entity(name = "orders")
 @Table(name = "order_t")
 public class Order implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "order_id")

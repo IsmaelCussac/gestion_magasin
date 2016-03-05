@@ -2,11 +2,13 @@ package fr.mgs.dao;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Query;
 
 import fr.mgs.connection.Connection;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.user.Team;
 
 public class OrderDAO extends GenericDAO<Order, Integer> {
 
@@ -36,14 +38,18 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		return (find(id) != null);
 	}
 
+	@Override
 	public Order find(Integer id) throws SQLException {
-		return em.find(Order.class, id);
+		loadEm();
+		Order orderToFind = em.find(Order.class, id);
+		return orderToFind;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Order> findAll() throws SQLException {
-		Query query = em.createQuery("SELECT o FROM Order o");
+		loadEm();
+		Query query = em.createQuery("SELECT o FROM orders o");
 		return (Collection<Order>) query.getResultList();
 	}
 
