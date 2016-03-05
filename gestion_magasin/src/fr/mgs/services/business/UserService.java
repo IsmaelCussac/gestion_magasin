@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import fr.mgs.business.UserManager;
+import fr.mgs.connection.DataSource;
 import fr.mgs.dao.UserDAO;
 import fr.mgs.model.user.User;
 
@@ -26,7 +27,7 @@ public class UserService implements UserDetailsService {
 
 	public UserService() throws SQLException {
 		userManager = new UserManager();
-		userManager.init();
+		userManager.init(DataSource.LOCAL);
 
 	}
 

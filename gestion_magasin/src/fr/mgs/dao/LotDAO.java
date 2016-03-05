@@ -44,4 +44,10 @@ public class LotDAO extends GenericDAO<Lot, String> {
 		return null;
 	}
 
+	@Override
+	public void remove(String id) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

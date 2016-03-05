@@ -16,7 +16,7 @@ import fr.mgs.model.user.User;
  * @author Ismaël
  * 
  */
-public class TeamDAO extends GenericDAO<Team, String> {
+public class TeamDAO extends GenericDAO<Team,String> {
 
 	public TeamDAO(Connection connection) {
 		super.connection = connection;

@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
@@ -33,9 +34,9 @@ public class ProductManager {
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
-	public void init() throws SQLException {
+	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
-		daoManager.init();
+		daoManager.init(ds);
 		lotDao = (GenericDAO<Lot, ?>) daoManager.getDAO(Table.LOT);
 		productDao = (GenericDAO<Product, ?>) daoManager.getDAO(Table.PRODUCT);
 		subCategoryDao = (GenericDAO<SubCategory, ?>) daoManager.getDAO(Table.SUB_CATEGORY);

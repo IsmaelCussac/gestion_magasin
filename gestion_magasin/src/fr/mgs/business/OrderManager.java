@@ -2,17 +2,15 @@ package fr.mgs.business;
 
 import java.sql.SQLException;
 import java.util.Collection;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
-import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
 
 /**
  * Business class that manage the following DAOs to access database and process
@@ -32,9 +30,9 @@ public class OrderManager {
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
-	public void init() throws SQLException {
+	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
-		daoManager.init();
+		daoManager.init(ds);
 		orderDao = (GenericDAO<Order, Integer>) daoManager.getDAO(Table.ORDER);
 		orderLineDao = (GenericDAO<OrderLine, ?>) daoManager.getDAO(Table.ORDER_LINE);
 	}

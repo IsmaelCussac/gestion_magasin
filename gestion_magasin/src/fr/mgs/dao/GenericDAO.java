@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.EntityManager;
 
 import fr.mgs.connection.Connection;
+import fr.mgs.model.user.User;
 
 /**
  * Abstract class used that contains the connection instance for all the DAOs
@@ -72,5 +73,7 @@ public abstract class GenericDAO<T, U> {
 	public abstract T find(U id) throws SQLException;
 
 	public abstract Collection<T> findAll() throws SQLException;
+
+	public abstract void remove(U id) throws SQLException;
 
 }

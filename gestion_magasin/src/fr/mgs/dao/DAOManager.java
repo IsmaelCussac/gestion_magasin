@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import javax.annotation.PostConstruct;
 
 import fr.mgs.connection.Connection;
+import fr.mgs.connection.DataSource;
 
 /**
  * DAO manager that implement the factory design pattern
@@ -23,9 +24,9 @@ public class DAOManager {
 	 * Method to init the Entity Manager Factory
 	 */
 	@PostConstruct
-	public void init() {
+	public void init(DataSource ds) {
 		connection = new Connection();
-		connection.initEmf();
+		connection.initEmf(ds);
 	}
 
 	public GenericDAO<?, ?> getDAO(Table table) throws SQLException {

@@ -72,4 +72,10 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		return null;
 	}
 
+	@Override
+	public void remove(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -41,4 +41,10 @@ public class LogMonitorDAO extends GenericDAO<LogMonitor,String> {
 		return null;
 	}
 
+	@Override
+	public void remove(String id) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
