@@ -12,6 +12,12 @@ import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Team;
 import fr.mgs.model.user.User;
 
+/**
+ * This class is used to manage order's dao
+ * 
+ * @author Ibrahima
+ *
+ */
 public class OrderDAO extends GenericDAO<Order, Integer> {
 
 	public OrderDAO(Connection connection) {
@@ -55,6 +61,7 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		return (Collection<Order>) query.getResultList();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Collection<Order> findOrderByStatus(OrderStatus status) {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.status = :os");
@@ -62,19 +69,20 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		return (Collection<Order>) query.getResultList();
 	}
 
-	public List<Order> findOrderByTeam(Team t) {
-
-		return null;
+	@SuppressWarnings("unchecked")
+	public Collection<Order> findOrderByUser(User u) {
+		loadEm();
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :ou");
+		query.setParameter("ou", u.getUserId());
+		return (Collection<Order>) query.getResultList();
 	}
 
-	public List<Order> findOrderByUser(User u) {
-
+	public Collection<Order> findOrderByTeam(Team t) {
 		return null;
 	}
 
 	@Override
 	public void remove(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
 
 	}
 
