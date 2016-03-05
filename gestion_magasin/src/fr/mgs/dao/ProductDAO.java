@@ -109,4 +109,10 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 		return null;
 	}
 
+	@Override
+	public void remove(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

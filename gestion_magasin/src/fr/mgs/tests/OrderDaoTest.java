@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.UserManager;
+import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Privilege;
@@ -32,10 +33,10 @@ public class OrderDaoTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
 		userManager = new UserManager();
-		userManager.init();
+		userManager.init(DataSource.H2);
 
 		orderManager = new OrderManager();
-		orderManager.init();
+		orderManager.init(DataSource.H2);
 
 	}
 
@@ -48,7 +49,7 @@ public class OrderDaoTest {
 	/* Ignored to avoid primary key constraint violation in database.
 	 * Remove Ignore annotation the first time you run this test
 	 */
-	@Ignore
+
 	@Test
 	public void testOrderCreateOrder() throws SQLException {
 		assertNotNull(userManager);
@@ -79,7 +80,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void testOrderFindAllOrders() throws SQLException {
-		assertEquals(4, orderManager.findAllOrders().size());
+		assertEquals(1, orderManager.findAllOrders().size());
 	}
 
 }

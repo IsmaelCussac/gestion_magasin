@@ -25,8 +25,8 @@ public class Connection {
 		this.emf = emf;
 	}
 
-	public void initEmf() {
-		setEmf(Persistence.createEntityManagerFactory("gestion_magasin"));
+	public void initEmf(DataSource ds) {
+		setEmf(Persistence.createEntityManagerFactory(ds.toString()));
 	}
 
 	public void initEmf(String base) {

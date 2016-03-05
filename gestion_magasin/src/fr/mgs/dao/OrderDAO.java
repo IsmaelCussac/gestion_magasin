@@ -53,4 +53,10 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		return (Collection<Order>) query.getResultList();
 	}
 
+	@Override
+	public void remove(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

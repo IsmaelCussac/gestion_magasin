@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 
+import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
@@ -28,9 +29,9 @@ public class LogMonitorManager {
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
-	public void init() throws SQLException {
+	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
-		daoManager.init();
+		daoManager.init(ds);
 		logMonitorDao = (GenericDAO<LogMonitor, ?>) daoManager.getDAO(Table.LOG_MONITOR);
 	}
 

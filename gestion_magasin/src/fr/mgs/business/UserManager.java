@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import javax.annotation.PostConstruct;
 
+import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
@@ -22,18 +23,18 @@ public class UserManager {
 
 	private DAOManager daoManager;
 	private GenericDAO<User, String> userDao;
-	private GenericDAO<Team, ?> teamDao;
+	private GenericDAO<Team, String> teamDao;
 
 	public UserManager() {
 	}
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
-	public void init() throws SQLException {
+	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
-		daoManager.init();
+		daoManager.init(ds);
 		userDao = (GenericDAO<User, String>) daoManager.getDAO(Table.USER);
-		teamDao = (GenericDAO<Team, ?>) daoManager.getDAO(Table.TEAM);
+		teamDao = (GenericDAO<Team, String>) daoManager.getDAO(Table.TEAM);
 	}
 
 	// GETTERS - SETTERS
@@ -54,11 +55,11 @@ public class UserManager {
 		this.userDao = userDao;
 	}
 
-	public GenericDAO<Team, ?> getTeamDao() {
+	public GenericDAO<Team, String> getTeamDao() {
 		return teamDao;
 	}
 
-	public void setTeamDao(GenericDAO<Team, ?> teamDao) {
+	public void setTeamDao(GenericDAO<Team, String> teamDao) {
 		this.teamDao = teamDao;
 	}
 
@@ -75,4 +76,17 @@ public class UserManager {
 	public User findUser(String id) throws SQLException {
 		return userDao.find(id);
 	}
+	
+	public Team findTeam(String id) throws SQLException {
+		return teamDao.find(id);
+	}
+	
+	public void removeUser(String id) throws SQLException{
+		userDao.remove(id);
+	}
+	
+	public void removeTeam(String id) throws SQLException{
+		teamDao.remove(id);
+	}
+	
 }
