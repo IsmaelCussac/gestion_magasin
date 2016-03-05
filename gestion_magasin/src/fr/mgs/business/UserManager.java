@@ -1,6 +1,7 @@
 package fr.mgs.business;
 
 import java.sql.SQLException;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
@@ -87,6 +88,30 @@ public class UserManager {
 	
 	public void removeTeam(String id) throws SQLException{
 		teamDao.remove(id);
+	}
+
+	public Collection<User> findAllUsers() throws SQLException {
+		return userDao.findAll();
+	}
+	
+	public Collection<Team> findAllTeams() throws SQLException {
+		return teamDao.findAll();
+	}
+
+	public boolean userExists(String id) throws SQLException {
+		return userDao.exists(id);
+	}
+	
+	public boolean teamExists(String id) throws SQLException {
+		return teamDao.exists(id);
+	}
+	
+	public void updateUser(User user) throws SQLException{
+		userDao.update(user);
+	}
+	
+	public void updateTeam(Team team) throws SQLException{
+		teamDao.update(team);
 	}
 	
 }
