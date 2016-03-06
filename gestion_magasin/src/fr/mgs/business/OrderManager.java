@@ -23,7 +23,7 @@ public class OrderManager {
 
 	private DAOManager daoManager;
 	private GenericDAO<Order, Integer> orderDao;
-	private GenericDAO<OrderLine, ?> orderLineDao;
+	private GenericDAO<OrderLine, Integer> orderLineDao;
 
 	public OrderManager() {
 	}
@@ -34,7 +34,7 @@ public class OrderManager {
 		daoManager = new DAOManager();
 		daoManager.init(ds);
 		orderDao = (GenericDAO<Order, Integer>) daoManager.getDAO(Table.ORDER);
-		orderLineDao = (GenericDAO<OrderLine, ?>) daoManager.getDAO(Table.ORDER_LINE);
+		orderLineDao = (GenericDAO<OrderLine, Integer>) daoManager.getDAO(Table.ORDER_LINE);
 	}
 
 	// GETTERS - SETTERS
@@ -55,11 +55,11 @@ public class OrderManager {
 		this.orderDao = orderDao;
 	}
 
-	public GenericDAO<OrderLine, ?> getOrderLineDao() {
+	public GenericDAO<OrderLine, Integer> getOrderLineDao() {
 		return orderLineDao;
 	}
 
-	public void setOrderLineDao(GenericDAO<OrderLine, ?> orderLineDao) {
+	public void setOrderLineDao(GenericDAO<OrderLine, Integer> orderLineDao) {
 		this.orderLineDao = orderLineDao;
 	}
 
@@ -69,12 +69,47 @@ public class OrderManager {
 		orderDao.add(order);
 	}
 
-	public Order findOrder(int id) throws SQLException {
+	public void addOrderLine(OrderLine orderLine) throws SQLException {
+		orderLineDao.add(orderLine);
+	}
+
+	public Order findOrder(Integer id) throws SQLException {
 		return orderDao.find(id);
+	}
+	
+	public OrderLine findOrderLine(Integer id) throws SQLException {
+		return orderLineDao.find(id);
+	}
+	
+	public void removeOrder(Integer id) throws SQLException{
+		orderDao.remove(id);
+	}
+	
+	public void removeOrderLine(Integer id) throws SQLException{
+		orderLineDao.remove(id);
 	}
 
 	public Collection<Order> findAllOrders() throws SQLException {
 		return orderDao.findAll();
 	}
+	
+	public Collection<OrderLine> findAllOrderLines() throws SQLException {
+		return orderLineDao.findAll();
+	}
 
+	public boolean orderExists(Integer id) throws SQLException {
+		return orderDao.exists(id);
+	}
+	
+	public boolean orderLineExists(Integer id) throws SQLException {
+		return orderLineDao.exists(id);
+	}
+	
+	public void updateOrder(Order order) throws SQLException{
+		orderDao.update(order);
+	}
+	
+	public void updateOrderLine(OrderLine orderLine) throws SQLException{
+		orderLineDao.update(orderLine);
+	}
 }

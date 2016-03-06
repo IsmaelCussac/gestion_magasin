@@ -1,6 +1,7 @@
 package fr.mgs.business;
 
 import java.sql.SQLException;
+import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
@@ -22,7 +23,7 @@ import fr.mgs.model.monitor.LogMonitor;
 public class LogMonitorManager {
 
 	private DAOManager daoManager;
-	private GenericDAO<LogMonitor, ?> logMonitorDao;
+	private GenericDAO<LogMonitor, Integer> logMonitorDao;
 
 	public LogMonitorManager() {
 	}
@@ -32,7 +33,7 @@ public class LogMonitorManager {
 	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
 		daoManager.init(ds);
-		logMonitorDao = (GenericDAO<LogMonitor, ?>) daoManager.getDAO(Table.LOG_MONITOR);
+		logMonitorDao = (GenericDAO<LogMonitor, Integer>) daoManager.getDAO(Table.LOG_MONITOR);
 	}
 
 	// GETTERS - SETTERS
@@ -45,14 +46,38 @@ public class LogMonitorManager {
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<LogMonitor, ?> getLogMonitorDao() {
+	public GenericDAO<LogMonitor, Integer> getLogMonitorDao() {
 		return logMonitorDao;
 	}
 
-	public void setLogMonitorDao(GenericDAO<LogMonitor, ?> logMonitorDao) {
+	public void setLogMonitorDao(GenericDAO<LogMonitor, Integer> logMonitorDao) {
 		this.logMonitorDao = logMonitorDao;
 	}
 
 	// METHODS
+	
+	public void addLogMonitor(LogMonitor logMonitor) throws SQLException {
+		logMonitorDao.add(logMonitor);
+	}
 
+	public LogMonitor findLogMonitor(Integer id) throws SQLException {
+		return logMonitorDao.find(id);
+	}
+	
+	public void removeLogMonitor(Integer id) throws SQLException{
+		logMonitorDao.remove(id);
+	}
+	
+	public Collection<LogMonitor> findAllLogMonitors() throws SQLException {
+		return logMonitorDao.findAll();
+	}
+	
+	public boolean logMonitorExists(Integer id) throws SQLException {
+		return logMonitorDao.exists(id);
+	}
+	
+	public void updateLogMonitor(LogMonitor logMonitor) throws SQLException{
+		logMonitorDao.update(logMonitor);
+	}
+	
 }

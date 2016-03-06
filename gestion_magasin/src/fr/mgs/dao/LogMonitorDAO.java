@@ -6,7 +6,7 @@ import java.util.Collection;
 import fr.mgs.connection.Connection;
 import fr.mgs.model.monitor.LogMonitor;
 
-public class LogMonitorDAO extends GenericDAO<LogMonitor,String> {
+public class LogMonitorDAO extends GenericDAO<LogMonitor, Integer> {
 
 	public LogMonitorDAO(Connection connection) {
 		super.connection = connection;
@@ -24,13 +24,13 @@ public class LogMonitorDAO extends GenericDAO<LogMonitor,String> {
 	}
 
 	@Override
-	public boolean exists(String id) throws SQLException {
+	public boolean exists(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public LogMonitor find(String id) throws SQLException {
+	public LogMonitor find(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -42,7 +42,7 @@ public class LogMonitorDAO extends GenericDAO<LogMonitor,String> {
 	}
 
 	@Override
-	public void remove(String id) throws SQLException {
+	public void remove(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
 		
 	}
