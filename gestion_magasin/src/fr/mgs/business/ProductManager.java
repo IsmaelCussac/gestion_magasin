@@ -11,9 +11,12 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
+import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
+import fr.mgs.model.user.Team;
+import fr.mgs.model.user.User;
 
 /**
  * Business class that manage the following DAOs to access database and process
@@ -25,9 +28,9 @@ import fr.mgs.model.product.SubCategory;
 public class ProductManager {
 
 	private DAOManager daoManager;
-	private GenericDAO<Lot, ?> lotDao;
-	private GenericDAO<Product, ?> productDao;
-	private GenericDAO<SubCategory, ?> subCategoryDao;
+	private GenericDAO<Lot, Integer> lotDao;
+	private GenericDAO<Product, Integer> productDao;
+	private GenericDAO<SubCategory, String> subCategoryDao;
 
 	public ProductManager() {
 	}
@@ -37,9 +40,9 @@ public class ProductManager {
 	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
 		daoManager.init(ds);
-		lotDao = (GenericDAO<Lot, ?>) daoManager.getDAO(Table.LOT);
-		productDao = (GenericDAO<Product, ?>) daoManager.getDAO(Table.PRODUCT);
-		subCategoryDao = (GenericDAO<SubCategory, ?>) daoManager.getDAO(Table.SUB_CATEGORY);
+		lotDao = (GenericDAO<Lot, Integer>) daoManager.getDAO(Table.LOT);
+		productDao = (GenericDAO<Product, Integer>) daoManager.getDAO(Table.PRODUCT);
+		subCategoryDao = (GenericDAO<SubCategory, String>) daoManager.getDAO(Table.SUB_CATEGORY);
 
 	}
 
@@ -53,134 +56,118 @@ public class ProductManager {
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<Lot, ?> getLotDao() {
+	public GenericDAO<Lot, Integer> getLotDao() {
 		return lotDao;
 	}
 
-	public void setLotDao(GenericDAO<Lot, ?> lotDao) {
+	public void setLotDao(GenericDAO<Lot, Integer> lotDao) {
 		this.lotDao = lotDao;
 	}
 
-	public GenericDAO<Product, ?> getProductDao() {
+	public GenericDAO<Product, Integer> getProductDao() {
 		return productDao;
 	}
 
-	public void setProductDao(GenericDAO<Product, ?> productDao) {
+	public void setProductDao(GenericDAO<Product, Integer> productDao) {
 		this.productDao = productDao;
 	}
 
-	public GenericDAO<SubCategory, ?> getSubCategoryDao() {
+	public GenericDAO<SubCategory, String> getSubCategoryDao() {
 		return subCategoryDao;
 	}
 
-	public void setSubCategoryDao(GenericDAO<SubCategory, ?> subCategoryDao) {
+	public void setSubCategoryDao(GenericDAO<SubCategory, String> subCategoryDao) {
 		this.subCategoryDao = subCategoryDao;
 	}
 
 	// METHODS
 
-	/***
-	 * This method returns the group of the person "person".
-	 * 
-	 * @param person
-	 * @return the person's group.
-	 */
+	public void addLot(Lot lot) throws SQLException {
+		lotDao.add(lot);
+	}
 
-	public Collection<Product> findAll() {
-		try {
-			// return daoP.findAll();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void addProduct(Product product) throws SQLException {
+		productDao.add(product);
+	}
+	
+	public void addSubCategory(SubCategory subCategory) throws SQLException {
+		subCategoryDao.add(subCategory);
+	}
+
+	public Lot findLot(int id) throws SQLException {
+		return lotDao.find(id);
+	}
+	
+	public Product findProduct(int id) throws SQLException {
+		return productDao.find(id);
+	}
+	
+	public SubCategory findSubCategory(String id) throws SQLException {
+		return subCategoryDao.find(id);
+	}
+	
+	public void removeLot(int id) throws SQLException{
+		lotDao.remove(id);
+	}
+	
+	public void removeProduct(int id) throws SQLException{
+		productDao.remove(id);
+	}
+	
+	public void removeSubCategory(String id) throws SQLException{
+		subCategoryDao.remove(id);
+	}
+
+	public Collection<Lot> findAllLots() throws SQLException {
+		return lotDao.findAll();
+	}
+	
+	public Collection<Product> findAllProducts() throws SQLException {
+		return productDao.findAll();
+	}
+	
+	public Collection<SubCategory> findAllSubCategories() throws SQLException {
+		return subCategoryDao.findAll();
+	}
+
+	public boolean lotExists(int id) throws SQLException {
+		return lotDao.exists(id);
+	}
+	
+	public boolean productExists(int id) throws SQLException {
+		return productDao.exists(id);
+	}
+	
+	public boolean subCategoryExists(String id) throws SQLException {
+		return subCategoryDao.exists(id);
+	}
+	
+	public void updateLot(Lot lot) throws SQLException{
+		lotDao.update(lot);
+	}
+	
+	public void updateProduct(Product product) throws SQLException{
+		productDao.update(product);
+	}
+	
+	public void updateSubCategory(SubCategory subCategory) throws SQLException{
+		subCategoryDao.update(subCategory);
+	}
+	
+	public Collection<SubCategory> findSubCategoriesByCategory(Category category){
 		return null;
+		
+	}
+	
+	public Collection<Product> findProductsBySubCategory(String subCategory){
+		return null;
+		
 	}
 
-	public void createProduct(Product p) {
-		try {
-			// daoP.add(p);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public int findItemQuantity(Product product) {
+		
+		return 0;
 	}
-
-	/***
-	 * This method updates the person "p".
-	 * 
-	 * @param r
-	 */
-	public void updateProduct(Product p) {
-		try {
-			// daoP.update(p);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/***
-	 * This method updates the person "p".
-	 * 
-	 * @param r
-	 */
-	public void removeProduct(Product p) {
-		try {
-			// daoP.remove(p);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/***
-	 * This method updates the person "p".
-	 * 
-	 * @param r
-	 */
-	public void findProduct(Product p) {
-		try {
-			// daoP.find(p);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/***
-	 * This method updates the person "p".
-	 * 
-	 * @param r
-	 */
-	public void createLot(Lot l) {
-		try {
-			// daoP.saveLot(l);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void updateLot(Lot l) {
-		try {
-			// daoP.updateLot(l);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void removeLot(Lot lot) {
-		try {
-			// daoP.removeLot(l);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public int findItemQuantity(Product p) {
-		List<Lot> lots = new ArrayList<Lot>();
-		int itemQuantity = 0;
-		try {
-			// itemQuantity= daoP.findQuantity(p);
-		} catch (Exception e) {
-
-			e.printStackTrace();
-		}
-		return 20;
-		// return itemQuantity;
-	}
+	
+	
 }

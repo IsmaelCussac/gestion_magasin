@@ -8,7 +8,6 @@ import javax.persistence.TypedQuery;
 
 import fr.mgs.connection.Connection;
 import fr.mgs.model.product.Product;
-import fr.mgs.model.user.User;
 
 /**
  * Dao used to manage product entity
@@ -41,7 +40,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	 * @param product's
 	 *            id
 	 */
-	public void remove(int productId) throws SQLException {
+	public void remove(Integer productId) throws SQLException {
 		Product product = find(productId);
 		beginTransaction();
 		em.remove(em.merge(product));
@@ -69,7 +68,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	 * @param product's
 	 *            id
 	 */
-	public boolean exists(int productId) throws SQLException {
+	public boolean exists(Integer productId) throws SQLException {
 		return (find(productId) != null);
 	}
 
@@ -79,7 +78,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	 * @param product's
 	 *            id
 	 */
-	public Product find(int productId) throws SQLException {
+	public Product find(Integer productId) throws SQLException {
 		loadEm();
 		Product product = em.find(Product.class, productId);
 		closeEm();
@@ -96,23 +95,4 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 		closeEm();
 		return result;
 	}
-
-	@Override
-	public boolean exists(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Product find(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void remove(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

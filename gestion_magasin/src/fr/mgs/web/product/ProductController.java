@@ -23,7 +23,7 @@ import fr.mgs.model.product.SubCategory;
 public class ProductController {
 
 	// protected final Log logger = LogFactory.getLog(getClass());
-	 private ProductManager ManagerP = new ProductManager();
+	 private ProductManager productManager = new ProductManager();
 	// private CategoryManager iManagerC = new CategoryManager();
 
 	private List<SubCategory> listSub;
@@ -78,7 +78,7 @@ public class ProductController {
 	
 	public int getQuantity(Product p){
 		//ManagerP.getItemQuantity(p);
-		quantity = ManagerP.findItemQuantity(p);
+		quantity = productManager.findItemQuantity(p);
 		return quantity;
 	}
 
