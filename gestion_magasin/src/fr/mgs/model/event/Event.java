@@ -1,4 +1,4 @@
-package fr.mgs.model.monitor;
+package fr.mgs.model.event;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 import fr.mgs.model.product.Product;
 
 /**
-* This class describes a log monitor entity in database. It contains : 
+* This class describes a event monitor entity in database. It contains : 
  * - an id
  * - a store keeper id
  * - a product
@@ -28,20 +28,20 @@ import fr.mgs.model.product.Product;
  * @author Ismaël
  *
  */
-@Entity(name = "logMonitors")
-@Table(name = "log_monitor_t")
-public class LogMonitor implements Serializable {
+@Entity(name = "events")
+@Table(name = "event_t")
+public class Event implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "log_monitor_id")
-	private int logMonitorId;
+	@Column(name = "event_id")
+	private int eventId;
 
 	@Column(name = "store_keeper_id", length = 10, nullable = false)
 	private String storeKeeper;
 
-	@Column(name = "product_name", length = 100, nullable = false)
-	private String product;
+	@Column(name = "product_id", nullable = false)
+	private int product;
 
 	@Column(name = "action", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -54,15 +54,15 @@ public class LogMonitor implements Serializable {
 	@Column(name = "resume", length = 250, nullable = true)
 	private String resume;
 
-	public LogMonitor() {
+	public Event() {
 	}
 
 	public int getLogMonitorId() {
-		return logMonitorId;
+		return eventId;
 	}
 
-	public void setLogMonitorId(int logMonitorId) {
-		this.logMonitorId = logMonitorId;
+	public void setLogMonitorId(int eventId) {
+		this.eventId = eventId;
 	}
 
 	public String getStoreKeeper() {
@@ -115,7 +115,7 @@ public class LogMonitor implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Historical [logMonitorId=" + logMonitorId + ", storeKeeper=" + storeKeeper + ", product=" + product
+		return "Historical [eventId=" + eventId + ", storeKeeper=" + storeKeeper + ", product=" + product
 				+ ", action=" + action + ", date=" + date + ", resume=" + resume + "]";
 	}
 

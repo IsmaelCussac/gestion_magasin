@@ -1,4 +1,4 @@
-package fr.mgs.model.monitor;
+package fr.mgs.model.event;
 
 /**
  * Contains the different actions a store keeper can do. 

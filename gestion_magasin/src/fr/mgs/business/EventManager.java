@@ -9,7 +9,7 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
-import fr.mgs.model.monitor.LogMonitor;
+import fr.mgs.model.event.Event;
 
 /**
  * Business class that manage the following DAO to access database and process
@@ -20,12 +20,12 @@ import fr.mgs.model.monitor.LogMonitor;
  * 
  *
  */
-public class LogMonitorManager {
+public class EventManager {
 
 	private DAOManager daoManager;
-	private GenericDAO<LogMonitor, Integer> logMonitorDao;
+	private GenericDAO<Event, Integer> logMonitorDao;
 
-	public LogMonitorManager() {
+	public EventManager() {
 	}
 
 	@SuppressWarnings("unchecked")
@@ -33,7 +33,7 @@ public class LogMonitorManager {
 	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
 		daoManager.init(ds);
-		logMonitorDao = (GenericDAO<LogMonitor, Integer>) daoManager.getDAO(Table.LOG_MONITOR);
+		logMonitorDao = (GenericDAO<Event, Integer>) daoManager.getDAO(Table.EVENT);
 	}
 
 	// GETTERS - SETTERS
@@ -46,21 +46,21 @@ public class LogMonitorManager {
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<LogMonitor, Integer> getLogMonitorDao() {
+	public GenericDAO<Event, Integer> getLogMonitorDao() {
 		return logMonitorDao;
 	}
 
-	public void setLogMonitorDao(GenericDAO<LogMonitor, Integer> logMonitorDao) {
+	public void setLogMonitorDao(GenericDAO<Event, Integer> logMonitorDao) {
 		this.logMonitorDao = logMonitorDao;
 	}
 
 	// METHODS
 	
-	public void addLogMonitor(LogMonitor logMonitor) throws SQLException {
+	public void addLogMonitor(Event logMonitor) throws SQLException {
 		logMonitorDao.add(logMonitor);
 	}
 
-	public LogMonitor findLogMonitor(Integer id) throws SQLException {
+	public Event findLogMonitor(Integer id) throws SQLException {
 		return logMonitorDao.find(id);
 	}
 	
@@ -68,7 +68,7 @@ public class LogMonitorManager {
 		logMonitorDao.remove(id);
 	}
 	
-	public Collection<LogMonitor> findAllLogMonitors() throws SQLException {
+	public Collection<Event> findAllLogMonitors() throws SQLException {
 		return logMonitorDao.findAll();
 	}
 	
@@ -76,7 +76,7 @@ public class LogMonitorManager {
 		return logMonitorDao.exists(id);
 	}
 	
-	public void updateLogMonitor(LogMonitor logMonitor) throws SQLException{
+	public void updateLogMonitor(Event logMonitor) throws SQLException{
 		logMonitorDao.update(logMonitor);
 	}
 	

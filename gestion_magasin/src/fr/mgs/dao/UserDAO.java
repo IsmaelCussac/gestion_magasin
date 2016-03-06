@@ -4,9 +4,12 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import fr.mgs.connection.Connection;
+import fr.mgs.model.event.Action;
+import fr.mgs.model.user.Team;
 import fr.mgs.model.user.User;
 
 /**
@@ -22,7 +25,6 @@ public class UserDAO extends GenericDAO<User,String> {
 	}
 
 	public UserDAO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -99,6 +101,18 @@ public class UserDAO extends GenericDAO<User,String> {
 		List<User> result = query.getResultList();
 		closeEm();
 		return result;
+	}
+	
+	/**
+	 * return the given team's users
+	 * 
+	 * @param the team
+	 */
+	public List<User> findUserByTeam(Team t) {
+		loadEm();
+		Query query = em.createQuery("SELECT u FROM users u WHERE u.team = :ot");
+		query.setParameter("ot", t);
+		return (List<User>) query.getResultList();
 	}
 
 }

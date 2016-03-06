@@ -4,10 +4,14 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import fr.mgs.connection.Connection;
+import fr.mgs.model.order.Order;
 import fr.mgs.model.product.Product;
+import fr.mgs.model.product.SubCategory;
+import fr.mgs.model.user.Team;
 
 /**
  * Dao used to manage product entity
@@ -94,5 +98,18 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 		List<Product> result = query.getResultList();
 		closeEm();
 		return result;
+	}
+	
+	/**
+	 * return the given subCategory's products
+	 * 
+	 * @param the
+	 *            subCategory
+	 */
+	public List<Product> findProductsBySubCategory(SubCategory subCategory) {
+		loadEm();
+		Query query = em.createQuery("SELECT p FROM products p WHERE p.subCategory = :sc");
+		query.setParameter("sc", subCategory);
+		return (List<Product>) query.getResultList();
 	}
 }
