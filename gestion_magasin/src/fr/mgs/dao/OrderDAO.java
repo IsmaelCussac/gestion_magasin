@@ -24,6 +24,12 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		super.connection = connection;
 	}
 
+	/**
+	 * create new order
+	 * 
+	 * @param the
+	 *            order to create
+	 */
 	@Override
 	public void add(Order o) throws SQLException {
 		beginTransaction();
@@ -33,6 +39,12 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 
 	}
 
+	/**
+	 * update the given order's properties
+	 * 
+	 * @param the
+	 *            order to update
+	 */
 	@Override
 	public void update(Order o) throws SQLException {
 		beginTransaction();
@@ -41,11 +53,23 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		closeEm();
 	}
 
+	/**
+	 * checking if an order exists
+	 * 
+	 * @param the
+	 *            order's id
+	 */
 	@Override
 	public boolean exists(Integer id) throws SQLException {
 		return (find(id) != null);
 	}
 
+	/**
+	 * return an order by given it's id
+	 * 
+	 * @param the
+	 *            order's id
+	 */
 	@Override
 	public Order find(Integer id) throws SQLException {
 		loadEm();
@@ -53,37 +77,73 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		return orderToFind;
 	}
 
+	/**
+	 * return all orders
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Order> findAll() throws SQLException {
+	public List<Order> findAll() throws SQLException {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o");
-		return (Collection<Order>) query.getResultList();
+		return (List<Order>) query.getResultList();
 	}
 
+	/**
+	 * return all orders with the status "status"
+	 * 
+	 * @param the
+	 *            order's status
+	 */
 	@SuppressWarnings("unchecked")
-	public Collection<Order> findOrderByStatus(OrderStatus status) {
+	public List<Order> findOrderByStatus(OrderStatus status) {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.status = :os");
 		query.setParameter("os", status);
-		return (Collection<Order>) query.getResultList();
+		return (List<Order>) query.getResultList();
 	}
 
+	/**
+	 * return the given user's orders
+	 * 
+	 * @param the
+	 *            user
+	 */
+
 	@SuppressWarnings("unchecked")
-	public Collection<Order> findOrderByUser(User u) {
+	public List<Order> findOrderByUser(User u) {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :ou");
 		query.setParameter("ou", u.getUserId());
-		return (Collection<Order>) query.getResultList();
+		return (List<Order>) query.getResultList();
 	}
 
-	public Collection<Order> findOrderByTeam(Team t) {
-		return null;
+	/**
+	 * return the given team's orders
+	 * 
+	 * @param the
+	 *            team
+	 */
+	public List<Order> findOrderByTeam(Team t) {
+		loadEm();
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.team = :ot");
+		query.setParameter("ot", t);
+		return (List<Order>) query.getResultList();
 	}
 
+	/**
+	 * remove the given order id
+	 * 
+	 * @param the
+	 *            order's id
+	 * 
+	 */
 	@Override
 	public void remove(Integer id) throws SQLException {
-
+		Order order = find(id);
+		beginTransaction();
+		em.remove(em.merge(order));
+		commit();
+		closeEm();
 	}
 
 }
