@@ -4,21 +4,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 
 import org.primefaces.event.TabChangeEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
-import fr.mgs.dao.Table;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
@@ -33,7 +26,6 @@ import fr.mgs.model.product.SubCategory;
 @ManagedBean(name="products")
 @ApplicationScoped
 public class ProductCustomerController {
-
 
 	private ProductManager productManager;
 

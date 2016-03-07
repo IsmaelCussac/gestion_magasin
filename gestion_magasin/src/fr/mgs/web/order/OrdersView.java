@@ -1,10 +1,7 @@
 package fr.mgs.web.order;
 
-import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -13,7 +10,6 @@ import javax.faces.bean.ViewScoped;
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
-import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.user.Team;
 
@@ -23,11 +19,9 @@ import fr.mgs.model.user.Team;
  * @author Ibrahima
  *
  */
-
-@SuppressWarnings("serial")
-@ManagedBean(name = "ordersView")
+@ManagedBean(name="ordersView")
 @ViewScoped
-public class OrdersView implements Serializable {
+public class OrdersView {
 
 	private List<Order> orders;
 	private List<Team> teams;
