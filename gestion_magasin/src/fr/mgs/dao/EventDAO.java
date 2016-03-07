@@ -33,8 +33,7 @@ public class EventDAO extends GenericDAO<Event, Integer> {
 	/**
 	 * store a event in database
 	 * 
-	 * @param the
-	 *            event to add
+	 * @param the event to add
 	 */
 	public void add(Event event) throws SQLException {
 		beginTransaction();

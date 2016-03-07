@@ -73,11 +73,11 @@ public class Event implements Serializable {
 		this.storeKeeper = storeKeeper;
 	}
 
-	public String getProduct() {
+	public int getProduct() {
 		return product;
 	}
 
-	public void setProduct(String product) {
+	public void setProduct(int product) {
 		this.product = product;
 	}
 
@@ -107,7 +107,7 @@ public class Event implements Serializable {
 
 	public void setHistorical(String storeKeeper, Product product, Action action, Date date, String resume) {
 		setStoreKeeper(storeKeeper);
-		setProduct(product.getDesignation());
+		setProduct(product.getProductId());
 		setAction(action);
 		setDate(date);
 		setResume(resume);

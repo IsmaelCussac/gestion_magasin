@@ -28,8 +28,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	/**
 	 * store a product in database
 	 * 
-	 * @param the
-	 *            product to add
+	 * @param the product to add
 	 */
 	public void add(Product product) throws SQLException {
 		beginTransaction();
@@ -41,8 +40,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	/**
 	 * remove a product stored in database using his id
 	 * 
-	 * @param product's
-	 *            id
+	 * @param product's id
 	 */
 	public void remove(Integer productId) throws SQLException {
 		Product product = find(productId);
@@ -56,8 +54,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	 * update a product's attributes according to the fact the product is
 	 * already stored in database
 	 * 
-	 * @param product's
-	 *            bean updated
+	 * @param product's bean updated
 	 */
 	public void update(Product product) throws SQLException {
 		beginTransaction();
@@ -69,8 +66,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	/**
 	 * Search if a product exists
 	 * 
-	 * @param product's
-	 *            id
+	 * @param product's id
 	 */
 	public boolean exists(Integer productId) throws SQLException {
 		return (find(productId) != null);
@@ -79,8 +75,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	/**
 	 * find a product using his id
 	 * 
-	 * @param product's
-	 *            id
+	 * @param product's id
 	 */
 	public Product find(Integer productId) throws SQLException {
 		loadEm();
@@ -103,8 +98,7 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	/**
 	 * return the given subCategory's products
 	 * 
-	 * @param the
-	 *            subCategory
+	 * @param the subCategory
 	 */
 	public List<Product> findProductsBySubCategory(SubCategory subCategory) {
 		loadEm();

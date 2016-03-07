@@ -41,7 +41,7 @@ public class Product implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")
-	private int id;
+	private int productId;
 
 	@Column(name = "designation", length = 100, nullable = false)
 	private String designation;
@@ -81,12 +81,12 @@ public class Product implements Serializable {
 	public Product() {
 	}
 
-	public int getId() {
-		return id;
+	public int getProductId() {
+		return productId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
 	public String getDesignation() {
@@ -183,7 +183,7 @@ public class Product implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", designation=" + designation + ", subCategory=" + subCategory + ", warningPeriod="
+		return "Product [productId=" + productId + ", designation=" + designation + ", subCategory=" + subCategory + ", warningPeriod="
 				+ warningPeriod + ", minQuantity=" + minQuantity + ", price=" + price + ", visibility=" + visibility
 				+ ", picture=" + picture + ", conditioning=" + conditioning + "]";
 	}

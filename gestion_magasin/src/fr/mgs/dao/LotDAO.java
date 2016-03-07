@@ -28,8 +28,7 @@ public class LotDAO extends GenericDAO<Lot, String> {
 	/**
 	 * Add a new lot
 	 * 
-	 * @param lot
-	 *            the new lot
+	 * @param lot the new lot
 	 */
 	@Override
 	public void add(Lot t) throws SQLException {
@@ -42,8 +41,7 @@ public class LotDAO extends GenericDAO<Lot, String> {
 	/**
 	 * update a lot's properties
 	 * 
-	 * @param lot
-	 *            the lot update
+	 * @param lot the lot update
 	 */
 	@Override
 	public void update(Lot t) throws SQLException {
@@ -56,8 +54,7 @@ public class LotDAO extends GenericDAO<Lot, String> {
 	/**
 	 * Verify if the lot exist
 	 * 
-	 * @param id
-	 *            lot id
+	 * @param id lot id
 	 */
 	@Override
 	public boolean exists(String id) throws SQLException {
@@ -67,8 +64,7 @@ public class LotDAO extends GenericDAO<Lot, String> {
 	/**
 	 * Find one lot
 	 * 
-	 * @param id
-	 *            the lot id to find
+	 * @param id the lot id to find
 	 */
 	@Override
 	public Lot find(String id) throws SQLException {
@@ -93,8 +89,7 @@ public class LotDAO extends GenericDAO<Lot, String> {
 	/**
 	 * Delete a lot
 	 * 
-	 * @param id
-	 *            lot id
+	 * @param id lot id
 	 */
 	@Override
 	public void remove(String id) throws SQLException {

@@ -25,8 +25,7 @@ public class TeamDAO extends GenericDAO<Team,String> {
 	/**
 	 * store a team in database
 	 * 
-	 * @param the
-	 *            user to add
+	 * @param the user to add
 	 */
 	public void add(Team team) throws SQLException {
 		beginTransaction();
@@ -38,8 +37,7 @@ public class TeamDAO extends GenericDAO<Team,String> {
 	/**
 	 * remove a team stored in database using his id
 	 * 
-	 * @param user's
-	 *            id
+	 * @param user's id
 	 */
 	public void remove(String teamId) throws SQLException {
 		Team team = find(teamId);
@@ -53,8 +51,7 @@ public class TeamDAO extends GenericDAO<Team,String> {
 	 * update a team's attributes according to the fact the team is already
 	 * stored in database
 	 * 
-	 * @param team's
-	 *            bean updated
+	 * @param team's bean updated
 	 */
 	public void update(Team team) throws SQLException {
 		beginTransaction();
@@ -66,8 +63,7 @@ public class TeamDAO extends GenericDAO<Team,String> {
 	/**
 	 * Search if a team exists
 	 * 
-	 * @param team's
-	 *            id
+	 * @param team's id
 	 */
 	public boolean exists(String teamId) throws SQLException {
 		return (find(teamId) != null);
@@ -76,8 +72,7 @@ public class TeamDAO extends GenericDAO<Team,String> {
 	/**
 	 * find a user using his id
 	 * 
-	 * @param user's
-	 *            id
+	 * @param user's id
 	 */
 	public Team find(String teamId) throws SQLException {
 		loadEm();

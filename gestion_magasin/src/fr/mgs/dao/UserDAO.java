@@ -30,8 +30,7 @@ public class UserDAO extends GenericDAO<User,String> {
 	/**
 	 * store a user in database
 	 * 
-	 * @param the
-	 *            user to add
+	 * @param the user to add
 	 */
 	public void add(User user) throws SQLException {
 		beginTransaction();
@@ -43,8 +42,7 @@ public class UserDAO extends GenericDAO<User,String> {
 	/**
 	 * remove a user stored in database using his id
 	 * 
-	 * @param user's
-	 *            id
+	 * @param user's id
 	 */
 	public void remove(String userId) throws SQLException {
 		User user = find(userId);
@@ -58,8 +56,7 @@ public class UserDAO extends GenericDAO<User,String> {
 	 * update a user's attributes according to the fact the user is already
 	 * stored in database
 	 * 
-	 * @param user's
-	 *            bean updated
+	 * @param user's bean updated
 	 */
 	public void update(User user) throws SQLException {
 		beginTransaction();
@@ -71,8 +68,7 @@ public class UserDAO extends GenericDAO<User,String> {
 	/**
 	 * Search if a user exists
 	 * 
-	 * @param user's
-	 *            id
+	 * @param user's id
 	 */
 	public boolean exists(String userId) throws SQLException {
 		return (find(userId) != null);
@@ -81,8 +77,7 @@ public class UserDAO extends GenericDAO<User,String> {
 	/**
 	 * find a user using his id
 	 * 
-	 * @param user's
-	 *            id
+	 * @param user's id
 	 */
 	public User find(String userId) throws SQLException {
 		loadEm();
@@ -108,10 +103,10 @@ public class UserDAO extends GenericDAO<User,String> {
 	 * 
 	 * @param the team
 	 */
-	public List<User> findUserByTeam(Team t) {
+	public List<User> findUserByTeam(Team team) {
 		loadEm();
 		Query query = em.createQuery("SELECT u FROM users u WHERE u.team = :ot");
-		query.setParameter("ot", t);
+		query.setParameter("ot", team);
 		return (List<User>) query.getResultList();
 	}
 
