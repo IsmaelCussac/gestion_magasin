@@ -31,7 +31,7 @@ import fr.mgs.model.product.SubCategory;
 public class ProductCustomerController {
 
 	private Collection<SubCategory> sub;
-	private List<Product> products;
+	private Collection<Product> products;
 	
 
 	private ProductManager productManager;
@@ -41,36 +41,37 @@ public class ProductCustomerController {
 		productManager.init(DataSource.LOCAL);
 	}
 	
-	public List<Product> getProducts() {
+	public Collection<Product> getProducts(SubCategory sub) {
 		
-		sub = new ArrayList<SubCategory>();
-
-		SubCategory sub1 = new SubCategory();
-		sub1.setSubCategory("category1", Category.CULTURE_PLASTIC);
-		sub.add(sub1);
-
-		SubCategory sub2 = new SubCategory();
-		sub2.setSubCategory("category2", Category.CULTURE_PLASTIC);
-		sub.add(sub2);
-
-		products = new ArrayList<Product>();
-
-		Product prod1 = new Product();
-		prod1.setProductId(1);
-		prod1.setProduct("designation1", sub1, 4, 3, 5, true, "picture", 4);
-		products.add(prod1);
-
-		Product prod2 = new Product();
-		prod2.setProductId(2);
-		prod2.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
-		products.add(prod2);
-		
+//		sub = new ArrayList<SubCategory>();
+//
+//		SubCategory sub1 = new SubCategory();
+//		sub1.setSubCategory("category1", Category.CULTURE_PLASTIC);
+//		sub.add(sub1);
+//
+//		SubCategory sub2 = new SubCategory();
+//		sub2.setSubCategory("category2", Category.CULTURE_PLASTIC);
+//		sub.add(sub2);
+//
+//		products = new ArrayList<Product>();
+//
+//		Product prod1 = new Product();
+//		prod1.setProductId(1);
+//		prod1.setProduct("designation1", sub1, 4, 3, 5, true, "picture", 4);
+//		products.add(prod1);
+//
+//		Product prod2 = new Product();
+//		prod2.setProductId(2);
+//		prod2.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
+//		products.add(prod2);
+		System.out.println(sub.getName());
+		products = productManager.findProductsBySubCategory(sub);
+		System.out.println("taille collection " + products.size());
 		return products;
 	}
 	
-	public Collection<SubCategory> getSub(Category cat){
+	public Collection<SubCategory> getSubCategories(Category cat){
 		sub = productManager.findSubCategoriesByCategory(cat);
-		System.out.println("taille collection " + sub.size());
 		return sub;
 	}
 	

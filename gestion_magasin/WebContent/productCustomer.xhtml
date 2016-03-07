@@ -21,11 +21,11 @@
 							<p:tab title="#{category.toString()}">
 								<p:accordionPanel multiple="true" dynamic="true" cache="true">
 									<!-- 								<f:ajax event="tabChange" listener="#{products.getSub()}" /> -->
-									<c:forEach items="#{products.getSub(category)}"
+									<c:forEach items="#{products.getSubCategories(category)}"
 										var="subCat">
 										<p:tab title="#{subCat.name}">
 
-											<p:dataTable value="#{products.products}" var="p"
+											<p:dataTable value="#{products.getProducts(subCat)}" var="p"
 												styleClass="course-table" headerClass="course-table-header"
 												footerClass="course-table-header"
 												rowClasses="course-table-odd-row,course-table-even-row">
