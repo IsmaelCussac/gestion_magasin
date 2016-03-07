@@ -20,7 +20,7 @@ import fr.mgs.model.product.SubCategory;
 //@Controller
 //@RequestMapping("/product")
 @ManagedBean(name = "productsList")
-public class ProductController {
+public class ProductStoreKeeperController {
 
 	// protected final Log logger = LogFactory.getLog(getClass());
 	 private ProductManager productManager = new ProductManager();
