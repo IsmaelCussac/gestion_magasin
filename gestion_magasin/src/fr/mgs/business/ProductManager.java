@@ -10,6 +10,8 @@ import javax.annotation.PostConstruct;
 import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
+import fr.mgs.dao.ProductDAO;
+import fr.mgs.dao.SubCategoryDAO;
 import fr.mgs.dao.Table;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
@@ -29,8 +31,8 @@ public class ProductManager {
 
 	private DAOManager daoManager;
 	private GenericDAO<Lot, Integer> lotDao;
-	private GenericDAO<Product, Integer> productDao;
-	private GenericDAO<SubCategory, String> subCategoryDao;
+	private ProductDAO productDao;
+	private SubCategoryDAO subCategoryDao;
 
 	public ProductManager() {
 	}
@@ -40,9 +42,9 @@ public class ProductManager {
 	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
 		daoManager.init(ds);
-		lotDao = (GenericDAO<Lot, Integer>) daoManager.getDAO(Table.LOT);
-		productDao = (GenericDAO<Product, Integer>) daoManager.getDAO(Table.PRODUCT);
-		subCategoryDao = (GenericDAO<SubCategory, String>) daoManager.getDAO(Table.SUB_CATEGORY);
+		lotDao =  (GenericDAO<Lot, Integer>) daoManager.getDAO(Table.LOT);
+		productDao = (ProductDAO) daoManager.getDAO(Table.PRODUCT);
+		subCategoryDao = (SubCategoryDAO) daoManager.getDAO(Table.SUB_CATEGORY);
 
 	}
 
@@ -68,7 +70,7 @@ public class ProductManager {
 		return productDao;
 	}
 
-	public void setProductDao(GenericDAO<Product, Integer> productDao) {
+	public void setProductDao(ProductDAO productDao) {
 		this.productDao = productDao;
 	}
 
@@ -76,7 +78,7 @@ public class ProductManager {
 		return subCategoryDao;
 	}
 
-	public void setSubCategoryDao(GenericDAO<SubCategory, String> subCategoryDao) {
+	public void setSubCategoryDao(SubCategoryDAO subCategoryDao) {
 		this.subCategoryDao = subCategoryDao;
 	}
 
@@ -155,13 +157,12 @@ public class ProductManager {
 	}
 	
 	public Collection<SubCategory> findSubCategoriesByCategory(Category category){
-		return null;
+		return subCategoryDao.findProductsBySubCategory(category);
 		
 	}
 	
-	public Collection<Product> findProductsBySubCategory(String subCategory){
-		return null;
-		
+	public Collection<Product> findProductsBySubCategory(SubCategory subCategory){
+		return productDao.findProductsBySubCategory(subCategory);
 	}
 
 	public int findItemQuantity(Product product) {
