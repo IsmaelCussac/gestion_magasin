@@ -46,22 +46,22 @@ public class ProductController {
 		sub2.setSubCategory("category2", Category.CULTURE_PLASTIC);
 
 		Product prod1 = new Product();
-		prod1.setId(1);
+		prod1.setProductId(1);
 		prod1.setProduct("designation1", sub1, 4, 3, 5, true, "picture", 4);
 		listProd.add(prod1);
 
 		Product prod2 = new Product();
-		prod2.setId(2);
+		prod2.setProductId(2);
 		prod2.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
 		listProd.add(prod2);
 
 		Product prod3 = new Product();
-		prod3.setId(3);
+		prod3.setProductId(3);
 		prod3.setProduct("designation3", sub2, 4, 3, 5, true, "picture", 4);
 		listProd2.add(prod3);
 
 		Product prod4 = new Product();
-		prod4.setId(4);
+		prod4.setProductId(4);
 		prod4.setProduct("designation4", sub2, 4, 3, 5, true, "picture", 4);
 		listProd2.add(prod4);
 		
