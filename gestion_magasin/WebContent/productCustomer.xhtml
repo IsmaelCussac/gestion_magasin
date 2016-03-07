@@ -16,63 +16,37 @@
 			<f:view>
 				<h:form>
 					<p:accordionPanel>
-						<p:tab title="Papeterie">
-							<p:accordionPanel multiple="true" dynamic="true" cache="true">
-								<!-- 								<f:ajax event="tabChange" listener="#{products.getSub()}" /> -->
-								<c:forEach items="#{products.getSub(Category.PAPER)}" var="subCat">
-									<p:tab title="#{subCat.name}">
 
-										<p:dataTable value="#{products.products}" var="p"
-											styleClass="course-table" headerClass="course-table-header"
-											footerClass="course-table-header"
-											rowClasses="course-table-odd-row,course-table-even-row">
+						<c:forEach items="#{products.allCategories}" var="category">
+							<p:tab title="#{category.toString()}">
+								<p:accordionPanel multiple="true" dynamic="true" cache="true">
+									<!-- 								<f:ajax event="tabChange" listener="#{products.getSub()}" /> -->
+									<c:forEach items="#{products.getSub(category)}"
+										var="subCat">
+										<p:tab title="#{subCat.name}">
 
-											<p:column>
-												<p:graphicImage name="/images/photo.jpg" />
-											</p:column>
-											<p:column headerText="Désignation">
-												<h:outputText value="#{p.designation}" />
-											</p:column>
-											<p:column headerText="Quantité">
-												<p:spinner id="basic" value="" min="0"/>
-											</p:column>
+											<p:dataTable value="#{products.products}" var="p"
+												styleClass="course-table" headerClass="course-table-header"
+												footerClass="course-table-header"
+												rowClasses="course-table-odd-row,course-table-even-row">
 
-										</p:dataTable>
-									</p:tab>
-								</c:forEach>
+												<p:column>
+													<p:graphicImage name="/images/photo.jpg" />
+												</p:column>
+												<p:column headerText="Désignation">
+													<h:outputText value="#{p.designation}" />
+												</p:column>
+												<p:column headerText="Quantité">
+													<p:spinner id="basic" value="" min="0" />
+												</p:column>
 
-							</p:accordionPanel>
-						</p:tab>
-						<p:tab title="Plastique">
-							<p:dataTable value="#{products.products}" var="p"
-								styleClass="course-table" headerClass="course-table-header"
-								footerClass="course-table-header"
-								rowClasses="course-table-odd-row,course-table-even-row">
-								<p:column headerText="Désignation">
-									<h:outputText value="#{p.designation}" />
-								</p:column>
+											</p:dataTable>
+										</p:tab>
+									</c:forEach>
 
-								<p:column headerText="Prix">
-									<h:outputText value="#{p.price}" />
-								</p:column>
-
-							</p:dataTable>
-						</p:tab>
-						<p:tab title="Plastique de culture">
-							<p:dataTable value="#{products.products}" var="p"
-								styleClass="course-table" headerClass="course-table-header"
-								footerClass="course-table-header"
-								rowClasses="course-table-odd-row,course-table-even-row">
-								<p:column headerText="Désignation">
-									<h:outputText value="#{p.designation}" />
-								</p:column>
-
-								<p:column headerText="Prix">
-									<h:outputText value="#{p.price}" />
-								</p:column>
-
-							</p:dataTable>
-						</p:tab>
+								</p:accordionPanel>
+							</p:tab>
+						</c:forEach>
 					</p:accordionPanel>
 				</h:form>
 

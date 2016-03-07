@@ -73,6 +73,16 @@ public class ProductCustomerController {
 		System.out.println("taille collection " + sub.size());
 		return sub;
 	}
+	
+	public Collection<Category> getAllCategories(){
+		Collection<Category> categories = new ArrayList<Category>();
+		
+		categories.add(Category.PAPER);
+		categories.add(Category.PLASTIC);
+		categories.add(Category.CULTURE_PLASTIC);
+		
+		return categories;
+	}
 
 
 
