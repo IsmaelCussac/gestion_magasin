@@ -1,8 +1,10 @@
 package fr.mgs.web.order;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -10,9 +12,10 @@ import javax.faces.bean.ViewScoped;
 
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.UserManager;
+import fr.mgs.connection.DataSource;
+import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
-import fr.mgs.model.order.OrderStatus;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Team;
 
 /**
  * Manage storekeeper oders views
@@ -21,63 +24,70 @@ import fr.mgs.model.user.User;
  *
  */
 
+@SuppressWarnings("serial")
 @ManagedBean(name = "ordersView")
 @ViewScoped
-public class OrdersView {
+public class OrdersView implements Serializable {
 
 	private List<Order> orders;
+	private List<Team> teams;
+
 	private Order selectedOrder;
-	private static OrderManager orderManager;
+	private OrderManager orderManager;
+	private UserManager userManager;
+	private OrderDAO orderDao;
+	private boolean checkBox = false;
 
 	@PostConstruct
 	public void init() {
-		orderManager = new OrderManager();
-		orders = new ArrayList<Order>();
-		selectedOrder = new Order();
-		User u1 = new User();
-		u1.setUserId("Cl000");
+		try {
+			orderManager = new OrderManager();
+			orderManager.init(DataSource.LOCAL);
+			userManager = new UserManager();
+			userManager.init(DataSource.LOCAL);
+			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
+			setTeams((List<Team>) userManager.findAllTeams());
+			orders = (List<Order>) orderManager.findAllOrders();
 
-		User u2 = new User();
-		u1.setUserId("Cl111");
-
-		Order order1 = new Order();
-		order1.setOrderId(22222);
-		order1.setStatus(OrderStatus.VALIDATED);
-		order1.setSubmissionDate(new Date());
-		order1.setOrderUser(u1);
-
-		Order order2 = new Order();
-		order2.setOrderId(11111);
-		order2.setStatus(OrderStatus.VALIDATED);
-		order2.setSubmissionDate(new Date());
-		order2.setOrderUser(u2);
-
-		orders.add(order1);
-		orders.add(order2);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
 
-	public void cliquedOrderLine(Order ord) {
-		selectedOrder = ord;
-		System.out.println("cliquedOrderLine:---" + selectedOrder.getOrderId());
+	public void cbListener() {
+		System.out.println("Cocher = " + !checkBox);
 	}
 
 	public Order getSelectedOrder() {
-		System.out.println("GET:" + selectedOrder.getStatus());
 
 		return selectedOrder;
 	}
 
 	public void setSelectedOrder(Order selectedOrder) {
 		this.selectedOrder = selectedOrder;
-		System.out.println("SET:" + selectedOrder.getStatus());
 	}
 
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
+	public List<Team> getTeams() {
+		return teams;
+	}
+
+	public void setTeams(List<Team> teams) {
+		this.teams = teams;
+	}
+
+	public boolean isCheckBox() {
+		return checkBox;
+	}
+
+	public void setCheckBox(boolean checkBox) {
+		this.checkBox = checkBox;
 	}
 
 	public List<Order> getOrders() {
 		return orders;
 	}
 
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 }

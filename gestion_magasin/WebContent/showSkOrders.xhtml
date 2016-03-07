@@ -6,54 +6,72 @@
 
 
 <ui:composition template="/template/layout.xhtml">
+
 	<ui:define name="title">Livraison</ui:define>
+
+
 	<ui:define name="menu">
 		<ui:include src="/template/storekeeperMenu.xhtml" />
 	</ui:define>
 
 	<ui:define name="content">
-		<f:view>
-			<h:form id="form" prependId="false">
+
+		<h:form id="form" prependId="false">
 
 
-				<p:growl id="msgs" showDetail="true" />
+			<p:growl id="msgs" showDetail="true" />
 
 
-				<p:menubar>
-					<f:facet name="options" style="float:left">
-						<h:outputLabel value="Commandes par équipe"
-							style="margin-right:250px" />
-						<p:commandButton type="button" value="Effectuer une livraison" />
-					</f:facet>
-				</p:menubar>
+			<p:menubar>
 
-				<p:panel id="toggleable" header="Equipe TOTO" toggleable="true"
-					toggleSpeed="500" widgetVar="panel">
+				<f:facet name="options" style="float:left">
+					<h:outputLabel value="Liste des commandes par équipe"
+						style="margin-right:200px" />
+					<p:commandButton type="button" value="Effectuer une livraison" />
+				</f:facet>
+			</p:menubar>
+			<br />
+			<ui:repeat var="team" value="#{ordersView.teams}">
+				<p:selectBooleanCheckbox value="#{ordersView.checkBox}">
+					<p:ajax listener="#{ordersView.cbListener}" update="form" />
+				</p:selectBooleanCheckbox>
 
+				<p:panel header="#{team.name}" toggleable="true" toggleSpeed="500"
+					collapsed="true">
 
-					<p:accordionPanel value="#{ordersView.orders}" var="order">
+					<p:accordionPanel value="#{ordersView.orders}" var="ord">
 
-						<p:tab id="tab" title="Destinataire: ddddd">
-							<p:dataTable id="basicDT" var="ord" value="#{ordersView.orders}">
+						<p:tab
+							title="#{ord.orderUser.firstName} #{ord.orderUser.lastName}">
+
+							<p:dataTable id="orderDT" var="ord" value="#{ord}"
+								selection="#{ordersView.selectedOrder}" rowKey="#{ord.orderId}">
+								<p:column>
+									<p:selectBooleanCheckbox value="#{ordersView.checkBox}">
+										<p:ajax listener="#{ordersView.cbListener}" update="form" />
+									</p:selectBooleanCheckbox>
+								</p:column>
 
 								<p:column headerText="Numéro">
 									<h:outputText value="#{ord.orderId}" />
 								</p:column>
-								<p:column headerText="Soumission">
+								<p:column headerText="Date de soumission">
 									<h:outputText value="#{ord.submissionDate}" />
 								</p:column>
-								<p:column headerText="Status">
+								<p:column headerText="Date de livraison">
+									<h:outputText value="#{ord.deliveryDate}" />
+								</p:column>
+								<p:column headerText="Nombre d'articles">
+									<h:outputText value="" />
+								</p:column>
+								<p:column headerText="Statut">
 									<h:outputText value="#{ord.status}" />
 								</p:column>
-								<p:column style="width:52px;text-align: center">
-									<p:commandButton update="ordDetail"
-										oncomplete="PF('ordOP').show()" icon="ui-icon-search"
-										title="View">
-										<f:setPropertyActionListener value="#{ord}"
-											target="#{ordersView.selectedOrder}" />
-									</p:commandButton>
-								</p:column>
-
+								<f:facet name="footer">
+									<p:commandButton update="@([id$=form-dialog])"
+										icon="ui-icon-search" value="View"
+										onclick="PF('ordDialog').show()" />
+								</f:facet>
 							</p:dataTable>
 
 
@@ -61,38 +79,41 @@
 
 					</p:accordionPanel>
 
-					<p:dialog widgetVar="ordOP" showEffect="fade" hideEffect="fade"
-						dismissable="false" showCloseIcon="true">
-						<p:outputPanel id="ordDetail" style="width:400;text-align:center;">
-							<p:panelGrid columns="3"
-								rendered="#{ordersView.selectedOrder != null}">
-								<h:outputText value="#{selectedOrder.orderId}" />
-								<h:outputText value="Ref : 000000" />
-								<h:outputText value="0/2" />
-
-
-								<h:outputText value="Classeur A2 2 anneaux " />
-								<h:outputText value="Ref : 111111" />
-								<h:outputText value="0/3" />
-
-								<h:outputText value="Feuille double X10 A4 " />
-								<h:outputText value="Ref : 222222" />
-								<h:outputText value="0/1" />
-
-
-							</p:panelGrid>
-						</p:outputPanel>
-					</p:dialog>
-
 				</p:panel>
 
-
-
-
-
-
+			</ui:repeat>
+			<h:form id="form-dialog">
+				<p:dialog header="Car Info" widgetVar="ordDialog" modal="true"
+					showEffect="fade" hideEffect="fade" resizable="false" width="300"
+					height="250" style="margin-top : 10px">
+					<p:outputPanel style="text-align:center;">
+						<p:panelGrid columns="2"
+							rendered="#{ordersView.selectedOrder ne null}"
+							columnClasses="label,value">
+							<p:column headerText="Id">
+								<h:outputText value="#{ord.orderId}" />
+							</p:column>
+							<p:column headerText="Numéro">
+								<h:outputText value="#{ord.orderId}" />
+							</p:column>
+							<p:column headerText="Date de soumission">
+								<h:outputText value="#{ord.orderId}" />
+							</p:column>
+							<p:column headerText="Date de livraison">
+								<h:outputText value="#{ord.orderId}" />
+							</p:column>
+							<p:column headerText="Nombre d'artcles">
+								<h:outputText value="#{ord.orderId}" />
+							</p:column>
+							<p:column headerText="Statut">
+								<h:outputText value="#{ord.orderId}" />
+							</p:column>
+						</p:panelGrid>
+					</p:outputPanel>
+				</p:dialog>
 			</h:form>
-		</f:view>
+		</h:form>
+
 	</ui:define>
 </ui:composition>
 
