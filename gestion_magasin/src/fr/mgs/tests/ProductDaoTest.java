@@ -49,31 +49,30 @@ public class ProductDaoTest {
 	public void setUp() throws SQLException {
 		productManager.init(DataSource.H2);
 		
-	/*	subCategory = new SubCategory();
+		subCategory = new SubCategory();
 		subCategory.setSubCategory("Aiguilles", Category.PLASTIC);
 		productManager.addSubCategory(subCategory);
 		
 		
 		
 		product = new Product();
-		product.setProduct("d1102526", "Jean-Louis", "De Beauregard", subCategory, "0442060504", "jean-louis.de-beauregard@mail.fr",
-				"secret");
-		*/
+		product.setProduct("Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
+		
 	}
 
 	@After
 	public void tearDown() {
 		
 	}
-/*
+
 	@Test
 	public void testAddProduct() throws SQLException {
 		productManager.addProduct(product);
 
-		assertNotNull(productManager.findProduct("d1102526"));
+		assertNotNull(productManager.findProduct(1));
 	}
-	
-	@Test(expected=RollbackException.class)
+
+	@Test(expected=Exception.class)
 	public void testAddExistingProduct() throws SQLException {
 		productManager.addProduct(product);
 		productManager.addProduct(product);
@@ -82,24 +81,24 @@ public class ProductDaoTest {
 	@Test
 	public void testRemoveProduct() throws SQLException {
 		productManager.addProduct(product);
-		productManager.removeProduct("d1102526");
-		assertNull(productManager.findProduct("d1102526"));
+		productManager.removeProduct(1);
+		assertNull(productManager.findProduct(1));
 	}
 	
 	@Test(expected=Exception.class)
 	public void testRemoveNonExistingProduct() throws SQLException {
-		productManager.removeProduct("d1102526");
+		productManager.removeProduct(10);
 	}
 	
 	@Test
 	public void testFindProduct() throws SQLException {
 		productManager.addProduct(product);
-		assertEquals("d1102526", productManager.findProduct("d1102526").getProductId());
+		assertEquals("Aiguille 0.4mm", productManager.findProduct(1).getDesignation());
 	}
 	
 	@Test
 	public void testFindNonExistingProduct() throws SQLException {
-		assertNull(productManager.findProduct("d1102526"));
+		assertNull(productManager.findProduct(1));
 	}
 	
 	@Test
@@ -116,23 +115,23 @@ public class ProductDaoTest {
 	@Test
 	public void testExistsProduct() throws SQLException {
 		productManager.addProduct(product);
-		assertTrue(productManager.productExists("d1102526"));
+		assertTrue(productManager.productExists(1));
 	}
 	
 	@Test
 	public void testNotExistsProduct() throws SQLException {
-		assertFalse(productManager.productExists("d1102526"));
+		assertFalse(productManager.productExists(1));
 	}
 	
 	@Test
 	public void testUpdateProduct() throws SQLException{
 		productManager.addProduct(product);
 		
-		Product updateProduct = productManager.findProduct("d1102526");
-		updateProduct.setFirstName("Jean-Lou");
+		Product updateProduct = productManager.findProduct(1);
+		updateProduct.setDesignation("Aiguille 0.6mm");
 		
 		productManager.updateProduct(updateProduct);
-		assertEquals("Jean-Lou", productManager.findProduct("d1102526").getFirstName());
+		assertEquals("Aiguille 0.6mm", productManager.findProduct(1).getDesignation());
 	}
 	
 	@Test
@@ -140,14 +139,22 @@ public class ProductDaoTest {
 		productManager.addProduct(product);
 		
 		SubCategory newSubCategory = new SubCategory();
-		newSubCategory.setSubCategory("New SubCategory", "New subCategory to test the method", 3, Privilege.CUSTOMER);
+		newSubCategory.setSubCategory("Seringues", Category.PLASTIC);
 		productManager.addSubCategory(newSubCategory);
 		
-		Product updateProduct = productManager.findProduct("d1102526");
+		Product updateProduct = productManager.findProduct(1);
 		updateProduct.setSubCategory(newSubCategory);
 		
 		productManager.updateProduct(updateProduct);
-		assertEquals("New subCategory to test the method", productManager.findProduct("d1102526").getSubCategory().getName());
+		assertEquals("Seringues", productManager.findProduct(1).getSubCategory().getName());
 	}
-	*/
+	
+	@Test
+	public void testFindProductsBySubCategory() throws SQLException{
+		productManager.addProduct(product);
+		
+		assertEquals(1,productManager.findProductsBySubCategory(subCategory).size());
+		
+	}
+	
 }
