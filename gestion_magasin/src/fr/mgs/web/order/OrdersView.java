@@ -35,7 +35,7 @@ public class OrdersView implements Serializable {
 	private Order selectedOrder;
 	private OrderManager orderManager;
 	private UserManager userManager;
-	private OrderDAO orderDao;
+
 	private boolean checkBox = false;
 
 	@PostConstruct
@@ -45,8 +45,7 @@ public class OrdersView implements Serializable {
 			orderManager.init(DataSource.LOCAL);
 			userManager = new UserManager();
 			userManager.init(DataSource.LOCAL);
-			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
-			setTeams((List<Team>) userManager.findAllTeams());
+			teams = (List<Team>) userManager.findAllTeams();
 			orders = (List<Order>) orderManager.findAllOrders();
 
 		} catch (SQLException ex) {
