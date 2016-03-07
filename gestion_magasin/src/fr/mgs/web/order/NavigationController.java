@@ -15,4 +15,7 @@ public class NavigationController {
 		return "showSkOrders?faces-redirect=true";
 	}
 
+	public String deliveryOrder() {
+		return "deliveryOrder?faces-redirect=true";
+	}
 }

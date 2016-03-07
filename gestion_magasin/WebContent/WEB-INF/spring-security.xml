@@ -23,7 +23,7 @@
 		<intercept-url pattern="/connection" access="permitAll" />
 		<intercept-url pattern="/**" access="permitAll" />
 
-		<form-login login-page="/login.xhtml" 
+		<form-login login-page="/login.xhtml"
 			login-processing-url="/login_check"
 			default-target-url="/productCustomer.xhtml"
 			authentication-failure-url="/login.xhtml?error" 
@@ -32,7 +32,7 @@
 		<logout logout-success-url="/login?logout" />
 		
 		<!-- enable csrf protection -->
-		<csrf />
+		<csrf disabled="true"/>
 	</http>
 
 	<authentication-manager>
