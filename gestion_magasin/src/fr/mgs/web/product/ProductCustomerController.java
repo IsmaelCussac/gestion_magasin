@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import fr.mgs.model.product.SubCategory;
  */
 
 @ManagedBean(name="products")
+@ApplicationScoped
 public class ProductCustomerController {
 
 	private Collection<SubCategory> sub;
@@ -43,27 +45,6 @@ public class ProductCustomerController {
 	
 	public Collection<Product> getProducts(SubCategory sub) {
 		
-//		sub = new ArrayList<SubCategory>();
-//
-//		SubCategory sub1 = new SubCategory();
-//		sub1.setSubCategory("category1", Category.CULTURE_PLASTIC);
-//		sub.add(sub1);
-//
-//		SubCategory sub2 = new SubCategory();
-//		sub2.setSubCategory("category2", Category.CULTURE_PLASTIC);
-//		sub.add(sub2);
-//
-//		products = new ArrayList<Product>();
-//
-//		Product prod1 = new Product();
-//		prod1.setProductId(1);
-//		prod1.setProduct("designation1", sub1, 4, 3, 5, true, "picture", 4);
-//		products.add(prod1);
-//
-//		Product prod2 = new Product();
-//		prod2.setProductId(2);
-//		prod2.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
-//		products.add(prod2);
 		System.out.println(sub.getName());
 		products = productManager.findProductsBySubCategory(sub);
 		System.out.println("taille collection " + products.size());
