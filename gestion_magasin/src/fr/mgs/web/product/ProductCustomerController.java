@@ -68,8 +68,8 @@ public class ProductCustomerController {
 		return products;
 	}
 	
-	public Collection<SubCategory> getSub(){
-		sub = productManager.findSubCategoriesByCategory(Category.PAPER);
+	public Collection<SubCategory> getSub(Category cat){
+		sub = productManager.findSubCategoriesByCategory(cat);
 		System.out.println("taille collection " + sub.size());
 		return sub;
 	}

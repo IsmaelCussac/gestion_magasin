@@ -19,7 +19,7 @@
 						<p:tab title="Papeterie">
 							<p:accordionPanel multiple="true" dynamic="true" cache="true">
 								<!-- 								<f:ajax event="tabChange" listener="#{products.getSub()}" /> -->
-								<c:forEach items="#{products.getSub()}" var="subCat">
+								<c:forEach items="#{products.getSub(Category.PAPER)}" var="subCat">
 									<p:tab title="#{subCat.name}">
 
 										<p:dataTable value="#{products.products}" var="p"
@@ -34,7 +34,7 @@
 												<h:outputText value="#{p.designation}" />
 											</p:column>
 											<p:column headerText="Quantité">
-												<p:spinner id="basic" value="" />
+												<p:spinner id="basic" value="" min="0"/>
 											</p:column>
 
 										</p:dataTable>
