@@ -33,7 +33,7 @@ public class SubCategory implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Category category;
 
-	@OneToMany(mappedBy = "subCategory", fetch = FetchType.LAZY, orphanRemoval = false)
+	@OneToMany(mappedBy = "subCategory", fetch = FetchType.EAGER, orphanRemoval = false)
 	private Set<Product> products = new HashSet<Product>();
 
 	public SubCategory() {

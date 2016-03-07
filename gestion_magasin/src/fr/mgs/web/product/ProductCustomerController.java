@@ -32,9 +32,6 @@ import fr.mgs.model.product.SubCategory;
 @ApplicationScoped
 public class ProductCustomerController {
 
-	private Collection<SubCategory> sub;
-	private Collection<Product> products;
-	
 
 	private ProductManager productManager;
 
@@ -44,16 +41,11 @@ public class ProductCustomerController {
 	}
 	
 	public Collection<Product> getProducts(SubCategory sub) {
-		
-		System.out.println(sub.getName());
-		products = productManager.findProductsBySubCategory(sub);
-		System.out.println("taille collection " + products.size());
-		return products;
+		return productManager.findProductsBySubCategory(sub);
 	}
 	
 	public Collection<SubCategory> getSubCategories(Category cat){
-		sub = productManager.findSubCategoriesByCategory(cat);
-		return sub;
+		return productManager.findSubCategoriesByCategory(cat);
 	}
 	
 	public Collection<Category> getAllCategories(){

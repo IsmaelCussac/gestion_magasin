@@ -153,7 +153,10 @@ public class ProductDaoTest {
 	public void testFindProductsBySubCategory() throws SQLException{
 		productManager.addProduct(product);
 		
-		assertEquals(1,productManager.findProductsBySubCategory(subCategory).size());
+		Product product1 = new Product();
+		product1.setProduct("Aiguille 0.3mm", subCategory, 20, 40, 4.52, true, null, 100);
+		productManager.addProduct(product1);
+		assertEquals(2,productManager.findProductsBySubCategory(subCategory).size());
 		
 	}
 	

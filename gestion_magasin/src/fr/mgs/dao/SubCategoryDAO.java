@@ -100,10 +100,10 @@ public class SubCategoryDAO extends GenericDAO<SubCategory,String> {
 	 * 
 	 * @param the category
 	 */
-	public List<SubCategory> findProductsBySubCategory(Category category) {
+	public Collection<SubCategory> findProductsBySubCategory(Category category) {
 		loadEm();
 		Query query = em.createQuery("SELECT s FROM subCategories s WHERE s.category = :c");
 		query.setParameter("c", category);
-		return (List<SubCategory>) query.getResultList();
+		return query.getResultList();
 	}
 }

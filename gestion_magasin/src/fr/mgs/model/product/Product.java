@@ -56,7 +56,7 @@ public class Product implements Serializable {
 
 	@Column(name = "min_quantity", nullable = true)
 	@Min(0)
-	private double minQuantity;
+	private Double minQuantity;
 
 	@Column(name = "price", nullable = true)
 	@Min(0)
