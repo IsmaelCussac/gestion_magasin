@@ -35,7 +35,7 @@ public class OrdersView {
 	private Order selectedOrder;
 	private OrderManager orderManager;
 	private UserManager userManager;
-	private OrderDAO orderDao;
+
 	private boolean checkBox = false;
 
 	@SuppressWarnings("unchecked")
@@ -46,7 +46,6 @@ public class OrdersView {
 			orderManager.init(DataSource.LOCAL);
 			userManager = new UserManager();
 			userManager.init(DataSource.LOCAL);
-			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 
 			for (Team team : userManager.findAllTeams()) {
 				if (!team.getUsers().isEmpty()) {

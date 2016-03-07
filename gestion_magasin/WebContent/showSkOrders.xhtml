@@ -1,3 +1,4 @@
+
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -7,7 +8,7 @@
 
 <ui:composition template="/template/layout.xhtml">
 
-	<ui:define name="title">Livraison</ui:define>
+	<ui:define name="title">Liste des commandes</ui:define>
 
 
 	<ui:define name="menu">
@@ -17,67 +18,71 @@
 	<ui:define name="content">
 
 		<h:form id="form" prependId="false">
-
-
 			<p:growl id="msgs" showDetail="true" />
+			<p:panelGrid columns="3" layout="grid">
+				<f:facet name="header">
+					<p:row>
+						<p:column>Liste des commandes par équipe</p:column>
+						<p:link outcome="#{navigationController.deliveryOrder()}"
+							value="Effectuer une livraison" style="float:right" />
+					</p:row>
 
-
-			<p:menubar>
-
-				<f:facet name="options" style="float:left">
-					<h:outputLabel value="Liste des commandes par équipe"
-						style="margin-right:200px" />
-					<p:commandButton type="button" value="Effectuer une livraison" />
 				</f:facet>
-			</p:menubar>
+			</p:panelGrid>
 			<br />
 			<ui:repeat var="team" value="#{ordersView.teams}">
 				<p:selectBooleanCheckbox value="#{ordersView.checkBox}">
-					<p:ajax listener="#{ordersView.cbListener}" update="form" />
+					<f:ajax listener="#{ordersView.cbListener(team)}" update="form" />
 				</p:selectBooleanCheckbox>
 
 				<p:panel header="#{team.name}" toggleable="true" toggleSpeed="500"
 					collapsed="true">
+					<p:dataTable var="order" value="#{ordersView.orders}">
+						<p:column style="width:30px">
+							<p:rowToggler />
+						</p:column>
+						<p:column headerText="Destinataire">
+							<h:outputText value="#{order.orderUser.lastName}" />
+						</p:column>
+						<p:column headerText="Numéro">
+							<h:outputText value="#{order.orderId}" />
+						</p:column>
+						<p:column headerText="Soumission">
+							<h:outputText value="#{order.submissionDate}" />
+						</p:column>
 
-					<p:accordionPanel value="#{ordersView.orders}" var="ord">
-
-						<p:tab
-							title="#{ord.orderUser.firstName} #{ord.orderUser.lastName}">
-
-							<p:dataTable id="orderDT" var="ord" value="#{ord}"
-								selection="#{ordersView.selectedOrder}" rowKey="#{ord.orderId}">
-								<p:column>
-									<p:selectBooleanCheckbox value="#{ordersView.checkBox}">
-										<p:ajax listener="#{ordersView.cbListener}" update="form" />
-									</p:selectBooleanCheckbox>
-								</p:column>
-
-								<p:column headerText="Numéro">
-									<h:outputText value="#{ord.orderId}" />
-								</p:column>
-								<p:column headerText="Date de soumission">
-									<h:outputText value="#{ord.submissionDate}" />
-								</p:column>
-								<p:column headerText="Date de livraison">
-									<h:outputText value="#{ord.deliveryDate}" />
-								</p:column>
-								<p:column headerText="Nombre d'articles">
-									<h:outputText value="" />
-								</p:column>
-								<p:column headerText="Statut">
-									<h:outputText value="#{ord.status}" />
-								</p:column>
-								<f:facet name="footer">
-									<p:commandButton update="@([id$=form-dialog])"
-										icon="ui-icon-search" value="View"
-										onclick="PF('ordDialog').show()" />
-								</f:facet>
-							</p:dataTable>
+						<p:column headerText="Livraison">
+							<h:outputText value="#{order.deliveryDate}" />
+						</p:column>
+						<p:column headerText="Nombre d'articles">
+							<h:outputText value="" />
+						</p:column>
+						<p:column headerText="Livraison">
+							<h:outputText value="#{order.status}" />
+						</p:column>
 
 
-						</p:tab>
+						<p:rowExpansion>
 
-					</p:accordionPanel>
+							<ui:repeat var="o" value="#{ordersView.orders}">
+
+
+								<p:panelGrid columns="4" style="width:600px">
+
+
+									<h:outputText value="Id:" />
+
+									<h:outputText value="Year" />
+
+									<h:outputText value="Color:" />
+
+									<h:outputText value="Price" />
+								</p:panelGrid>
+							</ui:repeat>
+							<p:button value="Modifier"></p:button>
+						</p:rowExpansion>
+					</p:dataTable>
+
 
 				</p:panel>
 

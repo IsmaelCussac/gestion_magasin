@@ -8,7 +8,9 @@ import java.util.Set;
 
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
+import org.primefaces.event.TabChangeEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,15 +42,20 @@ public class ProductCustomerController {
 		productManager.init(DataSource.LOCAL);
 	}
 	
-	public Collection<Product> getProducts(SubCategory sub) {
-		return productManager.findProductsBySubCategory(sub);
+	public List<Product> getProducts(SubCategory sub) {
+		System.out.println(" Get prod : " + sub.getName());
+		System.out.println(productManager.findProductsBySubCategory(sub));
+		return (List<Product>) productManager.findProductsBySubCategory(sub);
 	}
 	
-	public Collection<SubCategory> getSubCategories(Category cat){
-		return productManager.findSubCategoriesByCategory(cat);
+	public List<SubCategory> getSubCategories(Category cat){
+		System.out.println(" Get sub cat : " + cat.toString());
+		return (List<SubCategory>) productManager.findSubCategoriesByCategory(cat);
 	}
 	
 	public Collection<Category> getAllCategories(){
+		
+		System.out.println("Get all cat");
 		Collection<Category> categories = new ArrayList<Category>();
 		
 		categories.add(Category.PAPER);
@@ -58,6 +65,13 @@ public class ProductCustomerController {
 		return categories;
 	}
 
+	public void onTabChange(TabChangeEvent event) {
+        System.out.println("event " + event.getTab().getId());
+    }
+	
+	  public void onChange(TabChangeEvent event) {
+	        System.out.println("Tab Changed :: You've Requested Seeing :: "+ event.getTab().getTitle());
+	    }
 
 
 }
