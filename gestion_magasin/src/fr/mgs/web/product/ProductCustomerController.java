@@ -70,7 +70,7 @@ public class ProductCustomerController {
 	
 	public Collection<SubCategory> getSub(){
 		sub = productManager.findSubCategoriesByCategory(Category.PAPER);
-		System.out.println("taille collection" + sub.size());
+		System.out.println("taille collection " + sub.size());
 		return sub;
 	}
 
