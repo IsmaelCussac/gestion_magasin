@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">Ma commande</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="/template/customerMenu.xhtml" />
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+				<h:form>
+					<p:commandButton value="Enregistrer" id="save" actionListener="#{myOrders.saveOrder}" />
+					<p:commandButton value="Valider" id="validate" actionListener="#{order.validateOrder}" />
+				</h:form>
+
+				<h:form>
+					<p:dataTable value="#{myOrders.orderLines}" var="ol"
+						styleClass="course-table" headerClass="course-table-header"
+						footerClass="course-table-header"
+						rowClasses="course-table-odd-row,course-table-even-row">
+						<ui:remove>
+						<p:column>
+							<p:graphicImage id="picture" name="" />
+						</p:column>
+						</ui:remove>
+						<p:column headerText="Désignation">
+							<h:outputText value="#{ol.product.designation}" />
+						</p:column>
+						<p:column headerText="Quantité">
+							<p:spinner id="basic" min="0" value="#{ol.quantity}"  />
+						</p:column>
+					</p:dataTable>
+				</h:form>
+
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
