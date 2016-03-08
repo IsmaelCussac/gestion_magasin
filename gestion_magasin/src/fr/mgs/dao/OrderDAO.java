@@ -3,6 +3,7 @@ package fr.mgs.dao;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Query;
 
@@ -27,7 +28,8 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	/**
 	 * create new order
 	 * 
-	 * @param the order to create
+	 * @param the
+	 *            order to create
 	 */
 	@Override
 	public void add(Order o) throws SQLException {
@@ -41,7 +43,8 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	/**
 	 * update the given order's properties
 	 * 
-	 * @param the order to update
+	 * @param the
+	 *            order to update
 	 */
 	@Override
 	public void update(Order o) throws SQLException {
@@ -54,7 +57,8 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	/**
 	 * checking if an order exists
 	 * 
-	 * @param the order's id
+	 * @param the
+	 *            order's id
 	 */
 	@Override
 	public boolean exists(Integer id) throws SQLException {
@@ -64,7 +68,8 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	/**
 	 * return an order by given it's id
 	 * 
-	 * @param the order's id
+	 * @param the
+	 *            order's id
 	 */
 	@Override
 	public Order find(Integer id) throws SQLException {
@@ -87,7 +92,8 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	/**
 	 * return all orders with the status "status"
 	 * 
-	 * @param the order's status
+	 * @param the
+	 *            order's status
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Order> findOrderByStatus(OrderStatus status) {
@@ -100,7 +106,8 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	/**
 	 * return the given user's orders
 	 * 
-	 * @param the user
+	 * @param the
+	 *            user
 	 */
 
 	@SuppressWarnings("unchecked")
@@ -114,19 +121,21 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	/**
 	 * return the given team's orders
 	 * 
-	 * @param the team
+	 * @param the
+	 *            team
 	 */
-	public List<Order> findOrderByTeam(Team t) {
+	public Collection<Order> findOrderByTeam(Team t) {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.team = :ot");
 		query.setParameter("ot", t);
-		return (List<Order>) query.getResultList();
+		return (Collection<Order>) query.getResultList();
 	}
 
 	/**
 	 * remove the given order id
 	 * 
-	 * @param the order's id
+	 * @param the
+	 *            order's id
 	 * 
 	 */
 	@Override
