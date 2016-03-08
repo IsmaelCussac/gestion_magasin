@@ -75,9 +75,28 @@ public class DBInsert {
 		orderManager.addOrder(marieOrder);
 	}
 	
+	public static void insertUsers() throws SQLException{
+		userManager = new UserManager();
+		userManager.init(DataSource.LOCAL);
+		
+		
+		Person admin = new Person();
+		Person magasinier = new Person();
+		
+		Team adminT = userManager.findTeam("42");
+		Team magasinierT = userManager.findTeam("41");
+		
+		admin.setUser("admin1", "Jean", "Dupré", adminT , "0452050554", "jean.dupré@mail.fr", "admin");
+		magasinier.setUser("magasinier1", "Luc", "Dela", magasinierT, "0482034234", "luc.dela@mail.fr", "magasinier");
+		
+		userManager.addUser(admin);
+		userManager.addUser(magasinier);
+		
+	}
+	
 	public static void main(String[] args){
 		try {
-			fill();
+			insertUsers();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

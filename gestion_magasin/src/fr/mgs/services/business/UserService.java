@@ -14,6 +14,7 @@ import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.dao.UserDAO;
 import fr.mgs.model.user.Person;
+import fr.mgs.model.user.Privilege;
 
 /**
  * UserDetailService implementation used by Spring Security
@@ -47,7 +48,7 @@ public class UserService implements UserDetailsService {
 		}
 
 		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam()
-				.getPrivilege().toString());
+				.getPrivilege());
 		return buildUserForAuthentication(user, authorities);
 	}
 
@@ -76,10 +77,10 @@ public class UserService implements UserDetailsService {
 	 * @param privilege
 	 * @return a properly built authorization list
 	 */
-	private List<GrantedAuthority> buildAuthorities(String privilege) {
+	private List<GrantedAuthority> buildAuthorities(Privilege privilege) {
 		ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 
-		auths.add(new SimpleGrantedAuthority(privilege.toString()));
+		auths.add(new SimpleGrantedAuthority(privilege.name()));
 
 		return auths;
 	}

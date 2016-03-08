@@ -38,7 +38,7 @@ public class Team implements Serializable {
 	private String name;
 
 	@Column(name = "floor")
-	@Range(min = 0, max = 10)
+	@Range(min = -1, max = 10)
 	private int floor;
 
 	@Column(name = "privilege", nullable = false)
