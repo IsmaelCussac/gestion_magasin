@@ -30,14 +30,15 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<ui:repeat var="team" value="#{ordersView.teams}">
+			<ui:repeat var="team"
+				value="#{ordersView.ordersByTeam.entrySet().toArray()}">
 				<p:selectBooleanCheckbox value="#{ordersView.checkBox}">
 					<f:ajax listener="#{ordersView.cbListener(team)}" update="form" />
 				</p:selectBooleanCheckbox>
 
-				<p:panel header="#{team.name}" toggleable="true" toggleSpeed="500"
-					collapsed="true">
-					<p:dataTable var="order" value="#{ordersView.orders}">
+				<p:panel header="#{team.key.name}" toggleable="true"
+					toggleSpeed="500" collapsed="true">
+					<p:dataTable var="order" value="#{team.value}">
 						<p:column style="width:30px">
 							<p:rowToggler />
 						</p:column>
@@ -63,22 +64,16 @@
 
 
 						<p:rowExpansion>
+							<p:panelGrid columns="4" style="width:600px">
+								<h:outputText value="Id:" />
 
-							<ui:repeat var="o" value="#{ordersView.orders}">
+								<h:outputText value="Year" />
 
+								<h:outputText value="Color:" />
 
-								<p:panelGrid columns="4" style="width:600px">
+								<h:outputText value="Price" />
+							</p:panelGrid>
 
-
-									<h:outputText value="Id:" />
-
-									<h:outputText value="Year" />
-
-									<h:outputText value="Color:" />
-
-									<h:outputText value="Price" />
-								</p:panelGrid>
-							</ui:repeat>
 							<p:button value="Modifier"></p:button>
 						</p:rowExpansion>
 					</p:dataTable>

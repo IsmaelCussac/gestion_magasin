@@ -1,8 +1,8 @@
 package fr.mgs.web.order;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +15,6 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
 
 /**
  * Manage storekeeper oders views
@@ -24,17 +23,16 @@ import fr.mgs.model.user.User;
  *
  */
 
-@SuppressWarnings("serial")
 @ManagedBean(name = "ordersView")
 @ViewScoped
 public class OrdersView {
 
-	private Map<Team, List<User>> usersByTeam = new HashMap<>();;
-	private Map<User, List<Order>> ordersByUser = new HashMap<>();
+	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<>();
 
 	private Order selectedOrder;
 	private OrderManager orderManager;
 	private UserManager userManager;
+	private OrderDAO orderDao;
 
 	private boolean checkBox = false;
 
@@ -46,21 +44,19 @@ public class OrdersView {
 			orderManager.init(DataSource.LOCAL);
 			userManager = new UserManager();
 			userManager.init(DataSource.LOCAL);
+			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 
 			for (Team team : userManager.findAllTeams()) {
-				if (!team.getUsers().isEmpty()) {
-					usersByTeam.put(team, (List<User>) team.getUsers());
+				if (team.getUsers() != null && !team.getUsers().isEmpty()) {
+
+					ordersByTeam.put(team, orderDao.findOrderByTeam(team));
 				}
 
 			}
 
-			for (User user : userManager.findAllUsers()) {
-				if (!user.getOrders().isEmpty()) {
-					ordersByUser.put(user, (List<Order>) user.getOrders());
-				}
-			}
+		}
 
-		} catch (SQLException ex) {
+		catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -85,6 +81,14 @@ public class OrdersView {
 
 	public void setCheckBox(boolean checkBox) {
 		this.checkBox = checkBox;
+	}
+
+	public Map<Team, Collection<Order>> getOrdersByTeam() {
+		return ordersByTeam;
+	}
+
+	public void setOrdersByTeam(Map<Team, Collection<Order>> ordersByTeam) {
+		this.ordersByTeam = ordersByTeam;
 	}
 
 }
