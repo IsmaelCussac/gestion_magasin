@@ -46,7 +46,7 @@ public class Team implements Serializable {
 	private Privilege privilege;
 
 	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY, orphanRemoval = false)
-	private Set<User> users = new HashSet<User>();
+	private Set<Person> users = new HashSet<Person>();
 
 	public Team() {
 	}
@@ -83,11 +83,11 @@ public class Team implements Serializable {
 		this.privilege = privilege;
 	}
 
-	public Set<User> getUsers() {
+	public Set<Person> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Set<User> users) {
+	public void setUsers(Set<Person> users) {
 		this.users = users;
 	}
 

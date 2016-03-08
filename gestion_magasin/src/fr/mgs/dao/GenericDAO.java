@@ -6,7 +6,7 @@ import java.util.Collection;
 import javax.persistence.EntityManager;
 
 import fr.mgs.connection.Connection;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * Abstract class used that contains the connection instance for all the DAOs

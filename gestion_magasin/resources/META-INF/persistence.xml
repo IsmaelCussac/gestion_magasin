@@ -12,7 +12,7 @@
 		<class>fr.mgs.model.product.SubCategory</class>
 		<class>fr.mgs.model.event.Event</class>
 		<class>fr.mgs.model.user.Team</class>
-		<class>fr.mgs.model.user.User</class>
+		<class>fr.mgs.model.user.Person</class>
 		<properties>
 
 			<!-- pour voir les requetes SQL -->

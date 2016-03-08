@@ -23,30 +23,24 @@
 					<p:commandButton value="Valider" id="remove"
 						actionListener="#{order.deleteOrder}" icon="ui-icon-cart" />
 				</h:form>
-				<p:accordionPanel multiple="true"
-					value="#{products.getSubCategories(cat)}" var="subCat">
 
-					<p:tab title="#{subCat.name}">
-						<h:form>
-							<p:dataTable value="#{products.getProducts(subCat)}" var="p"
-								styleClass="course-table" headerClass="course-table-header"
-								footerClass="course-table-header"
-								rowClasses="course-table-odd-row,course-table-even-row">
+				<h:form>
+					<p:dataTable value="#{orders.currentOrder}" var="ol"
+						styleClass="course-table" headerClass="course-table-header"
+						footerClass="course-table-header"
+						rowClasses="course-table-odd-row,course-table-even-row">
 
-								<p:column>
-									<p:graphicImage name="/image/product-icon.png" />
-								</p:column>
-								<p:column headerText="Désignation">
-									<h:outputText value="#{p.designation}" />
-								</p:column>
-								<p:column headerText="Quantité">
-									<p:spinner id="basic" value="" min="0" />
-								</p:column>
-							</p:dataTable>
-						</h:form>
-					</p:tab>
-
-				</p:accordionPanel>
+						<p:column>
+							<p:graphicImage name="/image/product-icon.png" />
+						</p:column>
+						<p:column headerText="Désignation">
+							<h:outputText value="#{ol.product.designation}" />
+						</p:column>
+						<p:column headerText="Quantité">
+							<p:spinner id="basic" value="#{ol.quantity}" min="0" />
+						</p:column>
+					</p:dataTable>
+				</h:form>
 
 			</f:view>
 		</ui:define>

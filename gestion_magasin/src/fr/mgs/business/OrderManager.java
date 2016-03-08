@@ -2,15 +2,18 @@ package fr.mgs.business;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
+import fr.mgs.dao.OrderDAO;
 import fr.mgs.dao.Table;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.user.Person;
 
 /**
  * Business class that manage the following DAOs to access database and process
@@ -22,7 +25,7 @@ import fr.mgs.model.order.OrderLine;
 public class OrderManager {
 
 	private DAOManager daoManager;
-	private GenericDAO<Order, Integer> orderDao;
+	private OrderDAO orderDao;
 	private GenericDAO<OrderLine, Integer> orderLineDao;
 
 	public OrderManager() {
@@ -33,7 +36,7 @@ public class OrderManager {
 	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
 		daoManager.init(ds);
-		orderDao = (GenericDAO<Order, Integer>) daoManager.getDAO(Table.ORDER);
+		orderDao = (OrderDAO) daoManager.getDAO(Table.ORDER);
 		orderLineDao = (GenericDAO<OrderLine, Integer>) daoManager.getDAO(Table.ORDER_LINE);
 	}
 
@@ -47,11 +50,11 @@ public class OrderManager {
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<Order, Integer> getOrderDao() {
+	public OrderDAO getOrderDao() {
 		return orderDao;
 	}
 
-	public void setOrderDao(GenericDAO<Order, Integer> orderDao) {
+	public void setOrderDao(OrderDAO orderDao) {
 		this.orderDao = orderDao;
 	}
 
@@ -111,5 +114,14 @@ public class OrderManager {
 	
 	public void updateOrderLine(OrderLine orderLine) throws SQLException{
 		orderLineDao.update(orderLine);
+	}
+	
+	public Collection<Order> findOrdersByUser(Person user){
+		return orderDao.findOrdersByUser(user);
+	}
+
+	public List<OrderLine> findCurrentOrderLines(String userId) {
+		// TODO
+		return null;
 	}
 }

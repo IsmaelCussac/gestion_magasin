@@ -25,7 +25,7 @@ import fr.mgs.toolbox.Hasher;
  */
 @Entity(name = "users")
 @Table(name = "user_t")
-public class User implements Serializable {
+public class Person implements Serializable {
 
 	@Id
 	@Column(name = "user_id")
@@ -53,7 +53,7 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "orderUser", fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Order> orders = new HashSet<Order>();
 
-	public User() {
+	public Person() {
 	}
 
 	public String getUserId() {

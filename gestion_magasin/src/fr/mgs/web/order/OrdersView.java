@@ -1,7 +1,9 @@
 package fr.mgs.web.order;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -12,7 +14,7 @@ import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * Manage storekeeper oders views
@@ -24,8 +26,8 @@ import fr.mgs.model.user.User;
 @ViewScoped
 public class OrdersView {
 
-	private Map<Team, List<User>> usersByTeam = new HashMap<>();;
-	private Map<User, List<Order>> ordersByUser = new HashMap<>();
+	private Map<Team, List<Person>> usersByTeam = new HashMap<>();;
+	private Map<Person, List<Order>> ordersByUser = new HashMap<>();
 
 	private Order selectedOrder;
 	private OrderManager orderManager;
@@ -44,12 +46,12 @@ public class OrdersView {
 
 			for (Team team : userManager.findAllTeams()) {
 				if (!team.getUsers().isEmpty()) {
-					usersByTeam.put(team, (List<User>) team.getUsers());
+					usersByTeam.put(team, (List<Person>) team.getUsers());
 				}
 
 			}
 
-			for (User user : userManager.findAllUsers()) {
+			for (Person user : userManager.findAllUsers()) {
 				if (!user.getOrders().isEmpty()) {
 					ordersByUser.put(user, (List<Order>) user.getOrders());
 				}

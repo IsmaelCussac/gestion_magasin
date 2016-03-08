@@ -10,7 +10,7 @@ import fr.mgs.connection.Connection;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * This class is used to manage order's dao
@@ -104,7 +104,7 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	 */
 
 	@SuppressWarnings("unchecked")
-	public List<Order> findOrderByUser(User u) {
+	public List<Order> findOrderByUser(Person u) {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :ou");
 		query.setParameter("ou", u.getUserId());
@@ -136,6 +136,14 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		em.remove(em.merge(order));
 		commit();
 		closeEm();
+	}
+
+	public Collection<Order> findOrdersByUser(Person user) {
+		loadEm();
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser = :u");
+		query.setParameter("u", user);
+		return query.getResultList();
+		
 	}
 
 }

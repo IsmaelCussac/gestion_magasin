@@ -13,7 +13,7 @@ import fr.mgs.model.event.Action;
 import fr.mgs.model.event.Event;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * Dao used to manage log monitor entity

@@ -19,7 +19,7 @@ import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * This class is used to test orders DAO
@@ -39,9 +39,9 @@ public class OrderDaoTest {
 	private static Team team;
 	private static Team team2;
 
-	private static User marc;
-	private static User paul;
-	private static User marie;
+	private static Person marc;
+	private static Person paul;
+	private static Person marie;
 
 	@SuppressWarnings("unchecked")
 	@BeforeClass
@@ -57,9 +57,9 @@ public class OrderDaoTest {
 		team = new Team();
 		team2 = new Team();
 
-		marc = new User();
-		paul = new User();
-		marie = new User();
+		marc = new Person();
+		paul = new Person();
+		marie = new Person();
 
 		marcOrder = new Order();
 		paulOrder = new Order();
