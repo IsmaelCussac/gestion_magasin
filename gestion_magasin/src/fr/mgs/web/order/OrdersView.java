@@ -3,8 +3,9 @@ package fr.mgs.web.order;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -15,7 +16,6 @@ import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
-import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Team;
 
 /**
@@ -30,8 +30,6 @@ import fr.mgs.model.user.Team;
 public class OrdersView {
 
 	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<>();
-	private Map<Team, List<Person>> usersByTeam = new HashMap<>();;
-	private Map<Person, List<Order>> ordersByUser = new HashMap<>();
 
 	private Order selectedOrder;
 	private OrderManager orderManager;
@@ -50,11 +48,13 @@ public class OrdersView {
 			userManager.init(DataSource.LOCAL);
 			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 
-			for (Person user : userManager.findAllUsers()) {
-				if (!user.getOrders().isEmpty()) {
-					ordersByUser.put(user, (List<Order>) user.getOrders());
+			for (Team team : userManager.findAllTeams()) {
+				if (team.getUsers() != null && !team.getUsers().isEmpty()) {
+					ordersByTeam.put(team, orderDao.findOrderByTeam(team));
 				}
+
 			}
+
 		}
 
 		catch (SQLException ex) {
