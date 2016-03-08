@@ -29,7 +29,7 @@ import fr.mgs.model.user.Team;
 @ViewScoped
 public class OrdersView {
 
-	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<>();
+	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<Team, Collection<Order>>();
 
 	private Team selectedTeam = new Team();
 	private OrderManager orderManager;
