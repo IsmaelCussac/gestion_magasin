@@ -14,7 +14,7 @@ import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * Class used to test UserDao
@@ -26,7 +26,7 @@ public class UserDaoTest {
 
 	private static UserManager userManager;
 	private Team team;
-	private User user;
+	private Person user;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
@@ -46,7 +46,7 @@ public class UserDaoTest {
 		team.setTeam("APDCMT", "Approches physiques de la dynamique cellulaire et de la morphogénèse des tissus", 7, Privilege.CUSTOMER);
 		userManager.addTeam(team);
 		
-		user = new User();
+		user = new Person();
 		user.setUser("d1102526", "Jean-Louis", "De Beauregard", team, "0442060504", "jean-louis.de-beauregard@mail.fr",
 				"secret");
 	}
@@ -118,7 +118,7 @@ public class UserDaoTest {
 	public void testUpdateUser() throws SQLException{
 		userManager.addUser(user);
 		
-		User updateUser = userManager.findUser("d1102526");
+		Person updateUser = userManager.findUser("d1102526");
 		updateUser.setFirstName("Jean-Lou");
 		
 		userManager.updateUser(updateUser);
@@ -133,7 +133,7 @@ public class UserDaoTest {
 		newTeam.setTeam("New Team", "New team to test the method", 3, Privilege.CUSTOMER);
 		userManager.addTeam(newTeam);
 		
-		User updateUser = userManager.findUser("d1102526");
+		Person updateUser = userManager.findUser("d1102526");
 		updateUser.setTeam(newTeam);
 		
 		userManager.updateUser(updateUser);

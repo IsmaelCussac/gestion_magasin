@@ -18,11 +18,10 @@
 				<p:accordionPanel value="#{products.getAllCategories()}" var="cat">
 
 					<p:tab title="#{cat.toString()}">
-						<p:accordionPanel id="subAccordion" multiple="true"
+						<p:accordionPanel id="subAccordion" multiple="true" dynamic="true" cache="true"
 							value="#{products.getSubCategories(cat)}" var="subCat">
 
 							<p:tab title="#{subCat.name}">
-								<!-- 								<p:ajax listener="#{products.getProducts(subCat)}" update="" /> -->
 								<h:form>
 
 									<p:dataTable value="#{products.getProducts(subCat)}" var="p"

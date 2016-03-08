@@ -3,6 +3,7 @@ package fr.mgs.web.order;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +15,7 @@ import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Team;
 
 /**
@@ -28,6 +30,8 @@ import fr.mgs.model.user.Team;
 public class OrdersView {
 
 	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<>();
+	private Map<Team, List<Person>> usersByTeam = new HashMap<>();;
+	private Map<Person, List<Order>> ordersByUser = new HashMap<>();
 
 	private Order selectedOrder;
 	private OrderManager orderManager;
@@ -46,14 +50,11 @@ public class OrdersView {
 			userManager.init(DataSource.LOCAL);
 			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 
-			for (Team team : userManager.findAllTeams()) {
-				if (team.getUsers() != null && !team.getUsers().isEmpty()) {
-
-					ordersByTeam.put(team, orderDao.findOrderByTeam(team));
+			for (Person user : userManager.findAllUsers()) {
+				if (!user.getOrders().isEmpty()) {
+					ordersByUser.put(user, (List<Order>) user.getOrders());
 				}
-
 			}
-
 		}
 
 		catch (SQLException ex) {
@@ -61,7 +62,6 @@ public class OrdersView {
 		}
 	}
 
-	
 	public void cbListener(Team t) {
 		System.out.println("Equipe selectionnée = " + t.getName());
 	}

@@ -11,7 +11,7 @@ import fr.mgs.connection.Connection;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * Dao used to manage order line entity

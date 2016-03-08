@@ -10,7 +10,7 @@ import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.Table;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * Business class that manage the following DAOs to access database and process
@@ -23,7 +23,7 @@ import fr.mgs.model.user.User;
 public class UserManager {
 
 	private DAOManager daoManager;
-	private GenericDAO<User, String> userDao;
+	private GenericDAO<Person, String> userDao;
 	private GenericDAO<Team, String> teamDao;
 
 	public UserManager() {
@@ -34,7 +34,7 @@ public class UserManager {
 	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
 		daoManager.init(ds);
-		userDao = (GenericDAO<User, String>) daoManager.getDAO(Table.USER);
+		userDao = (GenericDAO<Person, String>) daoManager.getDAO(Table.USER);
 		teamDao = (GenericDAO<Team, String>) daoManager.getDAO(Table.TEAM);
 	}
 
@@ -48,11 +48,11 @@ public class UserManager {
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<User, String> getUserDao() {
+	public GenericDAO<Person, String> getUserDao() {
 		return userDao;
 	}
 
-	public void setUserDao(GenericDAO<User, String> userDao) {
+	public void setUserDao(GenericDAO<Person, String> userDao) {
 		this.userDao = userDao;
 	}
 
@@ -66,7 +66,7 @@ public class UserManager {
 
 	// METHODS
 
-	public void addUser(User user) throws SQLException {
+	public void addUser(Person user) throws SQLException {
 		userDao.add(user);
 	}
 
@@ -74,7 +74,7 @@ public class UserManager {
 		teamDao.add(team);
 	}
 
-	public User findUser(String id) throws SQLException {
+	public Person findUser(String id) throws SQLException {
 		return userDao.find(id);
 	}
 	
@@ -90,7 +90,7 @@ public class UserManager {
 		teamDao.remove(id);
 	}
 
-	public Collection<User> findAllUsers() throws SQLException {
+	public Collection<Person> findAllUsers() throws SQLException {
 		return userDao.findAll();
 	}
 	
@@ -106,7 +106,7 @@ public class UserManager {
 		return teamDao.exists(id);
 	}
 	
-	public void updateUser(User user) throws SQLException{
+	public void updateUser(Person user) throws SQLException{
 		userDao.update(user);
 	}
 	

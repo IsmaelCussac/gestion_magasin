@@ -93,7 +93,7 @@ public class OrderLine implements Serializable {
 	public void setOrderLine(Order order, Product product, int quantity, int deleveredQuantity){
 		setOrder(order);
 		setProduct(product);
-		setQuantity(deleveredQuantity);
+		setQuantity(quantity);
 		setDeliveredQuantity(deleveredQuantity);
 	}
 	

@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.dao.UserDAO;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * UserDetailService implementation used by Spring Security
@@ -39,7 +39,7 @@ public class UserService implements UserDetailsService {
 	 */
 	public UserDetails loadUserByUsername(String userId)
 			throws UsernameNotFoundException {
-		User user = null;
+		Person user = null;
 		try {
 			user = userManager.findUser(userId);
 		} catch (SQLException e) {
@@ -59,7 +59,7 @@ public class UserService implements UserDetailsService {
 	 *            previously built authority list
 	 * @return a built spring security user
 	 */
-	private UserDetailWithName buildUserForAuthentication(User user,
+	private UserDetailWithName buildUserForAuthentication(Person user,
 			List<GrantedAuthority> authorities) {
 		UserDetailWithName result = new UserDetailWithName(user.getUserId(),
 				user.getPassword(), authorities);

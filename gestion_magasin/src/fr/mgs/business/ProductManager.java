@@ -18,7 +18,7 @@ import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * Business class that manage the following DAOs to access database and process
