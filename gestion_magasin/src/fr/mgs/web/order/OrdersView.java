@@ -62,6 +62,7 @@ public class OrdersView {
 		}
 	}
 
+	
 	public void cbListener(Team t) {
 		System.out.println("Equipe selectionnée = " + t.getName());
 	}
