@@ -1,102 +1,91 @@
 package fr.mgs.web.product;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.faces.bean.ManagedBean;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.primefaces.event.TabChangeEvent;
 
 import fr.mgs.business.ProductManager;
+import fr.mgs.connection.DataSource;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 
-//@Controller
-//@RequestMapping("/product")
+/**
+ * this class is the product's controller for the store keeper
+ * 
+ * @author Mana, Ismael
+ *
+ */
+
 @ManagedBean(name = "productsList")
 public class ProductStoreKeeperController {
+	private ProductManager productManager;
 
-	// protected final Log logger = LogFactory.getLog(getClass());
-	 private ProductManager productManager = new ProductManager();
-	// private CategoryManager iManagerC = new CategoryManager();
-
-	private List<SubCategory> listSub;
-	private Set<Product> listProd ;
-	private Set<Product> listProd2 ;
-	Map<Category, List<SubCategory>> categories;
-	private int quantity;
-	
-//	@ModelAttribute("categories")
-	public Map<Category, List<SubCategory>> getCategories() {
-		listSub = new ArrayList<SubCategory>();
-		listProd = new HashSet<Product>();
-		listProd2 = new HashSet<Product>();
-		categories = new HashMap<Category, List<SubCategory>>();
-
-		SubCategory sub1 = new SubCategory();
-		sub1.setSubCategory("category1", Category.CULTURE_PLASTIC);
-		
-		SubCategory sub2 = new SubCategory();
-		sub2.setSubCategory("category2", Category.CULTURE_PLASTIC);
-
-		Product prod1 = new Product();
-		prod1.setProductId(1);
-		prod1.setProduct("designation1", sub1, 4, 3, 5, true, "picture", 4);
-		listProd.add(prod1);
-
-		Product prod2 = new Product();
-		prod2.setProductId(2);
-		prod2.setProduct("designation2", sub1, 4, 3, 5, true, "picture", 4);
-		listProd.add(prod2);
-
-		Product prod3 = new Product();
-		prod3.setProductId(3);
-		prod3.setProduct("designation3", sub2, 4, 3, 5, true, "picture", 4);
-		listProd2.add(prod3);
-
-		Product prod4 = new Product();
-		prod4.setProductId(4);
-		prod4.setProduct("designation4", sub2, 4, 3, 5, true, "picture", 4);
-		listProd2.add(prod4);
-		
-		sub1.setProducts(listProd);
-		sub2.setProducts(listProd2);
-		
-		listSub.add(sub1);
-		listSub.add(sub2);
-
-		categories.put(Category.CULTURE_PLASTIC, listSub);
-		// return iManagerC.findAll();
-		return categories;
-	}
-	
-	public int getQuantity(Product p){
-		//ManagerP.getItemQuantity(p);
-		quantity = productManager.findItemQuantity(p);
-		return quantity;
-	}
-
-	/***
-	 * This method returns the person to add.
+	/**
 	 * 
-	 * @param personId
+	 * @throws SQLException
+	 */
+	public ProductStoreKeeperController() throws SQLException {
+		productManager = new ProductManager();
+		productManager.init(DataSource.LOCAL);
+	}
+
+	/**
+	 * 
+	 * @param sub
 	 * @return
 	 */
-	@ModelAttribute
-	public Product newProduct(@RequestParam(value = "id", required = false) Integer productId) {
-		if (productId != null) {
-			// logger.info("find product " + productId);
-			// return iManagerP.find(personId);
-		}
-		Product p = new Product();
-		// p.setProduct("", "", "", "", null, "", "USER", false);
-		return p;
+	public List<Product> getProducts(SubCategory sub) {
+		System.out.println(" Get prod : " + sub.getName());
+		System.out.println(productManager.findProductsBySubCategory(sub));
+		return (List<Product>) productManager.findProductsBySubCategory(sub);
+	}
+
+	/**
+	 * 
+	 * @param cat
+	 * @return
+	 */
+	public List<SubCategory> getSubCategories(Category cat) {
+		System.out.println(" Get sub cat : " + cat.toString());
+		return (List<SubCategory>) productManager.findSubCategoriesByCategory(cat);
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Collection<Category> getAllCategories() {
+
+		System.out.println("Get all cat");
+		Collection<Category> categories = new ArrayList<Category>();
+
+		categories.add(Category.PAPER);
+		categories.add(Category.PLASTIC);
+		categories.add(Category.CULTURE_PLASTIC);
+
+		return categories;
+	}
+
+	/**
+	 * 
+	 * @param event
+	 */
+	public void onTabChange(TabChangeEvent event) {
+		System.out.println("event " + event.getTab().getId());
+	}
+
+	/**
+	 * 
+	 * @param event
+	 */
+	public void onChange(TabChangeEvent event) {
+		System.out.println("Tab Changed :: You've Requested Seeing :: " + event.getTab().getTitle());
 	}
 
 }
