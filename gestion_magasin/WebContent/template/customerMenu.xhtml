@@ -10,10 +10,12 @@
 <ui:composition>
 	<h:form>
 		<p:tabMenu activeIndex="#{param.i}">
-			<p:menuitem value="Magasin" icon="ui-icon-star">
+			<p:menuitem value="Magasin" icon="ui-icon-star"
+				outcome="productCustomer.xhtml">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Ma commande" icon="ui-icon-star">
+			<p:menuitem value="Ma commande" icon="ui-icon-star"
+				outcome="orderCustomer.xhtml">
 				<f:param name="i" value="1" />
 			</p:menuitem>
 			<p:menuitem value="Historique" icon="ui-icon-star">

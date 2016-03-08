@@ -31,7 +31,7 @@ public class OrdersView {
 
 	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<>();
 
-	private Order selectedOrder;
+	private Team selectedTeam = new Team();
 	private OrderManager orderManager;
 	private UserManager userManager;
 	private OrderDAO orderDao;
@@ -60,20 +60,11 @@ public class OrdersView {
 		catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+
 	}
 
 	public void cbListener(Team t) {
-		System.out.println("Equipe selectionnée = " + t.getName());
-	}
-
-	public Order getSelectedOrder() {
-
-		return selectedOrder;
-	}
-
-	public void setSelectedOrder(Order selectedOrder) {
-		System.out.println(selectedOrder.getOrderId());
-		this.selectedOrder = selectedOrder;
+		selectedTeam = t;
 	}
 
 	public boolean isCheckBox() {

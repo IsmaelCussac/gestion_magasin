@@ -15,7 +15,21 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form>
+		<h:form id="form">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:panelGrid columns="3" layout="grid">
+				<f:facet name="header">
+					<p:row>
+						<p:commandLink action="#{navigationController.showSkOrders()}"
+							value="Retour" style="float:left" />
+						<p:column>Equipe: e</p:column>
+						<p:commandLink action="#{navigationController.deliveryOrder()}"
+							value="Enregistrer" style="float:right" />
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+			<br />
 		</h:form>
 	</ui:define>
 </ui:composition>
