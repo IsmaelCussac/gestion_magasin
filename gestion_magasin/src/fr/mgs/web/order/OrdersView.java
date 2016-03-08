@@ -1,6 +1,5 @@
 package fr.mgs.web.order;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +15,7 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.user.Team;
+import fr.mgs.model.user.User;
 
 /**
  * Manage storekeeper oders views
@@ -27,10 +27,10 @@ import fr.mgs.model.user.Team;
 @SuppressWarnings("serial")
 @ManagedBean(name = "ordersView")
 @ViewScoped
-public class OrdersView implements Serializable {
+public class OrdersView {
 
-	private List<Order> orders;
-	private List<Team> teams;
+	private Map<Team, List<User>> usersByTeam = new HashMap<>();;
+	private Map<User, List<Order>> ordersByUser = new HashMap<>();
 
 	private Order selectedOrder;
 	private OrderManager orderManager;
@@ -38,6 +38,7 @@ public class OrdersView implements Serializable {
 
 	private boolean checkBox = false;
 
+	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
 		try {
@@ -45,16 +46,28 @@ public class OrdersView implements Serializable {
 			orderManager.init(DataSource.LOCAL);
 			userManager = new UserManager();
 			userManager.init(DataSource.LOCAL);
-			teams = (List<Team>) userManager.findAllTeams();
-			orders = (List<Order>) orderManager.findAllOrders();
+
+			for (Team team : userManager.findAllTeams()) {
+				if (!team.getUsers().isEmpty()) {
+					usersByTeam.put(team, (List<User>) team.getUsers());
+				}
+
+			}
+
+			for (User user : userManager.findAllUsers()) {
+				if (!user.getOrders().isEmpty()) {
+					ordersByUser.put(user, (List<Order>) user.getOrders());
+				}
+			}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public void cbListener() {
-		System.out.println("Cocher = " + !checkBox);
+	
+	public void cbListener(Team t) {
+		System.out.println("Equipe selectionnée = " + t.getName());
 	}
 
 	public Order getSelectedOrder() {
@@ -63,15 +76,8 @@ public class OrdersView implements Serializable {
 	}
 
 	public void setSelectedOrder(Order selectedOrder) {
+		System.out.println(selectedOrder.getOrderId());
 		this.selectedOrder = selectedOrder;
-	}
-
-	public List<Team> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
 	}
 
 	public boolean isCheckBox() {
@@ -82,11 +88,4 @@ public class OrdersView implements Serializable {
 		this.checkBox = checkBox;
 	}
 
-	public List<Order> getOrders() {
-		return orders;
-	}
-
-	public void setOrders(List<Order> orders) {
-		this.orders = orders;
-	}
 }
