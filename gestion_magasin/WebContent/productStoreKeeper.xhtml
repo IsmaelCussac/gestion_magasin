@@ -1,7 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -11,6 +7,7 @@
 
 <h:body>
 	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">Etat des stocks</ui:define>
 
 		<ui:define name="menu">
 			<ui:include src="/template/storekeeperMenu.xhtml" />
@@ -18,81 +15,44 @@
 		<ui:define name="content">
 			<f:view>
 
+				<p:accordionPanel value="#{products.getAllCategories()}" var="cat">
 
-				<ui:repeat var="cat"
-					value="#{productsList.categories.entrySet().toArray()}">
-					<p:growl id="msgs" showDetail="true" />
-					<p:fieldset legend="#{cat.key.toString()}" toggleable="true"
-						toggleSpeed="500">
-						<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
-						<ui:repeat var="subCat" value="#{cat.value}">
+					<p:tab title="#{cat.toString()}">
+						<p:accordionPanel id="subAccordion" multiple="true"
+							value="#{products.getSubCategories(cat)}" var="subCat">
 
-							<p:fieldset legend="#{subCat.name}" toggleable="true"
-								toggleSpeed="500">
-								<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
+							<p:tab title="#{subCat.name}">
+<!-- 								<p:ajax listener="#{products.getProducts(subCat)}" update="" /> -->
+								<h:form>
 
-								<ui:repeat var="product" value="#{subCat.products.toArray()}">
+									<p:dataTable value="#{products.getProducts(subCat)}" var="p"
+										styleClass="course-table" headerClass="course-table-header"
+										footerClass="course-table-header"
+										rowClasses="course-table-odd-row,course-table-even-row">
 
-									<p:fieldset legend="#{product.designation}" toggleable="true"
-										toggleSpeed="500">
-										<p:ajax event="toggle" listener="#{fieldsetView.handleToggle}" />
-										<h:form>
-											<!-- 											<p:accordionPanel multiple="true" activeIndex="null"> -->
-											<p:tab title="${product.designation}">
-												<h:outputText value="Description " style="font-weight: bold" />
-												<h:outputText value="${product.designation}" />
-												<p:separator />
+										<p:column>
+											<p:graphicImage name="/image/product-icon.png" />
+										</p:column>
+										<p:column headerText="Désignation">
+											<h:outputText value="#{p.designation}" />
+										</p:column>
+										<p:column headerText="Nombre d'articles">
+											<h:outputText value="" />
+										</p:column>
+										<p:column headerText="Visibilité">
+											<p:selectBooleanCheckbox value="0" />
+										</p:column>
+										<p:column>
+											<p:commandButton icon="fa-plus" value="Modifier"/>
+										</p:column>
+									</p:dataTable>
+								</h:form>
+							</p:tab>
 
-												<h:outputText value="Quantité minimun :"
-													style="font-weight: bold" />
+						</p:accordionPanel>
+					</p:tab>
+				</p:accordionPanel>
 
-												<h:outputText value="${product.minQuantity}" />
-												<p:separator />
-
-												<h:outputText value="Prix : " style="font-weight: bold" />
-
-												<h:outputText value="${product.price}" />
-
-												<p:separator />
-
-												<h:outputText value="Visibilité " style="font-weight: bold" />
-												<h:outputText value="${product.visibility}" />
-
-												<p:separator />
-
-
-												<h:outputText value="Conditionnement"
-													style="font-weight: bold" />
-
-												<h:outputText value="${product.conditioning}" />
-												<p:separator />
-
-												<h:outputText value="Quantité en stock"
-													style="font-weight: bold" />
-
-												<!-- 												<h:outputText value="${productList.getQuantity(product)}" /> -->
-												<p:separator />
-
-
-												<p:commandButton value="Supprimer" id="supprimer"
-													action="#{person.deleteActivity(act)}"
-													styleClass="ui-priority-primary">
-													<f:ajax execute="" render="@all" />
-												</p:commandButton>
-												<p:commandButton value="Modifier" id="modify"
-													action="#{person.updateActivity(act)}"
-													styleClass="ui-priority-primary">
-
-												</p:commandButton>
-											</p:tab>
-											<!-- 											</p:accordionPanel> -->
-										</h:form>
-									</p:fieldset>
-								</ui:repeat>
-							</p:fieldset>
-						</ui:repeat>
-					</p:fieldset>
-				</ui:repeat>
 			</f:view>
 		</ui:define>
 	</ui:composition>
