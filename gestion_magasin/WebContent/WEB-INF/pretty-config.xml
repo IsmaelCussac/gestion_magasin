@@ -40,7 +40,22 @@
 
 	<url-mapping id="skProducts">
 		<pattern value="/storekeeper/products" />
-		<view-id value="/productStoreKeeper.xhtml" />
+		<view-id value="/storeKeeperProducts.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="skOrders">
+		<pattern value="/storekeeper/orders" />
+		<view-id value="/storeKeeperOrders.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="skDelivery">
+		<pattern value="/storekeeper/delivery" />
+		<view-id value="/storeKeeperDelivery.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="skAlerte">
+		<pattern value="/storekeeper/alert" />
+		<view-id value="/storeKeeperAlert.xhtml" />
 	</url-mapping>
 
 	<!-- Admin -->

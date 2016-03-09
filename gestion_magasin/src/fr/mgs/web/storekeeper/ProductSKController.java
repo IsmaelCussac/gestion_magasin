@@ -1,47 +1,45 @@
-package fr.mgs.web.product;
+package fr.mgs.web.storekeeper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-
-import org.primefaces.event.TabChangeEvent;
 
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
+import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 
-/**
- * this class is the product's controller for the customer
- * 
- * @author Mana, Ismael
- *
- */
-
-@ManagedBean(name = "products")
+@ManagedBean(name = "skProducts")
 @ApplicationScoped
-public class ProductCustomerController {
+public class ProductSKController {
 
 	private ProductManager productManager;
 	private OrderManager orderManager;
-
-	/**
-	 * initialization of the controller
-	 * 
-	 * @throws SQLException
-	 */
-	public ProductCustomerController() throws SQLException {
+	private Order currentOrder;
+	
+	@PostConstruct
+	public void init(){
 		productManager = new ProductManager();
-		productManager.init(DataSource.LOCAL);
+		try {
+			productManager.init(DataSource.LOCAL);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		orderManager = new OrderManager();
-		orderManager.init(DataSource.LOCAL);
+		try {
+			orderManager.init(DataSource.LOCAL);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -81,22 +79,6 @@ public class ProductCustomerController {
 		categories.add(Category.CULTURE_PLASTIC);
 
 		return categories;
-	}
-
-	/**
-	 * 
-	 * @param event
-	 */
-	public void onTabChange(TabChangeEvent event) {
-		System.out.println("event " + event.getTab().getId());
-	}
-
-	/**
-	 * 
-	 * @param event
-	 */
-	public void onChange(TabChangeEvent event) {
-		System.out.println("Tab Changed :: You've Requested Seeing :: " + event.getTab().getTitle());
 	}
 
 	/**

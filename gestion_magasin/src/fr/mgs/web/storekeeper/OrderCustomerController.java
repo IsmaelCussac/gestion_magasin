@@ -1,4 +1,4 @@
-package fr.mgs.web.order;
+package fr.mgs.web.storekeeper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

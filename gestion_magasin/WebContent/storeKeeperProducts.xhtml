@@ -15,16 +15,16 @@
 		<ui:define name="content">
 			<f:view>
 
-				<p:accordionPanel value="#{products.getAllCategories()}" var="cat">
+				<p:accordionPanel value="#{skProducts.getAllCategories()}" var="cat">
 
 					<p:tab title="#{cat.toString()}">
 						<p:accordionPanel id="subAccordion" multiple="true" dynamic="true" cache="false"
-							value="#{products.getSubCategories(cat)}" var="subCat">
+							value="#{skProducts.getSubCategories(cat)}" var="subCat">
 
 							<p:tab title="#{subCat.name}">
 								<h:form>
 
-									<p:dataTable value="#{products.getProducts(subCat)}" var="p"
+									<p:dataTable value="#{skProducts.getProducts(subCat)}" var="p"
 										styleClass="course-table" headerClass="course-table-header"
 										footerClass="course-table-header"
 										rowClasses="course-table-odd-row,course-table-even-row">

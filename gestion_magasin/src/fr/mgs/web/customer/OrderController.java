@@ -1,4 +1,4 @@
-package fr.mgs.web.product;
+package fr.mgs.web.customer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -6,11 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import javax.faces.bean.SessionScoped;
 
 import fr.mgs.business.OrderManager;
 import fr.mgs.connection.DataSource;
@@ -26,7 +23,7 @@ import fr.mgs.model.user.Team;
 
 
 @ManagedBean(name="orders")
-@ApplicationScoped
+@SessionScoped
 public class OrderController {
 
 	private OrderManager orderManager;
@@ -36,10 +33,6 @@ public class OrderController {
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
 	}
-	
-//	public List<Order> getOrders() {
-//		return (List<Order>) orderManager.findOrder();
-//	}
 	
 	public void submitOrder(){
 		
