@@ -44,14 +44,14 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 		for (GrantedAuthority grantedAuthority : authorities) {
 			System.out.println(grantedAuthority.getAuthority());
 			if (grantedAuthority.getAuthority().equals(Privilege.CUSTOMER.name())) {
-				return "/customer/productCustomer.xhtml";
+				return "/customer/products";
 			} else if (grantedAuthority.getAuthority().equals(Privilege.STORE_KEEPER.name())) {
-				return "/storekeeper/productStoreKeeper.xhtml";
+				return "/storekeeper/products";
 			} else if (grantedAuthority.getAuthority().equals(Privilege.APP_ADMIN.name())) {
-				return "/admin/alert.xhtml";
+				return "/admin/alert";
 			}
 		}
-		return "/403.xhtml";
+		return "/403";
 	}
 
 	protected void clearAuthenticationAttributes(HttpServletRequest request) {

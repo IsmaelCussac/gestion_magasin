@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.2
+   http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
+   
+    <url-mapping id="connection">
+        <pattern value="/connection" />
+        <view-id value="/login.xhtml" />
+    </url-mapping>
+    
+    <url-mapping id="prodCst">
+        <pattern value="/customer/products" />
+        <view-id value="/productCustomer.xhtml" />
+    </url-mapping>
+    
+     <url-mapping id="prodSK">
+        <pattern value="/storekeeper/products" />
+        <view-id value="/productStoreKeeper.xhtml" />
+    </url-mapping>
+
+</pretty-config>
