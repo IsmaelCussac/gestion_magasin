@@ -1,9 +1,9 @@
 package fr.mgs.model.product;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -75,7 +75,7 @@ public class Product  {
 	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Lot> lots = new HashSet<Lot>();
 	
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false)
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false,cascade = { CascadeType.REMOVE, CascadeType.MERGE } )
 	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 
 	public Product() {
