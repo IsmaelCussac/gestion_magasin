@@ -25,7 +25,7 @@ import fr.mgs.toolbox.Hasher;
  */
 @Entity(name = "users")
 @Table(name = "user_t")
-public class Person implements Serializable {
+public class Person  {
 
 	@Id
 	@Column(name = "user_id")

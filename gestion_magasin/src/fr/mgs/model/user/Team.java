@@ -28,7 +28,7 @@ import org.hibernate.validator.constraints.Range;
  */
 @Entity(name = "teams")
 @Table(name = "team_t")
-public class Team implements Serializable {
+public class Team {
 
 	@Id
 	@Column(name = "team_id")

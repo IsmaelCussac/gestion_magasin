@@ -30,6 +30,50 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
+			<h:form>
+				<h:form>
+					<p:dataTable value="#{orders.currentOrder}" var="ol">
+
+
+						<p:columnGroup type="header">
+							<p:row>
+								<p:column colspan="3" headerText="Destinataire" />
+								<p:column colspan="3" headerText="Livraison" />
+								<p:column colspan="3" headerText="Statut" />
+
+							</p:row>
+							<p:row>
+								<p:column colspan="3" headerText="s14027279" />
+								<p:column colspan="3" headerText="11-03-2016" />
+								<p:column colspan="3" headerText="En cours ..." />
+
+							</p:row>
+							<p:row>
+								<p:column colspan="6" headerText="Produits demandés" />
+								<p:column colspan="3" headerText="Scannés" />
+						
+							</p:row>
+						</p:columnGroup>
+
+						<p:column colspan="6">
+							<h:outputText value="a" />
+						</p:column>
+						<p:column>
+							<h:outputText value="b" />
+						</p:column>
+						<p:column>
+							<h:outputText value="c" />
+						</p:column>
+						<p:column>
+							<h:outputText value="d">
+
+							</h:outputText>
+						</p:column>
+				
+					</p:dataTable>
+
+				</h:form>
+			</h:form>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -1,5 +1,6 @@
 package fr.mgs.web.order;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,8 +9,10 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.UserManager;
@@ -24,19 +27,19 @@ import fr.mgs.model.user.Team;
  * @author Ibrahima
  *
  */
-
 @ManagedBean(name = "ordersView")
 @ViewScoped
-public class OrdersView {
+public class OrdersView implements Serializable{
 
 	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<Team, Collection<Order>>();
 
-	private Team selectedTeam = new Team();
+	private Team selectedTeam;
 	private OrderManager orderManager;
 	private UserManager userManager;
 	private OrderDAO orderDao;
 
 	private boolean checkBox = false;
+	private int oneTeamSelected = 0;
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -63,8 +66,19 @@ public class OrdersView {
 
 	}
 
-	public void cbListener(Team t) {
-		selectedTeam = t;
+	public void addMessage(Team t) {
+		System.out.println("chechek: " + checkBox);
+		if (checkBox) {
+			selectedTeam = t;
+			oneTeamSelected++;
+		} else {
+			selectedTeam = null;
+			--oneTeamSelected;
+		}
+
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Sélectionnez une seule équipe"));
+
 	}
 
 	public boolean isCheckBox() {
@@ -81,6 +95,22 @@ public class OrdersView {
 
 	public void setOrdersByTeam(Map<Team, Collection<Order>> ordersByTeam) {
 		this.ordersByTeam = ordersByTeam;
+	}
+
+	public Team getSelectedTeam() {
+		return selectedTeam;
+	}
+
+	public void setSelectedTeam(Team selectedTeam) {
+		this.selectedTeam = selectedTeam;
+	}
+
+	public int getOneTeamSelected() {
+		return oneTeamSelected;
+	}
+
+	public void setOneTeamSelected(int oneTeamSelected) {
+		this.oneTeamSelected = oneTeamSelected;
 	}
 
 }

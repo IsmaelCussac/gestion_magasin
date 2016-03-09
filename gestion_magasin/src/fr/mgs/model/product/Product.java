@@ -36,7 +36,7 @@ import fr.mgs.model.order.OrderLine;
  */
 @Entity(name = "products")
 @Table(name = "product_t")
-public class Product implements Serializable {
+public class Product  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

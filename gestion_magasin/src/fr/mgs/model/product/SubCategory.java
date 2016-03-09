@@ -23,7 +23,7 @@ import javax.persistence.Table;
  */
 @Entity(name = "subCategories")
 @Table(name = "sub_category_t")
-public class SubCategory implements Serializable {
+public class SubCategory {
 
 	@Id
 	@Column(name = "sub_category_name")
