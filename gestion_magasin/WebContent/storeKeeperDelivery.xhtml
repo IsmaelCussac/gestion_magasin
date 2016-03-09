@@ -11,7 +11,7 @@
 
 
 	<ui:define name="menu">
-		<ui:include src="/template/storekeeperMenu.xhtml" />
+		<ui:include src="/template/storeKeeperMenu.xhtml" />
 	</ui:define>
 
 	<ui:define name="content">
@@ -21,10 +21,10 @@
 			<p:panelGrid columns="3" layout="grid">
 				<f:facet name="header">
 					<p:row>
-						<p:commandLink action="#{navigationController.showSkOrders()}"
+						<p:commandLink action="pretty:skOrders"
 							value="Retour" style="float:left" />
 						<p:column>Equipe: e</p:column>
-						<p:commandLink action="#{navigationController.deliveryOrder()}"
+						<p:commandLink action="pretty:skDelivery"
 							value="Enregistrer" style="float:right" />
 					</p:row>
 				</f:facet>

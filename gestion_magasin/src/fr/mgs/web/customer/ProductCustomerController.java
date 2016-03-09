@@ -9,8 +9,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import org.primefaces.event.TabChangeEvent;
-
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
