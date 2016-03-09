@@ -53,7 +53,7 @@
 		<view-id value="/storeKeeperDelivery.xhtml" />
 	</url-mapping>
 	
-	<url-mapping id="skAlerte">
+	<url-mapping id="skAlert">
 		<pattern value="/storekeeper/alert" />
 		<view-id value="/storeKeeperAlert.xhtml" />
 	</url-mapping>
