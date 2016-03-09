@@ -124,4 +124,12 @@ public class OrderManager {
 		// TODO
 		return null;
 	}
+
+	public boolean hasNotValidatedOrder(String userId) {
+		return orderDao.hasNotValidatedOrder(userId);
+	}
+	
+	public Collection<Order> findNotValidatedOrder(String userId){
+		return orderDao.findNotValidatedOrder(userId);
+	}
 }

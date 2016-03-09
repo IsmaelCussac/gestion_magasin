@@ -155,4 +155,15 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		
 	}
 
+	public boolean hasNotValidatedOrder(String userId) {
+		return (findNotValidatedOrder(userId) != null);
+	}
+	
+	public Collection<Order> findNotValidatedOrder(String userId) {
+		loadEm();
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u AND o.status = 'NOT_VALIDATED'");
+		query.setParameter("u", userId);
+		return query.getResultList();
+	}
+
 }

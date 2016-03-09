@@ -25,7 +25,7 @@
 				</h:form>
 
 				<h:form>
-					<p:dataTable value="#{orders.currentOrder}" var="ol"
+					<p:dataTable value="#{cstProducts.order}" var="order"
 						styleClass="course-table" headerClass="course-table-header"
 						footerClass="course-table-header"
 						rowClasses="course-table-odd-row,course-table-even-row">
@@ -34,10 +34,10 @@
 							<p:graphicImage name="/image/product-icon.png" />
 						</p:column>
 						<p:column headerText="Désignation">
-							<h:outputText value="#{ol.product.designation}" />
+							<h:outputText value="#{order.product.designation}" />
 						</p:column>
 						<p:column headerText="Quantité">
-							<p:spinner id="basic" value="#{ol.quantity}" min="0" />
+							<p:spinner id="basic" value="#{order.quantity}" min="0" />
 						</p:column>
 					</p:dataTable>
 				</h:form>

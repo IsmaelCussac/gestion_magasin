@@ -43,10 +43,10 @@ public class OrderLine{
 	private Product product;
 	
 	@Column(name = "quantity", nullable = false)
-	private int quantity;
+	private double quantity;
 	
 	@Column(name = "delivered_quantity", nullable = true)
-	private int deliveredQuantity;
+	private double deliveredQuantity;
 	
 	public OrderLine(){	}
 
@@ -74,23 +74,23 @@ public class OrderLine{
 		this.product = product;
 	}
 
-	public int getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 
-	public int getDeliveredQuantity() {
+	public double getDeliveredQuantity() {
 		return deliveredQuantity;
 	}
 
-	public void setDeliveredQuantity(int deliveredQuantity) {
+	public void setDeliveredQuantity(double deliveredQuantity) {
 		this.deliveredQuantity = deliveredQuantity;
 	}
 
-	public void setOrderLine(Order order, Product product, int quantity, int deleveredQuantity){
+	public void setOrderLine(Order order, Product product, double quantity, double deleveredQuantity){
 		setOrder(order);
 		setProduct(product);
 		setQuantity(quantity);

@@ -134,6 +134,10 @@ public class Order implements Serializable {
 		setComment(comment);
 		setStatus(status);
 	}
+	
+	public void addOrderLine(OrderLine orderLine){
+		this.orderLines.add(orderLine);
+	}
 
 	@Override
 	public String toString() {

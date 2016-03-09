@@ -15,11 +15,13 @@
 		<ui:define name="content">
 			<f:view>
 
-				<p:accordionPanel value="#{cstProducts.getAllCategories()}" var="cat">
+				<p:accordionPanel value="#{cstProducts.getAllCategories()}"
+					var="cat">
 
 					<p:tab title="#{cat.toString()}">
-						<p:accordionPanel id="subAccordion" multiple="true" dynamic="true" cache="true"
-							value="#{cstProducts.getSubCategories(cat)}" var="subCat">
+						<p:accordionPanel id="subAccordion" multiple="true" dynamic="true"
+							cache="true" value="#{cstProducts.getSubCategories(cat)}"
+							var="subCat">
 
 							<p:tab title="#{subCat.name}">
 								<h:form>
@@ -36,7 +38,14 @@
 											<h:outputText value="#{p.designation}" />
 										</p:column>
 										<p:column headerText="Quantité">
-											<p:spinner id="basic" value="" min="0" />
+											<h:form>
+												<p:spinner id="basic" default="0"
+													value="#{cstProducts.getProductQuantity(p)}"
+													valueChangeListener="#{cstProducts.updateQuantity(p.productId)}"
+													min="0">
+													<p:ajax event="change" update="@form" process="@this" />
+												</p:spinner>
+											</h:form>
 										</p:column>
 									</p:dataTable>
 								</h:form>

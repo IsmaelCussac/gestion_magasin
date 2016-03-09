@@ -6,14 +6,20 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.ProductManager;
+import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
@@ -26,24 +32,26 @@ import fr.mgs.model.product.SubCategory;
  */
 
 @ManagedBean(name = "cstProducts")
-@ApplicationScoped
+@SessionScoped
 public class ProductCustomerController {
 
 	private ProductManager productManager;
 	private OrderManager orderManager;
+	private UserManager userManager;
 	private Order currentOrder;
+	private String userId;
+	private double productQuantity;
 
-	/**
-	 * initialization of the controller
-	 * 
-	 * @throws SQLException
-	 */
-	public ProductCustomerController() throws SQLException {
-		
+	public Order getCurrentOrder() {
+		return currentOrder;
 	}
-	
+
+	public void setCurrentOrder(Order currentOrder) {
+		this.currentOrder = currentOrder;
+	}
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		productManager = new ProductManager();
 		try {
 			productManager.init(DataSource.LOCAL);
@@ -56,29 +64,37 @@ public class ProductCustomerController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
+		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		userId = user.getUsername();
+		
+		try {
+			currentOrder = newOrder();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 * Get all the products for the sub category
-	 * 
-	 * @param sub
-	 *            the sub category
-	 * @return the list of product
-	 */
-	public List<Product> getProducts(SubCategory sub) {
-		System.out.println(" Get prod : " + sub.getName());
-		System.out.println(productManager.findProductsBySubCategory(sub));
-		return (List<Product>) productManager.findProductsBySubCategory(sub);
-	}
+	public Order newOrder() throws SQLException {
 
-	/**
-	 * 
-	 * @param cat
-	 * @return
-	 */
-	public List<SubCategory> getSubCategories(Category cat) {
-		System.out.println(" Get sub cat : " + cat.toString());
-		return (List<SubCategory>) productManager.findSubCategoriesByCategory(cat);
+		if (currentOrder != null) {
+			if (currentOrder.getStatus() == OrderStatus.NOT_VALIDATED) {
+				return currentOrder;
+			} else {
+				currentOrder = new Order();
+				currentOrder.setOrderUser(userManager.findUser(userId));
+			}
+		}
+
+		else if (orderManager.hasNotValidatedOrder(userId)) {
+			ArrayList<Order> orderList = (ArrayList<Order>) orderManager.findNotValidatedOrder(userId);
+			return orderList.get(0);
+		}
+
+		currentOrder = new Order();
+		currentOrder.setOrderUser(userManager.findUser(userId));
+
+		return currentOrder;
 	}
 
 	/**
@@ -87,7 +103,6 @@ public class ProductCustomerController {
 	 */
 	public Collection<Category> getAllCategories() {
 
-		System.out.println("Get all cat");
 		Collection<Category> categories = new ArrayList<Category>();
 
 		categories.add(Category.PAPER);
@@ -98,16 +113,58 @@ public class ProductCustomerController {
 	}
 
 	/**
+	 * Get all the products for the sub category
 	 * 
-	 * @param prod
-	 * @param quantity
-	 * @throws SQLException
+	 * @param sub
+	 *            the sub category
+	 * @return the list of product
 	 */
-	public void addOrder(Product prod, int quantity) throws SQLException {
-		OrderLine line = new OrderLine();
-		line.setDeliveredQuantity(quantity);
-		line.setProduct(prod);
-		orderManager.addOrderLine(line);
+	public List<Product> getProducts(SubCategory sub) {
+		return (List<Product>) productManager.findProductsBySubCategory(sub);
+	}
+
+	/**
+	 * 
+	 * @param cat
+	 * @return
+	 */
+	public List<SubCategory> getSubCategories(Category cat) {
+		return (List<SubCategory>) productManager.findSubCategoriesByCategory(cat);
+	}
+
+	public double getProductQuantity(Product product) {
+		System.out.println(product.toString());
+		
+		productQuantity = 0;
+		for (OrderLine line : currentOrder.getOrderLines()) {
+			if (line != null && line.getProduct().getProductId() == product.getProductId()) {
+				productQuantity = line.getQuantity();
+			}
+		}
+		return productQuantity;
+	}
+
+	public void updateQuantity(ValueChangeEvent event, int productId) {
+
+		boolean found = false;
+		for (OrderLine line : currentOrder.getOrderLines()) {
+			if (line.getId() == productId) {
+				line.setQuantity((Double) event.getNewValue());
+				found = true;
+				System.out.println("new quantity" + line.toString());
+			}
+		}
+		if (!found) {
+			OrderLine orderLine = new OrderLine();
+			try {
+				orderLine.setOrderLine(currentOrder, productManager.findProduct(productId),
+						(Double) event.getNewValue(), 0);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			currentOrder.addOrderLine(orderLine);
+			System.out.println("add order line" + orderLine.toString());
+		}
 	}
 
 }
