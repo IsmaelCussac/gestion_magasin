@@ -51,11 +51,11 @@ public class UserDaoTest {
 	public void testAddPerson() throws SQLException {
 		
 		Team team = new Team();
-		team.setTeam("ccc", "CCC", 2, Privilege.CUSTOMER);
+		team.setTeam("cc1", "CCC1", 2, Privilege.CUSTOMER);
 		userManager.addTeam(team);
 		
 		User user = new User();
-		user.setUser("d1102526", "Jean-Louis", "De Beauregard", team, "0442060504", "jean-louis.de-beauregard@mail.fr", "secret");
+		user.setUser("d1102524", "Jean-Louis", "De Beauregard", team, "0442060504", "jean-louis.de-beauregard@mail.fr", "secret");
 		userManager.addUser(user);
 		
 		assertNotNull(userManager.findUser("d1102526"));
