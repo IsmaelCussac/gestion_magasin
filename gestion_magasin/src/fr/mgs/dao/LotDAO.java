@@ -14,7 +14,7 @@ import fr.mgs.model.product.Lot;
  * @author Mana
  *
  */
-public class LotDAO extends GenericDAO<Lot, String> {
+public class LotDAO extends GenericDAO<Lot, Integer> {
 
 	/**
 	 * Connection to the Dao
@@ -57,7 +57,7 @@ public class LotDAO extends GenericDAO<Lot, String> {
 	 * @param id lot id
 	 */
 	@Override
-	public boolean exists(String id) throws SQLException {
+	public boolean exists(Integer id) throws SQLException {
 		return (find(id) != null);
 	}
 
@@ -67,7 +67,7 @@ public class LotDAO extends GenericDAO<Lot, String> {
 	 * @param id the lot id to find
 	 */
 	@Override
-	public Lot find(String id) throws SQLException {
+	public Lot find(Integer id) throws SQLException {
 		loadEm();
 		Lot orderToFind = em.find(Lot.class, id);
 		return orderToFind;
@@ -92,7 +92,7 @@ public class LotDAO extends GenericDAO<Lot, String> {
 	 * @param id lot id
 	 */
 	@Override
-	public void remove(String id) throws SQLException {
+	public void remove(Integer id) throws SQLException {
 		Lot lot = find(id);
 		beginTransaction();
 		em.remove(em.merge(lot));
