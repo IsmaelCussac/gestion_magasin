@@ -10,19 +10,23 @@
 <ui:composition>
 	<h:form>
 		<p:tabMenu activeIndex="#{param.i}">
-			<p:menuitem value="Etat de stock"  outcome="products" icon="ui-icon-star">
+			<p:menuitem value="Etat de stock" outcome="pretty:skProducts"
+				icon="ui-icon-star">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Entrée de stock" icon="ui-icon-star">
+			<p:menuitem value="Entrée de stock" icon="ui-icon-circle-arrow-s">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:menuitem value="Sortie de stock" icon="ui-icon-star">
+			<p:menuitem value="Sortie de stock" icon="ui-icon-circle-arrow-n"
+				outcome="pretty:skDelivery">
 				<f:param name="i" value="2" />
 			</p:menuitem>
-			<p:menuitem value="Alertes" icon="ui-icon-basket">
+			<p:menuitem value="Alertes" icon="ui-icon-alert"
+				outcome="pretty:skAlert">>
 				<f:param name="i" value="3" />
 			</p:menuitem>
-			<p:menuitem value="Commandes" icon="ui-icon-wrench">
+			<p:menuitem value="Commandes" icon="ui-icon-cart"
+				outcome="pretty:skOrders">
 				<f:param name="i" value="4" />
 			</p:menuitem>
 

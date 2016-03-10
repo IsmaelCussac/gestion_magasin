@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,7 +21,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
 * This class describes an order entity in database. It contains : 
@@ -46,7 +47,7 @@ public class Order implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "order_user")
-	private User orderUser;
+	private Person orderUser;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "submission_date", nullable = true)
@@ -56,7 +57,7 @@ public class Order implements Serializable {
 	@Column(name = "delivery_date", nullable = true)
 	private Date deliveryDate;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true,cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 
 	@Column(name = "comment", length = 250, nullable = true)
@@ -77,11 +78,11 @@ public class Order implements Serializable {
 		this.orderId = orderId;
 	}
 
-	public User getOrderUser() {
+	public Person getOrderUser() {
 		return orderUser;
 	}
 
-	public void setOrderUser(User orderUser) {
+	public void setOrderUser(Person orderUser) {
 		this.orderUser = orderUser;
 	}
 
@@ -125,7 +126,7 @@ public class Order implements Serializable {
 		this.status = status;
 	}
 
-	public void setOrder(User orderUser, Date submissionDate, Date deliveryDate, Set<OrderLine> orderLines,
+	public void setOrder(Person orderUser, Date submissionDate, Date deliveryDate, Set<OrderLine> orderLines,
 			String comment, OrderStatus status) {
 		setOrderUser(orderUser);
 		setSubmissionDate(submissionDate);

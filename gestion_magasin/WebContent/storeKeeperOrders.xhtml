@@ -1,0 +1,110 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+<ui:composition template="/template/layout.xhtml">
+
+	<ui:define name="title">Liste des commandes</ui:define>
+
+
+	<ui:define name="menu">
+		<ui:include src="/template/storeKeeperMenu.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form" prependId="false">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+			<p:panelGrid columns="3" layout="grid">
+				<f:facet name="header">
+					<p:row>
+						<p:column>Liste des commandes par équipe</p:column>
+					</p:row>
+
+				</f:facet>
+			</p:panelGrid>
+			<br />
+
+			<ui:repeat var="team"
+				value="#{ordersView.ordersByTeam.entrySet().toArray()}">
+
+				<p:panel header="#{team.key.name} (#{team.value.size()})"
+					toggleable="true" toggleSpeed="500" collapsed="true">
+					<p:dataTable var="order" value="#{team.value}">
+						<p:column style="width:30px">
+							<p:rowToggler />
+						</p:column>
+						<p:column headerText="Destinataire">
+							<h:outputText value="#{order.orderUser.lastName}" />
+						</p:column>
+						<p:column headerText="Numéro">
+							<h:outputText value="#{order.orderId}" />
+						</p:column>
+						<p:column headerText="Soumission">
+							<h:outputText value="#{order.submissionDate}" />
+						</p:column>
+
+						<p:column headerText="Livraison">
+							<h:outputText value="#{order.deliveryDate}" />
+						</p:column>
+						<p:column headerText="Nombre d'articles">
+							<h:outputText value="" />
+						</p:column>
+						<p:column headerText="Statut">
+							<h:outputText value="#{order.status.toString()}" />
+						</p:column>
+
+
+						<p:rowExpansion>
+
+							<p:dataTable value="#{order.orderLines}" var="ol"
+								styleClass="course-table" headerClass="course-table-header"
+								footerClass="course-table-header"
+								rowClasses="course-table-odd-row,course-table-even-row">
+
+								<p:column>
+									<p:graphicImage library="image" name="product-icon.png" />
+								</p:column>
+								<p:column headerText="Désignation">
+									<h:outputText value="#{ol.product.designation}" />
+								</p:column>
+								<p:column headerText="Référence">
+									<h:outputText value="#{ol.product.productId}" />
+								</p:column>
+								<p:column headerText="Quantité">
+									<h:outputText value="#{ol.quantity}" />
+								</p:column>
+							</p:dataTable>
+
+						</p:rowExpansion>
+					</p:dataTable>
+
+					<f:facet name="options">
+						<p:menu>
+							<p:submenu label="Options">
+								<p:menuitem icon="ui-icon-extlink" value="Livrer cette équipe"
+									action="pretty:skDelivery">
+									<f:attribute name="teamToDeliver" value="#{team.key.name}" />
+									<f:actionListener
+										type="fr.mgs.web.storekeeper.OrderDeliveryActionListener" />
+								</p:menuitem>
+
+							</p:submenu>
+						</p:menu>
+					</f:facet>
+				</p:panel>
+
+			</ui:repeat>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+
+</html>

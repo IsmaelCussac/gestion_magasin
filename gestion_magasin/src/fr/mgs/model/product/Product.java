@@ -1,9 +1,9 @@
 package fr.mgs.model.product;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,12 +36,12 @@ import fr.mgs.model.order.OrderLine;
  */
 @Entity(name = "products")
 @Table(name = "product_t")
-public class Product implements Serializable {
+public class Product  {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")
-	private int id;
+	private int productId;
 
 	@Column(name = "designation", length = 100, nullable = false)
 	private String designation;
@@ -56,7 +56,7 @@ public class Product implements Serializable {
 
 	@Column(name = "min_quantity", nullable = true)
 	@Min(0)
-	private double minQuantity;
+	private Double minQuantity;
 
 	@Column(name = "price", nullable = true)
 	@Min(0)
@@ -75,18 +75,18 @@ public class Product implements Serializable {
 	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Lot> lots = new HashSet<Lot>();
 	
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false)
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false,cascade = { CascadeType.REMOVE, CascadeType.MERGE } )
 	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 
 	public Product() {
 	}
 
-	public int getId() {
-		return id;
+	public int getProductId() {
+		return productId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setProductId(int productId) {
+		this.productId = productId;
 	}
 
 	public String getDesignation() {
@@ -183,7 +183,7 @@ public class Product implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", designation=" + designation + ", subCategory=" + subCategory + ", warningPeriod="
+		return "Product [productId=" + productId + ", designation=" + designation + ", subCategory=" + subCategory + ", warningPeriod="
 				+ warningPeriod + ", minQuantity=" + minQuantity + ", price=" + price + ", visibility=" + visibility
 				+ ", picture=" + picture + ", conditioning=" + conditioning + "]";
 	}

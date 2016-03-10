@@ -8,15 +8,19 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition>
+
 	<h:form>
 		<p:tabMenu activeIndex="#{param.i}">
-			<p:menuitem value="Magasin" icon="ui-icon-star">
+			<p:menuitem value="Magasin" icon="ui-icon-star"
+				outcome="pretty:cstProducts">
 				<f:param name="i" value="0" />
 			</p:menuitem>
-			<p:menuitem value="Ma commande" icon="ui-icon-star">
+			<p:menuitem value="Ma commande" icon="ui-icon-star"
+				outcome="pretty:cstOrder">
 				<f:param name="i" value="1" />
 			</p:menuitem>
-			<p:menuitem value="Historique" icon="ui-icon-star">
+			<p:menuitem value="Historique" icon="ui-icon-star"
+				outcome="pretty:cstHistory">
 				<f:param name="i" value="2" />
 			</p:menuitem>
 		</p:tabMenu>

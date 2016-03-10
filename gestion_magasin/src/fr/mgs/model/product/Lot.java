@@ -27,7 +27,7 @@ import javax.persistence.TemporalType;
  */
 @Entity(name = "lots")
 @Table(name = "lot_t")
-public class Lot implements Serializable {
+public class Lot {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

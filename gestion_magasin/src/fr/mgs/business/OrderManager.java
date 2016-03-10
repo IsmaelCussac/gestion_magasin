@@ -1,40 +1,45 @@
 package fr.mgs.business;
 
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
+import fr.mgs.dao.OrderDAO;
 import fr.mgs.dao.Table;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.user.Person;
 
 /**
- * Business class that manage the following DAOs to access database and process data :
- * - OrderDAO
- * - OrderLineDAO
+ * Business class that manage the following DAOs to access database and process
+ * data : - OrderDAO - OrderLineDAO
  * 
  * @author Ismaël
- *
+ * @author Ibrahima
  */
-public class OrderManager{
-	
-	private DAOManager daoManager;
-	private GenericDAO<Order> orderDao;
-	private GenericDAO<OrderLine> orderLineDao;
+public class OrderManager {
 
-	public OrderManager(){}
-	
+	private DAOManager daoManager;
+	private OrderDAO orderDao;
+	private GenericDAO<OrderLine, Integer> orderLineDao;
+
+	public OrderManager() {
+	}
+
 	@SuppressWarnings("unchecked")
 	@PostConstruct
-	public void init() throws SQLException{
+	public void init(DataSource ds) throws SQLException {
 		daoManager = new DAOManager();
-		daoManager.init();
-		orderDao = (GenericDAO<Order>) daoManager.getDAO(Table.ORDER);
-		orderLineDao = (GenericDAO<OrderLine>) daoManager.getDAO(Table.ORDER_LINE);
+		daoManager.init(ds);
+		orderDao = (OrderDAO) daoManager.getDAO(Table.ORDER);
+		orderLineDao = (GenericDAO<OrderLine, Integer>) daoManager.getDAO(Table.ORDER_LINE);
 	}
-	
+
 	// GETTERS - SETTERS
 
 	public DAOManager getDaoManager() {
@@ -45,23 +50,78 @@ public class OrderManager{
 		this.daoManager = daoManager;
 	}
 
-	public GenericDAO<Order> getOrderDao() {
+	public OrderDAO getOrderDao() {
 		return orderDao;
 	}
 
-	public void setOrderDao(GenericDAO<Order> orderDao) {
+	public void setOrderDao(OrderDAO orderDao) {
 		this.orderDao = orderDao;
 	}
 
-	public GenericDAO<OrderLine> getOrderLineDao() {
+	public GenericDAO<OrderLine, Integer> getOrderLineDao() {
 		return orderLineDao;
 	}
 
-	public void setOrderLineDao(GenericDAO<OrderLine> orderLineDao) {
+	public void setOrderLineDao(GenericDAO<OrderLine, Integer> orderLineDao) {
 		this.orderLineDao = orderLineDao;
 	}
-	
+
 	// METHODS
+
+	public void addOrder(Order order) throws SQLException {
+		orderDao.add(order);
+	}
+
+	public void addOrderLine(OrderLine orderLine) throws SQLException {
+		orderLineDao.add(orderLine);
+	}
+
+	public Order findOrder(Integer id) throws SQLException {
+		return orderDao.find(id);
+	}
 	
+	public OrderLine findOrderLine(Integer id) throws SQLException {
+		return orderLineDao.find(id);
+	}
 	
+	public void removeOrder(Integer id) throws SQLException{
+		orderDao.remove(id);
+	}
+	
+	public void removeOrderLine(Integer id) throws SQLException{
+		orderLineDao.remove(id);
+	}
+
+	public Collection<Order> findAllOrders() throws SQLException {
+		return orderDao.findAll();
+	}
+	
+	public Collection<OrderLine> findAllOrderLines() throws SQLException {
+		return orderLineDao.findAll();
+	}
+
+	public boolean orderExists(Integer id) throws SQLException {
+		return orderDao.exists(id);
+	}
+	
+	public boolean orderLineExists(Integer id) throws SQLException {
+		return orderLineDao.exists(id);
+	}
+	
+	public void updateOrder(Order order) throws SQLException{
+		orderDao.update(order);
+	}
+	
+	public void updateOrderLine(OrderLine orderLine) throws SQLException{
+		orderLineDao.update(orderLine);
+	}
+	
+	public Collection<Order> findOrdersByUser(Person user){
+		return orderDao.findOrdersByUser(user);
+	}
+
+	public List<OrderLine> findCurrentOrderLines(String userId) {
+		// TODO
+		return null;
+	}
 }

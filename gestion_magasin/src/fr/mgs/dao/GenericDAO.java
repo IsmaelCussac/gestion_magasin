@@ -6,15 +6,16 @@ import java.util.Collection;
 import javax.persistence.EntityManager;
 
 import fr.mgs.connection.Connection;
+import fr.mgs.model.user.Person;
 
 /**
  * Abstract class used that contains the connection instance for all the DAOs
  * 
  * @author Ismaël
- *
- * @param <T>
+ * @author Ibrahima
+ * @param <T,U>
  */
-public abstract class GenericDAO<T> {
+public abstract class GenericDAO<T, U> {
 
 	protected Connection connection;
 	protected EntityManager em;
@@ -67,10 +68,12 @@ public abstract class GenericDAO<T> {
 
 	public abstract void update(T t) throws SQLException;
 
-	public abstract boolean exists(String id) throws SQLException;
+	public abstract boolean exists(U id) throws SQLException;
 
-	public abstract T find(String id) throws SQLException;
+	public abstract T find(U id) throws SQLException;
 
 	public abstract Collection<T> findAll() throws SQLException;
+
+	public abstract void remove(U id) throws SQLException;
 
 }

@@ -11,8 +11,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import fr.mgs.business.UserManager;
+import fr.mgs.connection.DataSource;
 import fr.mgs.dao.UserDAO;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
+import fr.mgs.model.user.Privilege;
 
 /**
  * UserDetailService implementation used by Spring Security
@@ -26,7 +28,7 @@ public class UserService implements UserDetailsService {
 
 	public UserService() throws SQLException {
 		userManager = new UserManager();
-		userManager.init();
+		userManager.init(DataSource.LOCAL);
 
 	}
 
@@ -38,7 +40,7 @@ public class UserService implements UserDetailsService {
 	 */
 	public UserDetails loadUserByUsername(String userId)
 			throws UsernameNotFoundException {
-		User user = null;
+		Person user = null;
 		try {
 			user = userManager.findUser(userId);
 		} catch (SQLException e) {
@@ -46,7 +48,7 @@ public class UserService implements UserDetailsService {
 		}
 
 		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam()
-				.getPrivilege().toString());
+				.getPrivilege());
 		return buildUserForAuthentication(user, authorities);
 	}
 
@@ -58,7 +60,7 @@ public class UserService implements UserDetailsService {
 	 *            previously built authority list
 	 * @return a built spring security user
 	 */
-	private UserDetailWithName buildUserForAuthentication(User user,
+	private UserDetailWithName buildUserForAuthentication(Person user,
 			List<GrantedAuthority> authorities) {
 		UserDetailWithName result = new UserDetailWithName(user.getUserId(),
 				user.getPassword(), authorities);
@@ -75,10 +77,10 @@ public class UserService implements UserDetailsService {
 	 * @param privilege
 	 * @return a properly built authorization list
 	 */
-	private List<GrantedAuthority> buildAuthorities(String privilege) {
+	private List<GrantedAuthority> buildAuthorities(Privilege privilege) {
 		ArrayList<GrantedAuthority> auths = new ArrayList<GrantedAuthority>();
 
-		auths.add(new SimpleGrantedAuthority(privilege.toString()));
+		auths.add(new SimpleGrantedAuthority(privilege.name()));
 
 		return auths;
 	}

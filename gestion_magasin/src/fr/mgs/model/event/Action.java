@@ -1,4 +1,4 @@
-package fr.mgs.model.historical;
+package fr.mgs.model.event;
 
 /**
  * Contains the different actions a store keeper can do. 

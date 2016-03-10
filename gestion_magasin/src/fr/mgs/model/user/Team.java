@@ -1,3 +1,4 @@
+
 package fr.mgs.model.user;
 
 import java.io.Serializable;
@@ -27,7 +28,7 @@ import org.hibernate.validator.constraints.Range;
  */
 @Entity(name = "teams")
 @Table(name = "team_t")
-public class Team implements Serializable {
+public class Team {
 
 	@Id
 	@Column(name = "team_id")
@@ -37,7 +38,7 @@ public class Team implements Serializable {
 	private String name;
 
 	@Column(name = "floor")
-	@Range(min = 0, max = 10)
+	@Range(min = -1, max = 10)
 	private int floor;
 
 	@Column(name = "privilege", nullable = false)
@@ -45,7 +46,7 @@ public class Team implements Serializable {
 	private Privilege privilege;
 
 	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY, orphanRemoval = false)
-	private Set<User> users = new HashSet<User>();
+	private Set<Person> users = new HashSet<Person>();
 
 	public Team() {
 	}
@@ -82,11 +83,11 @@ public class Team implements Serializable {
 		this.privilege = privilege;
 	}
 
-	public Set<User> getUsers() {
+	public Set<Person> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Set<User> users) {
+	public void setUsers(Set<Person> users) {
 		this.users = users;
 	}
 

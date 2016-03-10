@@ -10,29 +10,37 @@
 
 	<beans:bean id="hashClass" class="fr.mgs.toolbox.Hasher" />
 	<beans:bean id="authManager" class="fr.mgs.services.business.UserService" />
+	<beans:bean id="authenticationSuccessHandler"
+		class="fr.mgs.services.business.UrlAuthenticationSuccessHandler" />
 
-
-	<http auto-config="true" use-expressions="true">
+	<http use-expressions="true">
 
 		<!-- Unique session -->
 		<session-management>
 			<concurrency-control max-sessions="1"
-				expired-url="/homePage.xhtml" />
+				expired-url="/connection" />
 		</session-management>
 
 		<intercept-url pattern="/connection" access="permitAll" />
+		<intercept-url pattern="/image/**" access="permitAll" />
 		<intercept-url pattern="/**" access="permitAll" />
+<!-- 		<intercept-url pattern="/customer/**" -->
+<!-- 			access="hasAuthority('CUSTOMER') OR hasAuthority('STORE_KEEPER') OR hasAuthority('APP_ADMIN')" /> -->
+<!-- 		<intercept-url pattern="/storekeeper/**" access="hasAuthority('STORE_KEEPER')" /> -->
+<!-- 		<intercept-url pattern="/admin/**" access="hasAuthority('APP_ADMIN')" /> -->
 
-		<form-login login-page="/login.xhtml" 
+		<access-denied-handler error-page="/403" />
+		<form-login login-page="/connection" 
 			login-processing-url="/login_check"
-			default-target-url="/productCustomer.xhtml"
-			authentication-failure-url="/login.xhtml?error" 
+			authentication-failure-url="/connection?error" 
 			username-parameter="username"
-			password-parameter="password" />
+			password-parameter="password" 
+			authentication-success-handler-ref="authenticationSuccessHandler" />
+			
 		<logout logout-success-url="/login?logout" />
-		
+
 		<!-- enable csrf protection -->
-		<csrf />
+		<csrf disabled="true" />
 	</http>
 
 	<authentication-manager>

@@ -1,4 +1,4 @@
-package fr.mgs.model.historical;
+package fr.mgs.model.event;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 import fr.mgs.model.product.Product;
 
 /**
-* This class describes a historical entity in database. It contains : 
+* This class describes a event monitor entity in database. It contains : 
  * - an id
  * - a store keeper id
  * - a product
@@ -28,20 +28,20 @@ import fr.mgs.model.product.Product;
  * @author Ismaël
  *
  */
-@Entity(name = "historicals")
-@Table(name = "historical_t")
-public class Historical implements Serializable {
+@Entity(name = "events")
+@Table(name = "event_t")
+public class Event implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "historical_id")
-	private int historicalId;
+	@Column(name = "event_id")
+	private int eventId;
 
 	@Column(name = "store_keeper_id", length = 10, nullable = false)
 	private String storeKeeper;
 
-	@Column(name = "product_name", length = 100, nullable = false)
-	private String product;
+	@Column(name = "product_id", nullable = false)
+	private int product;
 
 	@Column(name = "action", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -54,15 +54,15 @@ public class Historical implements Serializable {
 	@Column(name = "resume", length = 250, nullable = true)
 	private String resume;
 
-	public Historical() {
+	public Event() {
 	}
 
-	public int getHistoricalId() {
-		return historicalId;
+	public int getLogMonitorId() {
+		return eventId;
 	}
 
-	public void setHistoricalId(int historicalId) {
-		this.historicalId = historicalId;
+	public void setLogMonitorId(int eventId) {
+		this.eventId = eventId;
 	}
 
 	public String getStoreKeeper() {
@@ -73,11 +73,11 @@ public class Historical implements Serializable {
 		this.storeKeeper = storeKeeper;
 	}
 
-	public String getProduct() {
+	public int getProduct() {
 		return product;
 	}
 
-	public void setProduct(String product) {
+	public void setProduct(int product) {
 		this.product = product;
 	}
 
@@ -107,7 +107,7 @@ public class Historical implements Serializable {
 
 	public void setHistorical(String storeKeeper, Product product, Action action, Date date, String resume) {
 		setStoreKeeper(storeKeeper);
-		setProduct(product.getDesignation());
+		setProduct(product.getProductId());
 		setAction(action);
 		setDate(date);
 		setResume(resume);
@@ -115,7 +115,7 @@ public class Historical implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Historical [historicalId=" + historicalId + ", storeKeeper=" + storeKeeper + ", product=" + product
+		return "Historical [eventId=" + eventId + ", storeKeeper=" + storeKeeper + ", product=" + product
 				+ ", action=" + action + ", date=" + date + ", resume=" + resume + "]";
 	}
 

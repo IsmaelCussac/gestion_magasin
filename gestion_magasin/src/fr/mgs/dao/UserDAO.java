@@ -4,10 +4,13 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import fr.mgs.connection.Connection;
-import fr.mgs.model.user.User;
+import fr.mgs.model.event.Action;
+import fr.mgs.model.user.Team;
+import fr.mgs.model.user.Person;
 
 /**
  * Dao used to manage user entity
@@ -15,23 +18,21 @@ import fr.mgs.model.user.User;
  * @author Ismaël
  *
  */
-public class UserDAO extends GenericDAO<User> {
+public class UserDAO extends GenericDAO<Person,String> {
 
 	public UserDAO(Connection connection) {
 		super.connection = connection;
 	}
 
 	public UserDAO() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * store a user in database
 	 * 
-	 * @param the
-	 *            user to add
+	 * @param the user to add
 	 */
-	public void add(User user) throws SQLException {
+	public void add(Person user) throws SQLException {
 		beginTransaction();
 		em.persist(user);
 		commit();
@@ -41,11 +42,10 @@ public class UserDAO extends GenericDAO<User> {
 	/**
 	 * remove a user stored in database using his id
 	 * 
-	 * @param user's
-	 *            id
+	 * @param user's id
 	 */
 	public void remove(String userId) throws SQLException {
-		User user = find(userId);
+		Person user = find(userId);
 		beginTransaction();
 		em.remove(em.merge(user));
 		commit();
@@ -56,10 +56,9 @@ public class UserDAO extends GenericDAO<User> {
 	 * update a user's attributes according to the fact the user is already
 	 * stored in database
 	 * 
-	 * @param user's
-	 *            bean updated
+	 * @param user's bean updated
 	 */
-	public void update(User user) throws SQLException {
+	public void update(Person user) throws SQLException {
 		beginTransaction();
 		em.persist(em.merge(user));
 		commit();
@@ -69,8 +68,7 @@ public class UserDAO extends GenericDAO<User> {
 	/**
 	 * Search if a user exists
 	 * 
-	 * @param user's
-	 *            id
+	 * @param user's id
 	 */
 	public boolean exists(String userId) throws SQLException {
 		return (find(userId) != null);
@@ -79,12 +77,11 @@ public class UserDAO extends GenericDAO<User> {
 	/**
 	 * find a user using his id
 	 * 
-	 * @param user's
-	 *            id
+	 * @param user's id
 	 */
-	public User find(String userId) throws SQLException {
+	public Person find(String userId) throws SQLException {
 		loadEm();
-		User user = em.find(User.class, userId);
+		Person user = em.find(Person.class, userId);
 		closeEm();
 		return user;
 	}
@@ -93,12 +90,24 @@ public class UserDAO extends GenericDAO<User> {
 	 * return all the stored users ordered by their first name at first, then
 	 * their name
 	 */
-	public Collection<User> findAll() throws SQLException {
+	public Collection<Person> findAll() throws SQLException {
 		loadEm();
-		TypedQuery<User> query = em.createQuery("FROM users u order by u.firstName, u.lastName asc", User.class);
-		List<User> result = query.getResultList();
+		TypedQuery<Person> query = em.createQuery("FROM users u order by u.firstName, u.lastName asc", Person.class);
+		List<Person> result = query.getResultList();
 		closeEm();
 		return result;
+	}
+	
+	/**
+	 * return the given team's users
+	 * 
+	 * @param the team
+	 */
+	public List<Person> findUserByTeam(Team team) {
+		loadEm();
+		Query query = em.createQuery("SELECT u FROM users u WHERE u.team = :ot");
+		query.setParameter("ot", team);
+		return (List<Person>) query.getResultList();
 	}
 
 }

@@ -8,16 +8,15 @@ import javax.persistence.TypedQuery;
 
 import fr.mgs.connection.Connection;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.User;
+import fr.mgs.model.user.Person;
 
 /**
  * Dao used to manage team entity
  * 
  * @author Ismaël
- *
+ * 
  */
-public class TeamDAO extends GenericDAO<Team> {
-
+public class TeamDAO extends GenericDAO<Team,String> {
 
 	public TeamDAO(Connection connection) {
 		super.connection = connection;
@@ -25,6 +24,7 @@ public class TeamDAO extends GenericDAO<Team> {
 
 	/**
 	 * store a team in database
+	 * 
 	 * @param the user to add
 	 */
 	public void add(Team team) throws SQLException {
@@ -33,9 +33,10 @@ public class TeamDAO extends GenericDAO<Team> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
 	 * remove a team stored in database using his id
+	 * 
 	 * @param user's id
 	 */
 	public void remove(String teamId) throws SQLException {
@@ -45,10 +46,11 @@ public class TeamDAO extends GenericDAO<Team> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
-	 * update a team's attributes
-	 * according to the fact the team is already stored in database
+	 * update a team's attributes according to the fact the team is already
+	 * stored in database
+	 * 
 	 * @param team's bean updated
 	 */
 	public void update(Team team) throws SQLException {
@@ -57,17 +59,19 @@ public class TeamDAO extends GenericDAO<Team> {
 		commit();
 		closeEm();
 	}
-	
+
 	/**
 	 * Search if a team exists
+	 * 
 	 * @param team's id
 	 */
 	public boolean exists(String teamId) throws SQLException {
 		return (find(teamId) != null);
 	}
-	
+
 	/**
 	 * find a user using his id
+	 * 
 	 * @param user's id
 	 */
 	public Team find(String teamId) throws SQLException {
@@ -78,16 +82,14 @@ public class TeamDAO extends GenericDAO<Team> {
 	}
 
 	/**
-	 * return all the stored teams
-	 * ordered by their name 
+	 * return all the stored teams ordered by their name
 	 */
 	public Collection<Team> findAll() throws SQLException {
 		loadEm();
-		TypedQuery<Team> query = em.createQuery("FROM teams t order by t.name asc",
-				Team.class);
+		TypedQuery<Team> query = em.createQuery("FROM teams t order by t.name asc", Team.class);
 		List<Team> result = query.getResultList();
 		closeEm();
 		return result;
 	}
-	
+
 }
