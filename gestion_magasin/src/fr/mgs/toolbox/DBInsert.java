@@ -96,6 +96,7 @@ public class DBInsert {
 	
 	public static void main(String[] args){
 		try {
+			fill();
 			insertUsers();
 		} catch (SQLException e) {
 			e.printStackTrace();

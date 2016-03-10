@@ -8,7 +8,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.event.ValueChangeEvent;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -40,8 +39,7 @@ public class ProductCustomerController {
 	private UserManager userManager;
 	private Order currentOrder;
 	private String userId;
-	private double productQuantity;
-	private List<OrderLine> orderLines;
+	private List<OrderItem> orderItems;
 
 	public Order getCurrentOrder() {
 		return currentOrder;
@@ -65,15 +63,23 @@ public class ProductCustomerController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		userManager = new UserManager();
+		try {
+			userManager.init(DataSource.LOCAL);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
-		
+
 		try {
 			currentOrder = newOrder();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public Order newOrder() throws SQLException {
@@ -84,17 +90,21 @@ public class ProductCustomerController {
 			} else {
 				currentOrder = new Order();
 				currentOrder.setOrderUser(userManager.findUser(userId));
+				currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
+				orderManager.addOrder(currentOrder);
 			}
 		}
 
 		else if (orderManager.hasNotValidatedOrder(userId)) {
-			ArrayList<Order> orderList = (ArrayList<Order>) orderManager.findNotValidatedOrder(userId);
-			return orderList.get(0);
+			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
+			currentOrder = orderList.get(0);
+		} else {
+			currentOrder = new Order();
+			currentOrder.setOrderUser(userManager.findUser(userId));
+			currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
+			orderManager.addOrder(currentOrder);
 		}
-
-		currentOrder = new Order();
-		currentOrder.setOrderUser(userManager.findUser(userId));
-
+		
 		return currentOrder;
 	}
 
@@ -114,25 +124,6 @@ public class ProductCustomerController {
 	}
 
 	/**
-	 * Get all the products for the sub category
-	 * 
-	 * @param sub
-	 *            the sub category
-	 * @return the list of product
-	 */
-	public List<OrderLine> getProducts(SubCategory sub) {
-		List<Product> products = (List<Product>) productManager.findProductsBySubCategory(sub);
-		orderLines = new ArrayList<OrderLine>();
-		
-		for(Product prod : products){
-			OrderLine orderLine = new OrderLine();
-			orderLine.setOrderLine(currentOrder, prod, 0, 0);
-		}
-		
-		
-	}
-
-	/**
 	 * 
 	 * @param cat
 	 * @return
@@ -141,39 +132,74 @@ public class ProductCustomerController {
 		return (List<SubCategory>) productManager.findSubCategoriesByCategory(cat);
 	}
 
-	public double getProductQuantity(Product product) {
-		System.out.println(product.toString());
-		
+	/**
+	 * Get all the products for the sub category
+	 * 
+	 * @param sub
+	 *            the sub category
+	 * @return the list of product
+	 */
+	public List<OrderItem> getItems(SubCategory sub) {
+		orderItems = new ArrayList<OrderItem>();
+		List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
+		boolean orderLineExists;
+		if (currentOrder.getOrderLines().size() == 0) {
+			for (Product prod : prods) {
 
-		for (OrderLine line : currentOrder.getOrderLines()) {
-			if (line != null && line.getProduct().getProductId() == product.getProductId()) {
-				productQuantity = line.getQuantity();
+				OrderItem orderItem = new OrderItem();
+				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0);
+				orderItems.add(orderItem);
+			}
+		} else {
+			for (Product prod : prods) {
+				orderLineExists = false;
+				OrderItem orderItem = new OrderItem();
+				for (OrderLine orderLine : currentOrder.getOrderLines()) {
+
+					if (prod.getProductId() == orderLine.getProduct().getProductId()) {
+						orderLineExists = true;
+						orderItem.setOrderItem(orderLine.getProduct().getProductId(),
+								orderLine.getProduct().getDesignation(), orderLine.getProduct().getPicture(),
+								orderLine.getQuantity());
+						orderItems.add(orderItem);
+						break;
+					}
+
+				}
+				if (!orderLineExists) {
+					orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0);
+					orderItems.add(orderItem);
+				}
 			}
 		}
-		return productQuantity;
+		return orderItems;
+
 	}
 
-	public void setProductQuantity(ValueChangeEvent event, int productId) {
-		System.out.println("change");
-		boolean orderLineFound = false;
+	public void updateOrderLine(OrderItem item) throws SQLException {
+		boolean orderLineExists = false;
 		for (OrderLine line : currentOrder.getOrderLines()) {
-			if (line.getId() == productId) {
-				line.setQuantity((Double) event.getNewValue());
-				orderLineFound = true;
-				System.out.println("new quantity" + line.toString());
+			if (line.getId() == item.getProductId()) {
+				line.setQuantity(item.getQuantity());
+				orderLineExists = true;
 			}
 		}
-		if (!orderLineFound) {
+		if (!orderLineExists) {
 			OrderLine orderLine = new OrderLine();
 			try {
-				orderLine.setOrderLine(currentOrder, productManager.findProduct(productId),
-						(Double) event.getNewValue(), 0);
+				orderLine.setOrderLine(currentOrder, productManager.findProduct(item.getProductId()),
+						item.getQuantity(), 0);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			currentOrder.addOrderLine(orderLine);
-			System.out.println("add order line" + orderLine.toString());
+			currentOrder.getOrderLines().add(orderLine);
+//			orderManager.addOrderLine(orderLine);
+//			orderManager.updateOrder(currentOrder);
 		}
+	}
+	
+	public Collection<OrderLine> getOrderLines(){
+		return currentOrder.getOrderLines();
 	}
 
 }

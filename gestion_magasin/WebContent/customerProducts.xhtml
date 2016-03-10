@@ -19,15 +19,14 @@
 					var="cat">
 
 					<p:tab title="#{cat.toString()}">
-						<p:accordionPanel id="subAccordion" multiple="true" dynamic="true"
-							cache="true" value="#{cstProducts.getSubCategories(cat)}"
-							var="subCat">
+						<p:accordionPanel id="subAccordion" dynamic="true" cache="true"
+							value="#{cstProducts.getSubCategories(cat)}" var="subCat">
 
 							<p:tab title="#{subCat.name}">
 								<h:form>
 
-									<p:dataTable id="dt" value="#{cstProducts.getProducts(subCat)}"
-										var="p" styleClass="course-table"
+									<p:dataTable id="dt" value="#{cstProducts.getItems(subCat)}"
+										var="it" styleClass="course-table"
 										headerClass="course-table-header"
 										footerClass="course-table-header"
 										rowClasses="course-table-odd-row,course-table-even-row">
@@ -36,18 +35,16 @@
 											<p:graphicImage library="image" name="product-icon.png" />
 										</p:column>
 										<p:column headerText="Désignation">
-											<h:outputText value="#{p.designation}" />
+											<h:outputText value="#{it.designation}" />
 										</p:column>
 										<p:column headerText="Quantité">
-											<form>
-												<p:spinner id="basic"
-													default="#{cstProducts.getProductQuantity(p)}"
-													valueChangeListener="#{cstProducts.setProductQuantity(p)}"
-													stepFactor="1" min="0">
-													<p:ajax event="change" update="@form"
-														immediate="true" process="@this" />
-												</p:spinner>
-											</form>
+
+											<p:spinner id="basic" value="#{it.quantity}" stepFactor="1"
+												min="0">
+
+											</p:spinner>
+											<p:commandButton actionListener="#{cstProducts.updateOrderLine(it)}"
+												id="button" icon="ui-icon-disk" title="Ajouter" />
 										</p:column>
 									</p:dataTable>
 								</h:form>

@@ -31,8 +31,8 @@ public class OrderLine {
 	@Column(name = "order_line_id")
 	private int id;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
-	@JoinColumn(name = "order_line_order")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_line_order", nullable = false)
 	private Order order;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
@@ -95,6 +95,24 @@ public class OrderLine {
 		setQuantity(quantity);
 		setDeliveredQuantity(deleveredQuantity);
 	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((product == null) ? 0 : product.hashCode());
+		return result;
+	}
+
+
+	public boolean equals(OrderLine ol) {
+		if(getProduct().getProductId() == ol.getProduct().getProductId())
+			return true;
+		return false;
+	}
+
 
 	@Override
 	public String toString() {

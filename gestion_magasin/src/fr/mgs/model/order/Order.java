@@ -1,9 +1,9 @@
 package fr.mgs.model.order;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -57,8 +57,8 @@ public class Order implements Serializable {
 	@Column(name = "delivery_date", nullable = true)
 	private Date deliveryDate;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true,cascade = { CascadeType.REMOVE, CascadeType.MERGE })
-	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL )
+	private Collection<OrderLine> orderLines = new ArrayList<OrderLine>();
 
 	@Column(name = "comment", length = 250, nullable = true)
 	private String comment;
@@ -102,11 +102,11 @@ public class Order implements Serializable {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public Set<OrderLine> getOrderLines() {
+	public Collection<OrderLine> getOrderLines() {
 		return orderLines;
 	}
 
-	public void setOrderLines(Set<OrderLine> orderLines) {
+	public void setOrderLines(Collection<OrderLine> orderLines) {
 		this.orderLines = orderLines;
 	}
 
@@ -126,7 +126,7 @@ public class Order implements Serializable {
 		this.status = status;
 	}
 
-	public void setOrder(Person orderUser, Date submissionDate, Date deliveryDate, Set<OrderLine> orderLines,
+	public void setOrder(Person orderUser, Date submissionDate, Date deliveryDate, Collection<OrderLine> orderLines,
 			String comment, OrderStatus status) {
 		setOrderUser(orderUser);
 		setSubmissionDate(submissionDate);
@@ -137,13 +137,15 @@ public class Order implements Serializable {
 	}
 	
 	public void addOrderLine(OrderLine orderLine){
+		
 		this.orderLines.add(orderLine);
+		System.err.println(orderLines.toString());
 	}
 
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", orderUser=" + orderUser + ", submissionDate=" + submissionDate
-				+ ", deliveryDate=" + deliveryDate + ", orderLines=" + orderLines + ", comment=" + comment + ", status="
+				+ ", deliveryDate=" + deliveryDate + ", comment=" + comment + ", status="
 				+ status + "]";
 	}
 }
