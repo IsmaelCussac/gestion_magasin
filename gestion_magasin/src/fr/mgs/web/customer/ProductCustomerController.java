@@ -9,6 +9,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.event.ValueChangeEvent;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -41,6 +42,7 @@ public class ProductCustomerController {
 	private Order currentOrder;
 	private String userId;
 	private List<OrderItem> orderItems;
+	private double quantity;
 
 	public Order getCurrentOrder() {
 		return currentOrder;
@@ -204,6 +206,10 @@ public class ProductCustomerController {
 	public void deleteOrder() throws SQLException {
 		orderManager.removeOrder(currentOrder.getOrderId());
 		resetCurrentOrder();
+	}
+	
+	public void updateQuantity(ValueChangeEvent event){
+		this.quantity = (Double) event.getNewValue();
 	}
 
 }

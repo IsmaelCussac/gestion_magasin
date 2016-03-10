@@ -39,13 +39,11 @@
 										</p:column>
 										<p:column headerText="Quantité">
 											<form>
-												<p:spinner id="basic" value="#{it.quantity}" stepFactor="1"
-													min="0">
-
-												</p:spinner>
-												<p:commandButton
-													actionListener="#{cstProducts.updateOrderLine(it)}"
-													id="button" icon="ui-icon-disk" title="Ajouter" />
+												<p:spinner value="#{it.quantity}"
+													valueChangeListener="#{cstProducts.updateQuantity}">
+													<p:ajax event="change"
+														listener="#{cstProducts.updateOrderLine(it)}"
+														update="@form" /></p:spinner>
 											</form>
 										</p:column>
 									</p:dataTable>
@@ -61,3 +59,13 @@
 	</ui:composition>
 </h:body>
 </html>
+
+<!-- 	<p:spinner id="basic" value="#{it.quantity}" -->
+<!-- 														valueChangeListener="#{productoBean.updateCantidad}" -->
+<!-- 												 stepFactor="1" -->
+<!-- 													min="0"> -->
+
+<!-- 												</p:spinner> -->
+<!-- 													<p:commandButton -->
+<!-- 														actionListener="#{cstProducts.updateOrderLine(it)}" -->
+<!-- 														id="button" icon="ui-icon-disk" title="Ajouter" /> -->
