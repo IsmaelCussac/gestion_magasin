@@ -26,8 +26,9 @@
 							<p:tab title="#{subCat.name}">
 								<h:form>
 
-									<p:dataTable value="#{cstProducts.getProducts(subCat)}" var="p"
-										styleClass="course-table" headerClass="course-table-header"
+									<p:dataTable id="dt" value="#{cstProducts.getProducts(subCat)}"
+										var="p" styleClass="course-table"
+										headerClass="course-table-header"
 										footerClass="course-table-header"
 										rowClasses="course-table-odd-row,course-table-even-row">
 
@@ -38,14 +39,15 @@
 											<h:outputText value="#{p.designation}" />
 										</p:column>
 										<p:column headerText="Quantité">
-											<h:form>
-												<p:spinner id="basic" default="0"
-													value="#{cstProducts.getProductQuantity(p)}"
-													valueChangeListener="#{cstProducts.updateQuantity(p.productId)}"
-													min="0">
-													<p:ajax event="change" update="@form" process="@this" />
+											<form>
+												<p:spinner id="basic"
+													default="#{cstProducts.getProductQuantity(p)}"
+													valueChangeListener="#{cstProducts.setProductQuantity(p)}"
+													stepFactor="1" min="0">
+													<p:ajax event="change" update="@form"
+														immediate="true" process="@this" />
 												</p:spinner>
-											</h:form>
+											</form>
 										</p:column>
 									</p:dataTable>
 								</h:form>

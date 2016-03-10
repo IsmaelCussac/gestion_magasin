@@ -25,9 +25,6 @@
 				<f:facet name="header">
 					<p:row>
 						<p:column>Liste des commandes par équipe</p:column>
-						<p:link outcome="#{navigationController.deliveryOrder()}"
-							value="Effectuer une livraison" style="float:right"
-							rendered="#{ordersView.checkBox and ordersView.oneTeamSelected eq 1}" />
 					</p:row>
 
 				</f:facet>
@@ -36,7 +33,7 @@
 
 			<ui:repeat var="team"
 				value="#{ordersView.ordersByTeam.entrySet().toArray()}">
-				<p:panel header="#{team.key.name}" toggleable="true"
+				<p:panel header="#{team.key.name} (#{team.value.size()})" toggleable="true"
 					toggleSpeed="500" collapsed="true">
 					<p:dataTable var="order" value="#{team.value}">
 						<p:column style="width:30px">
@@ -64,75 +61,42 @@
 
 
 						<p:rowExpansion>
-							<p:panelGrid columns="4" style="width:700px;text-align:center">
-								<h:outputText value="chemises cartonnées" />
-								<h:outputText value="Ref:" />
-								<h:outputText value="0/2" />
-								<p:button value="Modifier"></p:button>
-							</p:panelGrid>
+
+							<p:dataTable value="#{order.orderLines}" var="ol"
+								styleClass="course-table" headerClass="course-table-header"
+								footerClass="course-table-header"
+								rowClasses="course-table-odd-row,course-table-even-row">
+
+								<p:column>
+									<p:graphicImage library="image" name="product-icon.png" />
+								</p:column>
+								<p:column headerText="Désignation">
+									<h:outputText value="#{ol.product.designation}" />
+								</p:column>
+								<p:column headerText="Référence">
+									<h:outputText value="#{ol.product.productId}" />
+								</p:column>
+								<p:column headerText="Quantité">
+									<h:outputText value="#{ol.quantity}" />
+								</p:column>
+							</p:dataTable>
+
+
 						</p:rowExpansion>
 					</p:dataTable>
 
 					<f:facet name="options">
 						<p:menu>
 							<p:submenu label="Options">
-								<p:menuitem value="Livrer cette équipe" outcome="pretty:skDelivery" icon="ui-icon-newwin" />
+								<p:menuitem value="Livrer cette équipe"
+									outcome="pretty:skDelivery" icon="ui-icon-newwin" />
 							</p:submenu>
 						</p:menu>
 					</f:facet>
 				</p:panel>
 
-
-
-
-
 			</ui:repeat>
-			<h:form id="form-dialog">
-				<p:dialog header="Equipe: #{ordersView.selectedTeam.name}"
-					widgetVar="ordDialog" modal="true" showEffect="fade"
-					hideEffect="fade" resizable="false" width="800"
-					style="margin-top : 10px">
-					<p:dataTable value="#{orders.currentOrder}" var="ol">
 
-
-						<p:columnGroup type="header">
-							<p:row>
-								<p:column colspan="3" headerText="Destinataire" />
-								<p:column colspan="3" headerText="Livraison" />
-								<p:column colspan="3" headerText="Statut" />
-
-							</p:row>
-							<p:row>
-								<p:column colspan="3" headerText="s14027279" />
-								<p:column colspan="3" headerText="11-03-2016" />
-								<p:column colspan="3" headerText="En cours ..." />
-
-							</p:row>
-							<p:row>
-								<p:column colspan="6" headerText="Produits demandés" />
-								<p:column colspan="3" headerText="Scannés" />
-
-							</p:row>
-						</p:columnGroup>
-
-						<p:column colspan="6">
-							<h:outputText value="a" />
-						</p:column>
-						<p:column>
-							<h:outputText value="b" />
-						</p:column>
-						<p:column>
-							<h:outputText value="c" />
-						</p:column>
-						<p:column>
-							<h:outputText value="d">
-
-							</h:outputText>
-						</p:column>
-
-					</p:dataTable>
-				</p:dialog>
-			</h:form>
 		</h:form>
 
 	</ui:define>

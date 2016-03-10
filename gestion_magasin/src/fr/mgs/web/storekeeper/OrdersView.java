@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,11 +16,18 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import com.sun.xml.internal.ws.wsdl.writer.document.Port;
+
 import fr.mgs.business.OrderManager;
+import fr.mgs.business.ProductManager;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.dao.OrderDAO;
+import fr.mgs.dao.ProductDAO;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.product.Product;
+import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Team;
 
 /**
@@ -29,7 +38,12 @@ import fr.mgs.model.user.Team;
  */
 @ManagedBean(name = "ordersView")
 @ViewScoped
-public class OrdersView implements Serializable{
+public class OrdersView implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5914169092116908790L;
 
 	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<Team, Collection<Order>>();
 
@@ -40,6 +54,7 @@ public class OrdersView implements Serializable{
 
 	private boolean checkBox = false;
 	private int oneTeamSelected = 0;
+	private ProductManager prodManager;
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -49,6 +64,9 @@ public class OrdersView implements Serializable{
 			orderManager.init(DataSource.LOCAL);
 			userManager = new UserManager();
 			userManager.init(DataSource.LOCAL);
+			prodManager = new ProductManager();
+			prodManager.init(DataSource.LOCAL);
+
 			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 
 			for (Team team : userManager.findAllTeams()) {

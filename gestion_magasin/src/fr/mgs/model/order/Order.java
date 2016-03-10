@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -56,7 +57,7 @@ public class Order implements Serializable {
 	@Column(name = "delivery_date", nullable = true)
 	private Date deliveryDate;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true,cascade = { CascadeType.REMOVE, CascadeType.MERGE })
 	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 
 	@Column(name = "comment", length = 250, nullable = true)

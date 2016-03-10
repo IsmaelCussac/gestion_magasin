@@ -41,6 +41,7 @@ public class ProductCustomerController {
 	private Order currentOrder;
 	private String userId;
 	private double productQuantity;
+	private List<OrderLine> orderLines;
 
 	public Order getCurrentOrder() {
 		return currentOrder;
@@ -119,8 +120,16 @@ public class ProductCustomerController {
 	 *            the sub category
 	 * @return the list of product
 	 */
-	public List<Product> getProducts(SubCategory sub) {
-		return (List<Product>) productManager.findProductsBySubCategory(sub);
+	public List<OrderLine> getProducts(SubCategory sub) {
+		List<Product> products = (List<Product>) productManager.findProductsBySubCategory(sub);
+		orderLines = new ArrayList<OrderLine>();
+		
+		for(Product prod : products){
+			OrderLine orderLine = new OrderLine();
+			orderLine.setOrderLine(currentOrder, prod, 0, 0);
+		}
+		
+		
 	}
 
 	/**
@@ -135,7 +144,7 @@ public class ProductCustomerController {
 	public double getProductQuantity(Product product) {
 		System.out.println(product.toString());
 		
-		productQuantity = 0;
+
 		for (OrderLine line : currentOrder.getOrderLines()) {
 			if (line != null && line.getProduct().getProductId() == product.getProductId()) {
 				productQuantity = line.getQuantity();
@@ -144,17 +153,17 @@ public class ProductCustomerController {
 		return productQuantity;
 	}
 
-	public void updateQuantity(ValueChangeEvent event, int productId) {
-
-		boolean found = false;
+	public void setProductQuantity(ValueChangeEvent event, int productId) {
+		System.out.println("change");
+		boolean orderLineFound = false;
 		for (OrderLine line : currentOrder.getOrderLines()) {
 			if (line.getId() == productId) {
 				line.setQuantity((Double) event.getNewValue());
-				found = true;
+				orderLineFound = true;
 				System.out.println("new quantity" + line.toString());
 			}
 		}
-		if (!found) {
+		if (!orderLineFound) {
 			OrderLine orderLine = new OrderLine();
 			try {
 				orderLine.setOrderLine(currentOrder, productManager.findProduct(productId),
