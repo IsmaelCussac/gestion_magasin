@@ -21,11 +21,12 @@
 			<p:panelGrid columns="3" layout="grid">
 				<f:facet name="header">
 					<p:row>
-						<p:commandLink action="pretty:skOrders"
-							value="Retour" style="float:left" />
-						<p:column>Equipe: e</p:column>
-						<p:commandLink action="pretty:skDelivery"
-							value="Enregistrer" style="float:right" />
+						<p:commandButton action="pretty:skOrders" value="Retour"
+							style="height:25px;float:left" />
+						<h:outputText
+							value="Livraison de l'équipe: #{ordersView.selectedTeamName}"></h:outputText>
+						<p:commandButton action="pretty:skDelivery" value="Enregistrer"
+							style="height:25px;float:right" />
 					</p:row>
 				</f:facet>
 			</p:panelGrid>
@@ -51,7 +52,7 @@
 							<p:row>
 								<p:column colspan="6" headerText="Produits demandés" />
 								<p:column colspan="3" headerText="Scannés" />
-						
+
 							</p:row>
 						</p:columnGroup>
 
@@ -69,7 +70,7 @@
 
 							</h:outputText>
 						</p:column>
-				
+
 					</p:dataTable>
 
 				</h:form>

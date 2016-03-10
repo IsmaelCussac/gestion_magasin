@@ -33,8 +33,9 @@
 
 			<ui:repeat var="team"
 				value="#{ordersView.ordersByTeam.entrySet().toArray()}">
-				<p:panel header="#{team.key.name} (#{team.value.size()})" toggleable="true"
-					toggleSpeed="500" collapsed="true">
+
+				<p:panel header="#{team.key.name} (#{team.value.size()})"
+					toggleable="true" toggleSpeed="500" collapsed="true">
 					<p:dataTable var="order" value="#{team.value}">
 						<p:column style="width:30px">
 							<p:rowToggler />
@@ -81,15 +82,19 @@
 								</p:column>
 							</p:dataTable>
 
-
 						</p:rowExpansion>
 					</p:dataTable>
 
 					<f:facet name="options">
 						<p:menu>
 							<p:submenu label="Options">
-								<p:menuitem value="Livrer cette équipe"
-									outcome="pretty:skDelivery" icon="ui-icon-newwin" />
+								<p:menuitem icon="ui-icon-extlink" value="Livrer cette équipe"
+									action="pretty:skDelivery">
+									<f:attribute name="teamToDeliver" value="#{team.key.name}" />
+									<f:actionListener
+										type="fr.mgs.web.storekeeper.OrderDeliveryActionListener" />
+								</p:menuitem>
+
 							</p:submenu>
 						</p:menu>
 					</f:facet>
