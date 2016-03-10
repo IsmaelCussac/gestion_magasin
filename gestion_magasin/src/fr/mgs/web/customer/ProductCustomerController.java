@@ -3,6 +3,7 @@ package fr.mgs.web.customer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -63,7 +64,7 @@ public class ProductCustomerController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		userManager = new UserManager();
 		try {
 			userManager.init(DataSource.LOCAL);
@@ -88,30 +89,24 @@ public class ProductCustomerController {
 			if (currentOrder.getStatus() == OrderStatus.NOT_VALIDATED) {
 				return currentOrder;
 			} else {
-				currentOrder = new Order();
-				currentOrder.setOrderUser(userManager.findUser(userId));
-				currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
-				orderManager.addOrder(currentOrder);
+				resetCurrentOrder();
 			}
-		}
-
-		else if (orderManager.hasNotValidatedOrder(userId)) {
+		} else if (orderManager.hasNotValidatedOrder(userId)) {
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			currentOrder = orderList.get(0);
 		} else {
-			currentOrder = new Order();
-			currentOrder.setOrderUser(userManager.findUser(userId));
-			currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
-			orderManager.addOrder(currentOrder);
+			resetCurrentOrder();
 		}
-		
 		return currentOrder;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
+	private void resetCurrentOrder() throws SQLException {
+		currentOrder = new Order();
+		currentOrder.setOrderUser(userManager.findUser(userId));
+		currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
+		orderManager.addOrder(currentOrder);
+	}
+
 	public Collection<Category> getAllCategories() {
 
 		Collection<Category> categories = new ArrayList<Category>();
@@ -123,11 +118,6 @@ public class ProductCustomerController {
 		return categories;
 	}
 
-	/**
-	 * 
-	 * @param cat
-	 * @return
-	 */
 	public List<SubCategory> getSubCategories(Category cat) {
 		return (List<SubCategory>) productManager.findSubCategoriesByCategory(cat);
 	}
@@ -193,13 +183,27 @@ public class ProductCustomerController {
 				e.printStackTrace();
 			}
 			currentOrder.getOrderLines().add(orderLine);
-//			orderManager.addOrderLine(orderLine);
-//			orderManager.updateOrder(currentOrder);
 		}
 	}
-	
-	public Collection<OrderLine> getOrderLines(){
+
+	public Collection<OrderLine> getOrderLines() {
 		return currentOrder.getOrderLines();
+	}
+
+	public void saveOrder() throws SQLException {
+		orderManager.updateOrder(currentOrder);
+	}
+
+	public void submitOrder() throws SQLException {
+		currentOrder.setStatus(OrderStatus.VALIDATED);
+		currentOrder.setSubmissionDate(new Date());
+		saveOrder();
+		resetCurrentOrder();
+	}
+
+	public void deleteOrder() throws SQLException {
+		orderManager.removeOrder(currentOrder.getOrderId());
+		resetCurrentOrder();
 	}
 
 }

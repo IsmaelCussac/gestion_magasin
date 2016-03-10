@@ -38,13 +38,15 @@
 											<h:outputText value="#{it.designation}" />
 										</p:column>
 										<p:column headerText="Quantité">
+											<form>
+												<p:spinner id="basic" value="#{it.quantity}" stepFactor="1"
+													min="0">
 
-											<p:spinner id="basic" value="#{it.quantity}" stepFactor="1"
-												min="0">
-
-											</p:spinner>
-											<p:commandButton actionListener="#{cstProducts.updateOrderLine(it)}"
-												id="button" icon="ui-icon-disk" title="Ajouter" />
+												</p:spinner>
+												<p:commandButton
+													actionListener="#{cstProducts.updateOrderLine(it)}"
+													id="button" icon="ui-icon-disk" title="Ajouter" />
+											</form>
 										</p:column>
 									</p:dataTable>
 								</h:form>
