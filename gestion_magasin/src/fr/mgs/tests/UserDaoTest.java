@@ -1,20 +1,27 @@
 package fr.mgs.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
+
+import javax.persistence.RollbackException;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import javax.persistence.RollbackException;
+
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
+import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.Person;
+
 
 /**
  * Class used to test UserDao
@@ -31,6 +38,8 @@ public class UserDaoTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
 		userManager = new UserManager();
+		userManager.init(DataSource.H2);
+		
 	}
 
 	@AfterClass
@@ -139,5 +148,5 @@ public class UserDaoTest {
 		userManager.updateUser(updateUser);
 		assertEquals("New team to test the method", userManager.findUser("d1102526").getTeam().getName());
 	}
-	
+
 }

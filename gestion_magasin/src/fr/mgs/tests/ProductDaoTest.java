@@ -68,7 +68,6 @@ public class ProductDaoTest {
 	@Test
 	public void testAddProduct() throws SQLException {
 		productManager.addProduct(product);
-
 		assertNotNull(productManager.findProduct(1));
 	}
 

@@ -26,12 +26,12 @@ public class OrderLine {
 	@EmbeddedId
 	OrderLinePK orderLinePK;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "order_line_order", nullable = false)
 	@MapsId("orderId")
 	private Order order;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "order_line_product", nullable = false)
 	@MapsId("productId")
 	private Product product;

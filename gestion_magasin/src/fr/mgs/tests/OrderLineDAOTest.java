@@ -36,12 +36,12 @@ public class OrderLineDAOTest {
 	private static ProductManager productManager;
 	
 	
-	private static Order order;
-	private static OrderLine orderline;
-	private static Product product;
-	private static SubCategory subCategory;
-	private static Person person;
-	private static Set<OrderLine> orderLines;
+	private  Order order;
+	private  OrderLine orderline;
+	private  Product product;
+	private  SubCategory subCategory;
+	private  Person person;
+	private  Set<OrderLine> orderLines;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
@@ -68,8 +68,8 @@ public class OrderLineDAOTest {
 		product.setProduct("Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
 		productManager.addProduct(product);
 		
-		Date dateSub = new Date("2016-02-26 20:15:00");
-		Date dateDeli = new Date("2016-03-03 20:15:00");
+		Date dateSub = new Date();
+		Date dateDeli = new Date();
 		
 		order = new Order();
 		order.setOrder(person, dateSub, dateDeli, orderLines, "", OrderStatus.DELIVERED);
