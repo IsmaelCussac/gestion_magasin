@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
-import org.primefaces.event.CellEditEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
@@ -23,7 +20,6 @@ import fr.mgs.business.ProductManager;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
-import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
@@ -43,9 +39,11 @@ public class ProductCustomerController {
 	private ProductManager productManager;
 	private OrderManager orderManager;
 	private UserManager userManager;
+
 	private String userId;
 	private Order currentOrder;
 	private Map<String, List<OrderItem>> orderItems;
+	private Map<Integer, OrderItem> cart;
 
 	@PostConstruct
 	public void init() {
@@ -78,50 +76,28 @@ public class ProductCustomerController {
 			e.printStackTrace();
 		}
 		orderItems = new HashMap<String, List<OrderItem>>();
+		cart = new HashMap<Integer, OrderItem>();
 	}
 
-	public Order newOrder() throws SQLException {
+	// Cart methods
 
-		if (currentOrder != null) {
-			if (currentOrder.getStatus() == OrderStatus.NOT_VALIDATED) {
-				return currentOrder;
-			} else {
-				resetCurrentOrder();
-			}
-		} else if (orderManager.hasNotValidatedOrder(userId)) {
-			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
-			currentOrder = orderList.get(0);
+	public Map<Integer, OrderItem> getCart() {
+		return cart;
+	}
+
+	public void setCart(Map<Integer, OrderItem> cart) {
+		this.cart = cart;
+	}
+
+	public void updateCart(OrderItem item) throws SQLException {
+		if (item.getQuantity() == 0) {
+			cart.remove(item.getProductId());
 		} else {
-			resetCurrentOrder();
-		}
-		return currentOrder;
-	}
-
-	private void resetCurrentOrder() throws SQLException {
-		currentOrder = new Order();
-		currentOrder.setOrderUser(userManager.findUser(userId));
-		currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
-		orderManager.addOrder(currentOrder);
-	}
-
-	public Order getCurrentOrder() {
-		return currentOrder;
-	}
-
-	public void setCurrentOrder(Order currentOrder) {
-		this.currentOrder = currentOrder;
-	}
-
-	public void onCellEdit(CellEditEvent event) {
-		Object oldValue = event.getOldValue();
-		Object newValue = event.getNewValue();
-
-		if (newValue != null && !newValue.equals(oldValue)) {
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed",
-					"Old: " + oldValue + ", New:" + newValue);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
+			cart.put(item.getProductId(), item);
 		}
 	}
+
+	// Store methods
 
 	public Collection<Category> getAllCategories() {
 
@@ -153,41 +129,38 @@ public class ProductCustomerController {
 
 			for (Product prod : prods) {
 				OrderItem orderItem = new OrderItem();
-				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0);
+				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0, sub.getName());
 				items.add(orderItem);
 			}
 			orderItems.put(sub.getName(), items);
+		} else {
+			List<OrderItem> items = orderItems.get(sub.getName());
+			for (OrderItem item : items) {
+				if (cart.containsKey(item.getProductId())) {
+					item.setQuantity(cart.get(item.getProductId()).getQuantity());
+				}
+			}
 		}
 		return orderItems.get(sub.getName());
 	}
 
-	public void setOrderItems(List<OrderItem> orderItems) {
-		System.out.println(orderItems.toString());
-		
-	}
+	// Order methods
 
-	public void updateOrderLine() throws SQLException {
-		System.out.println("update order Lines " + orderItems.toString());
-//		boolean orderLineExists = false;
-//		for (OrderLine line : currentOrder.getOrderLines()) {
-//			if (line.getId() == item.getProductId()) {
-//				line.setQuantity(quantity);
-//				orderLineExists = true;
-//			}
-//		}
-//		if (!orderLineExists) {
-//			OrderLine orderLine = new OrderLine();
-//			try {
-//				orderLine.setOrderLine(currentOrder, productManager.findProduct(item.getProductId()), quantity, 0);
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//			currentOrder.getOrderLines().add(orderLine);
-//		}
-	}
+	public Order newOrder() throws SQLException {
 
-	public Map<String, List<OrderItem>> getOrderItems() {
-		return orderItems;
+		if (currentOrder != null) {
+			if (currentOrder.getStatus() == OrderStatus.NOT_VALIDATED) {
+				return currentOrder;
+			} else {
+				resetCurrentOrder();
+			}
+		} else if (orderManager.hasNotValidatedOrder(userId)) {
+			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
+			currentOrder = orderList.get(0);
+		} else {
+			resetCurrentOrder();
+		}
+		return currentOrder;
 	}
 
 	public void saveOrder() throws SQLException {
@@ -202,8 +175,23 @@ public class ProductCustomerController {
 	}
 
 	public void deleteOrder() throws SQLException {
-		orderManager.removeOrder(currentOrder.getOrderId());
-		resetCurrentOrder();
+		cart.clear();
+		orderItems.clear();
+	}
+
+	private void resetCurrentOrder() throws SQLException {
+		currentOrder = new Order();
+		currentOrder.setOrderUser(userManager.findUser(userId));
+		currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
+		orderManager.addOrder(currentOrder);
+	}
+
+	public Order getCurrentOrder() {
+		return currentOrder;
+	}
+
+	public void setCurrentOrder(Order currentOrder) {
+		this.currentOrder = currentOrder;
 	}
 
 }

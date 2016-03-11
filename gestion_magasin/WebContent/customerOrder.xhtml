@@ -17,40 +17,34 @@
 
 				<h:form>
 					<p:commandButton value="Vider" id="submit"
-						actionListener="#{cstProducts.deleteOrder}" icon="ui-icon-trash" />
+						actionListener="#{cstProducts.deleteOrder}" icon="ui-icon-trash" update="list"/>
 					<p:commandButton value="Sauvegarder" id="save"
 						actionListener="#{cstProducts.saveOrder}" icon="ui-icon-disk" />
 					<p:commandButton value="Valider" id="remove"
 						actionListener="#{cstProducts.submitOrder}" icon="ui-icon-cart" />
 				</h:form>
 
-				<h:form>
-					<p:dataTable value="#{cstProducts.orderItems.entrySet().toArray()}"
+				<h:form id="list">
+					<p:dataTable value="#{cstProducts.cart.entrySet().toArray()}"
 						var="entry" styleClass="course-table"
 						headerClass="course-table-header"
 						footerClass="course-table-header"
 						rowClasses="course-table-odd-row,course-table-even-row">
 
-						<p:subTable var="line" value="#{entry.value}"
-							rendered="#{entry.value.size() != 0}" >
-							<f:facet name="header">
-								<h:outputText value="#{entry.key}" />
-							</f:facet>
-							<p:column headerText="Photo"
-								rendered="#{line.quantity != 0}">
-								<p:graphicImage name="/image/product-icon.png" />
-							</p:column>
-							<p:column sortBy="#{line.designation}" headerText="Désignation"
-								rendered="#{line.quantity != 0}">
-								<h:outputText value="#{line.designation}" />
-							</p:column>
-							<p:column headerText="Quantité" rendered="#{line.quantity != 0}">
-								<p:spinner id="sp" value="#{line.quantity}"  min="0">
-									<p:ajax event="change"
-										listener="#{cstProducts.updateOrderLine()}" />
-								</p:spinner>
-							</p:column>
-						</p:subTable>
+
+						<p:column headerText="Photo" >
+							<p:graphicImage name="/image/product-icon.png" />
+						</p:column>
+						<p:column sortBy="#{entry.value.designation}" headerText="Désignation">
+							<h:outputText value="#{entry.value.designation}" />
+						</p:column>
+						<p:column headerText="Quantité" >
+							<p:spinner id="sp" value="#{entry.value.quantity}" min="0">
+								<p:ajax event="change"
+									listener="#{cstProducts.updateCart(entry.value)}" update="@form"/> 
+							</p:spinner>
+						</p:column>
+
 					</p:dataTable>
 				</h:form>
 

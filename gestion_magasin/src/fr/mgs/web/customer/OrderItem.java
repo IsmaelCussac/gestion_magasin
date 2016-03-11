@@ -10,6 +10,7 @@ public class OrderItem implements Serializable{
 	private String designation;
 	private String picture;
 	private double quantity;
+	private String subCategory;
 	
 	public OrderItem() {
 	
@@ -47,17 +48,26 @@ public class OrderItem implements Serializable{
 		this.quantity = quantity;
 	}
 	
-	public void setOrderItem(int productId, String designation, String picture, double quantity){
+	public String getSubCategory() {
+		return subCategory;
+	}
+
+	public void setSubCategory(String subCategory) {
+		this.subCategory = subCategory;
+	}
+
+	public void setOrderItem(int productId, String designation, String picture, double quantity, String subCategory){
 		setProductId(productId);
 		setDesignation(designation);
 		setPicture(picture);
 		setQuantity(quantity);
+		setSubCategory(subCategory);
 	}
 
 	@Override
 	public String toString() {
 		return "OrderItem [productId=" + productId + ", designation=" + designation + ", picture=" + picture
-				+ ", quantity=" + quantity + "]";
+				+ ", quantity=" + quantity + ", subCategory=" + subCategory +"]";
 	}
 	
 	
