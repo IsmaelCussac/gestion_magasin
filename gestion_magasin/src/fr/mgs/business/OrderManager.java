@@ -115,15 +115,6 @@ public class OrderManager {
 	public void updateOrderLine(OrderLine orderLine) throws SQLException{
 		orderLineDao.update(orderLine);
 	}
-	
-	public Collection<Order> findOrdersByUser(Person user){
-		return orderDao.findOrdersByUser(user);
-	}
-
-	public List<OrderLine> findCurrentOrderLines(String userId) {
-		// TODO
-		return null;
-	}
 
 	public boolean hasNotValidatedOrder(String userId) {
 		return orderDao.hasNotValidatedOrder(userId);
@@ -131,5 +122,13 @@ public class OrderManager {
 	
 	public Collection<Order> findNotValidatedOrder(String userId){
 		return orderDao.findNotValidatedOrder(userId);
+	}
+
+	public List<Order> findAllOrdersByUser(String userId) {
+		return (List<Order>) orderDao.findOrdersByUser(userId);
+	}
+
+	public Collection<Order> findOrdersByUser(Person p) {
+		return (List<Order>) orderDao.findOrdersByUser(p);
 	}
 }

@@ -35,7 +35,7 @@ public class OrderLine {
 	@JoinColumn(name = "order_line_order", nullable = false)
 	private Order order;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
 	@JoinColumn(name = "order_line_product", nullable = false)
 	private Product product;
 

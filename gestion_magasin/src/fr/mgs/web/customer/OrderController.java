@@ -35,7 +35,7 @@ import fr.mgs.model.product.SubCategory;
 
 @ManagedBean(name = "cstProducts")
 @SessionScoped
-public class ProductCustomerController {
+public class OrderController {
 
 	private ProductManager productManager;
 	private OrderManager orderManager;
