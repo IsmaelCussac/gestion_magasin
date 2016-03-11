@@ -20,6 +20,7 @@ import fr.mgs.business.ProductManager;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
@@ -164,19 +165,37 @@ public class ProductCustomerController {
 	}
 
 	public void saveOrder() throws SQLException {
+
+		for (OrderLine line : currentOrder.getOrderLines()) {
+			orderManager.removeOrderLine(line.getId());
+		}
+
+		currentOrder.getOrderLines().clear();
+		for (OrderItem item : cart.values()) {
+			OrderLine orderLine = new OrderLine();
+			orderLine.setOrderLine(currentOrder, productManager.findProduct(item.getProductId()), item.getQuantity(),
+					0);
+			currentOrder.addOrderLine(orderLine);
+		}
 		orderManager.updateOrder(currentOrder);
 	}
 
-	public void submitOrder() throws SQLException {
-		currentOrder.setStatus(OrderStatus.VALIDATED);
-		currentOrder.setSubmissionDate(new Date());
-		saveOrder();
-		resetCurrentOrder();
+	public String submitOrder() throws SQLException {
+		if (cart.size() > 0) {
+			currentOrder.setStatus(OrderStatus.VALIDATED);
+			currentOrder.setSubmissionDate(new Date());
+			saveOrder();
+			resetCurrentOrder();
+			return "pretty:cstHistory";
+		}
+
+		return "pretty:cstProducts";
 	}
 
 	public void deleteOrder() throws SQLException {
 		cart.clear();
 		orderItems.clear();
+		orderManager.removeOrder(currentOrder.getOrderId());
 	}
 
 	private void resetCurrentOrder() throws SQLException {
@@ -184,6 +203,8 @@ public class ProductCustomerController {
 		currentOrder.setOrderUser(userManager.findUser(userId));
 		currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
 		orderManager.addOrder(currentOrder);
+		cart.clear();
+		orderItems.clear();
 	}
 
 	public Order getCurrentOrder() {

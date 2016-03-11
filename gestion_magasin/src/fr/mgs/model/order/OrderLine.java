@@ -31,12 +31,12 @@ public class OrderLine {
 	@Column(name = "order_line_id")
 	private int id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
 	@JoinColumn(name = "order_line_order", nullable = false)
 	private Order order;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
-	@JoinColumn(name = "order_line_product")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "order_line_product", nullable = false)
 	private Product product;
 
 	@Column(name = "quantity", nullable = false)
@@ -44,9 +44,9 @@ public class OrderLine {
 
 	@Column(name = "delivered_quantity", nullable = true)
 	private double deliveredQuantity;
-	
-	public OrderLine(){	}
 
+	public OrderLine() {
+	}
 
 	public int getId() {
 		return id;
@@ -88,15 +88,12 @@ public class OrderLine {
 		this.deliveredQuantity = deliveredQuantity;
 	}
 
-
-	public void setOrderLine(Order order, Product product, double quantity, double deleveredQuantity){
+	public void setOrderLine(Order order, Product product, double quantity, double deleveredQuantity) {
 		setOrder(order);
 		setProduct(product);
 		setQuantity(quantity);
 		setDeliveredQuantity(deleveredQuantity);
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -106,13 +103,11 @@ public class OrderLine {
 		return result;
 	}
 
-
 	public boolean equals(OrderLine ol) {
-		if(getProduct().getProductId() == ol.getProduct().getProductId())
+		if (getProduct().getProductId() == ol.getProduct().getProductId())
 			return true;
 		return false;
 	}
-
 
 	@Override
 	public String toString() {

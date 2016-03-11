@@ -17,11 +17,11 @@
 
 				<h:form>
 					<p:commandButton value="Vider" id="submit"
-						actionListener="#{cstProducts.deleteOrder}" icon="ui-icon-trash" update="list"/>
+						action="#{cstProducts.deleteOrder}" icon="ui-icon-trash" update="list"/>
 					<p:commandButton value="Sauvegarder" id="save"
-						actionListener="#{cstProducts.saveOrder}" icon="ui-icon-disk" />
+						action="#{cstProducts.saveOrder}" icon="ui-icon-disk" />
 					<p:commandButton value="Valider" id="remove"
-						actionListener="#{cstProducts.submitOrder}" icon="ui-icon-cart" />
+						action="#{cstProducts.submitOrder}" icon="ui-icon-cart" />
 				</h:form>
 
 				<h:form id="list">
@@ -35,7 +35,7 @@
 						<p:column headerText="Photo" >
 							<p:graphicImage name="/image/product-icon.png" />
 						</p:column>
-						<p:column sortBy="#{entry.value.designation}" headerText="Désignation">
+						<p:column headerText="Désignation">
 							<h:outputText value="#{entry.value.designation}" />
 						</p:column>
 						<p:column headerText="Quantité" >

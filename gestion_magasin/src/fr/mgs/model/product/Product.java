@@ -75,7 +75,7 @@ public class Product  {
 	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Lot> lots = new HashSet<Lot>();
 	
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false,cascade = { CascadeType.REMOVE, CascadeType.MERGE } )
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false, cascade = CascadeType.ALL  )
 	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 
 	public Product() {

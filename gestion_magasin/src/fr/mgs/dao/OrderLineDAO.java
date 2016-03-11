@@ -28,7 +28,8 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 	/**
 	 * store an orderLine in database
 	 * 
-	 * @param the orderLine to add
+	 * @param the
+	 *            orderLine to add
 	 */
 	public void add(OrderLine orderLine) throws SQLException {
 		beginTransaction();
@@ -40,12 +41,14 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 	/**
 	 * remove an orderLine stored in database using his id
 	 * 
-	 * @param orderLine's id
+	 * @param orderLine's
+	 *            id
 	 */
 	public void remove(Integer orderLineId) throws SQLException {
 		OrderLine orderLine = find(orderLineId);
 		beginTransaction();
-		em.remove(em.merge(orderLine));
+		if (orderLine != null)
+			em.remove(em.merge(orderLine));
 		commit();
 		closeEm();
 	}
@@ -54,7 +57,8 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 	 * update a orderLine's attributes according to the fact the user is already
 	 * stored in database
 	 * 
-	 * @param orderLine's bean updated
+	 * @param orderLine's
+	 *            bean updated
 	 */
 	public void update(OrderLine orderLine) throws SQLException {
 		beginTransaction();
@@ -66,7 +70,8 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 	/**
 	 * Search if a orderLine exists
 	 * 
-	 * @param orderLine's id
+	 * @param orderLine's
+	 *            id
 	 */
 	public boolean exists(Integer orderLineId) throws SQLException {
 		return (find(orderLineId) != null);
@@ -75,7 +80,8 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 	/**
 	 * find a orderLine using his id
 	 * 
-	 * @param orderLine's id
+	 * @param orderLine's
+	 *            id
 	 */
 	public OrderLine find(Integer orderLineId) throws SQLException {
 		loadEm();
@@ -83,11 +89,12 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 		closeEm();
 		return orderLine;
 	}
-	
+
 	/**
 	 * return the given order's orderLines
 	 * 
-	 * @param the order
+	 * @param the
+	 *            order
 	 */
 	public List<OrderLine> findOrderLineByOrder(Order order) {
 		loadEm();
@@ -95,8 +102,8 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 		query.setParameter("or", order);
 		return (List<OrderLine>) query.getResultList();
 	}
-	
-	//Unused
+
+	// Unused
 
 	@Override
 	public Collection<OrderLine> findAll() throws SQLException {

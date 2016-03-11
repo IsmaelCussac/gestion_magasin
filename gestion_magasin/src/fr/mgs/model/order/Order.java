@@ -57,7 +57,7 @@ public class Order implements Serializable {
 	@Column(name = "delivery_date", nullable = true)
 	private Date deliveryDate;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL )
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true, cascade = {CascadeType.MERGE, CascadeType.REMOVE} )
 	private Collection<OrderLine> orderLines = new ArrayList<OrderLine>();
 
 	@Column(name = "comment", length = 250, nullable = true)
@@ -137,9 +137,7 @@ public class Order implements Serializable {
 	}
 	
 	public void addOrderLine(OrderLine orderLine){
-		
 		this.orderLines.add(orderLine);
-		System.err.println(orderLines.toString());
 	}
 
 	@Override
@@ -148,4 +146,6 @@ public class Order implements Serializable {
 				+ ", deliveryDate=" + deliveryDate + ", comment=" + comment + ", status="
 				+ status + "]";
 	}
+
+	
 }
