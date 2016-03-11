@@ -4,12 +4,8 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -22,9 +18,6 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
-import fr.mgs.model.order.OrderStatus;
-import fr.mgs.model.product.Product;
-import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Team;
 
 /**
@@ -98,8 +91,7 @@ public class OrdersView implements Serializable {
 	}
 
 	/**
-	 * return all products of the selected team for delivery
-	 * 
+	 * return all order lines of the selected team for delivery
 	 */
 	public Collection<OrderLine> getSelectedTeamOls() {
 		Collection<OrderLine> teamsOrderLines = new ArrayList<OrderLine>();

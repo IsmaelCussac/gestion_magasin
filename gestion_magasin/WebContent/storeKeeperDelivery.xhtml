@@ -24,7 +24,7 @@
 						<p:commandButton action="pretty:skOrders" value="Retour"
 							style="height:25px;float:left" />
 						<h:outputText
-							value="Livraison de l'équipe: #{ordersView.selectedTeam.name}" />
+							value="Livraison de l'équipe: #{ordersView.selectedTeam.name} - Etage #{ordersView.selectedTeam.floor}" />
 						<p:commandButton action="pretty:skDelivery" value="Enregistrer"
 							style="height:25px;float:right" />
 					</p:row>
@@ -35,17 +35,12 @@
 				<h:form>
 					<p:dataTable value="#{ordersView.getSelectedTeamOls()}" var="ol">
 						<p:columnGroup type="header">
-							<p:row>
-								<p:column colspan="6" headerText="Destinataire" />
-								<p:column colspan="4" headerText="Livraison" />
-								<p:column colspan="3" headerText="Statut" />
 
-							</p:row>
 							<p:row>
-								<p:column colspan="6"
+								<p:column colspan="7"
 									headerText="#{ordersView.selectedTeam.name}" />
-								<p:column colspan="4" headerText="11-03-2016" />
-								<p:column colspan="3" headerText="En cours ..." />
+								<p:column colspan="6" headerText="Livraison du 11-03-2016" />
+
 
 							</p:row>
 							<p:row>
