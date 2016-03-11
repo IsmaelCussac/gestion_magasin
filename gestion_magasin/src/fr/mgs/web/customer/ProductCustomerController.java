@@ -1,5 +1,6 @@
 package fr.mgs.web.customer;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,10 +8,13 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 
+import org.primefaces.event.CellEditEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
@@ -34,7 +38,7 @@ import fr.mgs.model.product.SubCategory;
 
 @ManagedBean(name = "cstProducts")
 @SessionScoped
-public class ProductCustomerController {
+public class ProductCustomerController implements Serializable {
 
 	private ProductManager productManager;
 	private OrderManager orderManager;
@@ -43,14 +47,8 @@ public class ProductCustomerController {
 	private String userId;
 	private List<OrderItem> orderItems;
 	private double quantity;
-
-	public Order getCurrentOrder() {
-		return currentOrder;
-	}
-
-	public void setCurrentOrder(Order currentOrder) {
-		this.currentOrder = currentOrder;
-	}
+	private OrderItem orderItem;
+	private SubCategory previousSubCat;
 
 	@PostConstruct
 	public void init() {
@@ -82,7 +80,8 @@ public class ProductCustomerController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		orderItems = new ArrayList<OrderItem>();
+		previousSubCat = new SubCategory();
 	}
 
 	public Order newOrder() throws SQLException {
@@ -109,6 +108,34 @@ public class ProductCustomerController {
 		orderManager.addOrder(currentOrder);
 	}
 
+	public Order getCurrentOrder() {
+		return currentOrder;
+	}
+
+	public void setCurrentOrder(Order currentOrder) {
+		this.currentOrder = currentOrder;
+	}
+
+	public OrderItem getOrderItem() {
+		return orderItem;
+	}
+
+	public void setOrderItem(OrderItem orderItem) {
+		System.out.println(orderItem.toString());
+		this.orderItem = orderItem;
+	}
+
+	public void onCellEdit(CellEditEvent event) {
+		Object oldValue = event.getOldValue();
+		Object newValue = event.getNewValue();
+
+		if (newValue != null && !newValue.equals(oldValue)) {
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed",
+					"Old: " + oldValue + ", New:" + newValue);
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+	}
+
 	public Collection<Category> getAllCategories() {
 
 		Collection<Category> categories = new ArrayList<Category>();
@@ -131,10 +158,17 @@ public class ProductCustomerController {
 	 *            the sub category
 	 * @return the list of product
 	 */
-	public List<OrderItem> getItems(SubCategory sub) {
-		orderItems = new ArrayList<OrderItem>();
+	public List<OrderItem> getOrderItems(SubCategory sub) {
+
+		if (previousSubCat.getName() != null && !previousSubCat.getName().equals(sub.getName())) {
+			previousSubCat = sub;
+			return orderItems = new ArrayList<OrderItem>();
+		}
+
 		List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
 		boolean orderLineExists;
+		// si la commande en cours est vide, on remplit orderItem avec les
+		// produits de la sous catégorie et quantité = 0
 		if (currentOrder.getOrderLines().size() == 0) {
 			for (Product prod : prods) {
 
@@ -142,12 +176,15 @@ public class ProductCustomerController {
 				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0);
 				orderItems.add(orderItem);
 			}
-		} else {
+		} else { // si la commande en cours n'est pas vide
+			// pour chaque produit de la sous catégorie
 			for (Product prod : prods) {
 				orderLineExists = false;
 				OrderItem orderItem = new OrderItem();
+				// et pour chaque produit dans la commande
 				for (OrderLine orderLine : currentOrder.getOrderLines()) {
-
+					// si on trouve les mêmes on ajoute à orderItem la ligne de
+					// la commande
 					if (prod.getProductId() == orderLine.getProduct().getProductId()) {
 						orderLineExists = true;
 						orderItem.setOrderItem(orderLine.getProduct().getProductId(),
@@ -158,6 +195,8 @@ public class ProductCustomerController {
 					}
 
 				}
+				// si le produit n'est pas dans la commande, on l'ajoute à
+				// orderItems avec quantité = 0
 				if (!orderLineExists) {
 					orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0);
 					orderItems.add(orderItem);
@@ -168,24 +207,33 @@ public class ProductCustomerController {
 
 	}
 
-	public void updateOrderLine(OrderItem item) throws SQLException {
+	public void setOrderItems(List<OrderItem> orderItems) {
+		System.out.println(orderItems.toString());
+		this.orderItems = orderItems;
+	}
+
+	public void showValue() {
+
+	}
+
+	public void updateOrderLine() throws SQLException {
+		System.out.println("update order Lines " + orderItems.toString());
 		boolean orderLineExists = false;
-		for (OrderLine line : currentOrder.getOrderLines()) {
-			if (line.getId() == item.getProductId()) {
-				line.setQuantity(item.getQuantity());
-				orderLineExists = true;
-			}
-		}
-		if (!orderLineExists) {
-			OrderLine orderLine = new OrderLine();
-			try {
-				orderLine.setOrderLine(currentOrder, productManager.findProduct(item.getProductId()),
-						item.getQuantity(), 0);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			currentOrder.getOrderLines().add(orderLine);
-		}
+//		for (OrderLine line : currentOrder.getOrderLines()) {
+//			if (line.getId() == item.getProductId()) {
+//				line.setQuantity(quantity);
+//				orderLineExists = true;
+//			}
+//		}
+//		if (!orderLineExists) {
+//			OrderLine orderLine = new OrderLine();
+//			try {
+//				orderLine.setOrderLine(currentOrder, productManager.findProduct(item.getProductId()), quantity, 0);
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//			currentOrder.getOrderLines().add(orderLine);
+//		}
 	}
 
 	public Collection<OrderLine> getOrderLines() {
@@ -207,8 +255,8 @@ public class ProductCustomerController {
 		orderManager.removeOrder(currentOrder.getOrderId());
 		resetCurrentOrder();
 	}
-	
-	public void updateQuantity(ValueChangeEvent event){
+
+	public void updateQuantity(ValueChangeEvent event) {
 		this.quantity = (Double) event.getNewValue();
 	}
 
