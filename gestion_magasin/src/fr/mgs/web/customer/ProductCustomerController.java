@@ -1,18 +1,18 @@
 package fr.mgs.web.customer;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
 import org.primefaces.event.CellEditEvent;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,17 +38,14 @@ import fr.mgs.model.product.SubCategory;
 
 @ManagedBean(name = "cstProducts")
 @SessionScoped
-public class ProductCustomerController implements Serializable {
+public class ProductCustomerController {
 
 	private ProductManager productManager;
 	private OrderManager orderManager;
 	private UserManager userManager;
-	private Order currentOrder;
 	private String userId;
-	private List<OrderItem> orderItems;
-	private double quantity;
-	private OrderItem orderItem;
-	private SubCategory previousSubCat;
+	private Order currentOrder;
+	private Map<String, List<OrderItem>> orderItems;
 
 	@PostConstruct
 	public void init() {
@@ -80,8 +77,7 @@ public class ProductCustomerController implements Serializable {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		orderItems = new ArrayList<OrderItem>();
-		previousSubCat = new SubCategory();
+		orderItems = new HashMap<String, List<OrderItem>>();
 	}
 
 	public Order newOrder() throws SQLException {
@@ -114,15 +110,6 @@ public class ProductCustomerController implements Serializable {
 
 	public void setCurrentOrder(Order currentOrder) {
 		this.currentOrder = currentOrder;
-	}
-
-	public OrderItem getOrderItem() {
-		return orderItem;
-	}
-
-	public void setOrderItem(OrderItem orderItem) {
-		System.out.println(orderItem.toString());
-		this.orderItem = orderItem;
 	}
 
 	public void onCellEdit(CellEditEvent event) {
@@ -160,65 +147,28 @@ public class ProductCustomerController implements Serializable {
 	 */
 	public List<OrderItem> getOrderItems(SubCategory sub) {
 
-		if (previousSubCat.getName() != null && !previousSubCat.getName().equals(sub.getName())) {
-			previousSubCat = sub;
-			return orderItems = new ArrayList<OrderItem>();
-		}
+		if (!orderItems.containsKey(sub.getName())) {
+			List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
+			List<OrderItem> items = new ArrayList<OrderItem>();
 
-		List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
-		boolean orderLineExists;
-		// si la commande en cours est vide, on remplit orderItem avec les
-		// produits de la sous catégorie et quantité = 0
-		if (currentOrder.getOrderLines().size() == 0) {
 			for (Product prod : prods) {
-
 				OrderItem orderItem = new OrderItem();
 				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0);
-				orderItems.add(orderItem);
+				items.add(orderItem);
 			}
-		} else { // si la commande en cours n'est pas vide
-			// pour chaque produit de la sous catégorie
-			for (Product prod : prods) {
-				orderLineExists = false;
-				OrderItem orderItem = new OrderItem();
-				// et pour chaque produit dans la commande
-				for (OrderLine orderLine : currentOrder.getOrderLines()) {
-					// si on trouve les mêmes on ajoute à orderItem la ligne de
-					// la commande
-					if (prod.getProductId() == orderLine.getProduct().getProductId()) {
-						orderLineExists = true;
-						orderItem.setOrderItem(orderLine.getProduct().getProductId(),
-								orderLine.getProduct().getDesignation(), orderLine.getProduct().getPicture(),
-								orderLine.getQuantity());
-						orderItems.add(orderItem);
-						break;
-					}
-
-				}
-				// si le produit n'est pas dans la commande, on l'ajoute à
-				// orderItems avec quantité = 0
-				if (!orderLineExists) {
-					orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0);
-					orderItems.add(orderItem);
-				}
-			}
+			orderItems.put(sub.getName(), items);
 		}
-		return orderItems;
-
+		return orderItems.get(sub.getName());
 	}
 
 	public void setOrderItems(List<OrderItem> orderItems) {
 		System.out.println(orderItems.toString());
-		this.orderItems = orderItems;
-	}
-
-	public void showValue() {
-
+		
 	}
 
 	public void updateOrderLine() throws SQLException {
 		System.out.println("update order Lines " + orderItems.toString());
-		boolean orderLineExists = false;
+//		boolean orderLineExists = false;
 //		for (OrderLine line : currentOrder.getOrderLines()) {
 //			if (line.getId() == item.getProductId()) {
 //				line.setQuantity(quantity);
@@ -236,8 +186,8 @@ public class ProductCustomerController implements Serializable {
 //		}
 	}
 
-	public Collection<OrderLine> getOrderLines() {
-		return currentOrder.getOrderLines();
+	public Map<String, List<OrderItem>> getOrderItems() {
+		return orderItems;
 	}
 
 	public void saveOrder() throws SQLException {
@@ -254,10 +204,6 @@ public class ProductCustomerController implements Serializable {
 	public void deleteOrder() throws SQLException {
 		orderManager.removeOrder(currentOrder.getOrderId());
 		resetCurrentOrder();
-	}
-
-	public void updateQuantity(ValueChangeEvent event) {
-		this.quantity = (Double) event.getNewValue();
 	}
 
 }

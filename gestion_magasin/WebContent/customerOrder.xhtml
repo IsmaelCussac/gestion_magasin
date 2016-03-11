@@ -25,27 +25,32 @@
 				</h:form>
 
 				<h:form>
-					<p:dataTable value="#{cstProducts.orderLines}" var="line"
-						styleClass="course-table" headerClass="course-table-header"
+					<p:dataTable value="#{cstProducts.orderItems.entrySet().toArray()}"
+						var="entry" styleClass="course-table"
+						headerClass="course-table-header"
 						footerClass="course-table-header"
 						rowClasses="course-table-odd-row,course-table-even-row">
 
-						<p:column>
-							<p:graphicImage name="/image/product-icon.png" />
-						</p:column>
-						<p:column headerText="Désignation">
-							<h:outputText value="#{line.product.designation}" />
-						</p:column>
-						<p:column headerText="Quantité">
-
-							<p:spinner id="basic" value="#{line.quantity}" stepFactor="1"
-								min="0">
-
-							</p:spinner>
-							<p:commandButton
-								actionListener="#{cstProducts.updateOrderLine(line)}" id="button"
-								icon="ui-icon-disk" title="Ajouter" />
-						</p:column>
+						<p:subTable var="line" value="#{entry.value}"
+							rendered="#{entry.value.size() != 0}" >
+							<f:facet name="header">
+								<h:outputText value="#{entry.key}" />
+							</f:facet>
+							<p:column headerText="Photo"
+								rendered="#{line.quantity != 0}">
+								<p:graphicImage name="/image/product-icon.png" />
+							</p:column>
+							<p:column sortBy="#{line.designation}" headerText="Désignation"
+								rendered="#{line.quantity != 0}">
+								<h:outputText value="#{line.designation}" />
+							</p:column>
+							<p:column headerText="Quantité" rendered="#{line.quantity != 0}">
+								<p:spinner id="sp" value="#{line.quantity}"  min="0">
+									<p:ajax event="change"
+										listener="#{cstProducts.updateOrderLine()}" />
+								</p:spinner>
+							</p:column>
+						</p:subTable>
 					</p:dataTable>
 				</h:form>
 
