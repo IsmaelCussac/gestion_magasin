@@ -1,7 +1,6 @@
 package fr.mgs.web.customer;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +19,6 @@ import fr.mgs.model.order.Order;
 public class OrderHistoryController {
 	
 	private OrderManager orderManager;
-	private List<Order> orders;
 	private String userId;
 	
 	@PostConstruct
@@ -34,13 +32,17 @@ public class OrderHistoryController {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
 		
-		orders = new ArrayList<Order>();
 	}
 	
 	public List<Order> getOrders() throws SQLException{
 		
 		return (List<Order>) orderManager.findAllOrdersByUser(userId);
 		
+	}
+	
+	public String duplicateOrder(Order order){
+		
+		return "pretty:cstOrder";
 	}
 	
 	

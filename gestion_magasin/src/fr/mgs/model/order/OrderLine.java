@@ -1,16 +1,13 @@
 package fr.mgs.model.order;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 import fr.mgs.model.product.Product;
@@ -26,17 +23,17 @@ import fr.mgs.model.product.Product;
 @Table(name = "order_line_t")
 public class OrderLine {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "order_line_id")
-	private int id;
+	@EmbeddedId
+	OrderLinePK orderLinePK;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
 	@JoinColumn(name = "order_line_order", nullable = false)
+	@MapsId("orderId")
 	private Order order;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
 	@JoinColumn(name = "order_line_product", nullable = false)
+	@MapsId("productId")
 	private Product product;
 
 	@Column(name = "quantity", nullable = false)
@@ -48,12 +45,12 @@ public class OrderLine {
 	public OrderLine() {
 	}
 
-	public int getId() {
-		return id;
+	public OrderLinePK getOrderLinePK() {
+		return orderLinePK;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setOrderLinePK(OrderLinePK orderLinePK) {
+		this.orderLinePK = orderLinePK;
 	}
 
 	public Order getOrder() {
@@ -89,6 +86,7 @@ public class OrderLine {
 	}
 
 	public void setOrderLine(Order order, Product product, double quantity, double deleveredQuantity) {
+		setOrderLinePK(new OrderLinePK(product.getProductId(), order.getOrderId()));
 		setOrder(order);
 		setProduct(product);
 		setQuantity(quantity);
@@ -111,7 +109,7 @@ public class OrderLine {
 
 	@Override
 	public String toString() {
-		return "OrderLine [id=" + id + ", order=" + order + ", product=" + product + ", quantity=" + quantity
+		return "OrderLine [ order=" + order + ", product=" + product + ", quantity=" + quantity
 				+ ", deliveredQuantity=" + deliveredQuantity + "]";
 	}
 

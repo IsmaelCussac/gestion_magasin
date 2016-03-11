@@ -166,11 +166,7 @@ public class OrderController {
 
 	public void saveOrder() throws SQLException {
 
-		for (OrderLine line : currentOrder.getOrderLines()) {
-			orderManager.removeOrderLine(line.getId());
-		}
-
-		currentOrder.getOrderLines().clear();
+	//	currentOrder.getOrderLines().clear();
 		for (OrderItem item : cart.values()) {
 			OrderLine orderLine = new OrderLine();
 			orderLine.setOrderLine(currentOrder, productManager.findProduct(item.getProductId()), item.getQuantity(),
