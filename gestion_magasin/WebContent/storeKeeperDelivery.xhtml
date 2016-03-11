@@ -24,7 +24,7 @@
 						<p:commandButton action="pretty:skOrders" value="Retour"
 							style="height:25px;float:left" />
 						<h:outputText
-							value="Livraison de l'équipe: #{ordersView.selectedTeamName}"></h:outputText>
+							value="Livraison de l'équipe: #{ordersView.selectedTeam.name}" />
 						<p:commandButton action="pretty:skDelivery" value="Enregistrer"
 							style="height:25px;float:right" />
 					</p:row>
@@ -33,44 +33,52 @@
 			<br />
 			<h:form>
 				<h:form>
-					<p:dataTable value="#{orders.currentOrder}" var="ol">
-
-
+					<p:dataTable value="#{ordersView.getSelectedTeamOls()}" var="ol">
 						<p:columnGroup type="header">
 							<p:row>
-								<p:column colspan="3" headerText="Destinataire" />
-								<p:column colspan="3" headerText="Livraison" />
+								<p:column colspan="6" headerText="Destinataire" />
+								<p:column colspan="4" headerText="Livraison" />
 								<p:column colspan="3" headerText="Statut" />
 
 							</p:row>
 							<p:row>
-								<p:column colspan="3" headerText="s14027279" />
-								<p:column colspan="3" headerText="11-03-2016" />
+								<p:column colspan="6"
+									headerText="#{ordersView.selectedTeam.name}" />
+								<p:column colspan="4" headerText="11-03-2016" />
 								<p:column colspan="3" headerText="En cours ..." />
 
 							</p:row>
 							<p:row>
-								<p:column colspan="6" headerText="Produits demandés" />
-								<p:column colspan="3" headerText="Scannés" />
+								<p:column colspan="4" headerText="Produits demandés" />
+								<p:column colspan="3" headerText="Référence" />
+
+								<p:column colspan="4" headerText="Références scannées" />
+								<p:column colspan="1" headerText="Qté scannée" />
+								<p:column colspan="1" headerText="Qté demandée" />
+
 
 							</p:row>
 						</p:columnGroup>
 
-						<p:column colspan="6">
-							<h:outputText value="a" />
+						<p:column colspan="4" style="text-align:center">
+							<h:outputText value="#{ol.product.designation}" />
 						</p:column>
-						<p:column>
-							<h:outputText value="b" />
-						</p:column>
-						<p:column>
-							<h:outputText value="c" />
-						</p:column>
-						<p:column>
-							<h:outputText value="d">
-
-							</h:outputText>
+						<p:column colspan="3" style="text-align:center">
+							<h:outputText value="#{ol.product.productId}" />
 						</p:column>
 
+						<p:column colspan="4">
+							<h:inputText id="scanInput" value="#{ordersView.scannedQte}"
+								style="width:350px;">
+								<p:ajax event="blur" update="scanQte" />
+							</h:inputText>
+						</p:column>
+						<p:column colspan="1" style="text-align:center">
+							<h:outputText id="scanQte" value="#{ordersView.scannedQte}" />
+						</p:column>
+						<p:column colspan="1" style="text-align:center">
+							<h:outputText value="#{ol.quantity}" />
+						</p:column>
 					</p:dataTable>
 
 				</h:form>
