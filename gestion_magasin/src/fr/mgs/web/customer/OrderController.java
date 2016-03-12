@@ -158,6 +158,13 @@ public class OrderController {
 		} else if (orderManager.hasNotValidatedOrder(userId)) {
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			currentOrder = orderList.get(0);
+//			for (OrderLine orderLine : currentOrder.getOrderLines()) {
+//				OrderItem item = new OrderItem();
+//				item.setOrderItem(orderLine.getProduct().getProductId(), orderLine.getProduct().getDesignation(),
+//						orderLine.getProduct().getPicture(), orderLine.getProduct().getMinQuantity(),
+//						orderLine.getProduct().getSubCategory().getName());
+//				cart.put(orderLine.getProduct().getProductId(), item);
+//			}
 		} else {
 			resetCurrentOrder();
 		}
@@ -166,7 +173,7 @@ public class OrderController {
 
 	public void saveOrder() throws SQLException {
 
-	//	currentOrder.getOrderLines().clear();
+		// currentOrder.getOrderLines().clear();
 		for (OrderItem item : cart.values()) {
 			OrderLine orderLine = new OrderLine();
 			orderLine.setOrderLine(currentOrder, productManager.findProduct(item.getProductId()), item.getQuantity(),

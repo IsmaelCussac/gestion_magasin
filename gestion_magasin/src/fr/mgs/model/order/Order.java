@@ -24,14 +24,9 @@ import javax.persistence.TemporalType;
 import fr.mgs.model.user.Person;
 
 /**
-* This class describes an order entity in database. It contains : 
- * - an id
- * - an user id
- * - a submission date
- * - a delivery date
- * - a list of order lines
- * - a comment
- * - an order status
+ * This class describes an order entity in database. It contains : - an id - an
+ * user id - a submission date - a delivery date - a list of order lines - a
+ * comment - an order status
  * 
  * @author Ismaël
  *
@@ -39,7 +34,7 @@ import fr.mgs.model.user.Person;
 @Entity(name = "orders")
 @Table(name = "order_t")
 public class Order implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "order_id")
@@ -57,7 +52,7 @@ public class Order implements Serializable {
 	@Column(name = "delivery_date", nullable = true)
 	private Date deliveryDate;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL )
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
 	private Collection<OrderLine> orderLines = new ArrayList<OrderLine>();
 
 	@Column(name = "comment", length = 250, nullable = true)
@@ -135,17 +130,15 @@ public class Order implements Serializable {
 		setComment(comment);
 		setStatus(status);
 	}
-	
-	public void addOrderLine(OrderLine orderLine){
+
+	public void addOrderLine(OrderLine orderLine) {
 		this.orderLines.add(orderLine);
 	}
 
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", orderUser=" + orderUser + ", submissionDate=" + submissionDate
-				+ ", deliveryDate=" + deliveryDate + ", comment=" + comment + ", status="
-				+ status + "]";
+				+ ", deliveryDate=" + deliveryDate + ", comment=" + comment + ", status=" + status + "]";
 	}
 
-	
 }

@@ -33,14 +33,18 @@
 							<h:outputText value="#{order.status.toString()}" />
 						</p:column>
 
-						<p:column>
-							<h:commandButton value="Dupliquer" />
+						<p:column rendered="#{order.status.name() ne NOT_VALIDATED}">
+							<h:form>
+								<p:commandButton value="Dupliquer"
+									action="#{cstOrderHistory.duplicateOrder(order)}"
+									id="duplicate" />
+							</h:form>
 						</p:column>
 
 						<p:rowExpansion>
 							<p:dataList var="line" value="#{order.orderLines}">
-								<h:outputText value="#{line.product.designation}" /> <h:outputText
-									value=" x#{line.quantity}" />
+								<h:outputText value="#{line.product.designation}" />
+								<h:outputText value=" x#{line.quantity}" />
 							</p:dataList>
 						</p:rowExpansion>
 					</p:dataTable>

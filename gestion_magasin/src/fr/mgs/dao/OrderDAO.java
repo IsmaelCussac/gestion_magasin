@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import fr.mgs.connection.Connection;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Team;
 import fr.mgs.model.user.Person;
@@ -49,6 +50,10 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	@Override
 	public void update(Order o) throws SQLException {
 		beginTransaction();
+//		for (OrderLine line : o.getOrderLines()) {
+//			System.out.println(line.toString());
+//			em.merge(line);
+//		}
 		em.persist(em.merge(o));
 		commit();
 		closeEm();
@@ -152,13 +157,13 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u");
 		query.setParameter("u", userId);
 		return query.getResultList();
-		
+
 	}
 
 	public boolean hasNotValidatedOrder(String userId) {
 		return (findNotValidatedOrder(userId).size() > 0);
 	}
-	
+
 	public Collection<Order> findNotValidatedOrder(String userId) {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u AND o.status = :s");

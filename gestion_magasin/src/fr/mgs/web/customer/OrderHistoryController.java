@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import fr.mgs.business.OrderManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.order.OrderStatus;
 
 @ManagedBean(name = "cstOrderHistory")
 @SessionScoped
@@ -40,7 +41,11 @@ public class OrderHistoryController {
 		
 	}
 	
-	public String duplicateOrder(Order order){
+	public String duplicateOrder(Order order) throws SQLException{
+		//peut etre check le status si NOT_VALIDATED
+		Order newOrder = new Order();
+		newOrder.setOrder(order.getOrderUser(), null, null, order.getOrderLines(), null, OrderStatus.NOT_VALIDATED);
+		orderManager.addOrder(newOrder);
 		
 		return "pretty:cstOrder";
 	}

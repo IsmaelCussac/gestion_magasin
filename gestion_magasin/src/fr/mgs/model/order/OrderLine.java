@@ -1,5 +1,7 @@
 package fr.mgs.model.order;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -26,13 +28,13 @@ public class OrderLine {
 	@EmbeddedId
 	OrderLinePK orderLinePK;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "order_line_order", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "order_line_order", nullable = false, insertable = false, updatable = false)
 	@MapsId("orderId")
 	private Order order;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "order_line_product", nullable = false)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "order_line_product", nullable = false, insertable = false, updatable = false)
 	@MapsId("productId")
 	private Product product;
 
@@ -109,8 +111,8 @@ public class OrderLine {
 
 	@Override
 	public String toString() {
-		return "OrderLine [ order=" + order + ", product=" + product + ", quantity=" + quantity
-				+ ", deliveredQuantity=" + deliveredQuantity + "]";
+		return "OrderLine [ order=" + order + ", product=" + product + ", quantity=" + quantity + ", deliveredQuantity="
+				+ deliveredQuantity + "]";
 	}
 
 }
