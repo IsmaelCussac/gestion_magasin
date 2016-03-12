@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +26,7 @@ import fr.mgs.toolbox.Hasher;
  */
 @Entity(name = "users")
 @Table(name = "user_t")
-public class Person  {
+public class Person {
 
 	@Id
 	@Column(name = "user_id")
@@ -50,7 +51,7 @@ public class Person  {
 	@Column(name = "password", length = 100, nullable = false)
 	private String password;
 
-	@OneToMany(mappedBy = "orderUser", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "orderUser", fetch = FetchType.EAGER, orphanRemoval = true, cascade = {CascadeType.ALL })
 	private Set<Order> orders = new HashSet<Order>();
 
 	public Person() {

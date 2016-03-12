@@ -24,7 +24,7 @@
 			<p:panelGrid columns="3" layout="grid">
 				<f:facet name="header">
 					<p:row>
-						<p:column> Commandes en attente de livraison par équipe</p:column>
+						<p:column>Commandes livrées par équipe</p:column>
 					</p:row>
 
 				</f:facet>
@@ -33,7 +33,7 @@
 
 
 			<ui:repeat var="team"
-				value="#{ordersView.ordersToDeliverByTeam.entrySet().toArray()}">
+				value="#{ordersView.deliveredOrdersByTeam.entrySet().toArray()}">
 
 				<p:panel header="#{team.key.name} (#{team.value.size()})"
 					toggleable="true" toggleSpeed="500" collapsed="true">
@@ -128,19 +128,7 @@
 						</p:rowExpansion>
 					</p:dataTable>
 
-					<f:facet name="options">
-						<p:menu>
-							<p:submenu label="Options">
-								<p:menuitem icon="ui-icon-extlink" value="Livrer cette équipe"
-									action="pretty:skDelivery">
-									<f:attribute name="teamToDeliver" value="#{team.key}" />
-									<f:actionListener
-										type="fr.mgs.web.storekeeper.OrderDeliveryActionListener" />
-								</p:menuitem>
-
-							</p:submenu>
-						</p:menu>
-					</f:facet>
+				
 				</p:panel>
 
 			</ui:repeat>

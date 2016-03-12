@@ -105,7 +105,7 @@ public class OrderCustomerController {
 	public void removeOrderline() throws SQLException {
 		for (OrderLine ol : orderLines) {
 			if (ol.getQuantity() == 0) {
-				orderManager.removeOrderLine(ol.getId());
+				orderManager.removeOrderLine(ol.getOrderLinePK());
 			}
 		}
 		orderManager.updateOrder(theOrder);

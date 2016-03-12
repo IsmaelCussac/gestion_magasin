@@ -18,6 +18,7 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Team;
 
 /**
@@ -31,7 +32,8 @@ import fr.mgs.model.user.Team;
 public class OrdersView implements Serializable {
 	private static final long serialVersionUID = -5914169092116908790L;
 
-	private Map<Team, Collection<Order>> ordersByTeam = new HashMap<Team, Collection<Order>>();
+	private Map<Team, Collection<Order>> ordersToDeliverByTeam;
+	private Map<Team, Collection<Order>> deliveredOrdersByTeam;
 
 	private OrderManager orderManager;
 	private UserManager userManager;
@@ -42,7 +44,7 @@ public class OrdersView implements Serializable {
 	private Team selectedTeam;
 	private Order orderToEdit;
 
-	//Just a test ==> to be removed
+	// Just a test ==> to be removed
 	private String scannedQte;
 
 	@PostConstruct
@@ -57,37 +59,38 @@ public class OrdersView implements Serializable {
 			selectedTeam = new Team();
 			orderToEdit = new Order();
 			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
+			ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
+			deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
 			for (Team team : userManager.findAllTeams()) {
-				if (team.getUsers() != null && !team.getUsers().isEmpty()) {
-					ordersByTeam.put(team, orderDao.findOrderByTeam(team));
+				if (!team.getUsers().isEmpty()) {
+					Collection<Order> teamOrdersToDeliver = new ArrayList<>();
+
+					for (Order order : orderDao.findOrderByTeam(team)) {
+						if (!order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
+							teamOrdersToDeliver.add(order);
+						}
+					}
+					ordersToDeliverByTeam.put(team, teamOrdersToDeliver);
 				}
 			}
 
-			// Order o = orderManager.findOrder(101);
-			// Product p = prodManager.findProduct(14);
-			//
-			// OrderLine ol = new OrderLine();
-			// ol.setQuantity(6);
-			// ol.setProduct(p);
-			//
-			// Set<OrderLine> lines = new HashSet<>();
-			// lines.add(ol);
-			// // orderManager.addOrderLine(ol);
-			// Person per = userManager.findUser("s14027278");
-			// o.setOrderUser(per);
-			// o.setOrderLines(lines);
-			// o.setDeliveryDate(null);
-			// o.setSubmissionDate(new Date());
-			// o.setStatus(OrderStatus.VALIDATED);
-			//
-			// orderDao.update(o);
+			for (Team team : userManager.findAllTeams()) {
+				if (!team.getUsers().isEmpty()) {
+					Collection<Order> teamDeliveredOrders = new ArrayList<>();
 
+					for (Order order : orderDao.findOrderByTeam(team)) {
+						if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
+							teamDeliveredOrders.add(order);
+						}
+					}
+					deliveredOrdersByTeam.put(team, teamDeliveredOrders);
+				}
+			}
 		}
 
 		catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-
 	}
 
 	/**
@@ -96,7 +99,7 @@ public class OrdersView implements Serializable {
 	public Collection<OrderLine> getSelectedTeamOls() {
 		Collection<OrderLine> teamsOrderLines = new ArrayList<OrderLine>();
 
-		for (Order ord : this.ordersByTeam.get(this.selectedTeam)) {
+		for (Order ord : this.ordersToDeliverByTeam.get(this.selectedTeam)) {
 			for (OrderLine ol : ord.getOrderLines()) {
 				teamsOrderLines.add(ol);
 			}
@@ -109,12 +112,12 @@ public class OrdersView implements Serializable {
 	 * 
 	 */
 
-	public Map<Team, Collection<Order>> getOrdersByTeam() {
-		return ordersByTeam;
+	public Map<Team, Collection<Order>> getOrdersToDeliverByTeam() {
+		return ordersToDeliverByTeam;
 	}
 
-	public void setOrdersByTeam(Map<Team, Collection<Order>> ordersByTeam) {
-		this.ordersByTeam = ordersByTeam;
+	public void setOrdersToDeliverByTeam(Map<Team, Collection<Order>> ordersByTeam) {
+		this.ordersToDeliverByTeam = ordersByTeam;
 	}
 
 	public void setSelectedTeam(Team selectedTeam) {
@@ -139,5 +142,13 @@ public class OrdersView implements Serializable {
 
 	public void setScannedQte(String scannedQte) {
 		this.scannedQte = scannedQte;
+	}
+
+	public Map<Team, Collection<Order>> getDeliveredOrdersByTeam() {
+		return deliveredOrdersByTeam;
+	}
+
+	public void setDeliveredOrdersByTeam(Map<Team, Collection<Order>> deliveredOrdersByTeam) {
+		this.deliveredOrdersByTeam = deliveredOrdersByTeam;
 	}
 }

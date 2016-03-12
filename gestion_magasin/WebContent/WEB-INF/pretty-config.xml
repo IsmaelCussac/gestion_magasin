@@ -8,12 +8,12 @@
 		<pattern value="/connection" />
 		<view-id value="/login.xhtml" />
 	</url-mapping>
-	
+
 	<url-mapping id="403">
 		<pattern value="/403" />
 		<view-id value="/403.xhtml" />
 	</url-mapping>
-	
+
 	<url-mapping id="404">
 		<pattern value="/404" />
 		<view-id value="/404.xhtml" />
@@ -25,12 +25,12 @@
 		<pattern value="/customer/products" />
 		<view-id value="/customerProducts.xhtml" />
 	</url-mapping>
-	
+
 	<url-mapping id="cstOrder">
 		<pattern value="/customer/order" />
 		<view-id value="/customerOrder.xhtml" />
 	</url-mapping>
-	
+
 	<url-mapping id="cstHistory">
 		<pattern value="/customer/history" />
 		<view-id value="/customerHistory.xhtml" />
@@ -42,21 +42,27 @@
 		<pattern value="/storekeeper/products" />
 		<view-id value="/storeKeeperProducts.xhtml" />
 	</url-mapping>
-	
+
 	<url-mapping id="skOrders">
 		<pattern value="/storekeeper/orders" />
 		<view-id value="/storeKeeperOrders.xhtml" />
 	</url-mapping>
 	
+	<url-mapping id="skOrdersOut">
+		<pattern value="/storekeeper/ordersOut" />
+		<view-id value="/storeKeeperStockOut.xhtml" />
+	</url-mapping>
+
 	<url-mapping id="skDelivery">
 		<pattern value="/storekeeper/delivery" />
 		<view-id value="/storeKeeperDelivery.xhtml" />
 	</url-mapping>
-	
+
 	<url-mapping id="skAlert">
 		<pattern value="/storekeeper/alert" />
 		<view-id value="/storeKeeperAlert.xhtml" />
 	</url-mapping>
+
 
 	<!-- Admin -->
 
