@@ -70,14 +70,15 @@ public class OrderController {
 
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
-
+		
+		orderItems = new HashMap<String, List<OrderItem>>();
+		cart = new HashMap<Integer, OrderItem>();
+		
 		try {
-			currentOrder = newOrder();
+			newOrder();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		orderItems = new HashMap<String, List<OrderItem>>();
-		cart = new HashMap<Integer, OrderItem>();
 	}
 
 	// Cart methods
@@ -121,6 +122,7 @@ public class OrderController {
 	 * @param sub
 	 *            the sub category
 	 * @return the list of product
+	 * @throws SQLException 
 	 */
 	public List<OrderItem> getOrderItems(SubCategory sub) {
 
@@ -147,29 +149,22 @@ public class OrderController {
 
 	// Order methods
 
-	public Order newOrder() throws SQLException {
-
-		if (currentOrder != null) {
-			if (currentOrder.getStatus() == OrderStatus.NOT_VALIDATED) {
-				return currentOrder;
-			} else {
-				resetCurrentOrder();
-			}
-		} else if (orderManager.hasNotValidatedOrder(userId)) {
+	public void newOrder() throws SQLException {
+		
+		if(orderManager.hasNotValidatedOrder(userId)){
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			currentOrder = orderList.get(0);
-			System.out.println(currentOrder.getOrderLines());
 			for (OrderLine orderLine : currentOrder.getOrderLines()) {
 				OrderItem item = new OrderItem();
 				item.setOrderItem(orderLine.getProduct().getProductId(), orderLine.getProduct().getDesignation(),
-						orderLine.getProduct().getPicture(), orderLine.getProduct().getMinQuantity(),
+						orderLine.getProduct().getPicture(), orderLine.getQuantity(),
 						orderLine.getProduct().getSubCategory().getName());
 				cart.put(orderLine.getProduct().getProductId(), item);
 			}
-		} else {
+		}
+		else{
 			resetCurrentOrder();
 		}
-		return currentOrder;
 	}
 
 	public void saveOrder() throws SQLException {

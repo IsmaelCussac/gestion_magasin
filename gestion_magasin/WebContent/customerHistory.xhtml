@@ -33,7 +33,7 @@
 							<h:outputText value="#{order.status.toString()}" />
 						</p:column>
 
-						<p:column rendered="#{order.status.name() ne NOT_VALIDATED}">
+						<p:column rendered="#{order.status.name() != 'NOT_VALIDATED'}">
 							<h:form>
 								<p:commandButton value="Dupliquer"
 									action="#{cstOrderHistory.duplicateOrder(order)}"
