@@ -65,6 +65,8 @@ public class OrderHistoryController {
 			}
 			newOrder.getOrderLines().clear();
 			newOrder.setOrder(userManager.findUser(userId), null, null, order.getOrderLines(), null, OrderStatus.NOT_VALIDATED);
+			System.out.println("new order " + newOrder.toString());
+			System.out.println("new order " + newOrder.getOrderLines().toString());
 			orderManager.updateOrder(newOrder);
 
 		} else {

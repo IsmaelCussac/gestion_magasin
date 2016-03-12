@@ -20,25 +20,26 @@
 						<f:facet name="header">
            					 Liste  de vos commandes
         				</f:facet>
+        				
 						<p:column style="width:30px">
 							<p:rowToggler />
 						</p:column>
+						
 						<p:column headerText="Date de soumission">
 							<h:outputText value="#{order.submissionDate}" />
 						</p:column>
+						
 						<p:column headerText="Date de livraison">
 							<h:outputText value="#{order.deliveryDate}" />
 						</p:column>
+						
 						<p:column headerText="Status">
 							<h:outputText value="#{order.status.toString()}" />
 						</p:column>
 
 						<p:column rendered="#{order.status.name() != 'NOT_VALIDATED'}">
-							<h:form>
-								<p:commandButton value="Dupliquer"
-									action="#{cstOrderHistory.duplicateOrder(order)}"
-									id="duplicate" />
-							</h:form>
+							<p:commandButton value="Dupliquer"
+								action="#{cstOrderHistory.duplicateOrder(order)}" id="duplicate" />
 						</p:column>
 
 						<p:rowExpansion>
