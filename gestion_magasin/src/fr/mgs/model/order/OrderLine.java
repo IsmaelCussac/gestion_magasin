@@ -1,8 +1,5 @@
 package fr.mgs.model.order;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -28,7 +25,7 @@ public class OrderLine {
 	@EmbeddedId
 	OrderLinePK orderLinePK;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("orderId")
 	@JoinColumn(name = "order_line_order")
 	private Order order;

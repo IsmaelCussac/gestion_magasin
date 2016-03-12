@@ -24,6 +24,7 @@ public class OrderHistoryController {
 	private OrderManager orderManager;
 	private UserManager userManager;
 	private String userId;
+	private List<Order> orders;
 
 	@PostConstruct
 	public void init() {
@@ -46,27 +47,28 @@ public class OrderHistoryController {
 	}
 
 	public List<Order> getOrders() throws SQLException {
+		orders = orderManager.findAllOrdersByUser(userId);
+		return orders;
+	}
 
-		return (List<Order>) orderManager.findAllOrdersByUser(userId);
-
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	public String duplicateOrder(Order order) throws SQLException {
 		
-		Order newOrder;
 		if (orderManager.hasNotValidatedOrder(userId)) {
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
-			newOrder = orderList.get(0);
+			Order newOrder = orderList.get(0);
 			for(OrderLine line : newOrder.getOrderLines()){
 				orderManager.removeOrderLine(line.getOrderLinePK());
 			}
 			newOrder.getOrderLines().clear();
 			newOrder.setOrder(userManager.findUser(userId), null, null, order.getOrderLines(), null, OrderStatus.NOT_VALIDATED);
-			System.out.println(newOrder.getOrderLines());
 			orderManager.updateOrder(newOrder);
 
 		} else {
-			newOrder = new Order();
+			Order newOrder = new Order();
 			newOrder.setOrder(userManager.findUser(userId), null, null, order.getOrderLines(), null, OrderStatus.NOT_VALIDATED);
 			orderManager.addOrder(newOrder);
 		}
