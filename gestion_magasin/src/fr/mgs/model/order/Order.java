@@ -53,7 +53,7 @@ public class Order implements Serializable {
 	private Date deliveryDate;
 
 	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
-	private Collection<OrderLine> orderLines = new ArrayList<OrderLine>();
+	private Collection<OrderLine> orderLines;
 
 	@Column(name = "comment", length = 250, nullable = true)
 	private String comment;
@@ -63,6 +63,7 @@ public class Order implements Serializable {
 	private OrderStatus status;
 
 	public Order() {
+		orderLines = new ArrayList<OrderLine>();
 	}
 
 	public int getOrderId() {

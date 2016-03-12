@@ -50,10 +50,6 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 	@Override
 	public void update(Order o) throws SQLException {
 		beginTransaction();
-//		for (OrderLine line : o.getOrderLines()) {
-//			System.out.println(line.toString());
-//			em.merge(line);
-//		}
 		em.persist(em.merge(o));
 		commit();
 		closeEm();

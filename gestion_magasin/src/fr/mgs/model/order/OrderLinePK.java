@@ -8,32 +8,32 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class OrderLinePK implements Serializable {
 
-	@Column(name="product_id_pk")
-	private int productId;
+	private static final long serialVersionUID = 1L;
+
+	private Integer productId;
 	
-	@Column(name="order_id_pk")
-	private int orderId;
+	private Integer orderId;
 	
 	public OrderLinePK(){}
 
-	public OrderLinePK(int product, int order) {
+	public OrderLinePK(Integer product, Integer order) {
 		this.productId = product;
 		this.orderId = order;
 	}
 
-	public int getProduct() {
+	public Integer getProduct() {
 		return productId;
 	}
 
-	public void setProduct(int productId) {
+	public void setProduct(Integer productId) {
 		this.productId = productId;
 	}
 
-	public int getOrder() {
+	public Integer getOrder() {
 		return orderId;
 	}
 
-	public void setOrder(int orderId) {
+	public void setOrder(Integer orderId) {
 		this.orderId = orderId;
 	}
 	

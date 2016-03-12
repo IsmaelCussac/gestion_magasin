@@ -28,14 +28,14 @@ public class OrderLine {
 	@EmbeddedId
 	OrderLinePK orderLinePK;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "order_line_order", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@MapsId("orderId")
+	@JoinColumn(name = "order_line_order")
 	private Order order;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "order_line_product", nullable = false, insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@MapsId("productId")
+	@JoinColumn(name = "order_line_product")
 	private Product product;
 
 	@Column(name = "quantity", nullable = false)
