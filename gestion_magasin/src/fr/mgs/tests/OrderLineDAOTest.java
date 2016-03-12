@@ -3,6 +3,7 @@ package fr.mgs.tests;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ import fr.mgs.model.user.Person;
 
 
 /**
- * PAAAAS FINIIIIIIIIIIT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * A REFAIRE QUAND PUSH 
  * @author Mariana
  *
  */
@@ -73,6 +74,7 @@ public class OrderLineDAOTest {
 		
 		order = new Order();
 		order.setOrder(person, dateSub, dateDeli, orderLines, "", OrderStatus.DELIVERED);
+		orderManager.addOrder(order);
 		
 		orderline = new OrderLine();
 		orderline.setOrderLine(order, product, 10, 10);
@@ -86,14 +88,14 @@ public class OrderLineDAOTest {
 	@Test
 	public void testAddOrderLine() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		assertNotNull(orderManager.findOrderLine(1));
+		assertNotNull(orderManager.findOrderLine(orderline.getId()));
 	}
 
 	@Test
 	public void testRemoveInteger() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		orderManager.removeOrderLine(1);
-		assertNull(orderManager.findOrderLine(1));
+		orderManager.removeOrderLine(orderline.getId());
+		assertNull(orderManager.findOrderLine(orderline.getId()));
 	}
 
 	@Test
@@ -101,19 +103,20 @@ public class OrderLineDAOTest {
 		orderManager.addOrderLine(orderline);
 		orderline.setQuantity(9);
 		orderManager.updateOrderLine(orderline);
-		assertEquals(9, orderManager.getOrderLineDao().find(1).getQuantity());
+		OrderLine recupOL = orderManager.findOrderLine(orderline.getId());
+		assertEquals(9, recupOL.getQuantity());
 	}
 
 	@Test
 	public void testExistsInteger() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		assertTrue(orderManager.orderLineExists(1));
+		assertTrue(orderManager.orderLineExists(orderline.getId()));
 	}
 
 	@Test
 	public void testFindInteger() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		assertNotNull(orderManager.findOrderLine(1));
+		assertNotNull(orderManager.findOrderLine(orderline.getId()));
 	}
 
 	@Test
@@ -124,7 +127,8 @@ public class OrderLineDAOTest {
 	@Test
 	public void testFindAll() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		assertNotNull(orderManager.findAllOrderLines());
+		Collection<OrderLine> list = orderManager.findAllOrderLines();
+		assertNotNull(list.size());
 	}
 
 }
