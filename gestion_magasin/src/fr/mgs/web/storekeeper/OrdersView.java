@@ -19,6 +19,8 @@ import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
+import fr.mgs.model.user.Person;
+import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.Team;
 
 /**
@@ -61,12 +63,13 @@ public class OrdersView implements Serializable {
 			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 			ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
 			deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
+
 			for (Team team : userManager.findAllTeams()) {
 				if (!team.getUsers().isEmpty()) {
 					Collection<Order> teamOrdersToDeliver = new ArrayList<>();
-
 					for (Order order : orderDao.findOrderByTeam(team)) {
-						if (!order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
+						if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
+								|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
 							teamOrdersToDeliver.add(order);
 						}
 					}
@@ -77,7 +80,8 @@ public class OrdersView implements Serializable {
 			for (Team team : userManager.findAllTeams()) {
 				if (!team.getUsers().isEmpty()) {
 					Collection<Order> teamDeliveredOrders = new ArrayList<>();
-
+					// for looking out of stock orders we display only delivered
+					// orders
 					for (Order order : orderDao.findOrderByTeam(team)) {
 						if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
 							teamDeliveredOrders.add(order);
@@ -86,6 +90,7 @@ public class OrdersView implements Serializable {
 					deliveredOrdersByTeam.put(team, teamDeliveredOrders);
 				}
 			}
+
 		}
 
 		catch (SQLException ex) {

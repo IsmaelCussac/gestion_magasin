@@ -75,8 +75,28 @@
 							<h:outputText value="#{ol.quantity}" />
 						</p:column>
 					</p:dataTable>
-					<p:commandLink value="Consulter les lots"></p:commandLink>
+					<p:commandLink id="btnLot" value="Consulter les lots"></p:commandLink>
+					<p:overlayPanel id="lotPanel" for="btnLot" hideEffect="fade"
+						dynamic="true" style="width:600px" showCloseIcon="true">
+						<p:dataTable value="#{ordersView.getSelectedTeamOls()}" var="ol"
+							rows="5" paginator="true">
+							<p:column headerText="Produit" style="text-align:center">
+								<h:outputText value="#{ol.product.designation}" />
+							</p:column>
 
+							<p:column headerText="Référence" style="text-align:center">
+								<h:outputText value="#{ol.product.productId}" />
+							</p:column>
+
+							<p:column headerText="Lot" style="text-align:center">
+								<h:outputText value="xxxxxxx" />
+							</p:column>
+
+							<p:column style="text-align:center" headerText="Date de péremption">
+								<h:outputText value="jj-mm-aaaa" />
+							</p:column>
+						</p:dataTable>
+					</p:overlayPanel>
 				</h:form>
 			</h:form>
 		</h:form>
