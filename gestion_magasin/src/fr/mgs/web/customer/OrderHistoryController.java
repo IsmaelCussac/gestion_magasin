@@ -33,6 +33,8 @@ public class OrderHistoryController {
 	private UserManager userManager;
 	private String userId;
 	private List<Order> orders;
+	private Order newOrder;
+	private Order dupOrder;
 
 	@ManagedProperty(value = "#{cstProducts}")
 	OrderController orderController;
@@ -71,38 +73,22 @@ public class OrderHistoryController {
 	}
 
 	public String duplicateOrder(Order order) throws SQLException {
-		Order newOrder = new Order();
+
+		newOrder = new Order();
 		if (orderManager.hasNotValidatedOrder(userId)) {
 
+			// on récupère la commande non validée et on supprime les orderline
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
-			Order dupOrder = orderList.get(0);
+			dupOrder = orderList.get(0);
 
 			for (OrderLine line : dupOrder.getOrderLines()) {
 				orderManager.removeOrderLine(line.getOrderLinePK());
 			}
 
-			newOrder.setOrderId(dupOrder.getOrderId());
-			newOrder.setOrderUser(userManager.findUser(userId));
-			newOrder.setStatus(OrderStatus.NOT_VALIDATED);
-
-			Collection<OrderLine> orderLines = order.getOrderLines();
-			for (OrderLine line : orderLines) {
-				OrderLine newLine = new OrderLine();
-				newLine.setOrderLine(newOrder, line.getProduct(), line.getQuantity(), 0);
-				newOrder.addOrderLine(newLine);
-			}
-
-			orderManager.updateOrder(newOrder);
-			orderController.getCart().clear();
-			for (OrderLine l : newOrder.getOrderLines()) {
-				OrderItem i = new OrderItem();
-				i.setOrderItem(l.getProduct().getProductId(), l.getProduct().getDesignation(), l.getProduct().getPicture(),
-						l.getQuantity(), l.getProduct().getSubCategory().getName());
-				orderController.getCart().put(l.getProduct().getProductId(), i);
-			}
+			updateNewOrder(order);
+			updateCart();
 
 		} else {
-
 			newOrder.setOrder(userManager.findUser(userId), null, null, order.getOrderLines(), null,
 					OrderStatus.NOT_VALIDATED);
 			orderManager.addOrder(newOrder);
@@ -111,4 +97,36 @@ public class OrderHistoryController {
 		return "pretty:cstOrder";
 	}
 
+	/**
+	 * Copy the duplicated order and insert it in DB
+	 * @param order
+	 * @throws SQLException
+	 */
+	public void updateNewOrder(Order order) throws SQLException {
+		newOrder.setOrderId(dupOrder.getOrderId());
+		newOrder.setOrderUser(userManager.findUser(userId));
+		newOrder.setStatus(OrderStatus.NOT_VALIDATED);
+
+		Collection<OrderLine> orderLines = order.getOrderLines();
+		for (OrderLine line : orderLines) {
+			OrderLine newLine = new OrderLine();
+			newLine.setOrderLine(newOrder, line.getProduct(), line.getQuantity(), 0);
+			newOrder.addOrderLine(newLine);
+		}
+
+		orderManager.updateOrder(newOrder);
+	}
+
+	/**
+	 * Ppdate cart to display the products in the order interface
+	 */
+	public void updateCart() {
+		orderController.getCart().clear();
+		for (OrderLine l : newOrder.getOrderLines()) {
+			OrderItem i = new OrderItem();
+			i.setOrderItem(l.getProduct().getProductId(), l.getProduct().getDesignation(), l.getProduct().getPicture(),
+					l.getQuantity(), l.getProduct().getSubCategory().getName());
+			orderController.getCart().put(l.getProduct().getProductId(), i);
+		}
+	}
 }
