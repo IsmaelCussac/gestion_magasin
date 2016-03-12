@@ -66,7 +66,7 @@ public class OrdersView implements Serializable {
 
 			for (Team team : userManager.findAllTeams()) {
 				if (!team.getUsers().isEmpty()) {
-					Collection<Order> teamOrdersToDeliver = new ArrayList<>();
+					Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
 					for (Order order : orderDao.findOrderByTeam(team)) {
 						if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
 								|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
@@ -79,7 +79,7 @@ public class OrdersView implements Serializable {
 
 			for (Team team : userManager.findAllTeams()) {
 				if (!team.getUsers().isEmpty()) {
-					Collection<Order> teamDeliveredOrders = new ArrayList<>();
+					Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
 					// for looking out of stock orders we display only delivered
 					// orders
 					for (Order order : orderDao.findOrderByTeam(team)) {
