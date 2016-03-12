@@ -10,9 +10,11 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
 import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.OrderDAO;
+import fr.mgs.dao.OrderLineDAO;
 import fr.mgs.dao.Table;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.order.OrderLinePK;
 import fr.mgs.model.user.Person;
 
 /**
@@ -26,7 +28,7 @@ public class OrderManager {
 
 	private DAOManager daoManager;
 	private OrderDAO orderDao;
-	private GenericDAO<OrderLine, Integer> orderLineDao;
+	private OrderLineDAO orderLineDao;
 
 	public OrderManager() {
 	}
@@ -37,7 +39,7 @@ public class OrderManager {
 		daoManager = new DAOManager();
 		daoManager.init(ds);
 		orderDao = (OrderDAO) daoManager.getDAO(Table.ORDER);
-		orderLineDao = (GenericDAO<OrderLine, Integer>) daoManager.getDAO(Table.ORDER_LINE);
+		orderLineDao = (OrderLineDAO) daoManager.getDAO(Table.ORDER_LINE);
 	}
 
 	// GETTERS - SETTERS
@@ -58,11 +60,11 @@ public class OrderManager {
 		this.orderDao = orderDao;
 	}
 
-	public GenericDAO<OrderLine, Integer> getOrderLineDao() {
+	public OrderLineDAO getOrderLineDao() {
 		return orderLineDao;
 	}
 
-	public void setOrderLineDao(GenericDAO<OrderLine, Integer> orderLineDao) {
+	public void setOrderLineDao(OrderLineDAO orderLineDao) {
 		this.orderLineDao = orderLineDao;
 	}
 
@@ -130,5 +132,10 @@ public class OrderManager {
 
 	public Collection<Order> findOrdersByUser(Person p) {
 		return (List<Order>) orderDao.findOrdersByUser(p);
+	}
+
+	public void removeOrderLine(OrderLinePK orderLinePK) throws SQLException {
+		orderLineDao.removeOrderLine(orderLinePK);
+		
 	}
 }

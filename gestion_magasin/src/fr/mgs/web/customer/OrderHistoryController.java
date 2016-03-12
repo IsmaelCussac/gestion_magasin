@@ -18,12 +18,12 @@ import fr.mgs.model.order.OrderStatus;
 @ManagedBean(name = "cstOrderHistory")
 @SessionScoped
 public class OrderHistoryController {
-	
+
 	private OrderManager orderManager;
 	private String userId;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		orderManager = new OrderManager();
 		try {
 			orderManager.init(DataSource.LOCAL);
@@ -32,23 +32,29 @@ public class OrderHistoryController {
 		}
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
-		
+
 	}
-	
-	public List<Order> getOrders() throws SQLException{
-		
+
+	public List<Order> getOrders() throws SQLException {
+
 		return (List<Order>) orderManager.findAllOrdersByUser(userId);
-		
+
 	}
-	
-	public String duplicateOrder(Order order) throws SQLException{
-		//peut etre check le status si NOT_VALIDATED
-		Order newOrder = new Order();
+
+	public String duplicateOrder(Order order) throws SQLException {
+
+		Order newOrder;
+		if (orderManager.hasNotValidatedOrder(userId)) {
+			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
+			newOrder = orderList.get(0);
+
+		} else {
+			newOrder = new Order();
+			
+		}
 		newOrder.setOrder(order.getOrderUser(), null, null, order.getOrderLines(), null, OrderStatus.NOT_VALIDATED);
-		orderManager.addOrder(newOrder);
-		
+		orderManager.updateOrder(newOrder);
 		return "pretty:cstOrder";
 	}
-	
-	
+
 }

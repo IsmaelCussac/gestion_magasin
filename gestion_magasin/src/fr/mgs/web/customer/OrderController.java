@@ -21,6 +21,7 @@ import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.order.OrderLinePK;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
@@ -93,6 +94,7 @@ public class OrderController {
 
 	public void updateCart(OrderItem item) throws SQLException {
 		if (item.getQuantity() == 0) {
+			orderManager.removeOrderLine(new OrderLinePK(item.getProductId(), currentOrder.getOrderId()));
 			cart.remove(item.getProductId());
 		} else {
 			cart.put(item.getProductId(), item);

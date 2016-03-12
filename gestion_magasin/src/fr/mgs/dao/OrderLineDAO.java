@@ -10,6 +10,8 @@ import javax.persistence.TypedQuery;
 import fr.mgs.connection.Connection;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.order.OrderLinePK;
+import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 import fr.mgs.model.user.Person;
 
@@ -83,9 +85,9 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 	 * @param orderLine's
 	 *            id
 	 */
-	public OrderLine find(Integer orderLineId) throws SQLException {
+	public OrderLine find(OrderLinePK orderLinePK) throws SQLException {
 		loadEm();
-		OrderLine orderLine = em.find(OrderLine.class, orderLineId);
+		OrderLine orderLine = em.find(OrderLine.class, orderLinePK);
 		closeEm();
 		return orderLine;
 	}
@@ -103,10 +105,26 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 		return (List<OrderLine>) query.getResultList();
 	}
 
-	// Unused
+	public void removeOrderLine(OrderLinePK orderLinePK) throws SQLException {
+		beginTransaction();
+		Order ord = em.find(Order.class, orderLinePK.getOrder());
+		Product prod = em.find(Product.class, orderLinePK.getProduct());
+		Query query = em.createQuery("DELETE FROM orderLines ol WHERE ol.order = :ord AND ol.product = :prod");
+		query.setParameter("ord", ord);
+		query.setParameter("prod", prod);
+		query.executeUpdate();
+		commit();
+		closeEm();
+	}
 
 	@Override
 	public Collection<OrderLine> findAll() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OrderLine find(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

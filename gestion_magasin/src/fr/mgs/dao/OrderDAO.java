@@ -150,7 +150,7 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 
 	public Collection<Order> findOrdersByUser(String userId) {
 		loadEm();
-		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u");
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u ORDER BY o.orderId desc");
 		query.setParameter("u", userId);
 		return query.getResultList();
 
@@ -170,7 +170,7 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 
 	public List<Order> findOrdersByUser(Person p) {
 		loadEm();
-		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser = :u");
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser = :u ORDER BY o.orderId desc");
 		query.setParameter("u", p);
 		return query.getResultList();
 	}
