@@ -5,6 +5,11 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+/**
+ * 
+ * @author Ismaël
+ *
+ */
 @Embeddable
 public class OrderLinePK implements Serializable {
 

@@ -4,6 +4,11 @@ import java.io.Serializable;
 
 import fr.mgs.model.product.SubCategory;
 
+/**
+ * 
+ * @author Ismaël
+ *
+ */
 public class OrderItem implements Serializable{
 	
 	private int productId;
