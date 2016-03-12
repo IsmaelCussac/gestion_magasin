@@ -19,6 +19,7 @@ import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.order.OrderLinePK;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
@@ -43,6 +44,7 @@ public class OrderLineDAOTest {
 	private  SubCategory subCategory;
 	private  Person person;
 	private  Set<OrderLine> orderLines;
+	private OrderLinePK olPk;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
