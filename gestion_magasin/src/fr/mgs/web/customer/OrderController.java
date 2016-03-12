@@ -129,24 +129,29 @@ public class OrderController {
 	public List<OrderItem> getOrderItems(SubCategory sub) {
 		List<OrderItem> items;
 
+		// si la sous catégorie n'est pas présente dans la map, on récupère la liste de produits et on l'ajoute
 		if (!orderItems.containsKey(sub.getName())) {
 			List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
 			items = new ArrayList<OrderItem>();
 
 			for (Product prod : prods) {
 				OrderItem orderItem = new OrderItem();
-				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0, sub.getName());
+				double quantity = 0;
+				if(cart.containsKey(prod.getProductId()))
+					quantity = cart.get(prod.getProductId()).getQuantity();
+				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), quantity, sub.getName());
 				items.add(orderItem);
 			}
 		} else {
 			items = orderItems.get(sub.getName());
-		}
-
-		for (OrderItem item : items) {
-			if (cart.containsKey(item.getProductId())) {
-				item.setQuantity(cart.get(item.getProductId()).getQuantity());
+			for (OrderItem item : items) {
+				if (cart.containsKey(item.getProductId())) {
+					item.setQuantity(cart.get(item.getProductId()).getQuantity());
+				}
 			}
 		}
+
+		
 		orderItems.put(sub.getName(), items);
 		return orderItems.get(sub.getName());
 	}
@@ -179,6 +184,7 @@ public class OrderController {
 					0);
 			currentOrder.addOrderLine(orderLine);
 		}
+		System.out.println(currentOrder.getOrderLines());
 		orderManager.updateOrder(currentOrder);
 	}
 

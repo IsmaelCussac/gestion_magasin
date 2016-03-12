@@ -30,7 +30,7 @@ public class OrderLine {
 	@JoinColumn(name = "order_line_order")
 	private Order order;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@MapsId("productId")
 	@JoinColumn(name = "order_line_product")
 	private Product product;

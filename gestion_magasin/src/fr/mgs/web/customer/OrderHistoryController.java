@@ -81,24 +81,19 @@ public class OrderHistoryController {
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			dupOrder = orderList.get(0);
 
-			for (OrderLine line : dupOrder.getOrderLines()) {
-				orderManager.removeOrderLine(line.getOrderLinePK());
-			}
-
-			updateNewOrder(order);
-			updateCart();
-
-		} else {
-			newOrder.setOrder(userManager.findUser(userId), null, null, order.getOrderLines(), null,
-					OrderStatus.NOT_VALIDATED);
-			orderManager.addOrder(newOrder);
+//			for (OrderLine line : dupOrder.getOrderLines()) {
+//				orderManager.removeOrderLine(line.getOrderLinePK());
+//			}
 		}
+		updateNewOrder(order);
+		updateCart();
 
 		return "pretty:cstOrder";
 	}
 
 	/**
 	 * Copy the duplicated order and insert it in DB
+	 * 
 	 * @param order
 	 * @throws SQLException
 	 */
