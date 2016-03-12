@@ -70,10 +70,10 @@ public class OrderController {
 
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
-		
+
 		orderItems = new HashMap<String, List<OrderItem>>();
 		cart = new HashMap<Integer, OrderItem>();
-		
+
 		try {
 			newOrder();
 		} catch (SQLException e) {
@@ -122,36 +122,38 @@ public class OrderController {
 	 * @param sub
 	 *            the sub category
 	 * @return the list of product
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	public List<OrderItem> getOrderItems(SubCategory sub) {
+		List<OrderItem> items;
 
 		if (!orderItems.containsKey(sub.getName())) {
 			List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
-			List<OrderItem> items = new ArrayList<OrderItem>();
+			items = new ArrayList<OrderItem>();
 
 			for (Product prod : prods) {
 				OrderItem orderItem = new OrderItem();
 				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), 0, sub.getName());
 				items.add(orderItem);
 			}
-			orderItems.put(sub.getName(), items);
 		} else {
-			List<OrderItem> items = orderItems.get(sub.getName());
-			for (OrderItem item : items) {
-				if (cart.containsKey(item.getProductId())) {
-					item.setQuantity(cart.get(item.getProductId()).getQuantity());
-				}
+			items = orderItems.get(sub.getName());
+		}
+
+		for (OrderItem item : items) {
+			if (cart.containsKey(item.getProductId())) {
+				item.setQuantity(cart.get(item.getProductId()).getQuantity());
 			}
 		}
+		orderItems.put(sub.getName(), items);
 		return orderItems.get(sub.getName());
 	}
 
 	// Order methods
 
 	public void newOrder() throws SQLException {
-		
-		if(orderManager.hasNotValidatedOrder(userId)){
+
+		if (orderManager.hasNotValidatedOrder(userId)) {
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			currentOrder = orderList.get(0);
 			for (OrderLine orderLine : currentOrder.getOrderLines()) {
@@ -161,8 +163,7 @@ public class OrderController {
 						orderLine.getProduct().getSubCategory().getName());
 				cart.put(orderLine.getProduct().getProductId(), item);
 			}
-		}
-		else{
+		} else {
 			resetCurrentOrder();
 		}
 	}
