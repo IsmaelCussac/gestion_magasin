@@ -195,9 +195,11 @@ public class OrderController {
 	}
 
 	public void deleteOrder() throws SQLException {
+		for(OrderItem item : cart.values())
+			orderManager.removeOrderLine(new OrderLinePK(item.getProductId(), currentOrder.getOrderId()));
+		
 		cart.clear();
 		orderItems.clear();
-		orderManager.removeOrder(currentOrder.getOrderId());
 	}
 
 	private void resetCurrentOrder() throws SQLException {

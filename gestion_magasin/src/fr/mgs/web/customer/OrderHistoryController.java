@@ -11,8 +11,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 
 import fr.mgs.business.OrderManager;
+import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 
 @ManagedBean(name = "cstOrderHistory")
@@ -20,13 +22,21 @@ import fr.mgs.model.order.OrderStatus;
 public class OrderHistoryController {
 
 	private OrderManager orderManager;
+	private UserManager userManager;
 	private String userId;
 
 	@PostConstruct
 	public void init() {
 		orderManager = new OrderManager();
+		userManager = new UserManager();
 		try {
 			orderManager.init(DataSource.LOCAL);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			userManager.init(DataSource.LOCAL);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -42,18 +52,25 @@ public class OrderHistoryController {
 	}
 
 	public String duplicateOrder(Order order) throws SQLException {
-
+		
 		Order newOrder;
 		if (orderManager.hasNotValidatedOrder(userId)) {
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			newOrder = orderList.get(0);
+			for(OrderLine line : newOrder.getOrderLines()){
+				orderManager.removeOrderLine(line.getOrderLinePK());
+			}
+			newOrder.getOrderLines().clear();
+			newOrder.setOrder(userManager.findUser(userId), null, null, order.getOrderLines(), null, OrderStatus.NOT_VALIDATED);
+			System.out.println(newOrder.getOrderLines());
+			orderManager.updateOrder(newOrder);
 
 		} else {
 			newOrder = new Order();
-			
+			newOrder.setOrder(userManager.findUser(userId), null, null, order.getOrderLines(), null, OrderStatus.NOT_VALIDATED);
+			orderManager.addOrder(newOrder);
 		}
-		newOrder.setOrder(order.getOrderUser(), null, null, order.getOrderLines(), null, OrderStatus.NOT_VALIDATED);
-		orderManager.updateOrder(newOrder);
+		
 		return "pretty:cstOrder";
 	}
 
