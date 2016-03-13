@@ -106,6 +106,7 @@ public class OrderController {
 	}
 
 	public void updateCart(OrderItem item) throws SQLException {
+		System.out.println(item.toString());
 		if (item.getQuantity() == 0) {
 			removeOrderLineInDB(item);
 			removeInCart(item);
@@ -160,12 +161,6 @@ public class OrderController {
 		orderItems.put(sub.getName(), items);
 		return orderItems.get(sub.getName());
 	}
-	
-	public void setOrderItems(Map<String, List<OrderItem>> orderItems) {
-		this.orderItems = orderItems;
-	}
-
-	// Order methods
 
 	private List<OrderItem> createNewOrderItemList(List<Product> prods) {
 		List<OrderItem> items = new ArrayList<OrderItem>();
@@ -180,6 +175,8 @@ public class OrderController {
 		return items;
 	}
 
+	// Order methods
+	
 	public void newOrder() throws SQLException {
 
 		if (orderManager.hasNotValidatedOrder(userId)) {
