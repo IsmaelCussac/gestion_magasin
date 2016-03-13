@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,35 +67,7 @@ public class OrdersView implements Serializable {
 			selectedTeam = new Team();
 			orderToEdit = new Order();
 			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
-			ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
-			deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
 			deliveredProducts = new ArrayList<OrderLine>();
-			for (Team team : userManager.findAllTeams()) {
-				if (!team.getUsers().isEmpty()) {
-					Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
-					for (Order order : orderDao.findOrderByTeam(team)) {
-						if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
-								|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
-							teamOrdersToDeliver.add(order);
-						}
-					}
-					ordersToDeliverByTeam.put(team, teamOrdersToDeliver);
-				}
-			}
-
-			for (Team team : userManager.findAllTeams()) {
-				if (!team.getUsers().isEmpty()) {
-					Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
-					// for looking out of stock orders we display only delivered
-					// orders
-					for (Order order : orderDao.findOrderByTeam(team)) {
-						if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
-							teamDeliveredOrders.add(order);
-						}
-					}
-					deliveredOrdersByTeam.put(team, teamDeliveredOrders);
-				}
-			}
 
 		}
 
@@ -127,6 +100,7 @@ public class OrdersView implements Serializable {
 				if (orderLine.getDeliveredQuantity() == orderLine.getQuantity()) {
 					Order o = orderLine.getOrder();
 					o.setStatus(OrderStatus.DELIVERED);
+					o.setDeliveryDate(new Date());
 					orderManager.updateOrderLine(orderLine);
 					orderManager.updateOrder(o);
 
@@ -140,9 +114,28 @@ public class OrdersView implements Serializable {
 	/**
 	 * getters and setters
 	 * 
+	 * @throws SQLException
+	 * 
 	 */
 
-	public Map<Team, Collection<Order>> getOrdersToDeliverByTeam() {
+	public Map<Team, Collection<Order>> getOrdersToDeliverByTeam() throws SQLException {
+		ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
+
+		for (Team team : userManager.findAllTeams()) {
+			if (!team.getUsers().isEmpty()) {
+				Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
+				for (Order order : orderDao.findOrderByTeam(team)) {
+					if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
+							|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
+						teamOrdersToDeliver.add(order);
+					}
+				}
+				if (!teamOrdersToDeliver.isEmpty()) {
+					ordersToDeliverByTeam.put(team, teamOrdersToDeliver);
+
+				}
+			}
+		}
 		return ordersToDeliverByTeam;
 	}
 
@@ -174,7 +167,26 @@ public class OrdersView implements Serializable {
 		this.scannedQte = scannedQte;
 	}
 
-	public Map<Team, Collection<Order>> getDeliveredOrdersByTeam() {
+	public Map<Team, Collection<Order>> getDeliveredOrdersByTeam() throws SQLException {
+		deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
+
+		for (Team team : userManager.findAllTeams()) {
+			if (!team.getUsers().isEmpty()) {
+				Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
+				// for looking out of stock orders we display only delivered
+				// orders
+				for (Order order : orderDao.findOrderByTeam(team)) {
+					if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
+						teamDeliveredOrders.add(order);
+					}
+				}
+				if (!teamDeliveredOrders.isEmpty()) {
+					deliveredOrdersByTeam.put(team, teamDeliveredOrders);
+
+				}
+
+			}
+		}
 		return deliveredOrdersByTeam;
 	}
 
