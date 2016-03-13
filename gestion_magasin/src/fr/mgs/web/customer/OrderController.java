@@ -45,6 +45,7 @@ public class OrderController {
 	private String userId;
 	private Order currentOrder;
 	private Map<String, List<OrderItem>> orderItems;
+
 	private Map<Integer, OrderItem> cart;
 
 	@PostConstruct
@@ -91,13 +92,25 @@ public class OrderController {
 	public void setCart(Map<Integer, OrderItem> cart) {
 		this.cart = cart;
 	}
+	
+	public void addInCart(OrderItem item){
+		cart.put(item.getProductId(), item);
+	}
+	
+	public void removeInCart(OrderItem item){
+		cart.remove(item.getProductId());
+	}
+	
+	private void clearCart() {
+		cart.clear();	
+	}
 
 	public void updateCart(OrderItem item) throws SQLException {
 		if (item.getQuantity() == 0) {
-			orderManager.removeOrderLine(new OrderLinePK(item.getProductId(), currentOrder.getOrderId()));
-			cart.remove(item.getProductId());
+			removeOrderLineInDB(item);
+			removeInCart(item);
 		} else {
-			cart.put(item.getProductId(), item);
+			addInCart(item);
 		}
 	}
 
@@ -132,31 +145,40 @@ public class OrderController {
 		// si la sous catégorie n'est pas présente dans la map, on récupère la liste de produits et on l'ajoute
 		if (!orderItems.containsKey(sub.getName())) {
 			List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
-			items = new ArrayList<OrderItem>();
-
-			for (Product prod : prods) {
-				OrderItem orderItem = new OrderItem();
-				double quantity = 0;
-				if(cart.containsKey(prod.getProductId()))
-					quantity = cart.get(prod.getProductId()).getQuantity();
-				orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), quantity, sub.getName());
-				items.add(orderItem);
-			}
+			items = createNewOrderItemList(prods);
+				
 		} else {
 			items = orderItems.get(sub.getName());
 			for (OrderItem item : items) {
 				if (cart.containsKey(item.getProductId())) {
 					item.setQuantity(cart.get(item.getProductId()).getQuantity());
+				}else{
+					item.setQuantity(0);
 				}
 			}
 		}
-
-		
 		orderItems.put(sub.getName(), items);
 		return orderItems.get(sub.getName());
 	}
+	
+	public void setOrderItems(Map<String, List<OrderItem>> orderItems) {
+		this.orderItems = orderItems;
+	}
 
 	// Order methods
+
+	private List<OrderItem> createNewOrderItemList(List<Product> prods) {
+		List<OrderItem> items = new ArrayList<OrderItem>();
+		for (Product prod : prods) {
+			OrderItem orderItem = new OrderItem();
+			double quantity = 0;
+			if(cart.containsKey(prod.getProductId()))
+				quantity = cart.get(prod.getProductId()).getQuantity();
+			orderItem.setOrderItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), quantity, prod.getSubCategory().getName());
+			items.add(orderItem);
+		}
+		return items;
+	}
 
 	public void newOrder() throws SQLException {
 
@@ -213,7 +235,7 @@ public class OrderController {
 		currentOrder.setOrderUser(userManager.findUser(userId));
 		currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
 		orderManager.addOrder(currentOrder);
-		cart.clear();
+		clearCart();
 		orderItems.clear();
 	}
 
@@ -223,6 +245,10 @@ public class OrderController {
 
 	public void setCurrentOrder(Order currentOrder) {
 		this.currentOrder = currentOrder;
+	}
+	
+	public void removeOrderLineInDB(OrderItem item) throws SQLException{
+		orderManager.removeOrderLine(new OrderLinePK(item.getProductId(), currentOrder.getOrderId()));
 	}
 
 }
