@@ -188,4 +188,26 @@ public class Product  {
 				+ ", picture=" + picture + ", conditioning=" + conditioning + "]";
 	}
 
+	public String getProductBarCode (){
+		
+		String barcode = "";
+		
+		// nombre de mots dans la désignation ( 2 chiffres )
+		int nbword = designation.split(" ").length;
+		if (nbword < 10) barcode += "0"+nbword;
+		else barcode += nbword;
+		
+		// première lettre de la sous-catégorie produit ( 1 chiffre )
+		char firstletter = subCategory.getName().charAt(0);
+		barcode += firstletter;
+		
+		// la somme des code ascii de la désignation ( 5 chiffres )
+		int ascii = Integer.parseInt(designation) ;
+		if(ascii < 100) barcode += "000"+ascii;
+		else if (ascii < 1000) barcode += "00"+ascii;
+		else if (ascii < 10000) barcode += "0" + ascii;
+		else barcode += ascii;
+		
+		return barcode;
+	}
 }
