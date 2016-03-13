@@ -15,7 +15,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="form">
+		<h:form id="form" prependId="false">
 			<p:growl id="msgs" showDetail="true" />
 
 			<p:panelGrid columns="3" layout="grid">
@@ -25,79 +25,143 @@
 							style="height:25px;float:left" />
 						<h:outputText
 							value="Livraison de l'équipe: #{ordersView.selectedTeam.name} - Etage #{ordersView.selectedTeam.floor}" />
-						<p:commandButton action="pretty:skDelivery" value="Enregistrer"
+						<p:commandButton action="pretty:skOrders" value="Enregistrer"
+							actionListener="#{ordersView.saveDeliveredProducts()}"
 							style="height:25px;float:right" />
 					</p:row>
 				</f:facet>
 			</p:panelGrid>
 			<br />
 			<h:form>
-				<h:form>
-					<p:dataTable value="#{ordersView.getSelectedTeamOls()}" var="ol">
-						<p:columnGroup type="header">
+				<p:growl id="msgs" showDetail="true" />
+				<p:dataTable id="prods" value="#{ordersView.getSelectedTeamOls()}"
+					var="ol" editable="true" editMode="cell">
+
+					<p:ajax event="cellEdit" listener="#{ordersView.onCellEdit}"
+						update="prods,msgs" />
+
+					<p:columnGroup type="header">
+						<p:row>
+							<p:column colspan="7"
+								headerText="#{ordersView.selectedTeam.name}" />
+							<p:column colspan="6" headerText="Livraison du 11-03-2016" />
+
+
+						</p:row>
+						<p:row>
+							<p:column colspan="4" headerText="Produits demandés" />
+							<p:column colspan="3" headerText="Référence" />
+
+							<p:column colspan="3" headerText="Entrée par saisie" />
+							<p:column colspan="3" headerText="Qté demandée" />
+
+
+						</p:row>
+					</p:columnGroup>
+
+					<p:column colspan="4" style="text-align:center">
+						<h:outputText value="#{ol.product.designation}" />
+					</p:column>
+					<p:column colspan="3" style="text-align:center">
+						<h:outputText value="#{ol.product.productId}" />
+					</p:column>
+
+
+					<p:column colspan="3" style="text-align:center">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{ol.deliveredQuantity}" />
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText id="modelInput" value="#{ol.deliveredQuantity}"
+									style="width:100%" />
+							</f:facet>
+							<f:attribute name="editedOl" value="#{ol}" />
+
+						</p:cellEditor>
+
+					</p:column>
+					<p:column colspan="3" style="text-align:center">
+						<h:outputText value="#{ol.quantity}" />
+					</p:column>
+
+				</p:dataTable>
+				<br />
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="ui-grid-col-6">
+							<p:commandButton style="float:left" id="btnLot"
+								value="Consulter les lots"></p:commandButton>
+						</div>
+						<div class="ui-grid-col-6">
+
+							<p:commandButton id="btnScan" update="scanPan"
+								oncomplete="PF('scanDialog').show()"
+								value="Entrée par scannette" style="float:right;">
+							</p:commandButton>
+						</div>
+					</div>
+				</div>
+				<!-- Dialog for scan -->
+				<p:dialog header="Livraison" widgetVar="scanDialog" modal="true"
+					showEffect="fade" hideEffect="fade" resizable="false" width="800"
+					style="margin-top : 10px;">
+					<p:outputPanel id="scanPan" style="text-align:center;">
+						<p:panelGrid style="margin-top:20px">
+							<f:facet name="header">
+
+								<p:row>
+									<p:column>Produits</p:column>
+									<p:column>Référence</p:column>
+								</p:row>
+
+							</f:facet>
+							<p:row>
+								<p:column colspan="4" style="text-align: center">
+                Finals MVP
+            </p:column>
+								<p:column colspan="3" rowspan="3">
+									<p:inputTextarea></p:inputTextarea>
+								</p:column>
+							</p:row>
 
 							<p:row>
-								<p:column colspan="7"
-									headerText="#{ordersView.selectedTeam.name}" />
-								<p:column colspan="6" headerText="Livraison du 11-03-2016" />
-
-
+								<p:column colspan="4" style="text-align: center">
+                Season MVP
+            </p:column>
 							</p:row>
 							<p:row>
-								<p:column colspan="4" headerText="Produits demandés" />
-								<p:column colspan="3" headerText="Référence" />
-
-								<p:column colspan="4" headerText="Références scannées" />
-								<p:column colspan="1" headerText="Qté scannée" />
-								<p:column colspan="1" headerText="Qté demandée" />
-
-
+								<p:column colspan="4" style="text-align: center">
+                Top Scorer
+            </p:column>
 							</p:row>
-						</p:columnGroup>
+						</p:panelGrid>
 
-						<p:column colspan="4" style="text-align:center">
+					</p:outputPanel>
+				</p:dialog>
+				<!-- Dialog for displaying lot -->
+				<p:overlayPanel id="lotPanel" for="btnLot" hideEffect="fade"
+					dynamic="true" style="width:600px" showCloseIcon="true">
+					<p:dataTable value="#{ordersView.getSelectedTeamOls()}" var="ol"
+						rows="5" paginator="true">
+						<p:column headerText="Produit" style="text-align:center">
 							<h:outputText value="#{ol.product.designation}" />
 						</p:column>
-						<p:column colspan="3" style="text-align:center">
+
+						<p:column headerText="Référence" style="text-align:center">
 							<h:outputText value="#{ol.product.productId}" />
 						</p:column>
 
-						<p:column colspan="4">
-							<h:inputText id="scanInput" value="#{ordersView.scannedQte}"
-								style="width:350px;">
-								<p:ajax event="blur" update="scanQte" />
-							</h:inputText>
+						<p:column headerText="Lot" style="text-align:center">
+							<h:outputText value="xxxxxxx" />
 						</p:column>
-						<p:column colspan="1" style="text-align:center">
-							<h:outputText id="scanQte" value="#{ordersView.scannedQte}" />
-						</p:column>
-						<p:column colspan="1" style="text-align:center">
-							<h:outputText value="#{ol.quantity}" />
+
+						<p:column style="text-align:center"
+							headerText="Date de péremption">
+							<h:outputText value="jj-mm-aaaa" />
 						</p:column>
 					</p:dataTable>
-					<p:commandLink id="btnLot" value="Consulter les lots"></p:commandLink>
-					<p:overlayPanel id="lotPanel" for="btnLot" hideEffect="fade"
-						dynamic="true" style="width:600px" showCloseIcon="true">
-						<p:dataTable value="#{ordersView.getSelectedTeamOls()}" var="ol"
-							rows="5" paginator="true">
-							<p:column headerText="Produit" style="text-align:center">
-								<h:outputText value="#{ol.product.designation}" />
-							</p:column>
-
-							<p:column headerText="Référence" style="text-align:center">
-								<h:outputText value="#{ol.product.productId}" />
-							</p:column>
-
-							<p:column headerText="Lot" style="text-align:center">
-								<h:outputText value="xxxxxxx" />
-							</p:column>
-
-							<p:column style="text-align:center" headerText="Date de péremption">
-								<h:outputText value="jj-mm-aaaa" />
-							</p:column>
-						</p:dataTable>
-					</p:overlayPanel>
-				</h:form>
+				</p:overlayPanel>
 			</h:form>
 		</h:form>
 	</ui:define>
