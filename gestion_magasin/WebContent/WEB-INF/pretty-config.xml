@@ -18,6 +18,11 @@
 		<pattern value="/404" />
 		<view-id value="/404.xhtml" />
 	</url-mapping>
+	
+	<url-mapping id="logout">
+		<pattern value="/logout" />
+		<view-id value="/login.xhtml" />
+	</url-mapping>
 
 	<!-- Customer -->
 
