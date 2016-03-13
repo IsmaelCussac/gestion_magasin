@@ -118,8 +118,8 @@ public class OrderHistoryController {
 	public void updateCart() {
 		orderController.getCart().clear();
 		for (OrderLine l : newOrder.getOrderLines()) {
-			OrderItem i = new OrderItem();
-			i.setOrderItem(l.getProduct().getProductId(), l.getProduct().getDesignation(), l.getProduct().getPicture(),
+			StoreItem i = new StoreItem();
+			i.setStoreItem(l.getProduct().getProductId(), l.getProduct().getDesignation(), l.getProduct().getPicture(),
 					l.getQuantity(), l.getProduct().getSubCategory().getName());
 			orderController.getCart().put(l.getProduct().getProductId(), i);
 		}

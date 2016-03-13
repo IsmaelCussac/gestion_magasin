@@ -9,7 +9,7 @@ import fr.mgs.model.product.SubCategory;
  * @author Ismaël
  *
  */
-public class OrderItem implements Serializable{
+public class StoreItem implements Serializable{
 	
 	private int productId;
 	private String designation;
@@ -17,7 +17,7 @@ public class OrderItem implements Serializable{
 	private double quantity;
 	private String subCategory;
 	
-	public OrderItem() {
+	public StoreItem() {
 	
 	}
 
@@ -61,7 +61,7 @@ public class OrderItem implements Serializable{
 		this.subCategory = subCategory;
 	}
 
-	public void setOrderItem(int productId, String designation, String picture, double quantity, String subCategory){
+	public void setStoreItem(int productId, String designation, String picture, double quantity, String subCategory){
 		setProductId(productId);
 		setDesignation(designation);
 		setPicture(picture);
