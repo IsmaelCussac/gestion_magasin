@@ -1,9 +1,9 @@
 package fr.mgs.model.order;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,14 +24,9 @@ import javax.persistence.TemporalType;
 import fr.mgs.model.user.Person;
 
 /**
-* This class describes an order entity in database. It contains : 
- * - an id
- * - an user id
- * - a submission date
- * - a delivery date
- * - a list of order lines
- * - a comment
- * - an order status
+ * This class describes an order entity in database. It contains : - an id - an
+ * user id - a submission date - a delivery date - a list of order lines - a
+ * comment - an order status
  * 
  * @author Ismaël
  *
@@ -39,7 +34,7 @@ import fr.mgs.model.user.Person;
 @Entity(name = "orders")
 @Table(name = "order_t")
 public class Order implements Serializable {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "order_id")
@@ -57,8 +52,8 @@ public class Order implements Serializable {
 	@Column(name = "delivery_date", nullable = true)
 	private Date deliveryDate;
 
-	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true,cascade = { CascadeType.REMOVE, CascadeType.MERGE })
-	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
+	@OneToMany(mappedBy = "order", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+	private Collection<OrderLine> orderLines;
 
 	@Column(name = "comment", length = 250, nullable = true)
 	private String comment;
@@ -68,6 +63,7 @@ public class Order implements Serializable {
 	private OrderStatus status;
 
 	public Order() {
+		orderLines = new ArrayList<OrderLine>();
 	}
 
 	public int getOrderId() {
@@ -102,11 +98,11 @@ public class Order implements Serializable {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public Set<OrderLine> getOrderLines() {
+	public Collection<OrderLine> getOrderLines() {
 		return orderLines;
 	}
 
-	public void setOrderLines(Set<OrderLine> orderLines) {
+	public void setOrderLines(Collection<OrderLine> orderLines) {
 		this.orderLines = orderLines;
 	}
 
@@ -126,7 +122,7 @@ public class Order implements Serializable {
 		this.status = status;
 	}
 
-	public void setOrder(Person orderUser, Date submissionDate, Date deliveryDate, Set<OrderLine> orderLines,
+	public void setOrder(Person orderUser, Date submissionDate, Date deliveryDate, Collection<OrderLine> orderLines,
 			String comment, OrderStatus status) {
 		setOrderUser(orderUser);
 		setSubmissionDate(submissionDate);
@@ -136,10 +132,14 @@ public class Order implements Serializable {
 		setStatus(status);
 	}
 
+	public void addOrderLine(OrderLine orderLine) {
+		this.orderLines.add(orderLine);
+	}
+
 	@Override
 	public String toString() {
 		return "Order [orderId=" + orderId + ", orderUser=" + orderUser + ", submissionDate=" + submissionDate
-				+ ", deliveryDate=" + deliveryDate + ", orderLines=" + orderLines + ", comment=" + comment + ", status="
-				+ status + "]";
+				+ ", deliveryDate=" + deliveryDate + ", comment=" + comment + ", status=" + status + "]";
 	}
+
 }

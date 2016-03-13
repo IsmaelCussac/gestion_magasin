@@ -17,28 +17,34 @@
 
 				<h:form>
 					<p:commandButton value="Vider" id="submit"
-						actionListener="#{order.submitOrder}" icon="ui-icon-trash" />
+						action="#{cstProducts.deleteOrder}" icon="ui-icon-trash" update="list"/>
 					<p:commandButton value="Sauvegarder" id="save"
-						actionListener="#{order.saveOrder}" icon="ui-icon-disk" />
+						action="#{cstProducts.saveOrder}" icon="ui-icon-disk" />
 					<p:commandButton value="Valider" id="remove"
-						actionListener="#{order.deleteOrder}" icon="ui-icon-cart" />
+						action="#{cstProducts.submitOrder}" icon="ui-icon-cart" />
 				</h:form>
 
-				<h:form>
-					<p:dataTable value="#{orders.currentOrder}" var="ol"
-						styleClass="course-table" headerClass="course-table-header"
+				<h:form id="list">
+					<p:dataTable value="#{cstProducts.cart.entrySet().toArray()}"
+						var="entry" styleClass="course-table"
+						headerClass="course-table-header"
 						footerClass="course-table-header"
 						rowClasses="course-table-odd-row,course-table-even-row">
 
-						<p:column>
+
+						<p:column headerText="Photo" >
 							<p:graphicImage name="/image/product-icon.png" />
 						</p:column>
 						<p:column headerText="Désignation">
-							<h:outputText value="#{ol.product.designation}" />
+							<h:outputText value="#{entry.value.designation}" />
 						</p:column>
-						<p:column headerText="Quantité">
-							<p:spinner id="basic" value="#{ol.quantity}" min="0" />
+						<p:column headerText="Quantité" >
+							<p:spinner id="sp" value="#{entry.value.quantity}" min="0">
+								<p:ajax event="change"
+									listener="#{cstProducts.updateCart(entry.value)}" update="@form"/> 
+							</p:spinner>
 						</p:column>
+
 					</p:dataTable>
 				</h:form>
 

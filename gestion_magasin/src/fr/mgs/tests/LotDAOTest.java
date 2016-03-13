@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -17,6 +18,7 @@ import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
+import junit.framework.Assert;
 
 /**
  * 
@@ -29,9 +31,8 @@ public class LotDAOTest {
 	private static ProductManager productManager;
 
 	private static Lot lot;
-	private static Product product;
-	private static SubCategory subCategory;
-	private static Date date;
+	private  Product product;
+	private  SubCategory subCategory;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {		
@@ -46,25 +47,30 @@ public class LotDAOTest {
 	@Before
 	public void setUp() throws SQLException {
 		productManager.init(DataSource.H2);
-		
 		subCategory = new SubCategory();
-		subCategory.setSubCategory("Aiguilles", Category.PLASTIC);
+		subCategory.setSubCategory("Gants", Category.PLASTIC);
 		productManager.addSubCategory(subCategory);
 
 		product = new Product();
-		product.setProduct("Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
+		product.setProduct("Gant t.S", subCategory, 20, 40, 4.52, true, null, 100);
+		productManager.addProduct(product);
 		
 		lot = new Lot();
-		date = new Date("2017-02-26 20:15:00");
+		Date date = new Date();
 		
 		lot.setLot(date, product, 15);
-		
+	}
+	
+	@After
+	public void tearDown() {
 	}
 
 	@Test
 	public void testAddLot() throws SQLException { 
 		productManager.addLot(lot);
-		assertNotNull(productManager.findLot(1));
+		System.out.println("lot dest : "+lot.getLotId());
+		System.out.println("size liste : "+ productManager.findAllLots().size());
+		assertNotNull(productManager.findAllLots());
 	}
 	
 	@Test(expected=Exception.class)
@@ -78,20 +84,20 @@ public class LotDAOTest {
 		productManager.addLot(lot);
 		lot.setQuantity(10);
 		productManager.updateLot(lot);
-		Lot recupLot = productManager.findLot(1);
-		assertEquals(10, recupLot.getQuantity());
+		Lot recupLot = productManager.findLot(lot.getLotId());
+		assertEquals(10, recupLot.getQuantity(), 0);
 	}
 
 	@Test
 	public void testExistsString() throws SQLException {
 		productManager.addLot(lot);
-		assertTrue(productManager.lotExists(1));
+		assertTrue(productManager.lotExists(lot.getLotId()));
 	}
 
 	@Test
 	public void testFindString() throws SQLException {
 		productManager.addLot(lot);
-		assertNotNull(productManager.findLot(1));
+		assertNotNull(productManager.findLot(lot.getLotId()));
 	}
 
 	@Test
@@ -104,8 +110,8 @@ public class LotDAOTest {
 	@Test
 	public void testRemoveString() throws SQLException {
 		productManager.addLot(lot);
-		productManager.removeLot(1);
-		assertNull(productManager.findLot(1));
+		productManager.removeLot(lot.getLotId());
+		assertNull(productManager.findLot(lot.getLotId()));
 	}
 	
 	@Test(expected=Exception.class)

@@ -7,6 +7,7 @@
 		transaction-type="RESOURCE_LOCAL">
 		<class>fr.mgs.model.order.Order</class>
 		<class>fr.mgs.model.order.OrderLine</class>
+		<class>fr.mgs.model.order.OrderLinePK</class>
 		<class>fr.mgs.model.product.Lot</class>
 		<class>fr.mgs.model.product.Product</class>
 		<class>fr.mgs.model.product.SubCategory</class>

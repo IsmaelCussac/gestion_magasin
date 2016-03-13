@@ -3,6 +3,7 @@ package fr.mgs.tests;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.order.OrderLinePK;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
@@ -26,7 +28,7 @@ import fr.mgs.model.user.Person;
 
 
 /**
- * PAAAAS FINIIIIIIIIIIT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * A REFAIRE QUAND PUSH 
  * @author Mariana
  *
  */
@@ -36,12 +38,13 @@ public class OrderLineDAOTest {
 	private static ProductManager productManager;
 	
 	
-	private static Order order;
-	private static OrderLine orderline;
-	private static Product product;
-	private static SubCategory subCategory;
-	private static Person person;
-	private static Set<OrderLine> orderLines;
+	private  Order order;
+	private  OrderLine orderline;
+	private  Product product;
+	private  SubCategory subCategory;
+	private  Person person;
+	private  Set<OrderLine> orderLines;
+	private OrderLinePK olPk;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
@@ -68,11 +71,12 @@ public class OrderLineDAOTest {
 		product.setProduct("Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
 		productManager.addProduct(product);
 		
-		Date dateSub = new Date("2016-02-26 20:15:00");
-		Date dateDeli = new Date("2016-03-03 20:15:00");
+		Date dateSub = new Date();
+		Date dateDeli = new Date();
 		
 		order = new Order();
 		order.setOrder(person, dateSub, dateDeli, orderLines, "", OrderStatus.DELIVERED);
+		orderManager.addOrder(order);
 		
 		orderline = new OrderLine();
 		orderline.setOrderLine(order, product, 10, 10);
@@ -86,14 +90,14 @@ public class OrderLineDAOTest {
 	@Test
 	public void testAddOrderLine() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		assertNotNull(orderManager.findOrderLine(1));
+		assertNotNull(orderManager.findOrderLine(orderline.getId()));
 	}
 
 	@Test
 	public void testRemoveInteger() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		orderManager.removeOrderLine(1);
-		assertNull(orderManager.findOrderLine(1));
+		orderManager.removeOrderLine(orderline.getId());
+		assertNull(orderManager.findOrderLine(orderline.getId()));
 	}
 
 	@Test
@@ -101,19 +105,20 @@ public class OrderLineDAOTest {
 		orderManager.addOrderLine(orderline);
 		orderline.setQuantity(9);
 		orderManager.updateOrderLine(orderline);
-		assertEquals(9, orderManager.getOrderLineDao().find(1).getQuantity());
+		OrderLine recupOL = orderManager.findOrderLine(orderline.getId());
+		assertEquals(9, recupOL.getQuantity());
 	}
 
 	@Test
 	public void testExistsInteger() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		assertTrue(orderManager.orderLineExists(1));
+		assertTrue(orderManager.orderLineExists(orderline.getId()));
 	}
 
 	@Test
 	public void testFindInteger() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		assertNotNull(orderManager.findOrderLine(1));
+		assertNotNull(orderManager.findOrderLine(orderline.getId()));
 	}
 
 	@Test
@@ -124,7 +129,8 @@ public class OrderLineDAOTest {
 	@Test
 	public void testFindAll() throws SQLException {
 		orderManager.addOrderLine(orderline);
-		assertNotNull(orderManager.findAllOrderLines());
+		Collection<OrderLine> list = orderManager.findAllOrderLines();
+		assertNotNull(list.size());
 	}
 
 }

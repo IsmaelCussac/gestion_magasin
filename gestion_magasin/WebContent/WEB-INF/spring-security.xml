@@ -23,11 +23,10 @@
 
 		<intercept-url pattern="/connection" access="permitAll" />
 		<intercept-url pattern="/image/**" access="permitAll" />
-		<intercept-url pattern="/**" access="permitAll" />
-<!-- 		<intercept-url pattern="/customer/**" -->
-<!-- 			access="hasAuthority('CUSTOMER') OR hasAuthority('STORE_KEEPER') OR hasAuthority('APP_ADMIN')" /> -->
-<!-- 		<intercept-url pattern="/storekeeper/**" access="hasAuthority('STORE_KEEPER')" /> -->
-<!-- 		<intercept-url pattern="/admin/**" access="hasAuthority('APP_ADMIN')" /> -->
+		<intercept-url pattern="/customer/**"
+			access="hasAuthority('CUSTOMER') OR hasAuthority('STORE_KEEPER') OR hasAuthority('APP_ADMIN')" />
+		<intercept-url pattern="/storekeeper/**" access="hasAuthority('STORE_KEEPER')" />
+		<intercept-url pattern="/admin/**" access="hasAuthority('APP_ADMIN')" />
 
 		<access-denied-handler error-page="/403" />
 		<form-login login-page="/connection" 

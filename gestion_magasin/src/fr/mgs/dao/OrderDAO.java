@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import fr.mgs.connection.Connection;
 import fr.mgs.model.order.Order;
+import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Team;
 import fr.mgs.model.user.Person;
@@ -147,12 +148,31 @@ public class OrderDAO extends GenericDAO<Order, Integer> {
 		closeEm();
 	}
 
-	public Collection<Order> findOrdersByUser(Person user) {
+	public Collection<Order> findOrdersByUser(String userId) {
 		loadEm();
-		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser = :u");
-		query.setParameter("u", user);
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u ORDER BY o.orderId desc");
+		query.setParameter("u", userId);
 		return query.getResultList();
-		
+
+	}
+
+	public boolean hasNotValidatedOrder(String userId) {
+		return (findNotValidatedOrder(userId).size() > 0);
+	}
+
+	public Collection<Order> findNotValidatedOrder(String userId) {
+		loadEm();
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u AND o.status = :s");
+		query.setParameter("u", userId);
+		query.setParameter("s", OrderStatus.NOT_VALIDATED);
+		return query.getResultList();
+	}
+
+	public List<Order> findOrdersByUser(Person p) {
+		loadEm();
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser = :u ORDER BY o.orderId desc");
+		query.setParameter("u", p);
+		return query.getResultList();
 	}
 
 }

@@ -15,7 +15,43 @@
 		<ui:define name="content">
 			<f:view>
 
-				
+				<h:form>
+					<p:dataTable var="order" value="#{cstOrderHistory.orders}">
+						<f:facet name="header">
+           					 Liste  de vos commandes
+        				</f:facet>
+        				
+						<p:column style="width:30px">
+							<p:rowToggler />
+						</p:column>
+						
+						<p:column headerText="Date de soumission">
+							<h:outputText value="#{order.submissionDate}" />
+						</p:column>
+						
+						<p:column headerText="Date de livraison">
+							<h:outputText value="#{order.deliveryDate}" />
+						</p:column>
+						
+						<p:column headerText="Status">
+							<h:outputText value="#{order.status.toString()}" />
+						</p:column>
+
+						<p:column rendered="#{order.status.name() != 'NOT_VALIDATED'}">
+							<p:commandButton value="Dupliquer"
+								action="#{cstOrderHistory.duplicateOrder(order)}" id="duplicate" />
+						</p:column>
+
+						<p:rowExpansion>
+							<p:dataList var="line" value="#{order.orderLines}">
+								<h:outputText value="#{line.product.designation}" />
+								<h:outputText value=" x#{line.quantity}" />
+							</p:dataList>
+						</p:rowExpansion>
+					</p:dataTable>
+				</h:form>
+
+
 
 			</f:view>
 		</ui:define>
