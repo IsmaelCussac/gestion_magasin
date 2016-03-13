@@ -79,6 +79,7 @@
 										<p:column headerText="Produit" />
 										<p:column headerText="Désignation" />
 										<p:column headerText="Réference" />
+										<p:column headerText="Quantité livrée" />
 										<p:column headerText="Quantité" />
 
 									</p:row>
@@ -98,6 +99,11 @@
 									<h:outputText value="#{ol.product.productId}" />
 
 								</p:column>
+								<p:column>
+									<h:outputText value="#{ol.deliveredQuantity}" />
+
+								</p:column>
+
 								<p:column>
 									<h:outputText value="#{ol.quantity}" />
 
@@ -128,7 +134,7 @@
 						</p:rowExpansion>
 					</p:dataTable>
 
-				
+
 				</p:panel>
 
 			</ui:repeat>
