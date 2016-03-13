@@ -201,8 +201,12 @@ public class Product  {
 		char firstletter = subCategory.getName().charAt(0);
 		barcode += firstletter;
 		
-		// la somme des code ascii de la désignation ( 5 chiffres )
-		int ascii = Integer.parseInt(designation) ;
+		// la somme des code ascii de la désignation + catégorie ( 5 chiffres )
+		int ascii = 0;
+		String ensemble_ref = designation + subCategory.getName();
+		for (int i = 0 ; i < ensemble_ref.length() ; ++i){
+			ascii += (int) ensemble_ref.charAt(i);
+		}
 		if(ascii < 100) barcode += "000"+ascii;
 		else if (ascii < 1000) barcode += "00"+ascii;
 		else if (ascii < 10000) barcode += "0" + ascii;
