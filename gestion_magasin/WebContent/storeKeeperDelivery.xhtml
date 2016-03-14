@@ -27,14 +27,23 @@
 							value="Livraison de l'équipe: #{ordersView.selectedTeam.name} - Etage #{ordersView.selectedTeam.floor}" />
 						<p:commandButton action="pretty:skOrders" value="Enregistrer"
 							actionListener="#{ordersView.saveDeliveredProducts()}"
-							style="height:25px;float:right" />
+							style="height:25px;float:right">
+							<p:confirm header="Confirmation" message="Confirmez la livraison"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Oui" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Non" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
 					</p:row>
 				</f:facet>
 			</p:panelGrid>
 			<br />
 			<h:form>
 				<p:growl id="msgs" showDetail="true" />
-				<p:dataTable id="prods" value="#{ordersView.getSelectedTeamOls()}"
+				<p:dataTable id="prods" value="#{ordersView.selectedTeamOrderLines}"
 					var="ol" editable="true" editMode="cell">
 
 					<p:ajax event="cellEdit" listener="#{ordersView.onCellEdit}"
@@ -51,9 +60,9 @@
 						<p:row>
 							<p:column colspan="4" headerText="Produits demandés" />
 							<p:column colspan="3" headerText="Référence" />
-
-							<p:column colspan="3" headerText="Entrée par saisie" />
 							<p:column colspan="3" headerText="Qté demandée" />
+							<p:column colspan="3" headerText="Entrée par saisie" />
+
 
 
 						</p:row>
@@ -65,7 +74,9 @@
 					<p:column colspan="3" style="text-align:center">
 						<h:outputText value="#{ol.product.productId}" />
 					</p:column>
-
+					<p:column colspan="3" style="text-align:center">
+						<h:outputText value="#{ol.quantity}" />
+					</p:column>
 
 					<p:column colspan="3" style="text-align:center">
 						<p:cellEditor>
@@ -81,9 +92,7 @@
 						</p:cellEditor>
 
 					</p:column>
-					<p:column colspan="3" style="text-align:center">
-						<h:outputText value="#{ol.quantity}" />
-					</p:column>
+
 
 				</p:dataTable>
 				<br />
@@ -103,46 +112,61 @@
 					</div>
 				</div>
 				<!-- Dialog for scan -->
-				<p:dialog header="Livraison" widgetVar="scanDialog" modal="true"
-					showEffect="fade" hideEffect="fade" resizable="false" width="800"
-					style="margin-top : 10px;">
-					<p:outputPanel id="scanPan" style="text-align:center;">
-						<p:panelGrid style="margin-top:20px">
-							<f:facet name="header">
+				<p:dialog id="scanPan" header="Livraison" widgetVar="scanDialog"
+					modal="true" showEffect="fade" hideEffect="fade" resizable="false"
+					width="800" style="margin-top : 10px;">
+					<p:panelGrid columns="2">
+						<p:dataTable id="prods2"
+							value="#{ordersView.selectedTeamOrderLines}" var="ol"
+							editable="true" editMode="cell">
 
+							<p:columnGroup type="header">
 								<p:row>
-									<p:column>Produits</p:column>
-									<p:column>Référence</p:column>
+									<p:column colspan="7"
+										headerText="#{ordersView.selectedTeam.name}" />
+									<p:column colspan="6" headerText="Livraison du 11-03-2016" />
+
+
 								</p:row>
+								<p:row>
+									<p:column colspan="4" headerText="Produits demandés" />
+									<p:column colspan="3" headerText="Référence" />
+									<p:column colspan="3" headerText="Qté demandée" />
+									<p:column colspan="3" headerText="Entrée scannée" />
+								</p:row>
+							</p:columnGroup>
 
-							</f:facet>
-							<p:row>
-								<p:column colspan="4" style="text-align: center">
-                Finals MVP
-            </p:column>
-								<p:column colspan="3" rowspan="3">
-									<p:inputTextarea></p:inputTextarea>
-								</p:column>
-							</p:row>
+							<p:column colspan="4" style="text-align:center">
+								<h:outputText value="#{ol.product.designation}" />
+							</p:column>
+							<p:column colspan="3" style="text-align:center">
+								<h:outputText value="#{ol.product.productId}" />
+							</p:column>
+							<p:column colspan="3" style="text-align:center">
+								<h:outputText value="#{ol.quantity}" />
+							</p:column>
 
-							<p:row>
-								<p:column colspan="4" style="text-align: center">
-                Season MVP
-            </p:column>
-							</p:row>
-							<p:row>
-								<p:column colspan="4" style="text-align: center">
-                Top Scorer
-            </p:column>
-							</p:row>
-						</p:panelGrid>
+							<p:column colspan="3" style="text-align:center">
+								<h:outputText value="#{ol.deliveredQuantity}" />
+							</p:column>
 
-					</p:outputPanel>
+						</p:dataTable>
+
+						<p:inputTextarea value="#{ordersView.maValeur}"
+							rows="#{ordersView.selectedTeamOrderLines.size()}"
+							onkeypress="if (event.keyCode == 13) {onchange(); return false;}">
+							<p:ajax event="change" listener="#{ordersView.test()}" update="prods2"/>
+						</p:inputTextarea>
+
+
+					</p:panelGrid>
+
 				</p:dialog>
+
 				<!-- Dialog for displaying lot -->
 				<p:overlayPanel id="lotPanel" for="btnLot" hideEffect="fade"
 					dynamic="true" style="width:600px" showCloseIcon="true">
-					<p:dataTable value="#{ordersView.getSelectedTeamOls()}" var="ol"
+					<p:dataTable value="#{ordersView.selectedTeamOrderLines}" var="ol"
 						rows="5" paginator="true">
 						<p:column headerText="Produit" style="text-align:center">
 							<h:outputText value="#{ol.product.designation}" />

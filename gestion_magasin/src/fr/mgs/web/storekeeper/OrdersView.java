@@ -27,6 +27,7 @@ import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
+import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 
 /**
@@ -42,6 +43,9 @@ public class OrdersView implements Serializable {
 	private Map<Team, Collection<Order>> ordersToDeliverByTeam;
 	private Map<Team, Collection<Order>> deliveredOrdersByTeam;
 	private List<OrderLine> deliveredProducts;
+	private Collection<OrderLine> selectedTeamOrderLines;
+
+	private String maValeur;
 
 	private OrderManager orderManager;
 	private UserManager userManager;
@@ -67,7 +71,54 @@ public class OrdersView implements Serializable {
 			selectedTeam = new Team();
 			orderToEdit = new Order();
 			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
+			selectedTeamOrderLines = new ArrayList<OrderLine>();
+			// test scan
+			OrderLine oltestscan = new OrderLine();
+			Product p = new Product();
+			p.setProductId(2554363);
+			p.setDesignation("chargeur");
+			oltestscan.setQuantity(5);
+			oltestscan.setProduct(p);
+			selectedTeamOrderLines.add(oltestscan);
+			// fin test scan
+			deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
 			deliveredProducts = new ArrayList<OrderLine>();
+
+			for (Team team : userManager.findAllTeams()) {
+				if (!team.getUsers().isEmpty()) {
+					Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
+					// for looking out of stock orders we display only delivered
+					// orders
+					for (Order order : orderDao.findOrderByTeam(team)) {
+						if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
+							teamDeliveredOrders.add(order);
+						}
+					}
+					if (!teamDeliveredOrders.isEmpty()) {
+						deliveredOrdersByTeam.put(team, teamDeliveredOrders);
+
+					}
+
+				}
+			}
+
+			ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
+
+			for (Team team : userManager.findAllTeams()) {
+				if (!team.getUsers().isEmpty()) {
+					Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
+					for (Order order : orderDao.findOrderByTeam(team)) {
+						if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
+								|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
+							teamOrdersToDeliver.add(order);
+						}
+					}
+					if (!teamOrdersToDeliver.isEmpty()) {
+						ordersToDeliverByTeam.put(team, teamOrdersToDeliver);
+
+					}
+				}
+			}
 
 		}
 
@@ -76,18 +127,16 @@ public class OrdersView implements Serializable {
 		}
 	}
 
-	/**
-	 * return all order lines of the selected team for delivery
-	 */
-	public Collection<OrderLine> getSelectedTeamOls() {
-		Collection<OrderLine> teamsOrderLines = new ArrayList<OrderLine>();
-
-		for (Order ord : this.ordersToDeliverByTeam.get(this.selectedTeam)) {
-			for (OrderLine ol : ord.getOrderLines()) {
-				teamsOrderLines.add(ol);
+	// test scan
+	public void test() {
+		System.out.println("TEST" + maValeur);
+		for (OrderLine orderLine : selectedTeamOrderLines) {
+			if (maValeur.equalsIgnoreCase(String.valueOf(orderLine.getProduct().getProductId()))) {
+				System.out.println("Produit correspondant est :" + orderLine.getProduct().getDesignation());
+				orderLine.setDeliveredQuantity(orderLine.getDeliveredQuantity() + 1);
+				System.out.println(orderLine.getDeliveredQuantity());
 			}
 		}
-		return teamsOrderLines;
 	}
 
 	/**
@@ -109,6 +158,30 @@ public class OrdersView implements Serializable {
 				e.printStackTrace();
 			}
 		}
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Livraison effectuée", "");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+
+	}
+
+	// manual edition
+	public void onCellEdit(CellEditEvent event) {
+
+		Map<String, Object> atts = event.getColumn().getCellEditor().getAttributes();
+		OrderLine ol = (OrderLine) atts.get("editedOl");
+		Double oldValue = (Double) event.getOldValue();
+		Double newValue = (Double) event.getNewValue();
+
+		if (newValue > ol.getQuantity()) {
+			ol.setDeliveredQuantity(oldValue);
+			newValue = oldValue;
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
+					"La quantité saisie doit être inférieure à la quantité demandée", "");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+		} else {
+			ol.setDeliveredQuantity(newValue);
+			deliveredProducts.add(ol);
+		}
+
 	}
 
 	/**
@@ -119,23 +192,6 @@ public class OrdersView implements Serializable {
 	 */
 
 	public Map<Team, Collection<Order>> getOrdersToDeliverByTeam() throws SQLException {
-		ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
-
-		for (Team team : userManager.findAllTeams()) {
-			if (!team.getUsers().isEmpty()) {
-				Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
-				for (Order order : orderDao.findOrderByTeam(team)) {
-					if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
-							|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
-						teamOrdersToDeliver.add(order);
-					}
-				}
-				if (!teamOrdersToDeliver.isEmpty()) {
-					ordersToDeliverByTeam.put(team, teamOrdersToDeliver);
-
-				}
-			}
-		}
 		return ordersToDeliverByTeam;
 	}
 
@@ -168,25 +224,6 @@ public class OrdersView implements Serializable {
 	}
 
 	public Map<Team, Collection<Order>> getDeliveredOrdersByTeam() throws SQLException {
-		deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
-
-		for (Team team : userManager.findAllTeams()) {
-			if (!team.getUsers().isEmpty()) {
-				Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
-				// for looking out of stock orders we display only delivered
-				// orders
-				for (Order order : orderDao.findOrderByTeam(team)) {
-					if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
-						teamDeliveredOrders.add(order);
-					}
-				}
-				if (!teamDeliveredOrders.isEmpty()) {
-					deliveredOrdersByTeam.put(team, teamDeliveredOrders);
-
-				}
-
-			}
-		}
 		return deliveredOrdersByTeam;
 	}
 
@@ -194,24 +231,27 @@ public class OrdersView implements Serializable {
 		this.deliveredOrdersByTeam = deliveredOrdersByTeam;
 	}
 
-	// manual edition
-	public void onCellEdit(CellEditEvent event) {
+	public String getMaValeur() {
+		return maValeur;
+	}
 
-		Map<String, Object> atts = event.getColumn().getCellEditor().getAttributes();
-		OrderLine ol = (OrderLine) atts.get("editedOl");
-		Double oldValue = (Double) event.getOldValue();
-		Double newValue = (Double) event.getNewValue();
+	public void setMaValeur(String maValeur) {
+		this.maValeur = maValeur;
+	}
 
-		if (newValue > ol.getQuantity()) {
-			ol.setDeliveredQuantity(oldValue);
-			newValue = oldValue;
-			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
-					"La quantité saisie doit être inférieure à la quantité demandée", "");
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-		} else {
-			ol.setDeliveredQuantity(newValue);
-			deliveredProducts.add(ol);
-		}
+	public List<OrderLine> getDeliveredProducts() {
+		return deliveredProducts;
+	}
 
+	public void setDeliveredProducts(List<OrderLine> deliveredProducts) {
+		this.deliveredProducts = deliveredProducts;
+	}
+
+	public Collection<OrderLine> getSelectedTeamOrderLines() {
+		return selectedTeamOrderLines;
+	}
+
+	public void setSelectedTeamOrderLines(Collection<OrderLine> teamsOrderLines) {
+		this.selectedTeamOrderLines = teamsOrderLines;
 	}
 }
