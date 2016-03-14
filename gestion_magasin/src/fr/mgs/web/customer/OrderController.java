@@ -115,6 +115,18 @@ public class OrderController {
 	}
 
 	// Store methods
+	
+	public Map<String, List<StoreItem>> getStoreItems() {
+		return storeItems;
+	}
+
+	public void setStoreItems(Map<String, List<StoreItem>> storeItems) {
+		this.storeItems = storeItems;
+	}
+	
+	public void clearStoreItems(){
+		getStoreItems().clear();
+	}
 
 	public Collection<Category> getAllCategories() {
 
@@ -145,7 +157,7 @@ public class OrderController {
 		// si la sous catégorie n'est pas présente dans la map, on récupère la liste de produits et on l'ajoute
 		if (!storeItems.containsKey(sub.getName())) {
 			List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
-			items = createNewOrderItemList(prods);
+			items = createNewStoreItemList(prods);
 				
 		} else {
 			items = storeItems.get(sub.getName());
@@ -159,15 +171,7 @@ public class OrderController {
 		return storeItems.get(sub.getName());
 	}
 
-	public Map<String, List<StoreItem>> getStoreItems() {
-		return storeItems;
-	}
-
-	public void setStoreItems(Map<String, List<StoreItem>> storeItems) {
-		this.storeItems = storeItems;
-	}
-
-	private List<StoreItem> createNewOrderItemList(List<Product> prods) {
+	private List<StoreItem> createNewStoreItemList(List<Product> prods) {
 		List<StoreItem> items = new ArrayList<StoreItem>();
 		for (Product prod : prods) {
 			StoreItem orderItem = new StoreItem();
@@ -181,6 +185,14 @@ public class OrderController {
 	}
 
 	// Order methods
+	
+	public Order getCurrentOrder() {
+		return currentOrder;
+	}
+
+	public void setCurrentOrder(Order currentOrder) {
+		this.currentOrder = currentOrder;
+	}
 	
 	public void newOrder() throws SQLException {
 
@@ -240,17 +252,8 @@ public class OrderController {
 		clearCart();
 		storeItems.clear();
 	}
-
-	public Order getCurrentOrder() {
-		return currentOrder;
-	}
-
-	public void setCurrentOrder(Order currentOrder) {
-		this.currentOrder = currentOrder;
-	}
 	
 	public void removeOrderLineInDB(StoreItem item) throws SQLException{
 		orderManager.removeOrderLine(new OrderLinePK(item.getProductId(), currentOrder.getOrderId()));
 	}
-
 }

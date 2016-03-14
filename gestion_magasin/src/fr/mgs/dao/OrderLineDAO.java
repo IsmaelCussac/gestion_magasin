@@ -40,20 +40,6 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 		closeEm();
 	}
 
-	/**
-	 * remove an orderLine stored in database using his id
-	 * 
-	 * @param orderLine's
-	 *            id
-	 */
-	public void remove(Integer orderLineId) throws SQLException {
-		OrderLine orderLine = find(orderLineId);
-		beginTransaction();
-		if (orderLine != null)
-			em.remove(em.merge(orderLine));
-		commit();
-		closeEm();
-	}
 
 	/**
 	 * update a orderLine's attributes according to the fact the user is already
@@ -75,8 +61,8 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 	 * @param orderLine's
 	 *            id
 	 */
-	public boolean exists(Integer orderLineId) throws SQLException {
-		return (find(orderLineId) != null);
+	public boolean exists(OrderLinePK orderLinePK) throws SQLException {
+		return (find(orderLinePK) != null);
 	}
 
 	/**
@@ -105,6 +91,11 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 		return (List<OrderLine>) query.getResultList();
 	}
 
+	/**
+	 * remove an orderLine stored in database using his PK
+	 * 
+	 * @param orderLine's pk
+	 */
 	public void removeOrderLine(OrderLinePK orderLinePK) throws SQLException {
 		beginTransaction();
 		Order ord = em.find(Order.class, orderLinePK.getOrder());
@@ -127,6 +118,18 @@ public class OrderLineDAO extends GenericDAO<OrderLine, Integer> {
 	public OrderLine find(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean exists(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void remove(Integer id) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

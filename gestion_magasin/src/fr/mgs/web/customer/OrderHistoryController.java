@@ -80,13 +80,9 @@ public class OrderHistoryController {
 			// on récupère la commande non validée et on supprime les orderline
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			dupOrder = orderList.get(0);
-
-//			for (OrderLine line : dupOrder.getOrderLines()) {
-//				orderManager.removeOrderLine(line.getOrderLinePK());
-//			}
 		
 		}
-		orderController.getStoreItems().clear();
+		orderController.clearStoreItems();
 		updateNewOrder(order);
 		updateCart();
 
