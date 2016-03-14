@@ -115,7 +115,7 @@
 				<p:dialog id="scanPan" header="Livraison" widgetVar="scanDialog"
 					modal="true" showEffect="fade" hideEffect="fade" resizable="false"
 					width="800" style="margin-top : 10px;">
-					<p:panelGrid columns="2">
+					<p:panelGrid columns="3">
 						<p:dataTable id="prods2"
 							value="#{ordersView.selectedTeamOrderLines}" var="ol"
 							editable="true" editMode="cell">
@@ -154,10 +154,10 @@
 
 						<p:inputTextarea value="#{ordersView.maValeur}"
 							rows="#{ordersView.selectedTeamOrderLines.size()}"
-							onkeypress="if (event.keyCode == 13) {onchange(); return false;}">
-							<p:ajax event="change" listener="#{ordersView.test()}" update="prods2"/>
+							onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
+							<p:ajax event="change" listener="#{ordersView.test()}"
+								update="prods2" />
 						</p:inputTextarea>
-
 
 					</p:panelGrid>
 

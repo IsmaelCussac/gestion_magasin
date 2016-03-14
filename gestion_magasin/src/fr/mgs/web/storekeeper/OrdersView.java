@@ -137,6 +137,7 @@ public class OrdersView implements Serializable {
 				System.out.println(orderLine.getDeliveredQuantity());
 			}
 		}
+		maValeur="";
 	}
 
 	/**
