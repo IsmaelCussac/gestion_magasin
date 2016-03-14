@@ -5,7 +5,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="http://www.springframework.org/security/tags">
 
 <ui:composition>
 
@@ -23,6 +24,12 @@
 				outcome="pretty:cstHistory">
 				<f:param name="i" value="2" />
 			</p:menuitem>
+			<sec:authorize access="hasAuthority('STORE_KEEPER')">
+				<p:menuitem value="Côté magasinier" outcome="pretty:skProducts"
+					icon="ui-icon-star">
+					<f:param name="i" value="0" />
+				</p:menuitem>
+			</sec:authorize>
 		</p:tabMenu>
 	</h:form>
 </ui:composition>
