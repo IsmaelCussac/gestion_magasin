@@ -84,7 +84,9 @@ public class OrderHistoryController {
 //			for (OrderLine line : dupOrder.getOrderLines()) {
 //				orderManager.removeOrderLine(line.getOrderLinePK());
 //			}
+		
 		}
+		orderController.getStoreItems().clear();
 		updateNewOrder(order);
 		updateCart();
 
@@ -111,10 +113,6 @@ public class OrderHistoryController {
 
 		orderManager.updateOrder(newOrder);
 	}
-
-	/**
-	 * Ppdate cart to display the products in the order interface
-	 */
 	public void updateCart() {
 		orderController.getCart().clear();
 		for (OrderLine l : newOrder.getOrderLines()) {

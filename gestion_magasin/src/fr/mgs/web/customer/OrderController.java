@@ -159,6 +159,14 @@ public class OrderController {
 		return storeItems.get(sub.getName());
 	}
 
+	public Map<String, List<StoreItem>> getStoreItems() {
+		return storeItems;
+	}
+
+	public void setStoreItems(Map<String, List<StoreItem>> storeItems) {
+		this.storeItems = storeItems;
+	}
+
 	private List<StoreItem> createNewOrderItemList(List<Product> prods) {
 		List<StoreItem> items = new ArrayList<StoreItem>();
 		for (Product prod : prods) {
