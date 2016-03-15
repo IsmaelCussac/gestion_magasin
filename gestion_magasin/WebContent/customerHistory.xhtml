@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">Historique des commandes</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="/template/customerMenu.xhtml" />
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+
+				<h:form>
+					<p:dataTable var="order" value="#{cstOrderHistory.orders}">
+						<f:facet name="header">
+           					 Liste  de vos commandes
+        				</f:facet>
+        				
+						<p:column style="width:30px">
+							<p:rowToggler />
+						</p:column>
+						
+						<p:column headerText="Date de soumission">
+							<h:outputText value="#{order.submissionDate}" />
+						</p:column>
+						
+						<p:column headerText="Date de livraison">
+							<h:outputText value="#{order.deliveryDate}" />
+						</p:column>
+						
+						<p:column headerText="Status">
+							<h:outputText value="#{order.status.toString()}" />
+						</p:column>
+
+						<p:column rendered="#{order.status.name() != 'NOT_VALIDATED'}">
+							<p:commandButton value="Dupliquer"
+								action="#{cstOrderHistory.duplicateOrder(order)}" id="duplicate" />
+						</p:column>
+
+						<p:rowExpansion>
+							<p:dataList var="line" value="#{order.orderLines}">
+								<h:outputText value="#{line.product.designation}" />
+								<h:outputText value=" x#{line.quantity}" />
+							</p:dataList>
+						</p:rowExpansion>
+					</p:dataTable>
+				</h:form>
+
+
+
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

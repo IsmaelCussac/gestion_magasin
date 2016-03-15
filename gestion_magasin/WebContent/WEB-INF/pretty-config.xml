@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.2
+   http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.2.xsd">
+
+	<url-mapping id="connection">
+		<pattern value="/connection" />
+		<view-id value="/login.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="403">
+		<pattern value="/403" />
+		<view-id value="/403.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="404">
+		<pattern value="/404" />
+		<view-id value="/404.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="logout">
+		<pattern value="/logout" />
+		<view-id value="/login.xhtml" />
+	</url-mapping>
+
+	<!-- Customer -->
+
+	<url-mapping id="cstProducts">
+		<pattern value="/customer/products" />
+		<view-id value="/customerProducts.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="cstOrder">
+		<pattern value="/customer/order" />
+		<view-id value="/customerOrder.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="cstHistory">
+		<pattern value="/customer/history" />
+		<view-id value="/customerHistory.xhtml" />
+	</url-mapping>
+
+	<!-- Store Keeper -->
+
+	<url-mapping id="skProducts">
+		<pattern value="/storekeeper/products" />
+		<view-id value="/storeKeeperProducts.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="skOrders">
+		<pattern value="/storekeeper/orders" />
+		<view-id value="/storeKeeperOrders.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="skOrdersOut">
+		<pattern value="/storekeeper/ordersOut" />
+		<view-id value="/storeKeeperStockOut.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="skDelivery">
+		<pattern value="/storekeeper/delivery" />
+		<view-id value="/storeKeeperDelivery.xhtml" />
+	</url-mapping>
+
+	<url-mapping id="skAlert">
+		<pattern value="/storekeeper/alert" />
+		<view-id value="/storeKeeperAlert.xhtml" />
+	</url-mapping>
+
+
+	<!-- Admin -->
+
+</pretty-config>

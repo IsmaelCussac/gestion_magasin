@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">Etat des stocks</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="/template/storeKeeperMenu.xhtml" />
+		</ui:define>
+		<ui:define name="content">
+			<f:view>
+
+				<p:accordionPanel value="#{skProducts.getAllCategories()}" var="cat">
+
+					<p:tab title="#{cat.toString()}">
+						<p:accordionPanel id="subAccordion" multiple="true" dynamic="true" cache="false"
+							value="#{skProducts.getSubCategories(cat)}" var="subCat">
+
+							<p:tab title="#{subCat.name}">
+								<h:form>
+
+									<p:dataTable value="#{skProducts.getProducts(subCat)}" var="p"
+										styleClass="course-table" headerClass="course-table-header"
+										footerClass="course-table-header"
+										rowClasses="course-table-odd-row,course-table-even-row">
+
+										<p:column>
+											<p:graphicImage name="/image/product-icon.png" />
+										</p:column>
+										<p:column headerText="Désignation">
+											<h:outputText value="#{p.designation}" />
+										</p:column>
+										<p:column headerText="Nombre d'articles">
+											<h:outputText value="" />
+										</p:column>
+										<p:column headerText="Visibilité">
+											<p:selectBooleanCheckbox value="0" />
+										</p:column>
+										<p:column>
+											<p:commandButton icon="fa-plus" value="Modifier"/>
+										</p:column>
+									</p:dataTable>
+								</h:form>
+							</p:tab>
+
+						</p:accordionPanel>
+					</p:tab>
+				</p:accordionPanel>
+
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
