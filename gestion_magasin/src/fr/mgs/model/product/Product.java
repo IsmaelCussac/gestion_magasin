@@ -186,10 +186,8 @@ public class Product {
 		result = prime * result + ((conditioning == null) ? 0 : conditioning.hashCode());
 		result = prime * result + ((designation == null) ? 0 : designation.hashCode());
 		result = prime * result + ((minQuantity == null) ? 0 : minQuantity.hashCode());
-		result = prime * result + ((orderLines == null) ? 0 : orderLines.hashCode());
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((subCategory == null) ? 0 : subCategory.hashCode());
 		result = prime * result + (visibility ? 1231 : 1237);
 		result = prime * result + ((warningPeriod == null) ? 0 : warningPeriod.hashCode());
 		return result;
@@ -214,20 +212,10 @@ public class Product {
 				return false;
 		} else if (!designation.equals(other.designation))
 			return false;
-		if (lots == null) {
-			if (other.lots != null)
-				return false;
-		} else if (!lots.equals(other.lots))
-			return false;
 		if (minQuantity == null) {
 			if (other.minQuantity != null)
 				return false;
 		} else if (!minQuantity.equals(other.minQuantity))
-			return false;
-		if (orderLines == null) {
-			if (other.orderLines != null)
-				return false;
-		} else if (!orderLines.equals(other.orderLines))
 			return false;
 		if (picture == null) {
 			if (other.picture != null)
@@ -240,11 +228,6 @@ public class Product {
 		} else if (!price.equals(other.price))
 			return false;
 		if (productId != other.productId)
-			return false;
-		if (subCategory == null) {
-			if (other.subCategory != null)
-				return false;
-		} else if (!subCategory.equals(other.subCategory))
 			return false;
 		if (visibility != other.visibility)
 			return false;
