@@ -92,19 +92,19 @@ public class OrderLine {
 		setDeliveredQuantity(deleveredQuantity);
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((product == null) ? 0 : product.hashCode());
-		return result;
-	}
-
-	public boolean equals(OrderLine ol) {
-		if (getProduct().getProductId() == ol.getProduct().getProductId())
-			return true;
-		return false;
-	}
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		result = prime * result + ((product == null) ? 0 : product.hashCode());
+//		return result;
+//	}
+//
+//	public boolean equals(OrderLine ol) {
+//		if (getProduct().getProductId() == ol.getProduct().getProductId())
+//			return true;
+//		return false;
+//	}
 
 	@Override
 	public String toString() {
