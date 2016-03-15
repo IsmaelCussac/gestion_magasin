@@ -61,10 +61,8 @@
 							<p:column colspan="4" headerText="Produits demandés" />
 							<p:column colspan="3" headerText="Référence" />
 							<p:column colspan="3" headerText="Qté demandée" />
-							<p:column colspan="3" headerText="Entrée par saisie" />
-
-
-
+							<p:column colspan="3"
+								headerText="Qté à livrer (Entrée par saisie)" />
 						</p:row>
 					</p:columnGroup>
 
@@ -84,7 +82,7 @@
 								<h:outputText value="#{ol.deliveredQuantity}" />
 							</f:facet>
 							<f:facet name="input">
-								<p:inputText id="modelInput" value="#{ol.deliveredQuantity}"
+								<p:inputText id="deliveryInput" value="#{ol.deliveredQuantity}"
 									style="width:100%" />
 							</f:facet>
 							<f:attribute name="editedOl" value="#{ol}" />
@@ -115,8 +113,10 @@
 				<p:dialog id="scanPan" header="Livraison" widgetVar="scanDialog"
 					modal="true" showEffect="fade" hideEffect="fade" resizable="false"
 					width="800" style="margin-top : 10px;">
+					<p:ajax event="close" update="form" />
 					<p:panelGrid columns="3">
-						<p:dataTable id="prods2"
+					<h:form>
+					<p:dataTable id="prods2"
 							value="#{ordersView.selectedTeamOrderLines}" var="ol"
 							editable="true" editMode="cell">
 
@@ -126,13 +126,12 @@
 										headerText="#{ordersView.selectedTeam.name}" />
 									<p:column colspan="6" headerText="Livraison du 11-03-2016" />
 
-
 								</p:row>
 								<p:row>
 									<p:column colspan="4" headerText="Produits demandés" />
 									<p:column colspan="3" headerText="Référence" />
 									<p:column colspan="3" headerText="Qté demandée" />
-									<p:column colspan="3" headerText="Entrée scannée" />
+									<p:column colspan="3" headerText="Qté scannée" />
 								</p:row>
 							</p:columnGroup>
 
@@ -151,14 +150,33 @@
 							</p:column>
 
 						</p:dataTable>
+						<p:panelGrid columns="1">
+							<p:inputTextarea value="#{ordersView.maValeur}"
+								rows="#{ordersView.selectedTeamOrderLines.size()}"
+								onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
+								<p:ajax event="change" listener="#{ordersView.test()}"
+									update="prods2" />
+							</p:inputTextarea>
+							<p:commandButton action="pretty:skOrders" value="Enregistrer"
+								actionListener="#{ordersView.saveDeliveredProducts()}"
+								style="height:25px;float:right">
+								<p:confirm header="Confirmation"
+									message="Confirmez la livraison" icon="ui-icon-alert" />
+							</p:commandButton>
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Oui" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="Non" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
 
-						<p:inputTextarea value="#{ordersView.maValeur}"
-							rows="#{ordersView.selectedTeamOrderLines.size()}"
-							onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
-							<p:ajax event="change" listener="#{ordersView.test()}"
-								update="prods2" />
-						</p:inputTextarea>
 
+						</p:panelGrid>
+					
+					
+					</h:form>
+						
 					</p:panelGrid>
 
 				</p:dialog>

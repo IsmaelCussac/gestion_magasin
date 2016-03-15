@@ -15,14 +15,15 @@
 					<h2>Bienvenue sur votre application Magasin</h2>
 				</div>
 			</div>
-		</div>
-		<sec:authorize access="isAuthenticated()">
+			<sec:authorize access="isAuthenticated()">
 			<h:form>
-				<h:outputText value="Bonjour #{user.username}" />
-				<p:commandButton value="Déconnexion" id="logout"
+				<h:outputText style="float:left" value="Bonjour #{user.username}" />
+				<p:commandButton style="float:right" value="Déconnexion" id="logout"
 					action="pretty:logout" icon="ui-icon-power" />
 			</h:form>
 		</sec:authorize>
+		</div>
+		
 	</header>
 
 </ui:composition>
