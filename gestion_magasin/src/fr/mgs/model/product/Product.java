@@ -76,6 +76,10 @@ public class Product {
 	public int getProductId() {
 		return productId;
 	}
+	
+	public void setProductId(int product) {
+	this.productId = product;
+}
 
 //	public void setProductId() {
 //		this.productId = BarCode.getProductBarCode(designation, subCategory);
