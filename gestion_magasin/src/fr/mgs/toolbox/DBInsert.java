@@ -37,7 +37,7 @@ public class DBInsert {
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
 
-		new OrderDAO(orderManager.getOrderDao().getConnection());
+		//new OrderDAO(orderManager.getOrderDao().getConnection());
 
 		team = new Team();
 		team2 = new Team();

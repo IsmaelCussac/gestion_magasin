@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 
 import fr.mgs.connection.DataSource;
 import fr.mgs.dao.DAOManager;
-import fr.mgs.dao.GenericDAO;
 import fr.mgs.dao.OrderDAO;
 import fr.mgs.dao.OrderLineDAO;
 import fr.mgs.dao.Table;
@@ -29,9 +28,6 @@ public class OrderManager {
 	private DAOManager daoManager;
 	private OrderDAO orderDao;
 	private OrderLineDAO orderLineDao;
-
-	public OrderManager() {
-	}
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -131,7 +127,7 @@ public class OrderManager {
 	}
 
 	public Collection<Order> findOrdersByUser(Person p) {
-		return (List<Order>) orderDao.findOrdersByUser(p);
+		return orderDao.findOrdersByUser(p);
 	}
 
 	public void removeOrderLine(OrderLinePK orderLinePK) throws SQLException {

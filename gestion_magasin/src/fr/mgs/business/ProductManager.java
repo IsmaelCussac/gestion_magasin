@@ -1,9 +1,7 @@
 package fr.mgs.business;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -17,8 +15,6 @@ import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
-import fr.mgs.model.user.Team;
-import fr.mgs.model.user.Person;
 
 /**
  * Business class that manage the following DAOs to access database and process
@@ -33,9 +29,6 @@ public class ProductManager {
 	private GenericDAO<Lot, Integer> lotDao;
 	private ProductDAO productDao;
 	private SubCategoryDAO subCategoryDao;
-
-	public ProductManager() {
-	}
 
 	@SuppressWarnings("unchecked")
 	@PostConstruct
@@ -165,10 +158,5 @@ public class ProductManager {
 		return productDao.findProductsBySubCategory(subCategory);
 	}
 
-	public int findItemQuantity(Product product) {
-		
-		return 0;
-	}
-	
 	
 }

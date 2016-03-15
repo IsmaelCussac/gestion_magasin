@@ -12,9 +12,6 @@ public class UserController {
 
 	private User user;
 
-	public UserController() {
-	}
-
 	public User getUser() {
 		setUser((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
 		return user;

@@ -17,29 +17,21 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.toolbox.BarCode;
 
 /**
- * This class describes a product entity in database. It contains : 
- * - an id
- * - a name
- * - a level 2 category
- * - a warning period
- * - a minimal quantity in stock
- * - a price
- * - a visibility state
- * - a picture
- * - a conditioning
- * - a list of Lots
+ * This class describes a product entity in database. It contains : - an id - a
+ * name - a level 2 category - a warning period - a minimal quantity in stock -
+ * a price - a visibility state - a picture - a conditioning - a list of Lots
  * 
  * @author IsmaÃ«l
  *
  */
 @Entity(name = "products")
 @Table(name = "product_t")
-public class Product  {
+public class Product {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")
 	private int productId;
 
@@ -74,8 +66,8 @@ public class Product  {
 
 	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<Lot> lots = new HashSet<Lot>();
-	
-	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false, cascade = CascadeType.ALL  )
+
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false, cascade = CascadeType.ALL)
 	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
 
 	public Product() {
@@ -85,9 +77,9 @@ public class Product  {
 		return productId;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
+//	public void setProductId() {
+//		this.productId = BarCode.getProductBarCode(designation, subCategory);
+//	}
 
 	public String getDesignation() {
 		return designation;
@@ -180,38 +172,91 @@ public class Product  {
 		setPicture(picture);
 		setConditioning(conditioning);
 	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((conditioning == null) ? 0 : conditioning.hashCode());
+		result = prime * result + ((designation == null) ? 0 : designation.hashCode());
+		result = prime * result + ((minQuantity == null) ? 0 : minQuantity.hashCode());
+		result = prime * result + ((orderLines == null) ? 0 : orderLines.hashCode());
+		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
+		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((subCategory == null) ? 0 : subCategory.hashCode());
+		result = prime * result + (visibility ? 1231 : 1237);
+		result = prime * result + ((warningPeriod == null) ? 0 : warningPeriod.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (conditioning == null) {
+			if (other.conditioning != null)
+				return false;
+		} else if (!conditioning.equals(other.conditioning))
+			return false;
+		if (designation == null) {
+			if (other.designation != null)
+				return false;
+		} else if (!designation.equals(other.designation))
+			return false;
+		if (lots == null) {
+			if (other.lots != null)
+				return false;
+		} else if (!lots.equals(other.lots))
+			return false;
+		if (minQuantity == null) {
+			if (other.minQuantity != null)
+				return false;
+		} else if (!minQuantity.equals(other.minQuantity))
+			return false;
+		if (orderLines == null) {
+			if (other.orderLines != null)
+				return false;
+		} else if (!orderLines.equals(other.orderLines))
+			return false;
+		if (picture == null) {
+			if (other.picture != null)
+				return false;
+		} else if (!picture.equals(other.picture))
+			return false;
+		if (price == null) {
+			if (other.price != null)
+				return false;
+		} else if (!price.equals(other.price))
+			return false;
+		if (productId != other.productId)
+			return false;
+		if (subCategory == null) {
+			if (other.subCategory != null)
+				return false;
+		} else if (!subCategory.equals(other.subCategory))
+			return false;
+		if (visibility != other.visibility)
+			return false;
+		if (warningPeriod == null) {
+			if (other.warningPeriod != null)
+				return false;
+		} else if (!warningPeriod.equals(other.warningPeriod))
+			return false;
+		return true;
+	}
 
 	@Override
 	public String toString() {
-		return "Product [productId=" + productId + ", designation=" + designation + ", subCategory=" + subCategory + ", warningPeriod="
-				+ warningPeriod + ", minQuantity=" + minQuantity + ", price=" + price + ", visibility=" + visibility
-				+ ", picture=" + picture + ", conditioning=" + conditioning + "]";
+		return "Product [productId=" + productId + ", designation=" + designation + ", subCategory=" + subCategory
+				+ ", warningPeriod=" + warningPeriod + ", minQuantity=" + minQuantity + ", price=" + price
+				+ ", visibility=" + visibility + ", picture=" + picture + ", conditioning=" + conditioning + "]";
 	}
 
-	public String getProductBarCode (){
-		
-		String barcode = "";
-		
-		// nombre de mots dans la désignation ( 2 chiffres )
-		int nbword = designation.split(" ").length;
-		if (nbword < 10) barcode += "0"+nbword;
-		else barcode += nbword;
-		
-		// première lettre de la sous-catégorie produit ( 1 chiffre )
-		char firstletter = subCategory.getName().charAt(0);
-		barcode += firstletter;
-		
-		// la somme des code ascii de la désignation + catégorie ( 5 chiffres )
-		int ascii = 0;
-		String ensemble_ref = designation + subCategory.getName();
-		for (int i = 0 ; i < ensemble_ref.length() ; ++i){
-			ascii += (int) ensemble_ref.charAt(i);
-		}
-		if(ascii < 100) barcode += "000"+ascii;
-		else if (ascii < 1000) barcode += "00"+ascii;
-		else if (ascii < 10000) barcode += "0" + ascii;
-		else barcode += ascii;
-		
-		return barcode;
-	}
 }

@@ -25,9 +25,6 @@ public class EventManager {
 	private DAOManager daoManager;
 	private GenericDAO<Event, Integer> logMonitorDao;
 
-	public EventManager() {
-	}
-
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init(DataSource ds) throws SQLException {

@@ -2,8 +2,6 @@ package fr.mgs.web.customer;
 
 import java.io.Serializable;
 
-import fr.mgs.model.product.SubCategory;
-
 /**
  * 
  * @author Ismaël
@@ -17,9 +15,6 @@ public class StoreItem implements Serializable{
 	private double quantity;
 	private String subCategory;
 	
-	public StoreItem() {
-	
-	}
 
 	public int getProductId() {
 		return productId;

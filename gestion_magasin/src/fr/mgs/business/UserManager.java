@@ -26,9 +26,6 @@ public class UserManager {
 	private GenericDAO<Person, String> userDao;
 	private GenericDAO<Team, String> teamDao;
 
-	public UserManager() {
-	}
-
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init(DataSource ds) throws SQLException {

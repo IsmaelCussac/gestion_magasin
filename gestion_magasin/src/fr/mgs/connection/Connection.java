@@ -14,9 +14,6 @@ public class Connection {
 
 	protected EntityManagerFactory emf;
 
-	public Connection() {
-	}
-
 	public EntityManagerFactory getEmf() {
 		return emf;
 	}

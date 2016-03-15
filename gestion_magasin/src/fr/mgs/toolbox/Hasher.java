@@ -61,7 +61,7 @@ public class Hasher implements PasswordEncoder {
 	 */
 	@Override
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-		return encode(rawPassword.toString()).equals(encodedPassword.toString());
+		return encode(rawPassword.toString()).equals(encodedPassword);
 	}
 
 
