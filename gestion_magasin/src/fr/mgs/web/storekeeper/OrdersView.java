@@ -47,7 +47,7 @@ public class OrdersView implements Serializable {
 	private List<OrderLine> deliveredProducts;
 	private Collection<OrderLine> selectedTeamOrderLines;
 
-	private String maValeur;
+	private String initScan;
 
 	private OrderManager orderManager;
 	private UserManager userManager;
@@ -118,23 +118,27 @@ public class OrdersView implements Serializable {
 		}
 	}
 
-	// test scan
-	public void test() {
-		System.out.println("TEST" + maValeur);
+	public void scan() {
+		System.out.println("TEST" + initScan);
 		for (OrderLine orderLine : selectedTeamOrderLines) {
-			if (maValeur.equalsIgnoreCase(String.valueOf(orderLine.getProduct().getProductId()))) {
+			if (initScan.equalsIgnoreCase(String.valueOf(orderLine.getProduct().getProductId()))) {
 				System.out.println("Produit correspondant est :" + orderLine.getProduct().getDesignation());
+				if (deliveredProducts.contains(orderLine)) {
+					deliveredProducts.remove(orderLine);
+				}
 				orderLine.setDeliveredQuantity(orderLine.getDeliveredQuantity() + 1);
+				deliveredProducts.add(orderLine);
 				System.out.println(orderLine.getDeliveredQuantity());
 			}
 		}
-		maValeur = "";
+		initScan = "";
 	}
 
 	/**
 	 * save delivred orders
 	 */
 	public void saveDeliveredProducts() {
+
 		Set<Integer> checkedOrders = new HashSet<Integer>();
 		for (OrderLine orderLine : deliveredProducts) {
 			try {
@@ -239,12 +243,12 @@ public class OrdersView implements Serializable {
 		this.orderToEdit = order;
 	}
 
-	public String getMaValeur() {
-		return maValeur;
+	public String getInitScan() {
+		return initScan;
 	}
 
-	public void setMaValeur(String maValeur) {
-		this.maValeur = maValeur;
+	public void setInitScan(String val) {
+		this.initScan = val;
 	}
 
 	public List<OrderLine> getDeliveredProducts() {
