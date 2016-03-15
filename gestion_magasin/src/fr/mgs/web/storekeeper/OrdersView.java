@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -56,9 +58,6 @@ public class OrdersView implements Serializable {
 	private Team selectedTeam;
 	private Order orderToEdit;
 
-	// Just a test ==> to be removed
-	private String scannedQte = "10";
-
 	@PostConstruct
 	public void init() {
 		try {
@@ -72,15 +71,7 @@ public class OrdersView implements Serializable {
 			orderToEdit = new Order();
 			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 			selectedTeamOrderLines = new ArrayList<OrderLine>();
-			// test scan
-			OrderLine oltestscan = new OrderLine();
-			Product p = new Product();
-			p.setProductId(2554363);
-			p.setDesignation("chargeur");
-			oltestscan.setQuantity(5);
-			oltestscan.setProduct(p);
-			selectedTeamOrderLines.add(oltestscan);
-			// fin test scan
+
 			deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
 			deliveredProducts = new ArrayList<OrderLine>();
 
@@ -137,24 +128,48 @@ public class OrdersView implements Serializable {
 				System.out.println(orderLine.getDeliveredQuantity());
 			}
 		}
-		maValeur="";
+		maValeur = "";
 	}
 
 	/**
 	 * save delivred orders
 	 */
 	public void saveDeliveredProducts() {
-
+		Set<Integer> checkedOrders = new HashSet<Integer>();
 		for (OrderLine orderLine : deliveredProducts) {
 			try {
-				if (orderLine.getDeliveredQuantity() == orderLine.getQuantity()) {
-					Order o = orderLine.getOrder();
-					o.setStatus(OrderStatus.DELIVERED);
-					o.setDeliveryDate(new Date());
-					orderManager.updateOrderLine(orderLine);
-					orderManager.updateOrder(o);
+				orderManager.updateOrderLine(orderLine);
+				Order o = orderLine.getOrder();
 
+				if (checkedOrders.contains(o) && o.getStatus() == OrderStatus.SHORTAGE) {
+					break;
 				}
+
+				if (checkedOrders.contains(o.getOrderId()) && o.getStatus() == OrderStatus.DELIVERED) {
+					if (orderLine.getDeliveredQuantity() < orderLine.getQuantity()) {
+						o.setStatus(OrderStatus.SHORTAGE);
+					}
+				}
+
+				if (!checkedOrders.contains(o.getOrderId())) {
+					if (orderLine.getDeliveredQuantity() < orderLine.getQuantity()) {
+						o.setStatus(OrderStatus.SHORTAGE);
+						checkedOrders.add(Integer.valueOf(o.getOrderId()));
+					}
+				}
+
+				if (!checkedOrders.contains(o.getOrderId())) {
+					if (orderLine.getDeliveredQuantity() == orderLine.getQuantity()) {
+						o.setStatus(OrderStatus.DELIVERED);
+						checkedOrders.add(Integer.valueOf(o.getOrderId()));
+						// this.getOrdersToDeliverByTeam().get(selectedTeam).remove(o);
+						this.getOrdersToDeliverByTeam().remove(selectedTeam);
+
+					}
+				}
+				o.setDeliveryDate(new Date());
+				orderManager.updateOrder(o);
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -200,6 +215,14 @@ public class OrdersView implements Serializable {
 		this.ordersToDeliverByTeam = ordersByTeam;
 	}
 
+	public Map<Team, Collection<Order>> getDeliveredOrdersByTeam() throws SQLException {
+		return deliveredOrdersByTeam;
+	}
+
+	public void setDeliveredOrdersByTeam(Map<Team, Collection<Order>> deliveredOrdersByTeam) {
+		this.deliveredOrdersByTeam = deliveredOrdersByTeam;
+	}
+
 	public void setSelectedTeam(Team selectedTeam) {
 		this.selectedTeam = selectedTeam;
 	}
@@ -214,22 +237,6 @@ public class OrdersView implements Serializable {
 
 	public void setOrderToEdit(Order order) {
 		this.orderToEdit = order;
-	}
-
-	public String getScannedQte() {
-		return scannedQte;
-	}
-
-	public void setScannedQte(String scannedQte) {
-		this.scannedQte = scannedQte;
-	}
-
-	public Map<Team, Collection<Order>> getDeliveredOrdersByTeam() throws SQLException {
-		return deliveredOrdersByTeam;
-	}
-
-	public void setDeliveredOrdersByTeam(Map<Team, Collection<Order>> deliveredOrdersByTeam) {
-		this.deliveredOrdersByTeam = deliveredOrdersByTeam;
 	}
 
 	public String getMaValeur() {
