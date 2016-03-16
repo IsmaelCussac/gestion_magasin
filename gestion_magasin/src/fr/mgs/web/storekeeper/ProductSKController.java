@@ -25,21 +25,14 @@ public class ProductSKController {
 	private ProductManager productManager;
 	private OrderManager orderManager;
 	private Order currentOrder;
-	
+
 	@PostConstruct
-	public void init(){
+	public void init() {
 		productManager = new ProductManager();
-		try {
-			productManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		productManager.init(DataSource.LOCAL);
 		orderManager = new OrderManager();
-		try {
-			orderManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		orderManager.init(DataSource.LOCAL);
+
 	}
 
 	/**

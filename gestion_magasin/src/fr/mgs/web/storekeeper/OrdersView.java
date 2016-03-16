@@ -9,14 +9,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.CellEditEvent;
@@ -25,11 +23,9 @@ import fr.mgs.business.OrderManager;
 import fr.mgs.business.ProductManager;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
-import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
-import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 
 /**
@@ -51,7 +47,6 @@ public class OrdersView implements Serializable {
 
 	private OrderManager orderManager;
 	private UserManager userManager;
-	private OrderDAO orderDao;
 
 	private ProductManager prodManager;
 
@@ -69,7 +64,6 @@ public class OrdersView implements Serializable {
 			prodManager.init(DataSource.LOCAL);
 			selectedTeam = new Team();
 			orderToEdit = new Order();
-			orderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 			selectedTeamOrderLines = new ArrayList<OrderLine>();
 
 			deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
@@ -80,7 +74,7 @@ public class OrdersView implements Serializable {
 					Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
 					// for looking out of stock orders we display only delivered
 					// orders
-					for (Order order : orderDao.findOrderByTeam(team)) {
+					for (Order order : orderManager.findOrderByTeam(team)) {
 						if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
 							teamDeliveredOrders.add(order);
 						}
@@ -98,7 +92,7 @@ public class OrdersView implements Serializable {
 			for (Team team : userManager.findAllTeams()) {
 				if (!team.getUsers().isEmpty()) {
 					Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
-					for (Order order : orderDao.findOrderByTeam(team)) {
+					for (Order order : orderManager.findOrderByTeam(team)) {
 						if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
 								|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
 							teamOrdersToDeliver.add(order);

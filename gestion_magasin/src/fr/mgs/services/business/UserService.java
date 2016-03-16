@@ -8,11 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
-import fr.mgs.dao.UserDAO;
 import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Privilege;
 
@@ -38,17 +36,16 @@ public class UserService implements UserDetailsService {
 	 * @param userId
 	 *            the user's id
 	 */
-	public UserDetails loadUserByUsername(String userId)
-			throws UsernameNotFoundException {
+	@Override
+	public UserDetails loadUserByUsername(String userId){
 		Person user = null;
 		try {
-			user = userManager.findUser(userId);
+			user = userManager.findPerson(userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam()
-				.getPrivilege());
+		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam().getPrivilege());
 		return buildUserForAuthentication(user, authorities);
 	}
 
@@ -60,10 +57,8 @@ public class UserService implements UserDetailsService {
 	 *            previously built authority list
 	 * @return a built spring security user
 	 */
-	private UserDetailWithName buildUserForAuthentication(Person user,
-			List<GrantedAuthority> authorities) {
-		UserDetailWithName result = new UserDetailWithName(user.getUserId(),
-				user.getPassword(), authorities);
+	private UserDetailWithName buildUserForAuthentication(Person user, List<GrantedAuthority> authorities) {
+		UserDetailWithName result = new UserDetailWithName(user.getPersonId(), user.getPassword(), authorities);
 
 		result.setFirstname(user.getFirstName());
 

@@ -48,27 +48,14 @@ public class OrderController {
 	private Map<Integer, StoreItem> cart;
 
 	@PostConstruct
-	public void init() {
+	public void init(){
 		productManager = new ProductManager();
-		try {
-			productManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		productManager.init(DataSource.LOCAL);
 		orderManager = new OrderManager();
-		try {
-			orderManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
+		orderManager.init(DataSource.LOCAL);
 		userManager = new UserManager();
-		try {
-			userManager.init(DataSource.LOCAL);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-
+		userManager.init(DataSource.LOCAL);
+	
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
 
@@ -80,6 +67,7 @@ public class OrderController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 	}
 
 	// Cart methods
@@ -246,7 +234,7 @@ public class OrderController {
 
 	private void resetCurrentOrder() throws SQLException {
 		currentOrder = new Order();
-		currentOrder.setOrderUser(userManager.findUser(userId));
+		currentOrder.setOrderUser(userManager.findPerson(userId));
 		currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
 		orderManager.addOrder(currentOrder);
 		clearCart();

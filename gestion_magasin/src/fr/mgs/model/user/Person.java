@@ -54,14 +54,11 @@ public class Person {
 	@OneToMany(mappedBy = "orderUser", fetch = FetchType.EAGER, orphanRemoval = true, cascade = {CascadeType.ALL })
 	private Set<Order> orders = new HashSet<Order>();
 
-	public Person() {
-	}
-
-	public String getUserId() {
+	public String getPersonId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setPersonId(String userId) {
 		this.userId = userId;
 	}
 
@@ -113,9 +110,9 @@ public class Person {
 		this.password = Hasher.hash(password);
 	}
 
-	public void setUser(String userId, String firstName, String lastName, Team team, String phoneNumber, String email,
+	public void setPerson(String userId, String firstName, String lastName, Team team, String phoneNumber, String email,
 			String password) {
-		setUserId(userId);
+		setPersonId(userId);
 		setFirstName(firstName);
 		setLastName(lastName);
 		setTeam(team);

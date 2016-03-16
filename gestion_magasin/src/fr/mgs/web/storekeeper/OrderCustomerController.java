@@ -45,7 +45,7 @@ public class OrderCustomerController {
 
 		// User u = new User();
 		Person pers = new Person();
-		pers.setUser("a11111", "Guillaume", "Thibault", t, "0491111111", "guillaume.thibault@mail.fr", "azerty");
+		pers.setPerson("a11111", "Guillaume", "Thibault", t, "0491111111", "guillaume.thibault@mail.fr", "azerty");
 
 		SubCategory subCategory = new SubCategory();
 		subCategory.setSubCategory("Stylo", Category.PAPER);
@@ -74,12 +74,12 @@ public class OrderCustomerController {
 	}
 
 	public List<Order> showOrders(Person p) { // p = theConnectedUser
-		orders = orderManager.findOrdersByUser(p);
+		orders = orderManager.findAllOrdersByPerson(p);
 		return (List<Order>) orders;
 	}
 
 	public Order getTheOrder(Person p) { // p = theConnectedUser
-		orders = orderManager.findOrdersByUser(p);
+		orders = orderManager.findAllOrdersByPerson(p);
 		for (Order ord : orders) {
 			if (ord.getStatus() == OrderStatus.NOT_VALIDATED) {
 				theOrder = ord;

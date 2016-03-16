@@ -51,24 +51,17 @@ public class OrderHistoryController {
 	public void init() {
 		orderManager = new OrderManager();
 		userManager = new UserManager();
-		try {
-			orderManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
-		try {
-			userManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		orderManager.init(DataSource.LOCAL);
+		userManager.init(DataSource.LOCAL);
+
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
 
 	}
 
 	public List<Order> getOrders() throws SQLException {
-		orders = orderManager.findAllOrdersByUser(userId);
+		orders = (List<Order>) orderManager.findAllOrdersByPerson(userId);
 		return orders;
 	}
 
@@ -97,7 +90,7 @@ public class OrderHistoryController {
 	 */
 	public void updateNewOrder(Order order) throws SQLException {
 		newOrder.setOrderId(dupOrder.getOrderId());
-		newOrder.setOrderUser(userManager.findUser(userId));
+		newOrder.setOrderUser(userManager.findPerson(userId));
 		newOrder.setStatus(OrderStatus.NOT_VALIDATED);
 
 		Collection<OrderLine> orderLines = order.getOrderLines();

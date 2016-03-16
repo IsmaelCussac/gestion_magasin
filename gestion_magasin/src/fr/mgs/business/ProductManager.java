@@ -2,15 +2,11 @@ package fr.mgs.business;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 
-import javax.annotation.PostConstruct;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
-import fr.mgs.connection.DataSource;
-import fr.mgs.dao.DAOManager;
-import fr.mgs.dao.GenericDAO;
-import fr.mgs.dao.ProductDAO;
-import fr.mgs.dao.SubCategoryDAO;
-import fr.mgs.dao.Table;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
@@ -18,145 +14,282 @@ import fr.mgs.model.product.SubCategory;
 
 /**
  * Business class that manage the following DAOs to access database and process
- * data : - LotDAO - ProductDAO - SubCategoryDAO
+ * data : 
+ * - LotDAO 
+ * - ProductDAO 
+ * - SubCategoryDAO
  * 
  * @author Ismaël
  * @author Ibrahima
  */
-public class ProductManager {
+public class ProductManager extends Manager {
 
-	private DAOManager daoManager;
-	private GenericDAO<Lot, Integer> lotDao;
-	private ProductDAO productDao;
-	private SubCategoryDAO subCategoryDao;
+	// LOT
 
-	@SuppressWarnings("unchecked")
-	@PostConstruct
-	public void init(DataSource ds) throws SQLException {
-		daoManager = new DAOManager();
-		daoManager.init(ds);
-		lotDao =  (GenericDAO<Lot, Integer>) daoManager.getDAO(Table.LOT);
-		productDao = (ProductDAO) daoManager.getDAO(Table.PRODUCT);
-		subCategoryDao = (SubCategoryDAO) daoManager.getDAO(Table.SUB_CATEGORY);
-
-	}
-
-	// GETTERS - SETTERS
-
-	public DAOManager getDaoManager() {
-		return daoManager;
-	}
-
-	public void setDaoManager(DAOManager daoManager) {
-		this.daoManager = daoManager;
-	}
-
-	public GenericDAO<Lot, Integer> getLotDao() {
-		return lotDao;
-	}
-
-	public void setLotDao(GenericDAO<Lot, Integer> lotDao) {
-		this.lotDao = lotDao;
-	}
-
-	public GenericDAO<Product, Integer> getProductDao() {
-		return productDao;
-	}
-
-	public void setProductDao(ProductDAO productDao) {
-		this.productDao = productDao;
-	}
-
-	public GenericDAO<SubCategory, String> getSubCategoryDao() {
-		return subCategoryDao;
-	}
-
-	public void setSubCategoryDao(SubCategoryDAO subCategoryDao) {
-		this.subCategoryDao = subCategoryDao;
-	}
-
-	// METHODS
-
+	/**
+	 * Add a new lot
+	 * 
+	 * @param lot
+	 *            the new lot
+	 */
 	public void addLot(Lot lot) throws SQLException {
-		lotDao.add(lot);
+		beginTransaction();
+		em.persist(lot);
+		commit();
+		closeEm();
 	}
 
-	public void addProduct(Product product) throws SQLException {
-		productDao.add(product);
-	}
-	
-	public void addSubCategory(SubCategory subCategory) throws SQLException {
-		subCategoryDao.add(subCategory);
-	}
-
-	public Lot findLot(int id) throws SQLException {
-		return lotDao.find(id);
-	}
-	
-	public Product findProduct(int id) throws SQLException {
-		return productDao.find(id);
-	}
-	
-	public SubCategory findSubCategory(String id) throws SQLException {
-		return subCategoryDao.find(id);
-	}
-	
-	public void removeLot(int id) throws SQLException{
-		lotDao.remove(id);
-	}
-	
-	public void removeProduct(int id) throws SQLException{
-		productDao.remove(id);
-	}
-	
-	public void removeSubCategory(String id) throws SQLException{
-		subCategoryDao.remove(id);
+	/**
+	 * update a lot's properties
+	 * 
+	 * @param lot
+	 *            the lot update
+	 */
+	public void updateLot(Lot lot) throws SQLException {
+		beginTransaction();
+		em.persist(em.merge(lot));
+		commit();
+		closeEm();
 	}
 
-	public Collection<Lot> findAllLots() throws SQLException {
-		return lotDao.findAll();
-	}
-	
-	public Collection<Product> findAllProducts() throws SQLException {
-		return productDao.findAll();
-	}
-	
-	public Collection<SubCategory> findAllSubCategories() throws SQLException {
-		return subCategoryDao.findAll();
+	/**
+	 * Verify if the lot exist
+	 * 
+	 * @param id
+	 *            lot id
+	 */
+	public boolean lotExists(Integer id) throws SQLException {
+		return findLot(id) != null;
 	}
 
-	public boolean lotExists(int id) throws SQLException {
-		return lotDao.exists(id);
-	}
-	
-	public boolean productExists(int id) throws SQLException {
-		return productDao.exists(id);
-	}
-	
-	public boolean subCategoryExists(String id) throws SQLException {
-		return subCategoryDao.exists(id);
-	}
-	
-	public void updateLot(Lot lot) throws SQLException{
-		lotDao.update(lot);
-	}
-	
-	public void updateProduct(Product product) throws SQLException{
-		productDao.update(product);
-	}
-	
-	public void updateSubCategory(SubCategory subCategory) throws SQLException{
-		subCategoryDao.update(subCategory);
-	}
-	
-	public Collection<SubCategory> findSubCategoriesByCategory(Category category){
-		return subCategoryDao.findProductsBySubCategory(category);
+	/**
+	 * Find one lot
+	 * 
+	 * @param id
+	 *            the lot id to find
+	 */
+	public Lot findLot(Integer id) throws SQLException {
+		loadEm();
+		return em.find(Lot.class, id);
 		
 	}
-	
-	public Collection<Product> findProductsBySubCategoryVisible(SubCategory subCategory){
-		return productDao.findProductsBySubCategoryVisible(subCategory);
+
+	/**
+	 * Get all lot
+	 * 
+	 * @return Collection lot's collection
+	 */
+	public Collection<Lot> findAllLots() throws SQLException {
+		loadEm();
+		Query query = em.createQuery("SELECT l FROM lots l");
+		return (Collection<Lot>) query.getResultList();
 	}
 
-	
+	/**
+	 * Delete a lot
+	 * 
+	 * @param id
+	 *            lot id
+	 */
+	public void removeLot(Integer id) throws SQLException {
+		Lot lot = findLot(id);
+		beginTransaction();
+		em.remove(em.merge(lot));
+		commit();
+		closeEm();
+	}
+
+	// PRODUCT
+
+	/**
+	 * store a product in database
+	 * 
+	 * @param product
+	 *            the product to add
+	 */
+	public void addProduct(Product product) throws SQLException {
+		beginTransaction();
+		em.persist(product);
+		commit();
+		closeEm();
+	}
+
+	/**
+	 * remove a product stored in database using his id
+	 * 
+	 * @param productId
+	 *            product's id
+	 */
+	public void removeProduct(Integer productId) throws SQLException {
+		Product product = findProduct(productId);
+		beginTransaction();
+		em.remove(em.merge(product));
+		commit();
+		closeEm();
+	}
+
+	/**
+	 * update a product's attributes according to the fact the product is
+	 * already stored in database
+	 * 
+	 * @param product
+	 *            product's bean updated
+	 */
+	public void updateProduct(Product product) throws SQLException {
+		beginTransaction();
+		em.persist(em.merge(product));
+		commit();
+		closeEm();
+	}
+
+	/**
+	 * Search if a product exists
+	 * 
+	 * @param productId
+	 *            product's id
+	 */
+	public boolean productExists(Integer productId) throws SQLException {
+		return findProduct(productId) != null;
+	}
+
+	/**
+	 * find a product using his id
+	 * 
+	 * @param productId
+	 *            product's id
+	 */
+	public Product findProduct(Integer productId) throws SQLException {
+		loadEm();
+		Product product = em.find(Product.class, productId);
+		closeEm();
+		return product;
+	}
+
+	/**
+	 * return all the stored products ordered by their designation
+	 */
+	public Collection<Product> findAllProducts() throws SQLException {
+		loadEm();
+		TypedQuery<Product> query = em.createQuery("FROM products p order by p.designation asc", Product.class);
+		List<Product> result = query.getResultList();
+		closeEm();
+		return result;
+	}
+
+	/**
+	 * return the given subCategory's products only in visible state
+	 * 
+	 * @param subCategory
+	 *            the sub category
+	 */
+	public Collection<Product> findProductsBySubCategoryVisible(SubCategory subCategory) {
+		loadEm();
+		Query query = em.createQuery("SELECT p FROM products p WHERE p.subCategory = :sc AND p.visibility = true");
+		query.setParameter("sc", subCategory);
+		return query.getResultList();
+	}
+
+	/**
+	 * return the given subCategory's products
+	 * 
+	 * @param subCategory
+	 *            the sub category
+	 */
+	public Collection<Product> findProductsBySubCategory(SubCategory subCategory) {
+		loadEm();
+		Query query = em.createQuery("SELECT p FROM products p WHERE p.subCategory = :sc");
+		query.setParameter("sc", subCategory);
+		return query.getResultList();
+	}
+
+	// SUB CATEGORY
+
+	/**
+	 * store a subCategory in database
+	 * 
+	 * @param subCategory
+	 *            the sub category to add
+	 */
+	public void addSubCategory(SubCategory subCategory) throws SQLException {
+		beginTransaction();
+		em.persist(subCategory);
+		commit();
+		closeEm();
+	}
+
+	/**
+	 * remove a subCategory stored in database using his id
+	 * 
+	 * @param subCategoryId
+	 *            sub category's id
+	 */
+	public void removeSubCategory(String subCategoryId) throws SQLException {
+		SubCategory subCategory = findSubCategory(subCategoryId);
+		beginTransaction();
+		em.remove(em.merge(subCategory));
+		commit();
+		closeEm();
+	}
+
+	/**
+	 * update a subCategory's attributes according to the fact the subCategory
+	 * is already stored in database
+	 * 
+	 * @param subCategory
+	 *            sub category's bean updated
+	 */
+	public void updateSubCategory(SubCategory subCategory) throws SQLException {
+		beginTransaction();
+		em.persist(em.merge(subCategory));
+		commit();
+		closeEm();
+	}
+
+	/**
+	 * Search if a subCategory exists
+	 * 
+	 * @param subCategoryId
+	 *            sub category's id
+	 */
+	public boolean subCategoryExists(String subCategoryId) throws SQLException {
+		return findSubCategory(subCategoryId) != null;
+	}
+
+	/**
+	 * find a subCategory using his id
+	 * 
+	 * @param subCategoryId
+	 *            user's id
+	 */
+	public SubCategory findSubCategory(String subCategoryId) throws SQLException {
+		loadEm();
+		SubCategory subCategory = em.find(SubCategory.class, subCategoryId);
+		closeEm();
+		return subCategory;
+	}
+
+	/**
+	 * return all the stored subCategories ordered by their name
+	 */
+	public Collection<SubCategory> findAllSubCategories() throws SQLException {
+		loadEm();
+		TypedQuery<SubCategory> query = em.createQuery("FROM subCategories s order by s.name asc", SubCategory.class);
+		List<SubCategory> result = query.getResultList();
+		closeEm();
+		return result;
+	}
+
+	/**
+	 * return the given category's subCategories
+	 * 
+	 * @param category
+	 *            the category
+	 */
+	public Collection<SubCategory> findSubCategoriesByCategory(Category category) {
+		loadEm();
+		Query query = em.createQuery("SELECT s FROM subCategories s WHERE s.category = :c");
+		query.setParameter("c", category);
+		return query.getResultList();
+	}
+
 }
