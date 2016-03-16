@@ -15,6 +15,7 @@ import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
+import fr.mgs.model.order.OrderLinePK;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
@@ -37,6 +38,7 @@ public class OrderLineManagerTest {
 	private Product product;
 	private SubCategory subCategory;
 	private Person person;
+	private OrderLinePK olPk;
 	// private Set<OrderLine> orderLines;
 
 	@BeforeClass
@@ -80,39 +82,39 @@ public class OrderLineManagerTest {
 
 	}
 
-	// @Test
-	// public void testAddOrderLine() throws SQLException {
-	// orderManager.addOrderLine(orderline);
-	// assertNotNull(orderManager.findOrderLine(orderline.getId()));
-	// }
+	 @Test
+	 public void testAddOrderLine() throws SQLException {
+	 orderManager.addOrderLine(orderline);
+	 assertNotNull(orderManager.findOrderLine(orderline.getId()));
+	 }
 
-	// @Test
-	// public void testRemoveInteger() throws SQLException {
-	// orderManager.addOrderLine(orderline);
-	// orderManager.removeOrderLine(orderline.getId());
-	// assertNull(orderManager.findOrderLine(orderline.getId()));
-	// }
+	 @Test
+	 public void testRemoveInteger() throws SQLException {
+	 orderManager.addOrderLine(orderline);
+	 orderManager.removeOrderLine(orderline.getId());
+	 assertNull(orderManager.findOrderLine(orderline.getId()));
+	 }
 
-	// @Test
-	// public void testUpdateOrderLine() throws SQLException {
-	// orderManager.addOrderLine(orderline);
-	// orderline.setQuantity(9);
-	// orderManager.updateOrderLine(orderline);
-	// OrderLine recupOL = orderManager.findOrderLine(orderline.getId());
-	// assertEquals(9, recupOL.getQuantity());
-	// }
-	//
-	// @Test
-	// public void testExistsInteger() throws SQLException {
-	// orderManager.addOrderLine(orderline);
-	// assertTrue(orderManager.orderLineExists(orderline.getId()));
-	// }
-	//
-	// @Test
-	// public void testFindInteger() throws SQLException {
-	// orderManager.addOrderLine(orderline);
-	// assertNotNull(orderManager.findOrderLine(orderline.getId()));
-	// }
+	 @Test
+	 public void testUpdateOrderLine() throws SQLException {
+	 orderManager.addOrderLine(orderline);
+	 orderline.setQuantity(9);
+	 orderManager.updateOrderLine(orderline);
+	 OrderLine recupOL = orderManager.findOrderLine(orderline.getId());
+	 assertEquals(9, recupOL.getQuantity());
+	 }
+	
+	 @Test
+	 public void testExistsInteger() throws SQLException {
+	 orderManager.addOrderLine(orderline);
+	 assertTrue(orderManager.orderLineExists(orderline.getId()));
+	 }
+	
+	 @Test
+	 public void testFindInteger() throws SQLException {
+	 orderManager.addOrderLine(orderline);
+	 assertNotNull(orderManager.findOrderLine(orderline.getId()));
+	 }
 
 	@Test
 	@Ignore
