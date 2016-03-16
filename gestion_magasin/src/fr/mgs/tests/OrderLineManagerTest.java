@@ -3,7 +3,9 @@ package fr.mgs.tests;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -35,110 +37,118 @@ import fr.mgs.model.user.Team;
  */
 public class OrderLineManagerTest {
 
-	private static OrderManager orderManager;
-	private static ProductManager productManager;
-	private static UserManager userManager;
+    private static OrderManager orderManager;
+    private static ProductManager productManager;
+    private static UserManager userManager;
 
-	private Order order;
-	private OrderLine orderline;
-	private Product product;
-	private SubCategory subCategory;
-	private Person person;
-	private Team team;
+    private Order order;
+    private OrderLine orderline;
+    private Product product;
+    private SubCategory subCategory;
+    private Person person;
+    private Team team;
+    private Collection<OrderLine> listOL;
 
+    @BeforeClass
+    public static void setUpBeforeClass() throws SQLException {
+        orderManager = new OrderManager();
+        productManager = new ProductManager();
+        userManager = new UserManager();
+    }
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws SQLException {
-		orderManager = new OrderManager();
-		productManager = new ProductManager();
-		userManager = new UserManager();
-	}
+    @AfterClass
+    public static void tearDownAfterAll() {
+        orderManager.close();
+        productManager.close();
+        userManager.close();
+    }
 
-	@AfterClass
-	public static void tearDownAfterAll() {
-		orderManager.close();
-		productManager.close();
-		userManager.close();
-	}
+    @Before
+    public void setUp() throws SQLException {
+        orderManager.init(DataSource.H2);
+        productManager.init(DataSource.H2);
+        userManager.init(DataSource.H2);
 
-	@Before
-	public void setUp() throws SQLException {
-		orderManager.init(DataSource.H2);
-		productManager.init(DataSource.H2);
-		userManager.init(DataSource.H2);
+        subCategory = new SubCategory();
+        subCategory.setSubCategory("Aiguilles", Category.PLASTIC);
+        productManager.addSubCategory(subCategory);
 
-		subCategory = new SubCategory();
-		subCategory.setSubCategory("Aiguilles", Category.PLASTIC);
-		productManager.addSubCategory(subCategory);
+        product = new Product();
+        product.setProduct(1, "Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
+        productManager.addProduct(product);
 
-		product = new Product();
-		product.setProduct(1, "Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
-		productManager.addProduct(product);
+        Date dateSub = new Date();
+        Date dateDeli = new Date();
 
-		Date dateSub = new Date();
-		Date dateDeli = new Date();
-		
-		team = new Team();
+        team = new Team();
         team.setTeam("APDCMT", "Approches physiques de la dynamique cellulaire et de la morphogénèse des tissus", 7,
                 Privilege.CUSTOMER);
         userManager.addTeam(team);
-		
-		person = new Person();
-		person.setPerson("d1102526", "Jean-Louis", "De Beauregard", team, "0442060504",
+
+        person = new Person();
+        person.setPerson("d1102526", "Jean-Louis", "De Beauregard", team, "0442060504",
                 "jean-louis.de-beauregard@mail.fr", "secret");
-		userManager.addPerson(person);
+        userManager.addPerson(person);
+        
+        
+        listOL = null;
+        
+        
 
-		order = new Order();
-		order.setOrder(person, dateSub, dateDeli, null, "", OrderStatus.DELIVERED);
-		orderManager.addOrder(order);
+        order = new Order();
+        orderline = new OrderLine();
+        orderline.setOrderLine(order, product, 10.5, 10.5);
+        //orderManager.addOrderLine(orderline);
+        listOL.add(orderline);
+        
+        order.setOrder(person, dateSub, dateDeli, listOL, "", OrderStatus.DELIVERED);
+        
 
-		orderline = new OrderLine();
-		orderline.setOrderLine(order, product, 10.5, 10.5);
-	}
+    }
 
-	@After
-	public void tearDown() {
+    @After
+    public void tearDown() {
 
-	}
+    }
 
-	 @Test
-	 public void testAddOrderLine() throws SQLException {
-	 orderManager.addOrderLine(orderline);
-	 System.out.println(orderline.getOrderLinePK());
-	 assertNotNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
-	 }
+    @Test
+    public void testAddOrderLine() throws SQLException {
+        orderManager.addOrder(order);
+        // orderManager.addOrderLine(orderline);
+        assertNotNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
+    }
 
-	 @Test
-	 public void testRemoveInteger() throws SQLException {
-	 orderManager.addOrderLine(orderline);
-	 orderManager.removeOrderLine(orderline.getOrderLinePK());
-	 assertNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
-	 }
+    @Test
+    public void testRemoveInteger() throws SQLException {
+        orderManager.addOrderLine(orderline);
+        orderManager.removeOrderLine(orderline.getOrderLinePK());
+        assertNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
+    }
 
-	 @Test
-	 public void testUpdateOrderLine() throws SQLException {
-	 orderManager.addOrderLine(orderline);
-	 orderline.setQuantity(9.1);
-	 orderManager.updateOrderLine(orderline);
-	 OrderLine recupOL = orderManager.findOrderLine(orderline.getOrderLinePK());
-	 assertEquals(9.1, recupOL.getQuantity(), 0);
-	 }
-	
-	 @Test
-	 public void testExistsInteger() throws SQLException {
-	 orderManager.addOrderLine(orderline);
-	 assertTrue(orderManager.orderLineExists(orderline.getOrderLinePK()));
-	 }
-	
-	 @Test
-	 public void testFindInteger() throws SQLException {
-	 orderManager.addOrderLine(orderline);
-	 assertNotNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
-	 }
+    @Test
+    public void testUpdateOrderLine() throws SQLException {
+        orderManager.addOrderLine(orderline);
+        orderline.setQuantity(9.1);
+        orderManager.updateOrderLine(orderline);
+        OrderLine recupOL = orderManager.findOrderLine(orderline.getOrderLinePK());
+        assertEquals(9.1, recupOL.getQuantity(), 0);
+    }
 
-	@Test
-	@Ignore
-	public void testFindOrderLineByOrder() {
-	}
+    @Test
+    public void testExistsInteger() throws SQLException {
+        orderManager.addOrderLine(orderline);
+        assertTrue(orderManager.orderLineExists(orderline.getOrderLinePK()));
+    }
+
+    @Test
+    public void testFindInteger() throws SQLException {
+        orderManager.addOrderLine(orderline);
+        assertNotNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
+    }
+
+    @Test
+    @Ignore
+    public void testFindOrderLineByOrder() {
+    }
 
 }
