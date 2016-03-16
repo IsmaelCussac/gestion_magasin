@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
+import java.util.Collection;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -62,7 +63,7 @@ public class ProductManagerTest {
 	@Test
 	public void testAddProduct() throws SQLException {
 		productManager.addProduct(product);
-		assertNotNull(productManager.findProduct(1));
+		assertNotNull(productManager.findProduct(product.getProductId()));
 	}
 
 	@Test(expected = Exception.class)
@@ -74,8 +75,8 @@ public class ProductManagerTest {
 	@Test
 	public void testRemoveProduct() throws SQLException {
 		productManager.addProduct(product);
-		productManager.removeProduct(1);
-		assertNull(productManager.findProduct(1));
+		productManager.removeProduct(product.getProductId());
+		assertNull(productManager.findProduct(product.getProductId()));
 	}
 
 	@Test(expected = Exception.class)
@@ -86,12 +87,12 @@ public class ProductManagerTest {
 	@Test
 	public void testFindProduct() throws SQLException {
 		productManager.addProduct(product);
-		assertEquals("Aiguille 0.4mm", productManager.findProduct(1).getDesignation());
+		assertEquals("Aiguille 0.4mm", productManager.findProduct(product.getProductId()).getDesignation());
 	}
 
 	@Test
 	public void testFindNonExistingProduct() throws SQLException {
-		assertNull(productManager.findProduct(1));
+		assertNull(productManager.findProduct(product.getProductId()));
 	}
 
 	@Test
@@ -108,7 +109,7 @@ public class ProductManagerTest {
 	@Test
 	public void testExistsProduct() throws SQLException {
 		productManager.addProduct(product);
-		assertTrue(productManager.productExists(1));
+		assertTrue(productManager.productExists(product.getProductId()));
 	}
 
 	@Test
@@ -120,11 +121,11 @@ public class ProductManagerTest {
 	public void testUpdateProduct() throws SQLException {
 		productManager.addProduct(product);
 
-		Product updateProduct = productManager.findProduct(1);
+		Product updateProduct = productManager.findProduct(product.getProductId());
 		updateProduct.setDesignation("Aiguille 0.6mm");
 
 		productManager.updateProduct(updateProduct);
-		assertEquals("Aiguille 0.6mm", productManager.findProduct(1).getDesignation());
+		assertEquals("Aiguille 0.6mm", productManager.findProduct(updateProduct.getProductId()).getDesignation());
 	}
 
 	@Test
@@ -135,11 +136,11 @@ public class ProductManagerTest {
 		newSubCategory.setSubCategory("Seringues", Category.PLASTIC);
 		productManager.addSubCategory(newSubCategory);
 
-		Product updateProduct = productManager.findProduct(1);
+		Product updateProduct = productManager.findProduct(product.getProductId());
 		updateProduct.setSubCategory(newSubCategory);
 
 		productManager.updateProduct(updateProduct);
-		assertEquals("Seringues", productManager.findProduct(1).getSubCategory().getName());
+		assertEquals("Seringues", productManager.findProduct(updateProduct.getProductId()).getSubCategory().getName());
 	}
 
 	@Test
@@ -149,7 +150,9 @@ public class ProductManagerTest {
 		Product product1 = new Product();
 		product1.setProduct("Aiguille 0.3mm", subCategory, 20, 40, 4.52, true, null, 100);
 		productManager.addProduct(product1);
-		assertEquals(2, productManager.findProductsBySubCategory(subCategory).size());
+		Collection<Product> collection =  productManager.findProductsBySubCategory(subCategory);
+		System.out.println(collection.size());
+		assertEquals(2,collection.size());
 
 	}
 
