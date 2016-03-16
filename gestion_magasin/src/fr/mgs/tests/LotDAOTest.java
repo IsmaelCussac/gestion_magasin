@@ -30,7 +30,7 @@ public class LotDAOTest {
 
 	private static ProductManager productManager;
 
-	private static Lot lot;
+	private  Lot lot;
 	private  Product product;
 	private  SubCategory subCategory;
 
