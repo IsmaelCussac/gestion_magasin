@@ -22,7 +22,7 @@
 							<h:outputText value="#{p.designation}" />
 						</p:column>
 						<p:column>
-							<h:graphicImage library="image" name="#{p.getProductBarCode()}.png" />
+							<h:graphicImage library="image" name="#{BarCode.getProductBarCode(p.designation,p.subcategory.getName())}.png" />
 						</p:column>
 					</p:dataTable>
 				</h:form>
