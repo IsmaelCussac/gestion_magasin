@@ -14,12 +14,11 @@ import org.junit.Test;
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
-import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderStatus;
+import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.Person;
 
 /**
  * This class is used to test orders DAO
@@ -27,10 +26,9 @@ import fr.mgs.model.user.Person;
  * @author Ibrahima
  *
  */
-public class OrderDaoTest {
+public class OrderManagerTest {
 	private static OrderManager orderManager;
 	private static UserManager userManager;
-	private static OrderDAO specificOrderDao;
 
 	private static Order marcOrder;
 	private static Order paulOrder;
@@ -43,7 +41,6 @@ public class OrderDaoTest {
 	private static Person paul;
 	private static Person marie;
 
-	@SuppressWarnings("unchecked")
 	@BeforeClass
 	public static void setUpBeforeClass() throws SQLException {
 		userManager = new UserManager();
@@ -51,8 +48,6 @@ public class OrderDaoTest {
 
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.H2);
-
-		specificOrderDao = new OrderDAO(orderManager.getOrderDao().getConnection());
 
 		team = new Team();
 		team2 = new Team();
@@ -69,28 +64,28 @@ public class OrderDaoTest {
 
 	@AfterClass
 	public static void tearDownAfterAll() throws SQLException {
-		assertNotNull(specificOrderDao);
+		assertNotNull(orderManager);
 		// test remove order
-		specificOrderDao.remove(1);
+		orderManager.removeOrder(1);
 		assertEquals(null, orderManager.findOrder(1));
 
 		// closing managers
-		userManager.getDaoManager().close();
-		orderManager.getDaoManager().close();
+		userManager.close();
+		orderManager.close();
 	}
 
 	@Test
 	public void testOrderCreateOrder() throws SQLException {
 		assertNotNull(userManager);
 		assertNotNull(orderManager);
-		assertNotNull(orderManager.getOrderDao());
+
 		team.setTeam("20", "Approches physiques de la dynamique cellulaire et de la morphogénèse des tissus", 8,
 				Privilege.CUSTOMER);
 		team2.setTeam("2", "Biologie des épithéliums ciliés", 8, Privilege.CUSTOMER);
 
-		marc.setUser("s14027276", "Marc", "Dupont", team, "0452050554", "marc.dupont@mail.fr", "pass");
-		paul.setUser("s14027277", "Paul", "Durand", team, "0482060564", "paul.durand@mail.fr", "pass");
-		marie.setUser("s14027278", "Marie", "Curie", team2, "0482067563", "marie.curie@mail.fr", "pass");
+		marc.setPerson("s14027276", "Marc", "Dupont", team, "0452050554", "marc.dupont@mail.fr", "pass");
+		paul.setPerson("s14027277", "Paul", "Durand", team, "0482060564", "paul.durand@mail.fr", "pass");
+		marie.setPerson("s14027278", "Marie", "Curie", team2, "0482067563", "marie.curie@mail.fr", "pass");
 
 		marcOrder.setOrder(marc, new Date(), new Date(), null, "commande de marc", OrderStatus.NOT_VALIDATED);
 		paulOrder.setOrder(paul, new Date(), new Date(), null, "commande de paul", OrderStatus.VALIDATED);
@@ -99,9 +94,9 @@ public class OrderDaoTest {
 		userManager.addTeam(team);
 		userManager.addTeam(team2);
 
-		userManager.addUser(marc);
-		userManager.addUser(paul);
-		userManager.addUser(marie);
+		userManager.addPerson(marc);
+		userManager.addPerson(paul);
+		userManager.addPerson(marie);
 
 		orderManager.addOrder(marcOrder);
 		orderManager.addOrder(paulOrder);
@@ -123,16 +118,16 @@ public class OrderDaoTest {
 
 	@Test
 	public void testOrderByStatus() {
-		assertNotNull(specificOrderDao);
-		assertEquals(2, specificOrderDao.findOrderByStatus(OrderStatus.VALIDATED).size());
-		assertEquals(1, specificOrderDao.findOrderByStatus(OrderStatus.NOT_VALIDATED).size());
+		assertNotNull(orderManager);
+		assertEquals(2, orderManager.findOrderByStatus(OrderStatus.VALIDATED).size());
+		assertEquals(1, orderManager.findOrderByStatus(OrderStatus.NOT_VALIDATED).size());
 
 	}
 
 	@Test
 	public void testOrderByUser() {
-		assertNotNull(specificOrderDao);
-		ArrayList<Order> marcOrders = (ArrayList<Order>) specificOrderDao.findOrderByUser(marc);
+		assertNotNull(orderManager);
+		ArrayList<Order> marcOrders = (ArrayList<Order>) orderManager.findOrderByUser(marc);
 		assertEquals(1, marcOrders.size());
 		assertEquals("Marc", marcOrders.get(0).getOrderUser().getFirstName());
 
@@ -140,8 +135,8 @@ public class OrderDaoTest {
 
 	@Test
 	public void testOrderByTeam() {
-		assertNotNull(specificOrderDao);
-		ArrayList<Order> teamOrders = (ArrayList<Order>) specificOrderDao.findOrderByTeam(team);
+		assertNotNull(orderManager);
+		ArrayList<Order> teamOrders = (ArrayList<Order>) orderManager.findOrderByTeam(team);
 		assertEquals(2, teamOrders.size());
 
 	}

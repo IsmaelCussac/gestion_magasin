@@ -6,12 +6,11 @@ import java.util.Date;
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
-import fr.mgs.dao.OrderDAO;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderStatus;
+import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.Team;
-import fr.mgs.model.user.Person;
 
 public class DBInsert {
 	
@@ -37,8 +36,6 @@ public class DBInsert {
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
 
-		//new OrderDAO(orderManager.getOrderDao().getConnection());
-
 		team = new Team();
 		team2 = new Team();
 
@@ -55,9 +52,9 @@ public class DBInsert {
 				Privilege.CUSTOMER);
 		team2.setTeam("101", "Biologie des épithéliums ciliés", 8, Privilege.CUSTOMER);
 
-		marc.setUser("s14027276", "Marc", "Dupont", team, "0452050554", "marc.dupont@mail.fr", "pass");
-		paul.setUser("s14027277", "Paul", "Durand", team, "0482060564", "paul.durand@mail.fr", "pass");
-		marie.setUser("s14027278", "Marie", "Curie", team2, "0482067563", "marie.curie@mail.fr", "pass");
+		marc.setPerson("s14027276", "Marc", "Dupont", team, "0452050554", "marc.dupont@mail.fr", "pass");
+		paul.setPerson("s14027277", "Paul", "Durand", team, "0482060564", "paul.durand@mail.fr", "pass");
+		marie.setPerson("s14027278", "Marie", "Curie", team2, "0482067563", "marie.curie@mail.fr", "pass");
 
 		marcOrder.setOrder(marc, new Date(), new Date(), null, "commande de marc", OrderStatus.NOT_VALIDATED);
 		paulOrder.setOrder(paul, new Date(), new Date(), null, "commande de paul", OrderStatus.VALIDATED);
@@ -66,9 +63,9 @@ public class DBInsert {
 		userManager.addTeam(team);
 		userManager.addTeam(team2);
 
-		userManager.addUser(marc);
-		userManager.addUser(paul);
-		userManager.addUser(marie);
+		userManager.addPerson(marc);
+		userManager.addPerson(paul);
+		userManager.addPerson(marie);
 
 		orderManager.addOrder(marcOrder);
 		orderManager.addOrder(paulOrder);
@@ -86,11 +83,11 @@ public class DBInsert {
 		Team adminT = userManager.findTeam("42");
 		Team magasinierT = userManager.findTeam("41");
 		
-		admin.setUser("admin1", "Jean", "Dupré", adminT , "0452050554", "jean.dupré@mail.fr", "admin");
-		magasinier.setUser("magasinier1", "Luc", "Dela", magasinierT, "0482034234", "luc.dela@mail.fr", "magasinier");
+		admin.setPerson("admin1", "Jean", "Dupré", adminT , "0452050554", "jean.dupré@mail.fr", "admin");
+		magasinier.setPerson("magasinier1", "Luc", "Dela", magasinierT, "0482034234", "luc.dela@mail.fr", "magasinier");
 		
-		userManager.addUser(admin);
-		userManager.addUser(magasinier);
+		userManager.addPerson(admin);
+		userManager.addPerson(magasinier);
 		
 	}
 	

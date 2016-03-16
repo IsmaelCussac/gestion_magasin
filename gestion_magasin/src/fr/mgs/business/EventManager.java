@@ -2,79 +2,116 @@ package fr.mgs.business;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
-import javax.annotation.PostConstruct;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
-import fr.mgs.connection.DataSource;
-import fr.mgs.dao.DAOManager;
-import fr.mgs.dao.GenericDAO;
-import fr.mgs.dao.Table;
+import fr.mgs.model.event.Action;
 import fr.mgs.model.event.Event;
 
 /**
  * Business class that manage the following DAO to access database and process
- * data : - LogMonitorDAO
+ * data : 
+ * - LogMonitorDAO
  * 
  * @author Ismaël
  * @author Ibrahima
  * 
- *
  */
-public class EventManager {
+public class EventManager extends Manager {
 
-	private DAOManager daoManager;
-	private GenericDAO<Event, Integer> logMonitorDao;
-
-	@SuppressWarnings("unchecked")
-	@PostConstruct
-	public void init(DataSource ds) throws SQLException {
-		daoManager = new DAOManager();
-		daoManager.init(ds);
-		logMonitorDao = (GenericDAO<Event, Integer>) daoManager.getDAO(Table.EVENT);
-	}
-
-	// GETTERS - SETTERS
-
-	public DAOManager getDaoManager() {
-		return daoManager;
+	/**
+	 * store a event in database
+	 * 
+	 * @param event
+	 *            the event to add
+	 */
+	public void addEvent(Event event) throws SQLException {
+		beginTransaction();
+		em.persist(event);
+		commit();
+		closeEm();
 	}
 
-	public void setDaoManager(DAOManager daoManager) {
-		this.daoManager = daoManager;
+	/**
+	 * find an event using his id
+	 * 
+	 * @param eventId
+	 *            event's id
+	 */
+	public Event findEvent(int eventId) throws SQLException {
+		loadEm();
+		Event event = em.find(Event.class, eventId);
+		closeEm();
+		return event;
 	}
 
-	public GenericDAO<Event, Integer> getLogMonitorDao() {
-		return logMonitorDao;
+	/**
+	 * return all the stored users ordered by their first name at first, then
+	 * their name
+	 */
+	public Collection<Event> findAllEvents() throws SQLException {
+		loadEm();
+		TypedQuery<Event> query = em.createQuery("FROM events e order by e.date desc", Event.class);
+		List<Event> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
-	public void setLogMonitorDao(GenericDAO<Event, Integer> logMonitorDao) {
-		this.logMonitorDao = logMonitorDao;
+	/**
+	 * return the given action's events
+	 * 
+	 * @param action
+	 *            the action done
+	 */
+	public List<Event> findEventsByAction(Action action) {
+		loadEm();
+		Query query = em.createQuery("SELECT e FROM events e WHERE e.action = :a");
+		query.setParameter("a", action);
+		return (List<Event>) query.getResultList();
 	}
 
-	// METHODS
-	
-	public void addLogMonitor(Event logMonitor) throws SQLException {
-		logMonitorDao.add(logMonitor);
+	/**
+	 * return the given product's events
+	 * 
+	 * @param productId
+	 *            the product wanted
+	 */
+	public List<Event> findEventsByProduct(int productId) {
+		loadEm();
+		Query query = em.createQuery("SELECT e FROM events e WHERE e.product = :p");
+		query.setParameter("p", productId);
+		return (List<Event>) query.getResultList();
 	}
 
-	public Event findLogMonitor(Integer id) throws SQLException {
-		return logMonitorDao.find(id);
+	/**
+	 * return the given store keeper's events
+	 * 
+	 * @param storeKeeperId
+	 *            the store keeper
+	 */
+	public List<Event> findEventsByStoreKeeper(String storeKeeperId) {
+		loadEm();
+		Query query = em.createQuery("SELECT e FROM events e WHERE e.storeKeeper = :sk");
+		query.setParameter("sk", storeKeeperId);
+		return (List<Event>) query.getResultList();
 	}
-	
-	public void removeLogMonitor(Integer id) throws SQLException{
-		logMonitorDao.remove(id);
+
+	/**
+	 * return the given date's events
+	 * 
+	 * @param minDate
+	 * @param maxDate
+	 * @return
+	 */
+	public List<Event> findEventsByDate(Date minDate, Date maxDate) {
+		loadEm();
+		Query query = em.createQuery("SELECT e FROM events e WHERE e.date >= :min AND e.date <= :max");
+		query.setParameter("min", minDate);
+		query.setParameter("max", maxDate);
+		return (List<Event>) query.getResultList();
 	}
-	
-	public Collection<Event> findAllLogMonitors() throws SQLException {
-		return logMonitorDao.findAll();
-	}
-	
-	public boolean logMonitorExists(Integer id) throws SQLException {
-		return logMonitorDao.exists(id);
-	}
-	
-	public void updateLogMonitor(Event logMonitor) throws SQLException{
-		logMonitorDao.update(logMonitor);
-	}
-	
+
 }

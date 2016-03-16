@@ -1,24 +1,30 @@
-package fr.mgs.dao;
+package fr.mgs.business;
 
-import java.sql.SQLException;
-import java.util.Collection;
-
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
 import fr.mgs.connection.Connection;
-import fr.mgs.model.user.Person;
+import fr.mgs.connection.DataSource;
 
 /**
- * Abstract class used that contains the connection instance for all the DAOs
+ * DAO manager that implement the factory design pattern
  * 
  * @author Ismaël
  * @author Ibrahima
- * @param <T,U>
  */
-public abstract class GenericDAO<T, U> {
+public class Manager {
 
-	protected Connection connection;
+	private Connection connection;
 	protected EntityManager em;
+
+	/**
+	 * Method to init the Entity Manager Factory
+	 */
+	@PostConstruct
+	public void init(DataSource ds) {
+		connection = new Connection();
+		connection.initEmf(ds);
+	}
 
 	public Connection getConnection() {
 		return connection;
@@ -61,19 +67,6 @@ public abstract class GenericDAO<T, U> {
 	 * Close the persistence unit
 	 */
 	public void close() {
-		this.connection.close();
+		connection.close();
 	}
-
-	public abstract void add(T t) throws SQLException;
-
-	public abstract void update(T t) throws SQLException;
-
-	public abstract boolean exists(U id) throws SQLException;
-
-	public abstract T find(U id) throws SQLException;
-
-	public abstract Collection<T> findAll() throws SQLException;
-
-	public abstract void remove(U id) throws SQLException;
-
 }
