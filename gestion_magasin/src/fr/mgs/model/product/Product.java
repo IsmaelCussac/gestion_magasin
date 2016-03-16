@@ -125,7 +125,7 @@ public class Product {
 		this.price = price;
 	}
 
-	public boolean isVisibility() {
+	public boolean isVisible() {
 		return visibility;
 	}
 

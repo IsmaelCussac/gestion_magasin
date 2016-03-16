@@ -57,11 +57,11 @@ public class Event implements Serializable {
 	public Event() {
 	}
 
-	public int getLogMonitorId() {
+	public int getEventId() {
 		return eventId;
 	}
 
-	public void setLogMonitorId(int eventId) {
+	public void setEventId(int eventId) {
 		this.eventId = eventId;
 	}
 

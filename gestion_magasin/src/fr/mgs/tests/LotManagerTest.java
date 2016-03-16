@@ -26,22 +26,22 @@ import junit.framework.Assert;
  *
  */
 
-public class LotDAOTest {
+public class LotManagerTest {
 
 	private static ProductManager productManager;
 
 	private static Lot lot;
-	private  Product product;
-	private  SubCategory subCategory;
+	private Product product;
+	private SubCategory subCategory;
 
 	@BeforeClass
-	public static void setUpBeforeClass() throws SQLException {		
+	public static void setUpBeforeClass() throws SQLException {
 		productManager = new ProductManager();
 	}
 
 	@AfterClass
 	public static void tearDownAfterAll() throws SQLException {
-		productManager.getDaoManager().close();
+		productManager.close();
 	}
 
 	@Before
@@ -54,27 +54,27 @@ public class LotDAOTest {
 		product = new Product();
 		product.setProduct("Gant t.S", subCategory, 20, 40, 4.52, true, null, 100);
 		productManager.addProduct(product);
-		
+
 		lot = new Lot();
 		Date date = new Date();
-		
+
 		lot.setLot(date, product, 15);
 	}
-	
+
 	@After
 	public void tearDown() {
 	}
 
 	@Test
-	public void testAddLot() throws SQLException { 
+	public void testAddLot() throws SQLException {
 		productManager.addLot(lot);
-		System.out.println("lot dest : "+lot.getLotId());
-		System.out.println("size liste : "+ productManager.findAllLots().size());
+		System.out.println("lot dest : " + lot.getLotId());
+		System.out.println("size liste : " + productManager.findAllLots().size());
 		assertNotNull(productManager.findAllLots());
 	}
-	
-	@Test(expected=Exception.class)
-	public void testAddExistingLot() throws SQLException{
+
+	@Test(expected = Exception.class)
+	public void testAddExistingLot() throws SQLException {
 		productManager.addLot(lot);
 		productManager.addLot(lot);
 	}
@@ -113,9 +113,9 @@ public class LotDAOTest {
 		productManager.removeLot(lot.getLotId());
 		assertNull(productManager.findLot(lot.getLotId()));
 	}
-	
-	@Test(expected=Exception.class)
-	public void testRemoveNoExistingLot() throws SQLException{
+
+	@Test(expected = Exception.class)
+	public void testRemoveNoExistingLot() throws SQLException {
 		productManager.removeLot(100);
 	}
 

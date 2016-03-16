@@ -51,24 +51,17 @@ public class OrderHistoryController {
 	public void init() {
 		orderManager = new OrderManager();
 		userManager = new UserManager();
-		try {
-			orderManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 
-		try {
-			userManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		orderManager.init(DataSource.LOCAL);
+		userManager.init(DataSource.LOCAL);
+
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
 
 	}
 
 	public List<Order> getOrders() throws SQLException {
-		orders = orderManager.findAllOrdersByUser(userId);
+		orders = (List<Order>) orderManager.findAllOrdersByPerson(userId);
 		return orders;
 	}
 
@@ -80,7 +73,7 @@ public class OrderHistoryController {
 			// on récupère la commande non validée et on supprime les orderline
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			dupOrder = orderList.get(0);
-		
+
 		}
 		orderController.clearStoreItems();
 		updateNewOrder(order);
@@ -97,18 +90,21 @@ public class OrderHistoryController {
 	 */
 	public void updateNewOrder(Order order) throws SQLException {
 		newOrder.setOrderId(dupOrder.getOrderId());
-		newOrder.setOrderUser(userManager.findUser(userId));
+		newOrder.setOrderUser(userManager.findPerson(userId));
 		newOrder.setStatus(OrderStatus.NOT_VALIDATED);
 
 		Collection<OrderLine> orderLines = order.getOrderLines();
 		for (OrderLine line : orderLines) {
 			OrderLine newLine = new OrderLine();
-			newLine.setOrderLine(newOrder, line.getProduct(), line.getQuantity(), 0);
-			newOrder.addOrderLine(newLine);
+			if (line.getProduct().isVisible()) {
+				newLine.setOrderLine(newOrder, line.getProduct(), line.getQuantity(), 0);
+				newOrder.addOrderLine(newLine);
+			}
 		}
 
 		orderManager.updateOrder(newOrder);
 	}
+
 	public void updateCart() {
 		orderController.getCart().clear();
 		for (OrderLine l : newOrder.getOrderLines()) {

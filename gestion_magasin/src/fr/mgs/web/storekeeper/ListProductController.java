@@ -33,18 +33,11 @@ public class ListProductController {
 	 * 
 	 * @throws SQLException
 	 */
-	public ListProductController() throws SQLException {
-		
-	}
 	
 	@PostConstruct
 	public void init(){
 		productManager = new ProductManager();
-		try {
-			productManager.init(DataSource.LOCAL);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		productManager.init(DataSource.LOCAL);
 	}
 
 	/**
