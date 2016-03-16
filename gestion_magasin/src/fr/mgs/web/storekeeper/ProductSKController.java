@@ -15,6 +15,7 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.product.Category;
+import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 
@@ -25,6 +26,9 @@ public class ProductSKController {
 	private ProductManager productManager;
 	private OrderManager orderManager;
 	private Order currentOrder;
+	public Product product;
+	public SubCategory categorie;
+	public Lot lot;
 
 	@PostConstruct
 	public void init() {
@@ -33,6 +37,30 @@ public class ProductSKController {
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
 
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
+	public SubCategory getCategorie() {
+		return categorie;
+	}
+
+	public void setCategorie(SubCategory categorie) {
+		this.categorie = categorie;
+	}
+
+	public Lot getLot() {
+		return lot;
+	}
+
+	public void setLot(Lot lot) {
+		this.lot = lot;
 	}
 
 	/**
@@ -82,6 +110,18 @@ public class ProductSKController {
 		categories.add(Category.CULTURE_PLASTIC);
 
 		return categories;
+	}
+	
+	/**
+	 * 
+	 * @throws SQLException
+	 */
+	public void addProduct() throws SQLException {
+		product.setDesignation("101");
+		product.setSubCategory(categorie);
+		lot.setLotProduct(product);
+		productManager.addProduct(product);
+		productManager.addLot(lot);
 	}
 
 	/**

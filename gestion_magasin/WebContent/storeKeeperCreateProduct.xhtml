@@ -4,10 +4,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
- <h:head>
-        <title>Look, with h:head</title>
- </h:head>
- <h:body> 
+
 	<ui:composition template="/template/layout.xhtml">
 	
 		<ui:define name="title">Entrée de stock</ui:define>
@@ -21,9 +18,8 @@
 			<h1>Création d'un produit</h1>
 			<h:form id="form" prependId="false">
 				<div class="form-group">
-					<label for="categorie">Catégorie :</label>
-					<br/>
-					<p:selectOneMenu  id="cat" name="categorie">
+					<label for="categorie">Catégorie :</label><br/>
+					<p:selectOneMenu  id="cat" value="#{skProducts.categorie.name}" styleclass="form-control" name="categorie">
 						<f:selectItems id="item" value="#{skProducts.getAllSubCategories()}" var="c" itemLabel="#{c.name}" itemValue="#{c.name}" />  
 					</p:selectOneMenu>
 				</div>
@@ -33,25 +29,25 @@
 							<td style="width:70%" >
 								<div class="form-group">
 								   <label for="Designation">Désignation :</label>
-								   <textarea class="form-control" rows="3" id="des" name="Designation"></textarea>
+								   <input type="text" class="form-control" id="des" value="#{skProducts.product.designation}"/>
 								</div>
 								<div class="form-group">
 								   <label for="Conditionnnement">Conditionnement :</label>
-								   <input type="text" class="form-control" name="Conditionnement"/>
+								   <input type="text" class="form-control" name="Conditionnement" value="#{skProducts.product.conditioning}"/>
 								</div>
 								<div class="form-group">
 								   <label for="PrixHT">Prix HT :</label>
-								   <input type="number" step="any" class="form-control" name="PrixHT"/>
+								   <input type="number" step="any" class="form-control" name="PrixHT" value="#{skProducts.product.price}"/>
 								</div>
 								<div class="form-group">
 								   <label for="Reference">Référence :</label>
-								   <input type="text" class="form-control" id="ref" name="Reference" disabled="disabled"/>
+								   <input type="text" class="form-control" id="ref" name="Reference" disabled="disabled" value="#{skProducts.product.productId}"/>
 								</div>
 							</td>
 							<td>
 								<div class="form-group">
 								   <label for="Image">Image produit :</label>
-								   <input type="file" class="form-control" name="Image"/>
+								   <input type="file" class="form-control" name="Image" value="#{skProducts.product.picture}"/>
 								   <i>Image d'extension .jpeg .png autorisée au format 100px par 100px.</i>
 								</div>
 							</td>
@@ -59,22 +55,38 @@
 						<tr>
 							<td>
 								<div class="form-group">
-								   <label for="Quantite">Quantité :</label>
-								   <input type="number" class="form-control" name="Quantite"/>
+								   <label for="Quantite">Seuil minimal de quantité:</label>
+								   <input type="number" class="form-control" name="Quantite" value="#{skProducts.product.minQuantity}"/>
 								</div>
 							</td>
 							<td>
 								<div class="checkbox">
+									<label for="check">Visibilité du produit :</label>
 								    <label>
-								      <input type="checkbox" name="Visibilite"/> Visibilité
+								      <p:selectBooleanCheckbox name="check" value="#{skProducts.product.visibility}" />
 								    </label>
 								 </div>
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<div class="form-group">
+								   <label for="Article">Nombre d'article:</label>
+								   <input type="number" class="form-control" name="Article" value="#{skProducts.lot.quantity}"/>
+								</div>
+							</td>
+							<td>
+								<div class="form-group">
+								   <label for="Article">Date d'expiration:</label>
+								   <p:calendar id="popup" styleclass="form-control" value="#{skProducts.lot.expirationDate}" />
+								</div>
+								
+							</td>
+						</tr>
 				</table>
+				<h:commandButton value="Valider" actionListener="#{skProducts.addProduct()}" />
 			</h:form>
 		
 		</ui:define>
 	</ui:composition>
-</h:body>
 </html>

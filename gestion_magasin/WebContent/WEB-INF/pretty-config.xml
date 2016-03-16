@@ -68,7 +68,11 @@
 		<view-id value="/storeKeeperAlert.xhtml" />
 	</url-mapping>
 
-
+	<url-mapping id="skCreateProduct">
+		<pattern value="/storekeeper/createproducts" />
+		<view-id value="/storeKeeperCreateProduct.xhtml" />
+	</url-mapping>
+	
 	<!-- Admin -->
 
 </pretty-config>
