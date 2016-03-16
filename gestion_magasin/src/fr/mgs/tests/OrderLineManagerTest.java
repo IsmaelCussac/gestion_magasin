@@ -3,6 +3,7 @@ package fr.mgs.tests;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
@@ -91,18 +92,19 @@ public class OrderLineManagerTest {
         userManager.addPerson(person);
         
         
-        listOL = null;
-        
+        listOL = new ArrayList<OrderLine>();
+
         
 
         order = new Order();
+        
+        
+        order.setOrder(person, dateSub, dateDeli, listOL, "", OrderStatus.DELIVERED);
         orderline = new OrderLine();
         orderline.setOrderLine(order, product, 10.5, 10.5);
         //orderManager.addOrderLine(orderline);
         listOL.add(orderline);
-        
-        order.setOrder(person, dateSub, dateDeli, listOL, "", OrderStatus.DELIVERED);
-        
+        order.setOrderLines(listOL);
 
     }
 
@@ -113,21 +115,20 @@ public class OrderLineManagerTest {
 
     @Test
     public void testAddOrderLine() throws SQLException {
-        orderManager.addOrder(order);
-        // orderManager.addOrderLine(orderline);
+        orderManager.updateOrder(order);
         assertNotNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
     }
 
     @Test
     public void testRemoveInteger() throws SQLException {
-        orderManager.addOrderLine(orderline);
+        orderManager.updateOrder(order);
         orderManager.removeOrderLine(orderline.getOrderLinePK());
         assertNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
     }
 
     @Test
     public void testUpdateOrderLine() throws SQLException {
-        orderManager.addOrderLine(orderline);
+        orderManager.updateOrder(order);
         orderline.setQuantity(9.1);
         orderManager.updateOrderLine(orderline);
         OrderLine recupOL = orderManager.findOrderLine(orderline.getOrderLinePK());
@@ -136,13 +137,13 @@ public class OrderLineManagerTest {
 
     @Test
     public void testExistsInteger() throws SQLException {
-        orderManager.addOrderLine(orderline);
+        orderManager.updateOrder(order);
         assertTrue(orderManager.orderLineExists(orderline.getOrderLinePK()));
     }
 
     @Test
     public void testFindInteger() throws SQLException {
-        orderManager.addOrderLine(orderline);
+        orderManager.updateOrder(order);
         assertNotNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
     }
 
