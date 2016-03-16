@@ -119,7 +119,7 @@ public class OrderLineManagerTest {
         orderManager.updateOrder(order);
         assertNotNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
     }
-
+    
     @Test
     public void testRemoveInteger() throws SQLException {
         orderManager.updateOrder(order);
