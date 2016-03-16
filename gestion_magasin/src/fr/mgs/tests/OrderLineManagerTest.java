@@ -65,6 +65,7 @@ public class OrderLineManagerTest {
 	public void setUp() throws SQLException {
 		orderManager.init(DataSource.H2);
 		productManager.init(DataSource.H2);
+		userManager.init(DataSource.H2);
 
 		subCategory = new SubCategory();
 		subCategory.setSubCategory("Aiguilles", Category.PLASTIC);
