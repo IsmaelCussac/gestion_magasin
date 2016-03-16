@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.After;
@@ -148,8 +149,10 @@ public class OrderLineManagerTest {
     }
 
     @Test
-    @Ignore
-    public void testFindOrderLineByOrder() {
+    public void testFindOrderLineByOrder() throws SQLException {
+        orderManager.updateOrder(order);
+        List<OrderLine> listOL = orderManager.findOrderLineByOrder(order);
+        assertNotNull(listOL.size());
     }
 
 }
