@@ -100,6 +100,13 @@ public class ProductDAO extends GenericDAO<Product, Integer> {
 	 * 
 	 * @param the subCategory
 	 */
+	public Collection<Product> findProductsBySubCategoryVisible(SubCategory subCategory) {
+		loadEm();
+		Query query = em.createQuery("SELECT p FROM products p WHERE p.subCategory = :sc AND p.visibility = true");
+		query.setParameter("sc", subCategory);
+		return query.getResultList();
+	}
+	
 	public Collection<Product> findProductsBySubCategory(SubCategory subCategory) {
 		loadEm();
 		Query query = em.createQuery("SELECT p FROM products p WHERE p.subCategory = :sc");

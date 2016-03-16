@@ -80,7 +80,7 @@ public class OrderHistoryController {
 			// on récupère la commande non validée et on supprime les orderline
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			dupOrder = orderList.get(0);
-		
+
 		}
 		orderController.clearStoreItems();
 		updateNewOrder(order);
@@ -103,12 +103,15 @@ public class OrderHistoryController {
 		Collection<OrderLine> orderLines = order.getOrderLines();
 		for (OrderLine line : orderLines) {
 			OrderLine newLine = new OrderLine();
-			newLine.setOrderLine(newOrder, line.getProduct(), line.getQuantity(), 0);
-			newOrder.addOrderLine(newLine);
+			if (line.getProduct().isVisible()) {
+				newLine.setOrderLine(newOrder, line.getProduct(), line.getQuantity(), 0);
+				newOrder.addOrderLine(newLine);
+			}
 		}
 
 		orderManager.updateOrder(newOrder);
 	}
+
 	public void updateCart() {
 		orderController.getCart().clear();
 		for (OrderLine l : newOrder.getOrderLines()) {

@@ -154,8 +154,8 @@ public class ProductManager {
 		
 	}
 	
-	public Collection<Product> findProductsBySubCategory(SubCategory subCategory){
-		return productDao.findProductsBySubCategory(subCategory);
+	public Collection<Product> findProductsBySubCategoryVisible(SubCategory subCategory){
+		return productDao.findProductsBySubCategoryVisible(subCategory);
 	}
 
 	

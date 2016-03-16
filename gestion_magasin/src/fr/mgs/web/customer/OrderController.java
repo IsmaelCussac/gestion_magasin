@@ -156,7 +156,7 @@ public class OrderController {
 
 		// si la sous catégorie n'est pas présente dans la map, on récupère la liste de produits et on l'ajoute
 		if (!storeItems.containsKey(sub.getName())) {
-			List<Product> prods = (List<Product>) productManager.findProductsBySubCategory(sub);
+			List<Product> prods = (List<Product>) productManager.findProductsBySubCategoryVisible(sub);
 			items = createNewStoreItemList(prods);
 				
 		} else {
