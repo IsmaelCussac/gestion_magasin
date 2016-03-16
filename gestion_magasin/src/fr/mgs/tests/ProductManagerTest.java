@@ -151,7 +151,6 @@ public class ProductManagerTest {
 		product1.setProduct(2, "Aiguille 0.3mm", subCategory, 20, 40, 4.52, true, null, 100);
 		productManager.addProduct(product1);
 		Collection<Product> collection =  productManager.findProductsBySubCategory(subCategory);
-		System.out.println(collection.size());
 		assertEquals(2,collection.size());
 
 	}
