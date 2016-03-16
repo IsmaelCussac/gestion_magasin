@@ -30,12 +30,11 @@ import fr.mgs.model.user.Person;
 public class EventManagerTest {
 	private static EventManager eventManager;
 	private static ProductManager productManager;
-	private Event E1;
-	private Action A1;
+	private Event e1;
+	private Action a1;
 	private Product product;
 	private SubCategory subCategory;
 	private Date d1;
-	private Person person;
 	private static UserManager userManager;
 
 	@BeforeClass
@@ -59,19 +58,13 @@ public class EventManagerTest {
 
 		subCategory = new SubCategory();
 		subCategory.setSubCategory("Aiguilles", Category.PLASTIC);
-		// productManager.addSubCategory(subCategory);
 
 		product = new Product();
 		product.setProduct(1, "Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
-		// productManager.addProduct(product);
 
-		// person = new Person();
-		// person.setUser("dupond", "jean claude", "dupond", null, "0498745216",
-		// "dupondupond@gmail.com", "mdp123");
-		// userManager.addUser(person);
-		E1 = new Event();
+		e1 = new Event();
 		d1 = new Date();
-		E1.setHistorical("123", product, Action.INCREASING, d1, "test");
+		e1.setHistorical("123", product, Action.INCREASING, d1, "test");
 	}
 
 	/*
@@ -81,7 +74,7 @@ public class EventManagerTest {
 	 */
 	@Test
 	public void testEventCreate() throws SQLException {
-		eventManager.addEvent(E1);
+		eventManager.addEvent(e1);
 		assertNotNull(eventManager.findAllEvents());
 	}
 
@@ -92,8 +85,8 @@ public class EventManagerTest {
 	 */
 	@Test
 	public void testEventFind() throws SQLException {
-		eventManager.addEvent(E1);
-		assertNotNull(eventManager.findEvent(E1.getEventId()));
+		eventManager.addEvent(e1);
+		assertNotNull(eventManager.findEvent(e1.getEventId()));
 	}
 
 	/*
@@ -103,7 +96,7 @@ public class EventManagerTest {
 	 */
 	@Test
 	public void testEventFindAll() throws SQLException {
-		eventManager.addEvent(E1);
+		eventManager.addEvent(e1);
 		Collection<Event> collect = eventManager.findAllEvents();
 		assertNotNull(collect.size());
 	}
