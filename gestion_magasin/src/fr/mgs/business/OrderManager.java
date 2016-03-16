@@ -249,12 +249,12 @@ public class OrderManager extends Manager {
 	 * @param order
 	 *            the order
 	 */
-	public List<OrderLine> findOrderLineByOrder(Order order) {
-		loadEm();
-		Query query = em.createQuery("SELECT o FROM orderLines o WHERE o.order = :or");
-		query.setParameter("or", order);
-		return (List<OrderLine>) query.getResultList();
-	}
+//	public List<OrderLine> findOrderLineByOrder(Order order) {
+//		loadEm();
+//		Query query = em.createQuery("SELECT o FROM orderLines o WHERE o.order = :or");
+//		query.setParameter("or", order);
+//		return (List<OrderLine>) query.getResultList();
+//	}
 
 	/**
 	 * remove an orderLine stored in database using his PK

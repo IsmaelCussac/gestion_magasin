@@ -148,11 +148,5 @@ public class OrderLineManagerTest {
         assertNotNull(orderManager.findOrderLine(orderline.getOrderLinePK()));
     }
 
-    @Test
-    public void testFindOrderLineByOrder() throws SQLException {
-        orderManager.updateOrder(order);
-        List<OrderLine> listOL = orderManager.findOrderLineByOrder(order);
-        assertNotNull(listOL.size());
-    }
 
 }
