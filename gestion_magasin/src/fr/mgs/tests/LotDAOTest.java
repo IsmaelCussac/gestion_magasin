@@ -41,7 +41,7 @@ public class LotDAOTest {
 
 	@AfterClass
 	public static void tearDownAfterAll() throws SQLException {
-		productManager.getDaoManager().close();
+		productManager.close();
 	}
 
 	@Before
