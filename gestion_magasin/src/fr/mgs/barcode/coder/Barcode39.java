@@ -29,7 +29,7 @@
  *  
  */
 
-package com.barcode_coder.java_barcode;
+package fr.mgs.barcode.coder;
 
 public class Barcode39 extends Barcode1D{
 	private static String[] encoding = new String[] {

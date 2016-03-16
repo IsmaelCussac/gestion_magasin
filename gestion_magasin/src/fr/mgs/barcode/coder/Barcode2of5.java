@@ -29,7 +29,7 @@
  *  
  */
 
-package com.barcode_coder.java_barcode;
+package fr.mgs.barcode.coder;
 
 public class Barcode2of5 extends Barcode1D{
 	public final static String[] types = new String[]{"int25","std25"};
