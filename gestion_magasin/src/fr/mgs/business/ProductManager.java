@@ -21,6 +21,7 @@ import fr.mgs.model.product.SubCategory;
  * 
  * @author Ismaël
  * @author Ibrahima
+ * @author Mana
  */
 public class ProductManager extends Manager {
 

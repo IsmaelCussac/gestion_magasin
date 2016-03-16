@@ -51,7 +51,7 @@ public class ProductManagerTest {
 		productManager.addSubCategory(subCategory);
 
 		product = new Product();
-		product.setProduct("Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
+		product.setProduct(1, "Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
 
 	}
 
@@ -148,7 +148,7 @@ public class ProductManagerTest {
 		productManager.addProduct(product);
 
 		Product product1 = new Product();
-		product1.setProduct("Aiguille 0.3mm", subCategory, 20, 40, 4.52, true, null, 100);
+		product1.setProduct(2, "Aiguille 0.3mm", subCategory, 20, 40, 4.52, true, null, 100);
 		productManager.addProduct(product1);
 		Collection<Product> collection =  productManager.findProductsBySubCategory(subCategory);
 		System.out.println(collection.size());
