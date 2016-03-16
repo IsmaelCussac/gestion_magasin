@@ -138,7 +138,6 @@ public class OrdersView implements Serializable {
 	 * save delivred orders
 	 */
 	public void saveDeliveredProducts() {
-
 		Set<Integer> checkedOrders = new HashSet<Integer>();
 		for (OrderLine orderLine : deliveredProducts) {
 			try {
@@ -166,7 +165,6 @@ public class OrdersView implements Serializable {
 					if (orderLine.getDeliveredQuantity() == orderLine.getQuantity()) {
 						o.setStatus(OrderStatus.DELIVERED);
 						checkedOrders.add(Integer.valueOf(o.getOrderId()));
-						// this.getOrdersToDeliverByTeam().get(selectedTeam).remove(o);
 						this.getOrdersToDeliverByTeam().remove(selectedTeam);
 
 					}
@@ -185,12 +183,10 @@ public class OrdersView implements Serializable {
 
 	// manual edition
 	public void onCellEdit(CellEditEvent event) {
-
 		Map<String, Object> atts = event.getColumn().getCellEditor().getAttributes();
 		OrderLine ol = (OrderLine) atts.get("editedOl");
 		Double oldValue = (Double) event.getOldValue();
 		Double newValue = (Double) event.getNewValue();
-
 		if (newValue > ol.getQuantity()) {
 			ol.setDeliveredQuantity(oldValue);
 			newValue = oldValue;
