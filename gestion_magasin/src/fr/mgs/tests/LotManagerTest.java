@@ -52,7 +52,7 @@ public class LotManagerTest {
 		productManager.addSubCategory(subCategory);
 
 		product = new Product();
-		product.setProduct("Gant t.S", subCategory, 20, 40, 4.52, true, null, 100);
+		product.setProduct(1, "Gant t.S", subCategory, 20, 40, 4.52, true, null, 100);
 		productManager.addProduct(product);
 
 		lot = new Lot();

@@ -63,7 +63,7 @@ public class OrderLineManagerTest {
 		productManager.addSubCategory(subCategory);
 
 		product = new Product();
-		product.setProduct("Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
+		product.setProduct(1, "Aiguille 0.4mm", subCategory, 20, 40, 4.52, true, null, 100);
 		productManager.addProduct(product);
 
 		Date dateSub = new Date();

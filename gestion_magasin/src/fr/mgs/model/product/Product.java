@@ -165,9 +165,10 @@ public class Product {
 		this.orderLines = orderLines;
 	}
 
-	public void setProduct(String designation, SubCategory subCategory, Integer warningPeriod, double minQuantity,
+	public void setProduct(int id, String designation, SubCategory subCategory, Integer warningPeriod, double minQuantity,
 			double price, boolean visibility, String picture, double conditioning) {
-		setDesignation(designation);
+		setProductId(id);
+		setDesignation(designation);;
 		setSubCategory(subCategory);
 		setWarningPeriod(warningPeriod);
 		setMinQuantity(minQuantity);
