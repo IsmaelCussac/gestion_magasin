@@ -1,0 +1,80 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+ <h:head>
+        <title>Look, with h:head</title>
+ </h:head>
+ <h:body> 
+	<ui:composition template="/template/layout.xhtml">
+	
+		<ui:define name="title">Entrée de stock</ui:define>
+	
+	
+		<ui:define name="menu">
+			<ui:include src="/template/storeKeeperMenu.xhtml" />
+		</ui:define>
+	
+		<ui:define name="content">
+			<h1>Création d'un produit</h1>
+			<h:form id="form" prependId="false">
+				<div class="form-group">
+					<label for="categorie">Catégorie :</label>
+					<br/>
+					<p:selectOneMenu  id="cat" name="categorie">
+						<f:selectItems id="item" value="#{skProducts.getAllSubCategories()}" var="c" itemLabel="#{c.name}" itemValue="#{c.name}" />  
+					</p:selectOneMenu>
+				</div>
+		
+				<table class="table">
+						<tr>
+							<td style="width:70%" >
+								<div class="form-group">
+								   <label for="Designation">Désignation :</label>
+								   <textarea class="form-control" rows="3" id="des" name="Designation"></textarea>
+								</div>
+								<div class="form-group">
+								   <label for="Conditionnnement">Conditionnement :</label>
+								   <input type="text" class="form-control" name="Conditionnement"/>
+								</div>
+								<div class="form-group">
+								   <label for="PrixHT">Prix HT :</label>
+								   <input type="number" step="any" class="form-control" name="PrixHT"/>
+								</div>
+								<div class="form-group">
+								   <label for="Reference">Référence :</label>
+								   <input type="text" class="form-control" id="ref" name="Reference" disabled="disabled"/>
+								</div>
+							</td>
+							<td>
+								<div class="form-group">
+								   <label for="Image">Image produit :</label>
+								   <input type="file" class="form-control" name="Image"/>
+								   <i>Image d'extension .jpeg .png autorisée au format 100px par 100px.</i>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="form-group">
+								   <label for="Quantite">Quantité :</label>
+								   <input type="number" class="form-control" name="Quantite"/>
+								</div>
+							</td>
+							<td>
+								<div class="checkbox">
+								    <label>
+								      <input type="checkbox" name="Visibilite"/> Visibilité
+								    </label>
+								 </div>
+							</td>
+						</tr>
+				</table>
+			</h:form>
+		
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

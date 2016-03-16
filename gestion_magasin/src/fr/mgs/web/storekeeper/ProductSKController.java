@@ -61,6 +61,16 @@ public class ProductSKController {
 	/**
 	 * 
 	 * @return
+	 * @throws SQLException 
+	 */
+	public List<SubCategory> getAllSubCategories() throws SQLException {
+		return (List<SubCategory>) productManager.findAllSubCategories();
+	}
+
+	
+	/**
+	 * 
+	 * @return
 	 */
 	public Collection<Category> getAllCategories() {
 

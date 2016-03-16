@@ -1,6 +1,12 @@
 package fr.mgs.toolbox;
 
+import javax.faces.bean.ManagedBean;
+
+@ManagedBean(name = "BarCode")
 public class BarCode {
+	
+	String designation;
+	String subCategory;
 	
 	public static String getProductBarCode(String designation, String subCategory) {
 

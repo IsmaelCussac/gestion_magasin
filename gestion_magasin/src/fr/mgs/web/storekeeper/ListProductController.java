@@ -13,6 +13,8 @@ import com.barcode_coder.java_barcode.Barcode;
 import com.barcode_coder.java_barcode.BarcodeFactory;
 import com.barcode_coder.java_barcode.BarcodeType;
 
+import fr.mgs.toolbox.*;
+
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
@@ -50,8 +52,8 @@ public class ListProductController {
 		
 		List<Product> ListProduct = (List<Product>) productManager.findAllProducts();
 		for(int i = 0 ; i < ListProduct.size(); ++i){
-		    Barcode b = BarcodeFactory.createBarcode(BarcodeType.Code128,ListProduct.get(i).getProductBarCode());  
-		    b.export("png",2,100,true,"C:/Users/anthony/git/gestion_magasin/gestion_magasin/WebContent/resources/image/"+ListProduct.get(i).getProductBarCode()+".png");  
+		    Barcode b = BarcodeFactory.createBarcode(BarcodeType.Code128,BarCode.getProductBarCode(ListProduct.get(i).getDesignation(),ListProduct.get(i).getSubCategory().getName()));  
+		    b.export("png",2,100,true,"C:/Users/anthony/git/gestion_magasin/gestion_magasin/WebContent/resources/image/"+BarCode.getProductBarCode(ListProduct.get(i).getDesignation(),ListProduct.get(i).getSubCategory().getName())+".png");  
 		}
 		return (List<Product>) productManager.findAllProducts();
 	}
