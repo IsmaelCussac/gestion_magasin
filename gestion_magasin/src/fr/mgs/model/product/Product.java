@@ -46,7 +46,7 @@ public class Product {
 	@Min(0)
 	private Integer warningPeriod;
 
-	@Column(name = "min_quantity", nullable = true)
+	@Column(name = "min_quantity", nullable = false)
 	@Min(0)
 	private Double minQuantity;
 

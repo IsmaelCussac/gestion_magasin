@@ -1,6 +1,7 @@
 package fr.mgs.business;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -188,6 +189,22 @@ public class OrderManager extends Manager {
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u AND o.status = :s");
 		query.setParameter("u", userId);
 		query.setParameter("s", OrderStatus.NOT_VALIDATED);
+		return query.getResultList();
+	}
+	
+	/**
+	 * Looks for all VALIDATED and SHORTAGE order
+	 * 
+	 * @param userId
+	 * @return A collection of VALIDATED and SHORTAGE orders
+	 */
+	public Collection<Order> findAllValidatedOrders() {
+		loadEm();
+		List<OrderStatus> status = new ArrayList<OrderStatus>();
+		status.add(OrderStatus.VALIDATED);
+		status.add(OrderStatus.SHORTAGE);
+		Query query = em.createQuery("SELECT o FROM orders o WHERE o.status IN :s");
+		query.setParameter("s", status);
 		return query.getResultList();
 	}
 
