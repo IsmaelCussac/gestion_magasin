@@ -2,6 +2,7 @@ package fr.mgs.business;
 
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -99,6 +100,16 @@ public class ProductManager extends Manager {
 		commit();
 		closeEm();
 	}
+	
+	public Collection<Lot> findAllOutOfDateLots() {
+		loadEm();
+		Date currentDate = new Date(System.currentTimeMillis());
+		Query query = em.createQuery("SELECT l FROM lots l WHERE l.expirationDate <= DATE(:currentDate) + l.lotProduct.warningPeriod");
+		query.setParameter("currentDate", currentDate);
+		return (Collection<Lot>) query.getResultList();
+		
+	}
+
 
 	// PRODUCT
 
@@ -292,5 +303,4 @@ public class ProductManager extends Manager {
 		query.setParameter("c", category);
 		return query.getResultList();
 	}
-
 }

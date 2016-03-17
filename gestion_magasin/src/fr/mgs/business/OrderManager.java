@@ -109,7 +109,7 @@ public class OrderManager extends Manager {
 		query.setParameter("ou", person.getPersonId());
 		return (List<Order>) query.getResultList();
 	}
-
+	
 	/**
 	 * return the given team's orders
 	 * 

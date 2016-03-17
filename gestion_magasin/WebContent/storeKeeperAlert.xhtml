@@ -13,22 +13,36 @@
 			<ui:include src="/template/storeKeeperMenu.xhtml" />
 		</ui:define>
 		<ui:define name="content">
-			<f:view>
-				<p:tabView dynamic="true" cache="true">
-					<p:tab title="Produits en demande">
-						
-					</p:tab>
-					<p:tab title="Lots arrivant à expiration">
-						
-					</p:tab>
-					<p:tab title="Stock faible">
-						
-					</p:tab>
-					<p:tab title="Tout">
-<!-- 						a voir -->
-					</p:tab>
-				</p:tabView>
-			</f:view>
+			<p:tabView dynamic="true" cache="true">
+				<p:tab title="Produits en demande">
+
+				</p:tab>
+				<p:tab title="Lots arrivant à expiration">
+					<form>
+						<p:dataTable var="lot" value="#{skAlert.outOfDateLot}">
+							<p:column headerText="Produit"
+								sortBy="#{lot.productLot.designation}">
+								<h:outputText value="#{lot.lotProduct.designation}" />
+							</p:column>
+
+							<p:column headerText="Jours avant péremption">
+								<h:outputText value="#{skAlert.daysLeft(lot.expirationDate)}" /> 
+							</p:column>
+
+							<p:column headerText="Nombre d'articles" sortBy="#{lot.quantity}">
+								<h:outputText value="#{lot.quantity}" />
+							</p:column>
+						</p:dataTable>
+					</form>
+				</p:tab>
+				<p:tab title="Stock faible">
+
+				</p:tab>
+				<p:tab title="Tout">
+					<!-- 						a voir -->
+				</p:tab>
+			</p:tabView>
+
 		</ui:define>
 	</ui:composition>
 </h:body>
