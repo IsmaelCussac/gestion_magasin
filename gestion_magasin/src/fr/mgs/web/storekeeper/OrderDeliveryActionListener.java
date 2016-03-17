@@ -2,7 +2,10 @@ package fr.mgs.web.storekeeper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,30 +29,32 @@ public class OrderDeliveryActionListener implements ActionListener {
 
 	@Override
 	public void processAction(ActionEvent event) throws AbortProcessingException {
-		// test scan
-		OrderLine oltestscan = new OrderLine();
-		Product p = new Product();
-		p.setProductId(2554363);
-		p.setDesignation("chargeur");
-		oltestscan.setQuantity(5);
-		oltestscan.setProduct(p);
-		// fin test scan
 
 		UIComponent c = event.getComponent();
 		OrdersView odersView = (OrdersView) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get("ordersView");
-		Team team = (Team) c.getAttributes().get("teamToDeliver");
+		Team teamToDeliver = (Team) c.getAttributes().get("teamToDeliver");
 		List<OrderLine> teamsOls = new ArrayList<OrderLine>();
-		odersView.setSelectedTeam(team);
+		Collection<Order> orders = new ArrayList<Order>();
+		odersView.setSelectedTeam(teamToDeliver);
 		try {
-			for (Order ord : odersView.getOrdersToDeliverByTeam().get(team)) {
+			Map<Team, Collection<Order>> ordersByTeam = odersView.getOrdersToDeliverByTeam();
+			for (Iterator<Team> i = ordersByTeam.keySet().iterator(); i.hasNext();) {
+				Team t = i.next();
+				if (t.getName().equals(teamToDeliver.getName())) {
+					orders = ordersByTeam.get(t);
+					break;
+				}
+
+			}
+			for (Order ord : orders) {
 				for (OrderLine ol : ord.getOrderLines()) {
 					teamsOls.add(ol);
 				}
 			}
-//			teamsOls.add(oltestscan);
 
 			odersView.setSelectedTeamOrderLines(teamsOls);
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
