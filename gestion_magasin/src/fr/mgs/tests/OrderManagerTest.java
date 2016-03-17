@@ -30,16 +30,16 @@ public class OrderManagerTest {
     private static OrderManager orderManager;
     private static UserManager userManager;
 
-    private static Order marcOrder;
-    private static Order paulOrder;
-    private static Order marieOrder;
+    private  Order marcOrder;
+    private  Order paulOrder;
+    private  Order marieOrder;
 
-    private static Team team;
-    private static Team team2;
+    private  Team team;
+    private  Team team2;
 
-    private static Person marc;
-    private static Person paul;
-    private static Person marie;
+    private  Person marc;
+    private  Person paul;
+    private  Person marie;
 
     @BeforeClass
     public static void setUpBeforeClass() throws SQLException {
