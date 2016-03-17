@@ -21,6 +21,8 @@ import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 import fr.mgs.model.user.Person;
+import fr.mgs.model.user.Privilege;
+import fr.mgs.model.user.Team;
 
 /**
  * This class is used to test orders DAO
@@ -31,10 +33,11 @@ public class EventManagerTest {
 	private static EventManager eventManager;
 	private static ProductManager productManager;
 	private Event e1;
-	private Action a1;
 	private Product product;
 	private SubCategory subCategory;
 	private Date d1;
+	private Team team;
+	private Person person;
 	private static UserManager userManager;
 
 	@BeforeClass
@@ -48,6 +51,7 @@ public class EventManagerTest {
 	public static void tearDownAfterAll() {
 		productManager.close();
 		eventManager.close();
+		userManager.close();
 	}
 
 	@Before
@@ -55,6 +59,16 @@ public class EventManagerTest {
 		eventManager.init(DataSource.H2);
 		productManager.init(DataSource.H2);
 		userManager.init(DataSource.H2);
+		
+		team = new Team();
+        team.setTeam("APDCMT", "Approches physiques de la dynamique cellulaire et de la morphogénèse des tissus", 7,
+                Privilege.CUSTOMER);
+        userManager.addTeam(team);
+
+        person = new Person();
+        person.setPerson("d1102526", "Jean-Louis", "De Beauregard", team, "0442060504",
+                "jean-louis.de-beauregard@mail.fr", "secret");
+        userManager.addPerson(person);
 
 		subCategory = new SubCategory();
 		subCategory.setSubCategory("Aiguilles", Category.PLASTIC);
@@ -99,6 +113,28 @@ public class EventManagerTest {
 		eventManager.addEvent(e1);
 		Collection<Event> collect = eventManager.findAllEvents();
 		assertNotNull(collect.size());
+	}
+	
+	@Test
+	public void testFindEventsByAction(){
+	    assertNotNull(eventManager.findEventsByAction(Action.INCREASING));
+	}
+	
+	@Test
+    public void testFindEventsByProduct(){
+        assertNotNull(eventManager.findEventsByProduct(product.getProductId()));
+    }
+	
+	@Test
+	public void testFindEventsByStoreKeeper(){
+	    assertNotNull(eventManager.findEventsByStoreKeeper(person.getPersonId()));
+	}
+	
+	@Test
+	public void testFindEventsByDate(){
+	    Date date1 = new Date();
+	    Date date2 = new Date();
+	    assertNotNull(eventManager.findEventsByDate(date1, date2));
 	}
 
 }

@@ -30,7 +30,7 @@
  */
 
 
-package com.barcode_coder.java_barcode;
+package fr.mgs.barcode.coder;
 
 public class BarcodeDatamatrix extends Barcode {
 

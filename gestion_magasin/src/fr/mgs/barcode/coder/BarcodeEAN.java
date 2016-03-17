@@ -29,7 +29,7 @@
  *  
  */
 
-package com.barcode_coder.java_barcode;
+package fr.mgs.barcode.coder;
 
 public class BarcodeEAN extends Barcode1D{
 	public final static String[] types = new String[]{"ean8","ean13"};

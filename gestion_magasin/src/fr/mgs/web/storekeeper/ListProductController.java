@@ -9,12 +9,10 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import com.barcode_coder.java_barcode.Barcode;
-import com.barcode_coder.java_barcode.BarcodeFactory;
-import com.barcode_coder.java_barcode.BarcodeType;
-
 import fr.mgs.toolbox.*;
-
+import fr.mgs.barcode.coder.Barcode;
+import fr.mgs.barcode.coder.BarcodeFactory;
+import fr.mgs.barcode.coder.BarcodeType;
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;

@@ -34,7 +34,7 @@
  * This is an example of Applet
  */
 
-package com.barcode_coder.java_barcode;
+package fr.mgs.barcode.coder;
 
 import java.awt.*; 
 import java.applet.*;  

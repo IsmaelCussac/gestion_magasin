@@ -29,7 +29,7 @@
  *  
  */
 
-package com.barcode_coder.java_barcode;
+package fr.mgs.barcode.coder;
 
 import java.awt.Color;
 import java.awt.FontMetrics;

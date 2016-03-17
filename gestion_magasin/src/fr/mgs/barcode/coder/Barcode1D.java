@@ -29,7 +29,7 @@
  *  
  */
 
-package com.barcode_coder.java_barcode;
+package fr.mgs.barcode.coder;
 
 public abstract class Barcode1D extends Barcode{
 	public Barcode1D(String code){
