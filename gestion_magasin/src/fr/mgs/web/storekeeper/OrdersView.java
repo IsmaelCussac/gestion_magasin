@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -17,6 +20,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.hibernate.cache.internal.OldNaturalIdCacheKey;
 import org.primefaces.event.CellEditEvent;
 
 import fr.mgs.business.OrderManager;
@@ -27,6 +31,7 @@ import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Team;
+import fr.mgs.toolbox.SortMap;
 
 /**
  * Manage storekeeper oders views
@@ -39,9 +44,9 @@ public class OrdersView implements Serializable {
 	private static final long serialVersionUID = -5914169092116908790L;
 
 	private Map<Team, Collection<Order>> ordersToDeliverByTeam;
-	private Map<Team, Collection<Order>> deliveredOrdersByTeam;
 	private List<OrderLine> deliveredProducts;
 	private Collection<OrderLine> selectedTeamOrderLines;
+	private Map<Integer, Boolean> checkedOrders;
 
 	private String initScan;
 
@@ -52,127 +57,116 @@ public class OrdersView implements Serializable {
 
 	private Team selectedTeam;
 	private Order orderToEdit;
+	private SortMap sortMap;
 
 	@PostConstruct
 	public void init() {
-		try {
-			orderManager = new OrderManager();
-			orderManager.init(DataSource.LOCAL);
-			userManager = new UserManager();
-			userManager.init(DataSource.LOCAL);
-			prodManager = new ProductManager();
-			prodManager.init(DataSource.LOCAL);
-			selectedTeam = new Team();
-			orderToEdit = new Order();
-			selectedTeamOrderLines = new ArrayList<OrderLine>();
 
-			deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
-			deliveredProducts = new ArrayList<OrderLine>();
+		orderManager = new OrderManager();
+		orderManager.init(DataSource.LOCAL);
+		userManager = new UserManager();
+		userManager.init(DataSource.LOCAL);
+		prodManager = new ProductManager();
+		prodManager.init(DataSource.LOCAL);
+		selectedTeam = new Team();
+		orderToEdit = new Order();
+		selectedTeamOrderLines = new ArrayList<OrderLine>();
+		deliveredProducts = new ArrayList<OrderLine>();
+		checkedOrders = new HashMap<Integer, Boolean>();
+		sortMap = new SortMap();
 
-			for (Team team : userManager.findAllTeams()) {
-				if (!team.getUsers().isEmpty()) {
-					Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
-					// for looking out of stock orders we display only delivered
-					// orders
-					for (Order order : orderManager.findOrderByTeam(team)) {
-						if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
-							teamDeliveredOrders.add(order);
-						}
-					}
-					if (!teamDeliveredOrders.isEmpty()) {
-						deliveredOrdersByTeam.put(team, teamDeliveredOrders);
-
-					}
-
-				}
-			}
-
-			ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
-
-			for (Team team : userManager.findAllTeams()) {
-				if (!team.getUsers().isEmpty()) {
-					Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
-					for (Order order : orderManager.findOrderByTeam(team)) {
-						if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
-								|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
-							teamOrdersToDeliver.add(order);
-						}
-					}
-					if (!teamOrdersToDeliver.isEmpty()) {
-						ordersToDeliverByTeam.put(team, teamOrdersToDeliver);
-
-					}
-				}
-			}
-
-		}
-
-		catch (SQLException ex) {
-			ex.printStackTrace();
-		}
 	}
 
+	/**
+	 * save scanned values
+	 */
+
 	public void scan() {
-		System.out.println("TEST" + initScan);
 		for (OrderLine orderLine : selectedTeamOrderLines) {
 			if (initScan.equalsIgnoreCase(String.valueOf(orderLine.getProduct().getProductId()))) {
-				System.out.println("Produit correspondant est :" + orderLine.getProduct().getDesignation());
+
 				if (deliveredProducts.contains(orderLine)) {
 					deliveredProducts.remove(orderLine);
 				}
-				orderLine.setDeliveredQuantity(orderLine.getDeliveredQuantity() + 1);
+				double newDelivredQt = orderLine.getDeliveredQuantity() + 1;
+				if (newDelivredQt > orderLine.getQuantity()) {
+					FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
+							"La quantité saisie doit être inférieure à la quantité demandée", "");
+					FacesContext.getCurrentInstance().addMessage(null, msg);
+				} else {
+					orderLine.setDeliveredQuantity(newDelivredQt);
+				}
 				deliveredProducts.add(orderLine);
-				System.out.println(orderLine.getDeliveredQuantity());
+
 			}
 		}
 		initScan = "";
 	}
 
 	/**
-	 * save delivred orders
+	 * reset scanned values
 	 */
-	public void saveDeliveredProducts() {
-		Set<Integer> checkedOrders = new HashSet<Integer>();
+	public void resetScan() {
+
+		for (OrderLine orderLine : selectedTeamOrderLines) {
+			orderLine.setDeliveredQuantity(0);
+		}
+	}
+
+	/**
+	 * save delivered orders
+	 * 
+	 * @throws SQLException
+	 */
+	public void saveDeliveredProducts() throws SQLException {
 		for (OrderLine orderLine : deliveredProducts) {
 			try {
 				orderManager.updateOrderLine(orderLine);
 				Order o = orderLine.getOrder();
-
-				if (checkedOrders.contains(o) && o.getStatus() == OrderStatus.SHORTAGE) {
-					break;
-				}
-
-				if (checkedOrders.contains(o.getOrderId()) && o.getStatus() == OrderStatus.DELIVERED) {
-					if (orderLine.getDeliveredQuantity() < orderLine.getQuantity()) {
-						o.setStatus(OrderStatus.SHORTAGE);
-					}
-				}
-
-				if (!checkedOrders.contains(o.getOrderId())) {
-					if (orderLine.getDeliveredQuantity() < orderLine.getQuantity()) {
-						o.setStatus(OrderStatus.SHORTAGE);
-						checkedOrders.add(Integer.valueOf(o.getOrderId()));
-					}
-				}
-
-				if (!checkedOrders.contains(o.getOrderId())) {
-					if (orderLine.getDeliveredQuantity() == orderLine.getQuantity()) {
-						o.setStatus(OrderStatus.DELIVERED);
-						checkedOrders.add(Integer.valueOf(o.getOrderId()));
-						this.getOrdersToDeliverByTeam().remove(selectedTeam);
-
-					}
-				}
-				o.setDeliveryDate(new Date());
-				orderManager.updateOrder(o);
+				updateStatus(orderLine, o);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
+		endDelivery();
+
+	}
+
+	public void endDelivery() throws SQLException {
+		for (Iterator<Integer> i = checkedOrders.keySet().iterator(); i.hasNext();) {
+			Integer key = (Integer) i.next();
+			Order o = orderManager.findOrder(key);
+			if (checkedOrders.get(key)) {
+				o.setStatus(OrderStatus.SHORTAGE);
+
+			} else {
+				o.setStatus(OrderStatus.DELIVERED);
+			}
+			o.setDeliveryDate(new Date());
+			orderManager.updateOrder(o);
+		}
+
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Livraison effectuée", "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 
+	public void updateStatus(OrderLine ol, Order o) throws SQLException {
+
+		if (checkedOrders.get(o.getOrderId()) == null) {
+			if (ol.getDeliveredQuantity() < ol.getQuantity())
+				// in case of shortage
+				checkedOrders.put(o.getOrderId(), true);
+			else
+				checkedOrders.put(o.getOrderId(), false);
+
+		} else if (ol.getDeliveredQuantity() < ol.getQuantity()) {
+
+			checkedOrders.put(o.getOrderId(), true);
+
+		} else {
+			checkedOrders.put(o.getOrderId(), false);
+		}
 	}
 
 	// manual edition
@@ -202,19 +196,30 @@ public class OrdersView implements Serializable {
 	 */
 
 	public Map<Team, Collection<Order>> getOrdersToDeliverByTeam() throws SQLException {
-		return ordersToDeliverByTeam;
+		ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
+		for (Team team : userManager.findAllTeams()) {
+			if (!team.getUsers().isEmpty()) {
+				Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
+				for (Order order : orderManager.findOrderByTeam(team)) {
+					if (order.getStatus().toString().equals(OrderStatus.VALIDATED.toString())
+							|| order.getStatus().toString().equals(OrderStatus.SHORTAGE.toString())) {
+						teamOrdersToDeliver.add(order);
+					}
+				}
+				if (!teamOrdersToDeliver.isEmpty()) {
+					ordersToDeliverByTeam.put(team, teamOrdersToDeliver);
+
+				}
+
+			}
+		}
+		
+		sortMap.getTreeMap().putAll(ordersToDeliverByTeam);
+		return sortMap.getTreeMap();
 	}
 
 	public void setOrdersToDeliverByTeam(Map<Team, Collection<Order>> ordersByTeam) {
 		this.ordersToDeliverByTeam = ordersByTeam;
-	}
-
-	public Map<Team, Collection<Order>> getDeliveredOrdersByTeam() throws SQLException {
-		return deliveredOrdersByTeam;
-	}
-
-	public void setDeliveredOrdersByTeam(Map<Team, Collection<Order>> deliveredOrdersByTeam) {
-		this.deliveredOrdersByTeam = deliveredOrdersByTeam;
 	}
 
 	public void setSelectedTeam(Team selectedTeam) {

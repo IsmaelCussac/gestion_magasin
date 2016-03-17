@@ -56,6 +56,8 @@
 					<p:dataTable id="prods2"
 						value="#{ordersView.selectedTeamOrderLines}" var="ol"
 						editable="true" editMode="cell">
+						<p:ajax event="cellEdit" listener="#{ordersView.scan()}"
+							update="prods2,msgs" />
 
 						<p:columnGroup type="header">
 							<p:row>
@@ -95,6 +97,12 @@
 								<p:commandButton style="float:left" id="btnLot1"
 									value="Consulter les lots"></p:commandButton>
 							</div>
+							<div class="ui-grid-col-6">
+								<p:commandButton value="Réinitialiser les valeurs"
+									action="#{ordersView.resetScan()}" update="prods2,prods"
+									style="float:right">
+								</p:commandButton>
+							</div>
 
 							<div class="ui-grid-col-6">
 								<p:commandButton action="pretty:skOrders" value="Enregistrer"
@@ -114,7 +122,7 @@
 							</div>
 						</div>
 					</div>
-							<!-- Dialog for displaying lot -->
+					<!-- Dialog for displaying lot -->
 					<p:overlayPanel id="lotPanel1" for="btnLot1" hideEffect="fade"
 						dynamic="true" style="width:600px" showCloseIcon="true">
 						<p:dataTable value="#{ordersView.selectedTeamOrderLines}" var="ol"
@@ -137,7 +145,7 @@
 							</p:column>
 						</p:dataTable>
 					</p:overlayPanel>
-					
+
 				</p:tab>
 
 				<p:tab title="Livraison par saisie">
