@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">Les alertes</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="/template/storeKeeperMenu.xhtml" />
+		</ui:define>
+		<ui:define name="content">
+			<p:tabView dynamic="true" cache="true">
+				<p:tab title="Création">
+					<h:form>
+						<p:dataTable var="event" value="#{admin.allCreate}">
+							<p:column headerText="Date">
+								<h:outputText value="#{event.date}" />
+							</p:column>
+							<p:column headerText="Magasinier">
+								<h:outputText value="#{event.storeKeeper}" />
+							</p:column>
+							<p:column headerText="Produit">
+								<h:outputText value="#{event.product}" />
+							</p:column>
+
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+				<p:tab title="Modification">
+					<h:form>
+						<p:dataTable var="event" value="#{admin.allUpdate}">
+							<p:column headerText="Date">
+								<h:outputText value="#{event.date}" />
+							</p:column>
+							<p:column headerText="Magasinier">
+								<h:outputText value="#{event.storeKeeper}" />
+							</p:column>
+							<p:column headerText="Produit">
+								<h:outputText value="#{event.product}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+				<p:tab title="Visibilité">
+					<h:form>
+						<p:dataTable var="event" value="#{admin.allVisibility}">
+							<p:dataTable var="event" value="#{event.allUpdate}">
+								<p:column headerText="Date">
+									<h:outputText value="#{event.date}" />
+								</p:column>
+								<p:column headerText="Magasinier">
+									<h:outputText value="#{event.storeKeeper}" />
+								</p:column>
+								<p:column headerText="Produit">
+									<h:outputText value="#{event.product}" />
+								</p:column>
+								<p:column headerText="Type">
+									<h:outputText value="#{event.action}" />
+								</p:column>
+							</p:dataTable>
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+
+				<p:tab title="Rechercher actions">
+					<h:form>
+						<p:dataTable var="event" value="#{skAlert.shortageStockProducts}">
+
+						</p:dataTable>
+					</h:form>
+				</p:tab>
+			</p:tabView>
+
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -32,7 +32,7 @@
 							</p:column>
 
 							<p:column headerText="Nombre d'articles manquants"
-								sortBy="#{line.missingQuantity}">
+								sortBy="#{line.neededQuantity}">
 								<h:outputText value="#{line.neededQuantity}" />
 							</p:column>
 						</p:dataTable>
@@ -42,7 +42,7 @@
 					<h:form>
 						<p:dataTable var="lot" value="#{skAlert.outOfDateLots}">
 							<p:column headerText="Produit"
-								sortBy="#{lot.productLot.designation}">
+								sortBy="#{lot.lotProduct.designation}">
 								<h:outputText value="#{lot.lotProduct.designation}" />
 							</p:column>
 							<p:column headerText="Jours avant péremption">

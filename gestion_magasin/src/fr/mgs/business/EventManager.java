@@ -72,6 +72,19 @@ public class EventManager extends Manager {
 		query.setParameter("a", action);
 		return (List<Event>) query.getResultList();
 	}
+	
+	/**
+	 * return the given actions' events
+	 * 
+	 * @param actions
+	 *            the actions done
+	 */
+	public List<Event> findEventsByAction(List<Action> actions) {
+		loadEm();
+		Query query = em.createQuery("SELECT e FROM events e WHERE e.action IN :a");
+		query.setParameter("a", actions);
+		return (List<Event>) query.getResultList();
+	}
 
 	/**
 	 * return the given product's events

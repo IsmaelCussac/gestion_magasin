@@ -9,7 +9,8 @@ public enum Action {
 	
 	CREATE(" a créé le produit "),
 	UPDATE(" a mis à jour le produit "),
-	DELETE(" a caché le produit "),
+	HIDE(" a caché le produit "),
+	SHOW(" a rendu visible le produit "),
 	INCREASING(" a augmenté la quantité du produit "),
 	DECREASING(" a réduit la quantité du produit ");
 	
