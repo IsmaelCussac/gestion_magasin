@@ -48,7 +48,7 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 			} else if (grantedAuthority.getAuthority().equals(Privilege.STORE_KEEPER.name())) {
 				return "/storekeeper/products";
 			} else if (grantedAuthority.getAuthority().equals(Privilege.APP_ADMIN.name())) {
-				return "/admin/alert";
+				return "/admin/events";
 			}
 		}
 		return "/403";

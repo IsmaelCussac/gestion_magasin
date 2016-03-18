@@ -10,19 +10,11 @@
 <ui:composition>
 	<h:form>
 		<p:tabMenu activeIndex="#{param.i}">
+			<p:menuitem value="Côté client" icon="ui-icon-star"
+				outcome="pretty:cstProducts">
+				<f:param name="i" value="5" />
+			</p:menuitem>
 
-			<p:menuitem value="Suppression" icon="ui-icon-star">
-				<f:param name="i" value="0" />
-			</p:menuitem>
-			<p:menuitem value="Entrée de stock" icon="ui-icon-star">
-				<f:param name="i" value="1" />
-			</p:menuitem>
-			<p:menuitem value="Sortie de stock" icon="ui-icon-star">
-				<f:param name="i" value="2" />
-			</p:menuitem>
-			<p:menuitem value="Rechercher" icon="ui-icon-search">
-				<f:param name="i" value="3" />
-			</p:menuitem>
 		</p:tabMenu>
 	</h:form>
 </ui:composition>

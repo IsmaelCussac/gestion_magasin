@@ -7,11 +7,12 @@
 
 <h:body>
 	<ui:composition template="/template/layout.xhtml">
-		<ui:define name="title">Les alertes</ui:define>
-
+		<ui:define name="title">Administration</ui:define>
+		
 		<ui:define name="menu">
-			<ui:include src="/template/storeKeeperMenu.xhtml" />
+			<ui:include src="/template/adminMenu.xhtml" />
 		</ui:define>
+
 		<ui:define name="content">
 			<p:tabView dynamic="true" cache="true">
 				<p:tab title="Création">
@@ -48,20 +49,20 @@
 				<p:tab title="Visibilité">
 					<h:form>
 						<p:dataTable var="event" value="#{admin.allVisibility}">
-							<p:dataTable var="event" value="#{event.allUpdate}">
-								<p:column headerText="Date">
-									<h:outputText value="#{event.date}" />
-								</p:column>
-								<p:column headerText="Magasinier">
-									<h:outputText value="#{event.storeKeeper}" />
-								</p:column>
-								<p:column headerText="Produit">
-									<h:outputText value="#{event.product}" />
-								</p:column>
-								<p:column headerText="Type">
-									<h:outputText value="#{event.action}" />
-								</p:column>
-							</p:dataTable>
+
+							<p:column headerText="Date">
+								<h:outputText value="#{event.date}" />
+							</p:column>
+							<p:column headerText="Magasinier">
+								<h:outputText value="#{event.storeKeeper}" />
+							</p:column>
+							<p:column headerText="Produit">
+								<h:outputText value="#{event.product}" />
+							</p:column>
+							<p:column headerText="Type">
+								<h:outputText value="#{event.action}" />
+							</p:column>
+
 						</p:dataTable>
 					</h:form>
 				</p:tab>

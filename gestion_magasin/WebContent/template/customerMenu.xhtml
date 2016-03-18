@@ -30,6 +30,12 @@
 					<f:param name="i" value="0" />
 				</p:menuitem>
 			</sec:authorize>
+			<sec:authorize access="hasAuthority('APP_ADMIN')">
+				<p:menuitem value="Côté administrateur" outcome="pretty:adminEvents"
+					icon="ui-icon-star">
+					<f:param name="i" value="0" />
+				</p:menuitem>
+			</sec:authorize>
 		</p:tabMenu>
 	</h:form>
 </ui:composition>

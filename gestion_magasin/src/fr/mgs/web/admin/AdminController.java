@@ -29,7 +29,7 @@ public class AdminController {
 		return eventManager.findEventsByAction(Action.CREATE);
 	}
 	
-	public List<Event> getAllHide(){
+	public List<Event> getAllVisibility(){
 		List<Action> actions = new ArrayList<Action>();
 		actions.add(Action.HIDE);
 		actions.add(Action.SHOW);
