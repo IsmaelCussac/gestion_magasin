@@ -15,37 +15,37 @@
 		<ui:define name="content">
 			<p:tabView dynamic="true" cache="true">
 				<p:tab title="Produits en demande">
-					<form>
-						<p:dataTable var="line" value="#{skAlert.onDemandProducts.entrySet().toArray()}">
+					<h:form>
+						<p:dataTable var="line"
+							value="#{skAlert.onDemandProducts}">
 
 							<p:column headerText="Référence">
-								<h:outputText value="#{line.key.productId}" />
+								<h:outputText value="#{line.productId}" />
 							</p:column>
-							
-							<p:column headerText="Produit" sortBy="#{line.key.designation}">
-								<h:outputText value="#{line.key.designation}" />
+
+							<p:column headerText="Produit" sortBy="#{line.designation}">
+								<h:outputText value="#{line.designation}" />
 							</p:column>
 
 							<p:column headerText="Sous-catégorie"
-								sortBy="#{line.key.subCategory.name}">
-								<h:outputText value="#{line.key.subCategory.name}" />
+								sortBy="#{line.subCategory}">
+								<h:outputText value="#{line.subCategory}" />
 							</p:column>
 
 							<p:column headerText="Nombre d'articles manquants"
-								sortBy="#{line.value}">
-								<h:outputText value="#{line.value}" />
+								sortBy="#{line.missingQuantity}">
+								<h:outputText value="#{line.neededQuantity}" />
 							</p:column>
 						</p:dataTable>
-					</form>
+					</h:form>
 				</p:tab>
 				<p:tab title="Lots arrivant à expiration">
-					<form>
+					<h:form>
 						<p:dataTable var="lot" value="#{skAlert.outOfDateLots}">
 							<p:column headerText="Produit"
 								sortBy="#{lot.productLot.designation}">
 								<h:outputText value="#{lot.lotProduct.designation}" />
 							</p:column>
-
 							<p:column headerText="Jours avant péremption">
 								<h:outputText value="#{skAlert.daysLeft(lot.expirationDate)}" />
 							</p:column>
@@ -54,13 +54,30 @@
 								<h:outputText value="#{lot.quantity}" />
 							</p:column>
 						</p:dataTable>
-					</form>
+					</h:form>
 				</p:tab>
 				<p:tab title="Stock faible">
-
-				</p:tab>
-				<p:tab title="Tout">
-					<!-- 						a voir -->
+					<h:form>
+						<p:dataTable var="line"
+							value="#{skAlert.shortageStockProducts}">
+							<p:column headerText="Référence">
+								<h:outputText value="#{line.productId}" />
+							</p:column>
+							<p:column headerText="Produit" sortBy="#{line.designation}">
+								<h:outputText value="#{line.designation}" />
+							</p:column>
+							<p:column headerText="Sous-catégorie"
+								sortBy="#{line.subCategory}">
+								<h:outputText value="#{line.subCategory}" />
+							</p:column>
+							<p:column headerText="Quantité disponible">
+								<h:outputText value="#{line.availableQuantity}" />
+							</p:column>
+							<p:column headerText="Quantité conseillée">
+								<h:outputText value="#{line.requiredQuantity}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
 				</p:tab>
 			</p:tabView>
 
