@@ -13,7 +13,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import fr.mgs.business.OrderManager;
 import fr.mgs.business.ProductManager;
@@ -29,12 +29,16 @@ import fr.mgs.model.product.Product;
  *
  */
 @ManagedBean(name = "skAlert")
-@SessionScoped
+@ViewScoped
 public class AlertController {
 
 	private ProductManager productManager;
 	private OrderManager orderManager;
-	private List<AlertProduct> limitedProducts;
+	private List<AlertProduct> alertList;
+
+	private List<Lot> outOfDateLots;
+	private List<AlertProduct> onDemandProducts;
+	private List<AlertProduct> shortageStockProducts;
 
 	@PostConstruct
 	public void init() {
@@ -44,10 +48,41 @@ public class AlertController {
 
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
+		try {
+			alertList = getAlerts();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		outOfDateLots = new ArrayList<Lot>();
+		onDemandProducts = new ArrayList<AlertProduct>();
+		shortageStockProducts = new ArrayList<AlertProduct>();
+
+		findOutOfDateLots();
+		findOnDemandProducts();
+		findShortageStockProducts();
 	}
 
-	public Collection<Lot> getOutOfDateLots() {
-		return productManager.findAllOutOfDateLots();
+	public void findOutOfDateLots() {
+		outOfDateLots = (List<Lot>) productManager.findAllOutOfDateLots();
+	}
+
+	public void findOnDemandProducts() {
+
+		for (AlertProduct prod : alertList) {
+			if (prod.getNeededQuantity() != 0) {
+				onDemandProducts.add(prod);
+			}
+		}
+	}
+
+	public void findShortageStockProducts() {
+
+		for (AlertProduct prod : alertList) {
+			if (prod.getAvailableQuantity() < prod.getRequiredQuantity()) {
+				shortageStockProducts.add(prod);
+			}
+		}
 	}
 
 	public int daysLeft(Date expirationDate) {
@@ -64,25 +99,18 @@ public class AlertController {
 		return (int) (expirationDate.getTime() - currentDate.getTime()) / 60 / 60 / 24 / 1000;
 	}
 
-	public List<AlertProduct> getOnDemandProducts() throws SQLException {
+	/**
+	 * Load shortage and on-demand alerts
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public List<AlertProduct> getAlerts() throws SQLException {
 
-		List<AlertProduct> list = getShortageStockProducts();
-		List<AlertProduct> resultList = new ArrayList<AlertProduct>();
-		
-		for (AlertProduct prod : list) {
-			if (prod.getNeededQuantity() != 0) {
-				resultList.add(prod);
-			}
-		}
-		return resultList;
-	}
-
-	public List<AlertProduct> getShortageStockProducts() throws SQLException {
 		List<AlertProduct> limitedProds = new ArrayList<AlertProduct>();
 		Collection<Order> validatedOrders = orderManager.findAllValidatedOrders();
 		Collection<Product> products = productManager.findAllProducts();
 		Map<Integer, Double> quantities = new HashMap<Integer, Double>();
-		
 
 		// parcours toutes les commandes validées ou avec reliquats, puis chaque
 		// ligne de chaque commande
@@ -99,12 +127,16 @@ public class AlertController {
 			}
 		}
 
+		// parcours tous les produits, puis tous les lot pour calculer la
+		// quantité nécessaire
 		for (Product product : products) {
 			double sumLot = 0;
 			for (Lot lot : product.getLots()) {
 				sumLot += lot.getQuantity();
 			}
-			if (sumLot < product.getMinQuantity()) {
+			// si la quantité cumulée des lots est inférieure à la quantité
+			// minimale on ajoute à la liste
+			if (sumLot < product.getMinQuantity() || sumLot < quantities.get(product.getProductId())) {
 				AlertProduct aP = new AlertProduct();
 				if (quantities.containsKey(product.getProductId())) {
 					aP.setAlertProduct(product.getProductId(), product.getDesignation(),
@@ -120,4 +152,29 @@ public class AlertController {
 		}
 		return limitedProds;
 	}
+
+	public List<AlertProduct> getOnDemandProducts() {
+		return onDemandProducts;
+	}
+
+	public void setOnDemandProducts(List<AlertProduct> onDemandProducts) {
+		this.onDemandProducts = onDemandProducts;
+	}
+
+	public List<AlertProduct> getShortageStockProducts() {
+		return shortageStockProducts;
+	}
+
+	public void setShortageStockProducts(List<AlertProduct> shortageStockProducts) {
+		this.shortageStockProducts = shortageStockProducts;
+	}
+
+	public List<Lot> getOutOfDateLots() {
+		return outOfDateLots;
+	}
+
+	public void setOutOfDateLots(List<Lot> outOfDateLots) {
+		this.outOfDateLots = outOfDateLots;
+	}
+
 }

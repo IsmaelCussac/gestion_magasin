@@ -16,8 +16,7 @@
 			<p:tabView dynamic="true" cache="true">
 				<p:tab title="Produits en demande">
 					<h:form>
-						<p:dataTable var="line"
-							value="#{skAlert.onDemandProducts}">
+						<p:dataTable var="line" value="#{skAlert.onDemandProducts}">
 
 							<p:column headerText="Référence">
 								<h:outputText value="#{line.productId}" />
@@ -58,8 +57,7 @@
 				</p:tab>
 				<p:tab title="Stock faible">
 					<h:form>
-						<p:dataTable var="line"
-							value="#{skAlert.shortageStockProducts}">
+						<p:dataTable var="line" value="#{skAlert.shortageStockProducts}">
 							<p:column headerText="Référence">
 								<h:outputText value="#{line.productId}" />
 							</p:column>
