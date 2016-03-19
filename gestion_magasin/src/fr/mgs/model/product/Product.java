@@ -7,8 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,7 +15,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
 import fr.mgs.model.order.OrderLine;
-import fr.mgs.toolbox.BarCode;
 
 /**
  * This class describes a product entity in database. It contains : - an id - a

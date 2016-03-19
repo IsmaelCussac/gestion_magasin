@@ -20,7 +20,7 @@ import fr.mgs.toolbox.SortMap;
 
 @ManagedBean(name = "outOrders")
 @SessionScoped
-public class StockOutOrdersController {
+public class StockOutController {
 	private Map<Team, Collection<Order>> deliveredOrdersByTeam;
 	private OrderManager orderManager;
 	private UserManager userManager;

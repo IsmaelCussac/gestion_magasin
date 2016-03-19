@@ -58,6 +58,11 @@
 		<view-id value="/storeKeeperStockOut.xhtml" />
 	</url-mapping>
 
+	<url-mapping id="skProductsIn">
+		<pattern value="/storekeeper/productsIn" />
+		<view-id value="/storeKeeperStockIn.xhtml" />
+	</url-mapping>
+
 	<url-mapping id="skDelivery">
 		<pattern value="/storekeeper/delivery" />
 		<view-id value="/storeKeeperDelivery.xhtml" />

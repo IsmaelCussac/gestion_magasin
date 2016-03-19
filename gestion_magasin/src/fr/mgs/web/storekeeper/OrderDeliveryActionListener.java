@@ -15,7 +15,6 @@ import javax.faces.event.ActionListener;
 
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
-import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 
 /**
@@ -26,7 +25,6 @@ import fr.mgs.model.user.Team;
  */
 
 public class OrderDeliveryActionListener implements ActionListener {
-
 	@Override
 	public void processAction(ActionEvent event) throws AbortProcessingException {
 

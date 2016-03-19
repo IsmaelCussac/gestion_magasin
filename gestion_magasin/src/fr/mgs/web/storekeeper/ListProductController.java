@@ -1,26 +1,19 @@
 package fr.mgs.web.storekeeper;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-import fr.mgs.toolbox.*;
 import fr.mgs.barcode.coder.Barcode;
 import fr.mgs.barcode.coder.BarcodeFactory;
 import fr.mgs.barcode.coder.BarcodeType;
-import fr.mgs.business.OrderManager;
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
-import fr.mgs.model.order.Order;
-import fr.mgs.model.order.OrderLine;
-import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Product;
-import fr.mgs.model.product.SubCategory;
+import fr.mgs.toolbox.BarCode;
 
 @ManagedBean(name = "ListProducts")
 @ApplicationScoped

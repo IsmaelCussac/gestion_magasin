@@ -52,11 +52,11 @@ public class OrderCustomerController {
 
 		Product p1 = new Product();
 		p1.setProductId(1);
-		p1.setProduct("Stylo Bleu", subCategory, 0, 20, 1.15, true, null, 100);
+		p1.setProduct(1, "Stylo Bleu", subCategory, 0, 20, 1.15, true, null, 100);
 
 		Product p2 = new Product();
 		p2.setProductId(2);
-		p2.setProduct("Stylo Noir", subCategory, 0, 20, 1.15, true, null, 100);
+		p2.setProduct(2, "Stylo Noir", subCategory, 0, 20, 1.15, true, null, 100);
 
 		Order ord = new Order();
 		ord.setOrder(pers, new Date(), new Date(), null, "", OrderStatus.NOT_VALIDATED);

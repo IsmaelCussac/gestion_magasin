@@ -36,7 +36,6 @@ public class ProductSKController {
 		productManager.init(DataSource.LOCAL);
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
-
 	}
 
 	public Product getProduct() {

@@ -1,0 +1,127 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="/template/layout.xhtml">
+
+	<ui:define name="title">Livraison</ui:define>
+
+
+	<ui:define name="menu">
+		<ui:include src="/template/storeKeeperMenu.xhtml" />
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="form" prependId="false">
+			<p:growl id="msgs" showDetail="true" />
+
+			<p:panelGrid columns="3" layout="grid">
+				<f:facet name="header">
+					<p:row>
+
+						<p:commandButton action="pretty:skOrders" value="Retour"
+							style="height:25px;float:left" />
+						<h:outputText value="Alimenter le stock de produits" />
+						<p:commandButton action="pretty:skOrders" value="Enregistrer"
+							actionListener="#{stockInCtl.saveProducts()}"
+							style="height:25px;float:right">
+							<p:confirm header="Confirmation"
+								message="Confirmez la sauvegarde" icon="ui-icon-alert" />
+						</p:commandButton>
+						<p:commandButton action="pretty:skCreateProduct" value="Créer un produit"
+							actionListener="#{stockInCtl.saveProducts()}"
+							style="height:25px;float:right">
+							<p:confirm header="Confirmation"
+								message="Confirmez la sauvegarde" icon="ui-icon-alert" />
+						</p:commandButton>
+
+					</p:row>
+				</f:facet>
+			</p:panelGrid>
+			<br />
+
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+
+					<div class="ui-grid-col-6">
+						<h:outputLabel value="Placer le curseur ici pour scanner "></h:outputLabel>
+						<p:inputText value="#{stockInCtl.initScan}"
+							onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
+							<p:ajax event="change" listener="#{stockInCtl.scan()}"
+								update="tablist" />
+						</p:inputText>
+					</div>
+
+
+				</div>
+			</div>
+
+			<br />
+
+			<p:dataTable id="tablist"
+				value="#{stockInCtl.listProducts.getAllProducts()}" var="p"
+				styleClass="course-table" headerClass="course-table-header"
+				footerClass="course-table-header"
+				rowClasses="course-table-odd-row,course-table-even-row">
+
+				<p:column>
+					<p:graphicImage name="/image/product-icon.png" />
+				</p:column>
+				<p:column headerText="Désignation">
+					<h:outputText value="#{p.designation}" />
+				</p:column>
+				<p:column headerText="Référence">
+					<h:outputText value="#{p.productId}" />
+				</p:column>
+
+				<p:column headerText="Nombre d'articles">
+					<h:outputText value="" />
+				</p:column>
+				<p:column headerText="Visibilité">
+					<p:selectBooleanCheckbox value="0" />
+				</p:column>
+			</p:dataTable>
+
+			<br />
+
+			<div class="ui-grid ui-grid-responsive">
+				<div class="ui-grid-row">
+					<div class="ui-grid-col-6">
+						<p:commandButton style="float:left" id="btnLot1"
+							value="Consulter les lots"></p:commandButton>
+					</div>
+					<div class="ui-grid-col-6">
+						<p:commandButton value="Réinitialiser les valeurs"
+							action="#{stockInCtl.resetScan()}" update="tablist"
+							style="float:right">
+						</p:commandButton>
+					</div>
+
+					<div class="ui-grid-col-6">
+						<p:commandButton action="pretty:skOrders" value="Enregistrer"
+							actionListener="#{stockInCtl.saveProducts()}" style="float:right">
+							<p:confirm header="Confirmation" message="Confirmez la livraison"
+								icon="ui-icon-alert" />
+						</p:commandButton>
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+							<p:commandButton value="Oui" type="button"
+								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+							<p:commandButton value="Non" type="button"
+								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+						</p:confirmDialog>
+
+					</div>
+				</div>
+			</div>
+
+
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>
