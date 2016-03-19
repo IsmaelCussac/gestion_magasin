@@ -42,18 +42,6 @@ public class StockOutOrdersController {
 
 		for (Team team : userManager.findAllTeams()) {
 			if (!team.getUsers().isEmpty()) {
-//				Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
-//				// for looking out of stock orders we display only delivered
-//				// orders
-//				for (Order order : orderManager.findOrderByTeam(team)) {
-//					if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
-//						teamDeliveredOrders.add(order);
-//					}
-//				}
-//				if (!teamDeliveredOrders.isEmpty()) {
-//					deliveredOrdersByTeam.put(team, teamDeliveredOrders);
-//
-//				}
 			    createTeamDeliveryOrders(team);
 
 			}
@@ -67,7 +55,7 @@ public class StockOutOrdersController {
         // for looking out of stock orders we display only delivered
         // orders
         for (Order order : orderManager.findOrderByTeam(team)) {
-            if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
+            if (order.getStatus().name() == OrderStatus.DELIVERED.name()) {
                 teamDeliveredOrders.add(order);
             }
         }
@@ -75,7 +63,5 @@ public class StockOutOrdersController {
             this.deliveredOrdersByTeam.put(team, teamDeliveredOrders);
 
         }
-
 	}
-
 }
