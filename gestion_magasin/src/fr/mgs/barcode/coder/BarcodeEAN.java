@@ -32,7 +32,7 @@
 package fr.mgs.barcode.coder;
 
 public class BarcodeEAN extends Barcode1D{
-	public final static String[] types = new String[]{"ean8","ean13"};
+	private final static String[] types = new String[]{"ean8","ean13"};
     private static String[][] encoding = new String[][]{
     	      {"0001101", "0100111", "1110010"},
     	      {"0011001", "0110011", "1100110"},

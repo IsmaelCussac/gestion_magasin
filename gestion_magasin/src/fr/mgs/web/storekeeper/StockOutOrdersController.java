@@ -28,7 +28,7 @@ public class StockOutOrdersController {
 
 
 	@PostConstruct
-	private void ini() {
+	private void init() {
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
 		userManager = new UserManager();
@@ -38,27 +38,44 @@ public class StockOutOrdersController {
 	}
 
 	public Map<Team, Collection<Order>> getDeliveredOrdersByTeam() throws SQLException {
-		deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
+		this.deliveredOrdersByTeam = new HashMap<Team, Collection<Order>>();
 
 		for (Team team : userManager.findAllTeams()) {
 			if (!team.getUsers().isEmpty()) {
-				Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
-				// for looking out of stock orders we display only delivered
-				// orders
-				for (Order order : orderManager.findOrderByTeam(team)) {
-					if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
-						teamDeliveredOrders.add(order);
-					}
-				}
-				if (!teamDeliveredOrders.isEmpty()) {
-					deliveredOrdersByTeam.put(team, teamDeliveredOrders);
-
-				}
+//				Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
+//				// for looking out of stock orders we display only delivered
+//				// orders
+//				for (Order order : orderManager.findOrderByTeam(team)) {
+//					if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
+//						teamDeliveredOrders.add(order);
+//					}
+//				}
+//				if (!teamDeliveredOrders.isEmpty()) {
+//					deliveredOrdersByTeam.put(team, teamDeliveredOrders);
+//
+//				}
+			    createTeamDeliveryOrders(team);
 
 			}
 		}
 		sortMap.getTreeMap().putAll(deliveredOrdersByTeam);
 		return sortMap.getTreeMap();
+	}
+	
+	private void createTeamDeliveryOrders(Team team){
+	    Collection<Order> teamDeliveredOrders = new ArrayList<Order>();
+        // for looking out of stock orders we display only delivered
+        // orders
+        for (Order order : orderManager.findOrderByTeam(team)) {
+            if (order.getStatus().toString().equals(OrderStatus.DELIVERED.toString())) {
+                teamDeliveredOrders.add(order);
+            }
+        }
+        if (!teamDeliveredOrders.isEmpty()) {
+            this.deliveredOrdersByTeam.put(team, teamDeliveredOrders);
+
+        }
+
 	}
 
 }

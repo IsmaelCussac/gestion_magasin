@@ -32,7 +32,7 @@
 package fr.mgs.barcode.coder;
 
 public class Barcode2of5 extends Barcode1D{
-	public final static String[] types = new String[]{"int25","std25"};
+	private final static String[] types = new String[]{"int25","std25"};
 	private static String[] encoding = new String[] {
 		"NNWWN", "WNNNW", "NWNNW", "WWNNN", "NNWNW", 
 		"WNWNN", "NWWNN", "NNNWW", "WNNWN", "NWNWN" };
