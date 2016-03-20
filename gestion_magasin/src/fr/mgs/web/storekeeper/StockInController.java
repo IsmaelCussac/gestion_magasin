@@ -15,7 +15,7 @@ public class StockInController {
 	private String initScan;
 
 	@PostConstruct
-	private void ini() {
+	private void init() {
 
 	}
 

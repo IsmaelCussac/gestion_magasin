@@ -37,7 +37,11 @@ public class AdminController {
 	}
 	
 	public List<Event> getAllUpdate(){
-		return eventManager.findEventsByAction(Action.UPDATE);
+		List<Action> actions = new ArrayList<Action>();
+		actions.add(Action.UPDATE);
+		actions.add(Action.INCREASING);
+		actions.add(Action.DECREASING);
+		return eventManager.findEventsByAction(actions);
 	}
 
 }

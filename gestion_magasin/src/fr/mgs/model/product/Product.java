@@ -125,6 +125,10 @@ public class Product {
 	public boolean isVisible() {
 		return visibility;
 	}
+	
+	public boolean getVisibility() {
+		return visibility;
+	}
 
 	public void setVisibility(boolean visibility) {
 		this.visibility = visibility;
