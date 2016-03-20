@@ -15,113 +15,188 @@
 	</ui:define>
 
 	<ui:define name="content">
+		<f:view>
+			<h:form id="form" prependId="false">
+				<p:growl id="msgs" showDetail="true" />
 
-		<h:form id="form" prependId="false">
-			<p:growl id="msgs" showDetail="true" />
+				<p:panelGrid columns="3" layout="grid">
+					<f:facet name="header">
+						<p:row>
 
-			<p:panelGrid columns="3" layout="grid">
-				<f:facet name="header">
-					<p:row>
+							<p:commandButton value="Créer un lot"
+								actionListener="#{stockInCtl.saveProducts()}"
+								style="height:25px;float:left" onclick="PF('dlg1').show();"
+								update=":formLot:panLot">
+							</p:commandButton>
+							<h:outputText value="Alimenter le stock de produits" />
+							<p:commandButton action="pretty:skOrders" value="Enregistrer"
+								actionListener="#{stockInCtl.saveProducts()}"
+								style="height:25px;float:right">
+								<p:confirm header="Confirmation"
+									message="Confirmez la sauvegarde" icon="ui-icon-alert" />
+							</p:commandButton>
 
-						<p:commandButton action="pretty:skCreateProduct"
-							value="Créer un produit"
-							actionListener="#{stockInCtl.saveProducts()}"
-							style="height:25px;float:left">
-							<p:confirm header="Confirmation"
-								message="Confirmez la sauvegarde" icon="ui-icon-alert" />
-						</p:commandButton>
-						<h:outputText value="Alimenter le stock de produits" />
-						<p:commandButton action="pretty:skOrders" value="Enregistrer"
-							actionListener="#{stockInCtl.saveProducts()}"
-							style="height:25px;float:right">
-							<p:confirm header="Confirmation"
-								message="Confirmez la sauvegarde" icon="ui-icon-alert" />
-						</p:commandButton>
+						</p:row>
+
+					</f:facet>
+
+				</p:panelGrid>
 
 
-					</p:row>
-				</f:facet>
-			</p:panelGrid>
-			<br />
+				<h:form id="formLot" prependId="true">
+					<p:dialog header="Nouveau lot" widgetVar="dlg1" modal="true"
+						height="200" width="600" style="margin-top:20px">
 
-			<div class="ui-grid ui-grid-responsive">
-				<div class="ui-grid-row">
+						<h:panelGrid id="panLot" columns="2" cellpadding="5">
+							<h:outputLabel for="prod" value="Produit:"
+								style="font-weight:bold" />
 
-					<div class="ui-grid-col-6">
-						<h:outputLabel value="Placer le curseur ici pour scanner "></h:outputLabel>
-						<p:inputText value="#{stockInCtl.initScan}"
-							onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
-							<p:ajax event="change" listener="#{stockInCtl.scan()}"
-								update="tablist" />
-						</p:inputText>
+							<p:selectOneMenu id="prod"
+								value="#{stockInCtl.selectedProduct.productId}" style="width:px">
+								<p:ajax update="ref" />
+								<f:selectItems id="item"
+									value="#{stockInCtl.listProducts.getAllProducts()}"
+									var="product" itemLabel="#{product.designation}"
+									itemValue="#{product.productId}" />
+
+							</p:selectOneMenu>
+
+
+
+							<h:outputLabel for="qte" value="Nombre d'articles:"
+								style="font-weight:bold" />
+
+							<p:spinner id="qte" min="0" value="#{stockInCtl.newLot.quantity}" />
+
+
+
+							<h:outputLabel for="expDate" value="Date de péremption:"
+								style="font-weight:bold" />
+
+							<p:calendar id="expDate" locale="fr" navigator="true"
+								pattern="dd-MM-yyyy" value="#{stockInCtl.newLot.expirationDate}" />
+
+
+							<h:outputLabel for="ref" value="Référence du produit:"
+								style="font-weight:bold" />
+
+							<p:inputText id="ref"
+								value="#{stockInCtl.selectedProduct.productId}"
+								label="Référence du produit" disabled="true">
+
+							</p:inputText>
+
+
+						</h:panelGrid>
+
+						<p:dialog modal="true" resizable="false" header="Values"
+							widgetVar="dlg" showEffect="fold">
+							<p:panelGrid id="display" columns="2" columnClasses="label,value">
+								<h:outputText value="Année:" />
+								<h:outputText value="#{stockInCtl.newLot.expirationDate}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:panelGrid>
+						</p:dialog>
+						<p:commandButton value="Ajouter" update="panLot"
+							icon="ui-icon-check" validateClient="true"
+							style="margin-right:10px"
+							actionListener="#{stockInCtl.saveLot()}" />
+
+
+					</p:dialog>
+				</h:form>
+
+				<br />
+
+
+
+
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+
+						<div class="ui-grid-col-6">
+							<h:outputLabel value="Placer le curseur ici pour scanner "></h:outputLabel>
+							<p:inputText value="#{stockInCtl.initScan}"
+								onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
+								<p:ajax event="change" listener="#{stockInCtl.scan()}"
+									update="tablist" />
+							</p:inputText>
+						</div>
+
+
 					</div>
-
-
 				</div>
-			</div>
 
-			<br />
+				<br />
 
-			<p:dataTable id="tablist"
-				value="#{stockInCtl.listProducts.getAllProducts()}" var="p"
-				styleClass="course-table" headerClass="course-table-header"
-				footerClass="course-table-header"
-				rowClasses="course-table-odd-row,course-table-even-row">
+				<p:dataTable id="tablist"
+					value="#{stockInCtl.listProducts.getAllProducts()}" var="p"
+					styleClass="course-table" headerClass="course-table-header"
+					footerClass="course-table-header"
+					rowClasses="course-table-odd-row,course-table-even-row" rows="5"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15">>
 
 				<p:column>
-					<p:graphicImage name="/image/product-icon.png" />
-				</p:column>
-				<p:column headerText="Désignation">
-					<h:outputText value="#{p.designation}" />
-				</p:column>
-				<p:column headerText="Référence">
-					<h:outputText value="#{p.productId}" />
-				</p:column>
+						<p:graphicImage name="/image/product-icon.png" />
+					</p:column>
+					<p:column headerText="Désignation">
+						<h:outputText value="#{p.designation}" />
+					</p:column>
+					<p:column headerText="Référence">
+						<h:outputText value="#{p.productId}" />
+					</p:column>
 
 
-				<p:column headerText="Visibilité">
-					<p:selectBooleanCheckbox value="0" />
-				</p:column>
-				<p:column headerText="Quantité entrée">
-					<h:outputText value="#{stockInCtl.conditioning}" />
-				</p:column>
-			</p:dataTable>
+					<p:column headerText="Visibilité">
+						<p:selectBooleanCheckbox value="0" />
+					</p:column>
+					<p:column headerText="Quantité entrée">
+						<h:outputText value="#{stockInCtl.conditioning}" />
+					</p:column>
+				</p:dataTable>
 
-			<br />
+				<br />
 
-			<div class="ui-grid ui-grid-responsive">
-				<div class="ui-grid-row">
-					<div class="ui-grid-col-6">
-						<p:commandButton style="float:left" id="btnLot1"
-							value="Consulter les lots"></p:commandButton>
-					</div>
-					<div class="ui-grid-col-6">
-						<p:commandButton value="Réinitialiser les valeurs"
-							action="#{stockInCtl.resetScan()}" update="tablist"
-							style="float:right">
-						</p:commandButton>
-					</div>
+				<div class="ui-grid ui-grid-responsive">
+					<div class="ui-grid-row">
+						<div class="ui-grid-col-6">
+							<p:commandButton style="float:left" id="btnLot1"
+								value="Consulter les lots"></p:commandButton>
+						</div>
+						<div class="ui-grid-col-6">
+							<p:commandButton value="Réinitialiser les valeurs"
+								action="#{stockInCtl.resetScan()}" update="tablist"
+								style="float:right">
+							</p:commandButton>
+						</div>
 
-					<div class="ui-grid-col-6">
-						<p:commandButton action="pretty:skOrders" value="Enregistrer"
-							actionListener="#{stockInCtl.saveProducts()}" style="float:right">
-							<p:confirm header="Confirmation" message="Confirmez la livraison"
-								icon="ui-icon-alert" />
-						</p:commandButton>
-						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-							<p:commandButton value="Oui" type="button"
-								styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-							<p:commandButton value="Non" type="button"
-								styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-						</p:confirmDialog>
+						<div class="ui-grid-col-6">
+							<p:commandButton action="pretty:skOrders" value="Enregistrer"
+								actionListener="#{stockInCtl.saveProducts()}"
+								style="float:right">
+								<p:confirm header="Confirmation"
+									message="Confirmez la livraison" icon="ui-icon-alert" />
+							</p:commandButton>
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Oui" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="Non" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
 
+						</div>
 					</div>
 				</div>
-			</div>
 
 
 
-		</h:form>
+
+			</h:form>
+		</f:view>
 	</ui:define>
 </ui:composition>
 

@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
@@ -34,6 +35,18 @@ public class StockInController {
 	private String initScan;
 	private Double conditioning;
 	private ProductManager productManager;
+	private Product selectedProduct;
+	private Lot newLot;
+
+	private String test = "hallo";
+
+	public String getTest() {
+		return test;
+	}
+
+	public void setTest(String test) {
+		this.test = test;
+	}
 
 	@PostConstruct
 	public void ini() {
@@ -41,8 +54,12 @@ public class StockInController {
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
 		conditioning = 0.0;
+		selectedProduct = new Product();
+		newLot = new Lot();
+		newLot.setQuantity(0);
 
 	}
+
 	public void saveProducts() {
 
 	}
@@ -70,6 +87,13 @@ public class StockInController {
 	public boolean isPlastic(Product p) {
 		return (p.getSubCategory().getCategory().equals(Category.PLASTIC)
 				|| p.getSubCategory().getCategory().equals(Category.CULTURE_PLASTIC));
+	}
+
+	
+	public void saveLot() throws SQLException {
+		newLot.setLotProduct(selectedProduct);
+		productManager.addLot(newLot);
+
 	}
 
 	public ListProductController getListProducts() {
@@ -102,5 +126,21 @@ public class StockInController {
 
 	public void setConditioning(Double conditioning) {
 		this.conditioning = conditioning;
+	}
+
+	public Product getSelectedProduct() {
+		return selectedProduct;
+	}
+
+	public void setSelectedProduct(Product selectedProduct) {
+		this.selectedProduct = selectedProduct;
+	}
+
+	public Lot getNewLot() {
+		return newLot;
+	}
+
+	public void setNewLot(Lot newLot) {
+		this.newLot = newLot;
 	}
 }

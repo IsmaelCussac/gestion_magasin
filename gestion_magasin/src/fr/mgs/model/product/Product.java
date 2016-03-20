@@ -1,3 +1,4 @@
+
 package fr.mgs.model.product;
 
 import java.util.HashSet;
