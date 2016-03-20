@@ -17,7 +17,7 @@
 			<f:view>
 				<h:form>
 					<p:commandButton value="Ajouter un produit"
-						actionListener="#{skProducts.addNewProduct()}" 
+						actionListener="#{skProducts.addNewProduct()}"
 						onclick="PF('dlg1').show();" update=":updateDialog:updatePanel" />
 				</h:form>
 
@@ -58,9 +58,10 @@
 					</p:tab>
 				</p:accordionPanel>
 
-				<h:form id="updateDialog" prependId="true">
-					<p:dialog header="Modifier produit" widgetVar="dlg1" modal="true"
-						height="630" width="500">
+				<h:form id="updateDialog" prependId="true"
+					enctype="multipart/form-data">
+					<p:dialog header="Modifier produit" widgetVar="dlg1" modal="false"
+						height="630" width="700">
 						<p:outputPanel id="updatePanel">
 
 							<div class="form-group" style="width: 100%">
@@ -109,11 +110,13 @@
 									</td>
 									<td>
 										<div class="form-group">
-											<label for="Image">Image produit :</label>
-											<h:inputText type="file" class="form-control" name="Image"
-												value="#{skProducts.currentProduct.picture}" />
-											<i>Image d'extension .jpeg .png autorisée au format 100px
-												par 100px.</i>
+											<label for="Image">Image :</label>
+											<p:fileUpload value="#{skProduct.image}"
+												fileUploadListener="#{skProduct.handleFileUpload}"
+												mode="advanced" auto="true"
+												allowTypes="/(\.|\/)(jpe?g|png)$/" />
+											<i>PNG ou JPEG de taille 100x100px maximum.</i>
+
 										</div>
 									</td>
 								</tr>
@@ -150,3 +153,6 @@
 	</ui:composition>
 </h:body>
 </html>
+
+<!-- <p:graphicImage id="prodImg" value="#{skProducts.byteToImage(image)}"  -->
+<!-- 												cache="false" /> -->

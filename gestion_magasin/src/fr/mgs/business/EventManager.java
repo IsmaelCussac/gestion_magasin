@@ -14,7 +14,7 @@ import fr.mgs.model.event.Event;
 /**
  * Business class that manage the following DAO to access database and process
  * data : 
- * - LogMonitorDAO
+ * - Event
  * 
  * @author Ismaël
  * @author Ibrahima

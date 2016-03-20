@@ -78,7 +78,7 @@ public class EventManagerTest {
 
 		e1 = new Event();
 		d1 = new Date();
-		e1.setHistorical("123", product, Action.INCREASING, d1, "test");
+		e1.setEvent("123", product, Action.INCREASING, d1, "test");
 	}
 
 	/*

@@ -105,7 +105,7 @@ public class Event implements Serializable {
 		this.resume = resume;
 	}
 
-	public void setHistorical(String storeKeeper, Product product, Action action, Date date, String resume) {
+	public void setEvent(String storeKeeper, Product product, Action action, Date date, String resume) {
 		setStoreKeeper(storeKeeper);
 		setProduct(product.getProductId());
 		setAction(action);

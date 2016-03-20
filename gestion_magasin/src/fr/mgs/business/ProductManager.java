@@ -16,9 +16,9 @@ import fr.mgs.model.product.SubCategory;
 /**
  * Business class that manage the following DAOs to access database and process
  * data : 
- * - LotDAO 
- * - ProductDAO 
- * - SubCategoryDAO
+ * - Lot 
+ * - Product 
+ * - SubCategory
  * 
  * @author Ismaël
  * @author Ibrahima
@@ -303,4 +303,5 @@ public class ProductManager extends Manager {
 		query.setParameter("c", category);
 		return query.getResultList();
 	}
+	
 }

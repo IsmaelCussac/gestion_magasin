@@ -18,8 +18,8 @@ import fr.mgs.model.user.Team;
 /**
  * Business class that manage the following DAOs to access database and process
  * data : 
- * - OrderDAO 
- * - OrderLineDAO
+ * - Order
+ * - OrderLine
  * 
  * @author Ismaël
  * @author Ibrahima
