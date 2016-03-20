@@ -61,7 +61,10 @@ public class ProductController {
 		return (List<SubCategory>) productManager.findAllSubCategories();
 	}
 	
-	
+	/*
+	 * 
+	 *  Ajout product
+	 */
 	public void addNewProduct() throws SQLException{
 		if(!subCategory.getName().equals("")){
 			currentProduct.setSubCategory(productManager.findSubCategory(subCategory.getName()));
