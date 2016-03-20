@@ -93,7 +93,6 @@ public class OrderController {
 	}
 
 	public void updateCart(StoreItem item) throws SQLException {
-		System.out.println(item.toString());
 		if (item.getQuantity() == 0) {
 			removeOrderLineInDB(item);
 			removeInCart(item);

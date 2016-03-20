@@ -36,13 +36,13 @@ public class StockInController {
 	private ProductManager productManager;
 
 	@PostConstruct
-	private void ini() {
+	public void ini() {
 		items = new HashSet<Product>();
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
 		conditioning = 0.0;
-	}
 
+	}
 	public void saveProducts() {
 
 	}

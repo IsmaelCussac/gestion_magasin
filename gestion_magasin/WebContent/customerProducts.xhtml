@@ -26,17 +26,17 @@
 								<h:form id="form">
 
 									<p:dataGrid value="#{cstProducts.getStoreItems(subCat)}"
-										var="it" columns="3" layout="grid" rows="6" paginator="true"
+										var="it" columns="4" layout="grid" rows="8" paginator="true"
 										id="items"
 										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 										rowsPerPageTemplate="6,12">
 										<p:panel style="text-align:center">
-											<h:panelGrid columns="1" style="width:100%">
+											<h:panelGrid columns="1" style="text-align:center;width:100%">
 												<p:graphicImage library="image" name="product-icon.png" />
 
 												<h:outputText value="#{it.designation}" />
 
-												<p:spinner id="sp" value="#{it.quantity}" min="0">
+												<p:spinner id="sp" value="#{it.quantity}" min="0" size="2">
 													<p:ajax event="change"
 														listener="#{cstProducts.updateCart(it)}" />
 												</p:spinner>
@@ -56,64 +56,3 @@
 	</ui:composition>
 </h:body>
 </html>
-
-
-
-<!-- 	<p:spinner id="basic" value="#{it.quantity}" -->
-<!-- 														valueChangeListener="#{productoBean.updateCantidad}" -->
-<!-- 												 stepFactor="1" -->
-<!-- 													min="0"> -->
-
-<!-- 												</p:spinner> -->
-<!-- 													<p:commandButton -->
-<!-- 														actionListener="#{cstProducts.updateOrderLine(it)}" -->
-<!-- 														id="button" icon="ui-icon-disk" title="Ajouter" /> -->
-
-<!-- 													<p:ajax event="change" -->
-<!-- 														listener="#{cstProducts.updateOrderLine(it)}" -->
-<!-- 														update="@form" /> -->
-
-
-<!-- <p:dataTable id="dt" -->
-<!-- 										value="#{cstProducts.getOrderItems(subCat)}" var="it" -->
-<!-- 										styleClass="course-table" headerClass="course-table-header" -->
-<!-- 										footerClass="course-table-header" -->
-<!-- 										rowClasses="course-table-odd-row,course-table-even-row"> -->
-
-<!-- 										<p:column> -->
-<!-- 											<p:graphicImage library="image" name="product-icon.png" /> -->
-<!-- 										</p:column> -->
-<!-- 										<p:column headerText="Désignation"> -->
-<!-- 											<h:outputText value="#{it.designation}" /> -->
-<!-- 										</p:column> -->
-<!-- 										<p:column headerText="Quantité"> -->
-<!-- 											<p:spinner id="sp" value="#{it.quantity}" /> -->
-<!-- 											<p:commandButton actionListener="#{cstProducts.updateOrderLine(it)}" -->
-<!-- 												process="@this, sp" id="button" icon="ui-icon-disk" -->
-<!-- 												title="Ajouter" update="@form" /> -->
-<!-- 										</p:column> -->
-<!-- 									</p:dataTable> -->
-
-<!-- <p:dataGrid value="#{cstProducts.getOrderItems(subCat)}" -->
-<!-- 										var="it" columns="3" layout="grid" rows="6" paginator="true" -->
-<!-- 										id="items" -->
-<!-- 										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" -->
-<!-- 										rowsPerPageTemplate="6,12"> -->
-<!-- 										<p:panel header="#{car.id}" style="text-align:center"> -->
-<!-- 											<h:panelGrid columns="1" style="width:100%"> -->
-<!-- 												<p:graphicImage library="image" name="product-icon.png" /> -->
-
-<!-- 												<h:outputText value="#{it.designation}" /> -->
-
-<!-- 												<p:spinner id="sp" value="#{it.quantity}" /> -->
-<!-- 												<p:commandButton -->
-<!-- 													actionListener="#{cstProducts.updateOrderLine(it)}" -->
-<!-- 													process="@this, sp" id="button" icon="ui-icon-disk" -->
-<!-- 													title="Ajouter" update="@form" /> -->
-<!-- 											</h:panelGrid> -->
-<!-- 										</p:panel> -->
-
-<!-- 									</p:dataGrid> -->
-
-
-
