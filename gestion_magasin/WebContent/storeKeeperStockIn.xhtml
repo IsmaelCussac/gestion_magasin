@@ -4,29 +4,22 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-
 <ui:composition template="/template/layout.xhtml">
-
 	<ui:define name="title">Livraison</ui:define>
-
-
 	<ui:define name="menu">
 		<ui:include src="/template/storeKeeperMenu.xhtml" />
 	</ui:define>
-
 	<ui:define name="content">
 		<f:view>
 			<h:form id="form" prependId="false">
 				<p:growl id="msgs" showDetail="true" />
-
 				<p:panelGrid columns="3" layout="grid">
 					<f:facet name="header">
 						<p:row>
-
 							<p:commandButton value="Créer un lot"
 								actionListener="#{stockInCtl.saveProducts()}"
 								style="height:25px;float:left" onclick="PF('dlg1').show();"
-								update=":formLot:panLot">
+								update="panLot">
 							</p:commandButton>
 							<h:outputText value="Alimenter le stock de produits" />
 							<p:commandButton action="pretty:skOrders" value="Enregistrer"
@@ -43,8 +36,7 @@
 				</p:panelGrid>
 
 
-				<h:form id="formLot" prependId="true">
-					<p:dialog header="Nouveau lot" widgetVar="dlg1" modal="true"
+					<p:dialog id="formLot"  header="Nouveau lot" widgetVar="dlg1" modal="true"
 						height="200" width="600" style="margin-top:20px">
 
 						<h:panelGrid id="panLot" columns="2" cellpadding="5">
@@ -61,22 +53,15 @@
 
 							</p:selectOneMenu>
 
-
-
 							<h:outputLabel for="qte" value="Nombre d'articles:"
 								style="font-weight:bold" />
 
 							<p:spinner id="qte" min="0" value="#{stockInCtl.newLot.quantity}" />
-
-
-
 							<h:outputLabel for="expDate" value="Date de péremption:"
 								style="font-weight:bold" />
 
 							<p:calendar id="expDate" locale="fr" navigator="true"
 								pattern="dd-MM-yyyy" value="#{stockInCtl.newLot.expirationDate}" />
-
-
 							<h:outputLabel for="ref" value="Référence du produit:"
 								style="font-weight:bold" />
 
@@ -85,7 +70,6 @@
 								label="Référence du produit" disabled="true">
 
 							</p:inputText>
-
 
 						</h:panelGrid>
 
@@ -98,26 +82,20 @@
 								</h:outputText>
 							</p:panelGrid>
 						</p:dialog>
-						<p:commandButton value="Ajouter" update="panLot"
+						<p:commandButton value="Ajouter" update=":form:msgs"
 							icon="ui-icon-check" validateClient="true"
 							style="margin-right:10px"
 							actionListener="#{stockInCtl.saveLot()}" />
-
-
 					</p:dialog>
-				</h:form>
 
 				<br />
-
-
-
 
 				<div class="ui-grid ui-grid-responsive">
 					<div class="ui-grid-row">
 
 						<div class="ui-grid-col-6">
 							<h:outputLabel value="Placer le curseur ici pour scanner "></h:outputLabel>
-							<p:inputText value="#{stockInCtl.initScan}"
+							<p:inputText value="#{stockInCtl.scanDefault}"
 								onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
 								<p:ajax event="change" listener="#{stockInCtl.scan()}"
 									update="tablist" />
@@ -137,7 +115,7 @@
 					rowClasses="course-table-odd-row,course-table-even-row" rows="5"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15">>
+					rowsPerPageTemplate="5,10,15">
 
 				<p:column>
 						<p:graphicImage name="/image/product-icon.png" />

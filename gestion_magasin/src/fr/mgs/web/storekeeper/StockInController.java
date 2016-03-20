@@ -1,5 +1,6 @@
 package fr.mgs.web.storekeeper;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,11 +11,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
-import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
@@ -28,31 +27,21 @@ import fr.mgs.model.product.Product;
 @SessionScoped
 public class StockInController {
 
-	@ManagedProperty("#{ListProducts}")
-	ListProductController listProducts;
-
 	private Set<Product> items;
-	private String initScan;
+	private String scanDefault;
 	private Double conditioning;
 	private ProductManager productManager;
 	private Product selectedProduct;
 	private Lot newLot;
-
-	private String test = "hallo";
-
-	public String getTest() {
-		return test;
-	}
-
-	public void setTest(String test) {
-		this.test = test;
-	}
+	
+	@ManagedProperty("#{ListProducts}")
+	ListProductController listProducts;
 
 	@PostConstruct
 	public void ini() {
-		items = new HashSet<Product>();
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
+		items = new HashSet<Product>();
 		conditioning = 0.0;
 		selectedProduct = new Product();
 		newLot = new Lot();
@@ -64,20 +53,17 @@ public class StockInController {
 
 	}
 
-	public void initScan() {
-
-	}
-
-	public void scan() throws SQLException {
-		Product product = productManager.findProduct(Integer.valueOf(initScan));
+	public void scan() throws NumberFormatException, SQLException {
+		System.out.println(scanDefault);
+		Product product = productManager.findProduct(Integer.valueOf(scanDefault));
 		if (product != null && isPlastic(product)) {
 			Lot lot = new Lot();
 			lot.setLotProduct(product);
 			lot.setQuantity(product.getConditioning());
 			product.getConditioning();
+			conditioning = 100.0;
 		}
-		conditioning = 0.0;
-		initScan = "";
+		scanDefault = "";
 	}
 
 	public void resetScan() {
@@ -89,10 +75,11 @@ public class StockInController {
 				|| p.getSubCategory().getCategory().equals(Category.CULTURE_PLASTIC));
 	}
 
-	
 	public void saveLot() throws SQLException {
 		newLot.setLotProduct(selectedProduct);
 		productManager.addLot(newLot);
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Nouveau lot ajouté", ""));
 
 	}
 
@@ -104,12 +91,12 @@ public class StockInController {
 		this.listProducts = listProducts;
 	}
 
-	public String getInitScan() {
-		return initScan;
+	public String getScanDefault() {
+		return scanDefault;
 	}
 
-	public void setInitScan(String initScan) {
-		this.initScan = initScan;
+	public void setScanDefault(String value) {
+		this.scanDefault = value;
 	}
 
 	public Set<Product> getItems() {
