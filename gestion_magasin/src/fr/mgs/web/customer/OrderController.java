@@ -112,6 +112,7 @@ public class OrderController {
 	}
 	
 	public void clearStoreItems(){
+		System.out.println("clear");
 		getStoreItems().clear();
 	}
 
