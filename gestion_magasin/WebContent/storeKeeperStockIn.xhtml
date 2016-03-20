@@ -23,16 +23,16 @@
 				<f:facet name="header">
 					<p:row>
 
-						<p:commandButton action="pretty:skOrders" value="Retour"
-							style="height:25px;float:left" />
-						<h:outputText value="Alimenter le stock de produits" />
-						<p:commandButton action="pretty:skOrders" value="Enregistrer"
+						<p:commandButton action="pretty:skCreateProduct"
+							value="Créer un produit"
 							actionListener="#{stockInCtl.saveProducts()}"
-							style="height:25px;float:right">
+							style="height:25px;float:left">
 							<p:confirm header="Confirmation"
 								message="Confirmez la sauvegarde" icon="ui-icon-alert" />
 						</p:commandButton>
-						<p:commandButton action="pretty:skCreateProduct" value="Créer un produit"
+
+						<h:outputText value="Alimenter le stock de produits" />
+						<p:commandButton action="pretty:skOrders" value="Enregistrer"
 							actionListener="#{stockInCtl.saveProducts()}"
 							style="height:25px;float:right">
 							<p:confirm header="Confirmation"
@@ -78,11 +78,12 @@
 					<h:outputText value="#{p.productId}" />
 				</p:column>
 
-				<p:column headerText="Nombre d'articles">
-					<h:outputText value="" />
-				</p:column>
+
 				<p:column headerText="Visibilité">
 					<p:selectBooleanCheckbox value="0" />
+				</p:column>
+				<p:column headerText="Quantité entrée">
+					<h:outputText value="#{stockInCtl.conditioning}" />
 				</p:column>
 			</p:dataTable>
 
