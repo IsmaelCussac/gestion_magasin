@@ -36,10 +36,10 @@
 		<logout logout-url="/logout" logout-success-url="/connection"
 			invalidate-session="true" />
 
-		
+		<!-- enable csrf protection -->
+	 <csrf disabled="true" />  <sec:headers /> 
 	</http>
-	<!-- enable csrf protection -->
-	<sec:http use-expressions="true">  <csrf disabled="false" />  <sec:headers />  </sec:http>
+	
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="authManager">
