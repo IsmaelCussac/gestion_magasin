@@ -27,12 +27,12 @@
 						<p:accordionPanel id="subAccordion" dynamic="true" cache="true"
 							value="#{skProducts.getSubCategories(cat)}" var="subCat"
 							activeIndex="null">
-							<p:ajax event="tabChange" listener="#{skProducts.loadStoreProducts(subCat)}" />
+							<p:ajax event="tabChange"
+								listener="#{skProducts.loadStoreProducts(subCat)}" />
 							<p:tab title="#{subCat.name}">
 								<h:form id="form">
-									<p:dataGrid value="#{skProducts.storeProducts}"
-										var="product" columns="4" layout="grid" rows="8"
-										paginator="true" id="items"
+									<p:dataGrid value="#{skProducts.storeProducts}" var="product"
+										columns="4" layout="grid" rows="8" paginator="true" id="items"
 										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 										rowsPerPageTemplate="6,12">
 										<p:panel style="text-align:center">

@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
@@ -30,6 +28,11 @@ import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 
+/**
+ * 
+ * @author Ismaël
+ *
+ */
 @ManagedBean(name = "skProducts")
 @ApplicationScoped
 public class ProductListController {
