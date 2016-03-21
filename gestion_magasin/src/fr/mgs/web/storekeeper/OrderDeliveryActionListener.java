@@ -29,7 +29,7 @@ public class OrderDeliveryActionListener implements ActionListener {
 	public void processAction(ActionEvent event) throws AbortProcessingException {
 
 		UIComponent c = event.getComponent();
-		OrdersView odersView = (OrdersView) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+		OrderController odersView = (OrderController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get("ordersView");
 		Team teamToDeliver = (Team) c.getAttributes().get("teamToDeliver");
 		List<OrderLine> teamsOls = new ArrayList<OrderLine>();

@@ -34,9 +34,7 @@ public class StockInController {
 	private Product selectedProduct;
 	private Lot newLot;
 
-	@ManagedProperty("#{ListProducts}")
-	ListProductController listProducts;
-
+	List<Product> listProducts;
 
 	@PostConstruct
 	public void init() {
@@ -50,7 +48,9 @@ public class StockInController {
 		newLot.setQuantity(0);
 
 		try {
-			for (Product product : listProducts.getAllProducts()) {
+			listProducts = (List<Product>) productManager.findAllProducts();
+
+			for (Product product : listProducts) {
 				Lot l = new Lot();
 				l.setLotProduct(product);
 				itemsLot.add(l);
@@ -107,6 +107,14 @@ public class StockInController {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Nouveau lot ajouté", ""));
 
+	}
+
+	public List<Product> getListProducts() {
+		return listProducts;
+	}
+
+	public void setListProducts(List<Product> listProducts) {
+		this.listProducts = listProducts;
 	}
 
 	public String getScanDefault() {
