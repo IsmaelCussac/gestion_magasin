@@ -109,6 +109,8 @@ public class ProductManager extends Manager {
 		return (Collection<Lot>) query.getResultList();
 		
 	}
+	
+	
 
 
 	// PRODUCT

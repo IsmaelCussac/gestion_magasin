@@ -17,12 +17,11 @@
 					<f:facet name="header">
 						<p:row>
 							<p:commandButton value="Créer un lot"
-								actionListener="#{stockInCtl.saveProducts()}"
 								style="height:25px;float:left" onclick="PF('dlg1').show();"
 								update="panLot">
 							</p:commandButton>
 							<h:outputText value="Alimenter le stock de produits" />
-							<p:commandButton action="pretty:skOrders" value="Enregistrer"
+							<p:commandButton action="pretty:skProducts" value="Enregistrer"
 								actionListener="#{stockInCtl.saveProducts()}"
 								style="height:25px;float:right">
 								<p:confirm header="Confirmation"
@@ -36,57 +35,56 @@
 				</p:panelGrid>
 
 
-					<p:dialog id="formLot"  header="Nouveau lot" widgetVar="dlg1" modal="true"
-						height="200" width="600" style="margin-top:20px">
+				<p:dialog id="formLot" header="Nouveau lot" widgetVar="dlg1"
+					modal="true" height="200" width="600" style="margin-top:20px">
 
-						<h:panelGrid id="panLot" columns="2" cellpadding="5">
-							<h:outputLabel for="prod" value="Produit:"
-								style="font-weight:bold" />
+					<h:panelGrid id="panLot" columns="2" cellpadding="5">
+						<h:outputLabel for="prod" value="Produit:"
+							style="font-weight:bold" />
 
-							<p:selectOneMenu id="prod"
-								value="#{stockInCtl.selectedProduct.productId}" style="width:px">
-								<p:ajax update="ref" />
-								<f:selectItems id="item"
-									value="#{stockInCtl.listProducts.getAllProducts()}"
-									var="product" itemLabel="#{product.designation}"
-									itemValue="#{product.productId}" />
+						<p:selectOneMenu id="prod"
+							value="#{stockInCtl.selectedProduct.productId}" style="width:px">
+							<p:ajax update="ref" />
+							<f:selectItems id="item"
+								value="#{stockInCtl.listProducts.getAllProducts()}"
+								var="product" itemLabel="#{product.designation}"
+								itemValue="#{product.productId}" />
 
-							</p:selectOneMenu>
+						</p:selectOneMenu>
 
-							<h:outputLabel for="qte" value="Nombre d'articles:"
-								style="font-weight:bold" />
+						<h:outputLabel for="qte" value="Nombre d'articles:"
+							style="font-weight:bold" />
 
-							<p:spinner id="qte" min="0" value="#{stockInCtl.newLot.quantity}" />
-							<h:outputLabel for="expDate" value="Date de péremption:"
-								style="font-weight:bold" />
+						<p:spinner id="qte" min="0" value="#{stockInCtl.newLot.quantity}" />
+						<h:outputLabel for="expDate" value="Date de péremption:"
+							style="font-weight:bold" />
 
-							<p:calendar id="expDate" locale="fr" navigator="true"
-								pattern="dd-MM-yyyy" value="#{stockInCtl.newLot.expirationDate}" />
-							<h:outputLabel for="ref" value="Référence du produit:"
-								style="font-weight:bold" />
+						<p:calendar id="expDate" locale="fr" navigator="true"
+							pattern="dd-MM-yyyy" value="#{stockInCtl.newLot.expirationDate}" />
+						<h:outputLabel for="ref" value="Référence du produit:"
+							style="font-weight:bold" />
 
-							<p:inputText id="ref"
-								value="#{stockInCtl.selectedProduct.productId}"
-								label="Référence du produit" disabled="true">
+						<p:inputText id="ref"
+							value="#{stockInCtl.selectedProduct.productId}"
+							label="Référence du produit" disabled="true">
 
-							</p:inputText>
+						</p:inputText>
 
-						</h:panelGrid>
+					</h:panelGrid>
 
-						<p:dialog modal="true" resizable="false" header="Values"
-							widgetVar="dlg" showEffect="fold">
-							<p:panelGrid id="display" columns="2" columnClasses="label,value">
-								<h:outputText value="Année:" />
-								<h:outputText value="#{stockInCtl.newLot.expirationDate}">
-									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</h:outputText>
-							</p:panelGrid>
-						</p:dialog>
-						<p:commandButton value="Ajouter" update=":form:msgs"
-							icon="ui-icon-check" validateClient="true"
-							style="margin-right:10px"
-							actionListener="#{stockInCtl.saveLot()}" />
+					<p:dialog modal="true" resizable="false" header="Values"
+						widgetVar="dlg" showEffect="fold">
+						<p:panelGrid id="display" columns="2" columnClasses="label,value">
+							<h:outputText value="Année:" />
+							<h:outputText value="#{stockInCtl.newLot.expirationDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:panelGrid>
 					</p:dialog>
+					<p:commandButton value="Ajouter" update=":form:msgs"
+						icon="ui-icon-check" validateClient="true"
+						style="margin-right:10px" actionListener="#{stockInCtl.saveLot()}" />
+				</p:dialog>
 
 				<br />
 
@@ -108,55 +106,65 @@
 
 				<br />
 
-				<p:dataTable id="tablist"
-					value="#{stockInCtl.listProducts.getAllProducts()}" var="p"
+				<p:dataTable id="tablist" value="#{stockInCtl.items}" var="it"
 					styleClass="course-table" headerClass="course-table-header"
 					footerClass="course-table-header"
 					rowClasses="course-table-odd-row,course-table-even-row" rows="5"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="5,10,15">
+					rowsPerPageTemplate="5,10,15" editable="true">
 
-				<p:column>
+					<p:column>
 						<p:graphicImage name="/image/product-icon.png" />
 					</p:column>
 					<p:column headerText="Désignation">
-						<h:outputText value="#{p.designation}" />
+						<h:outputText value="#{it.lotProduct.designation}" />
 					</p:column>
 					<p:column headerText="Référence">
-						<h:outputText value="#{p.productId}" />
+						<h:outputText value="#{it.lotProduct.productId}" />
 					</p:column>
 
 
-					<p:column headerText="Visibilité">
-						<p:selectBooleanCheckbox value="0" />
-					</p:column>
 					<p:column headerText="Quantité entrée">
-						<h:outputText value="#{stockInCtl.conditioning}" />
+						<h:outputText value="#{it.quantity}" />
 					</p:column>
+
+					<p:column headerText="Date de péremption">
+						<p:calendar id="itExpDate" locale="fr" navigator="true"
+							pattern="dd-MM-yyyy" value="#{it.expirationDate}" />
+					</p:column>
+
+					<p:dialog modal="true" resizable="false" header="Values"
+						widgetVar="dlg" showEffect="fold">
+						<p:panelGrid id="display" columns="2" columnClasses="label,value">
+							<h:outputText value="Date de péremption" />
+							<h:outputText value="#{it.expirationDate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:panelGrid>
+					</p:dialog>
+
+
 				</p:dataTable>
+
 
 				<br />
 
 				<div class="ui-grid ui-grid-responsive">
 					<div class="ui-grid-row">
 						<div class="ui-grid-col-6">
-							<p:commandButton style="float:left" id="btnLot1"
-								value="Consulter les lots"></p:commandButton>
-						</div>
-						<div class="ui-grid-col-6">
 							<p:commandButton value="Réinitialiser les valeurs"
 								action="#{stockInCtl.resetScan()}" update="tablist"
-								style="float:right">
+								style="float:left">
 							</p:commandButton>
 						</div>
 
 						<div class="ui-grid-col-6">
-							<p:commandButton action="pretty:skOrders" value="Enregistrer"
+							<p:commandButton action="pretty:skProducts" value="Enregistrer"
 								actionListener="#{stockInCtl.saveProducts()}"
-								style="float:right">
+								style="height:25px;float:right">
 								<p:confirm header="Confirmation"
-									message="Confirmez la livraison" icon="ui-icon-alert" />
+									message="Confirmez la sauvegarde" icon="ui-icon-alert" />
 							</p:commandButton>
 							<p:confirmDialog global="true" showEffect="fade"
 								hideEffect="fade">

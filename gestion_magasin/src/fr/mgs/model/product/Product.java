@@ -62,7 +62,7 @@ public class Product {
 	@Min(0)
 	private Double conditioning;
 
-	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.LAZY, orphanRemoval = false, cascade = CascadeType.ALL)
 	private Set<Lot> lots = new HashSet<Lot>();
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false, cascade = CascadeType.ALL)
@@ -74,14 +74,14 @@ public class Product {
 	public int getProductId() {
 		return productId;
 	}
-	
-	public void setProductId(int product) {
-	this.productId = product;
-}
 
-//	public void setProductId() {
-//		this.productId = BarCode.getProductBarCode(designation, subCategory);
-//	}
+	public void setProductId(int product) {
+		this.productId = product;
+	}
+
+	// public void setProductId() {
+	// this.productId = BarCode.getProductBarCode(designation, subCategory);
+	// }
 
 	public String getDesignation() {
 		return designation;
@@ -126,7 +126,7 @@ public class Product {
 	public boolean isVisible() {
 		return visibility;
 	}
-	
+
 	public boolean getVisibility() {
 		return visibility;
 	}
@@ -167,10 +167,11 @@ public class Product {
 		this.orderLines = orderLines;
 	}
 
-	public void setProduct(int id, String designation, SubCategory subCategory, Integer warningPeriod, double minQuantity,
-			double price, boolean visibility, String picture, double conditioning) {
+	public void setProduct(int id, String designation, SubCategory subCategory, Integer warningPeriod,
+			double minQuantity, double price, boolean visibility, String picture, double conditioning) {
 		setProductId(id);
-		setDesignation(designation);;
+		setDesignation(designation);
+		;
 		setSubCategory(subCategory);
 		setWarningPeriod(warningPeriod);
 		setMinQuantity(minQuantity);
@@ -179,8 +180,6 @@ public class Product {
 		setPicture(picture);
 		setConditioning(conditioning);
 	}
-	
-	
 
 	@Override
 	public int hashCode() {

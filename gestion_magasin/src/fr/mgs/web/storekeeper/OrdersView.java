@@ -213,7 +213,7 @@ public class OrdersView implements Serializable {
 
 			}
 		}
-		
+
 		sortMap.getTreeMap().putAll(ordersToDeliverByTeam);
 		return sortMap.getTreeMap();
 	}

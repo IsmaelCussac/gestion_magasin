@@ -15,6 +15,7 @@ public class StoreItem implements Serializable{
 	private double quantity;
 	private String subCategory;
 	
+	
 
 	public int getProductId() {
 		return productId;

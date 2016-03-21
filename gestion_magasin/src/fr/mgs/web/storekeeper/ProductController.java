@@ -27,11 +27,10 @@ public class ProductController {
 	public void init() {
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
-
 		currentProduct = new Product();
+		currentProduct.setMinQuantity(0.0);
 		subCategory = new SubCategory();
 		lot = new Lot();
-
 	}
 
 	public Product getCurrentProduct() {
@@ -41,6 +40,7 @@ public class ProductController {
 	public void setCurrentProduct(Product currentProduct) {
 		this.currentProduct = currentProduct;
 	}
+
 	public SubCategory getSubCategory() {
 		return subCategory;
 	}
@@ -48,7 +48,7 @@ public class ProductController {
 	public void setSubCategory(SubCategory subCategory) {
 		this.subCategory = subCategory;
 	}
-	
+
 	public Lot getLot() {
 		return lot;
 	}
@@ -56,21 +56,21 @@ public class ProductController {
 	public void setLot(Lot lot) {
 		this.lot = lot;
 	}
-	
+
 	public List<SubCategory> getAllSubCategories() throws SQLException {
 		return (List<SubCategory>) productManager.findAllSubCategories();
 	}
-	
+
 	/*
 	 * 
-	 *  Ajout product
+	 * Ajout product
 	 */
-	public void addNewProduct() throws SQLException{
-		if(!subCategory.getName().equals("")){
+	public void addNewProduct() throws SQLException {
+		if (!subCategory.getName().equals("")) {
 			currentProduct.setSubCategory(productManager.findSubCategory(subCategory.getName()));
 		}
 		productManager.addProduct(currentProduct);
-		if(lot.getQuantity() >= 1){
+		if (lot.getQuantity() >= 1) {
 			productManager.addLot(lot);
 		}
 	}
