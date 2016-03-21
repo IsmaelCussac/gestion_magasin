@@ -11,7 +11,7 @@
 	</ui:define>
 	<ui:define name="content">
 		<f:view>
-			<h:form id="form" prependId="false">
+			<h:form id="form" prependId="false" >
 				<p:growl id="msgs" showDetail="true" />
 				<p:panelGrid columns="3" layout="grid">
 					<f:facet name="header">
@@ -46,7 +46,7 @@
 							value="#{stockInCtl.selectedProduct.productId}" style="width:px">
 							<p:ajax update="ref" />
 							<f:selectItems id="item"
-								value="#{stockInCtl.listProducts.getAllProducts()}"
+								value="#{stockInCtl.listProducts}"
 								var="product" itemLabel="#{product.designation}"
 								itemValue="#{product.productId}" />
 
@@ -91,9 +91,10 @@
 				<div class="ui-grid ui-grid-responsive">
 					<div class="ui-grid-row">
 
-						<div class="ui-grid-col-6">
+						<div class="ui-grid-col-6" >
+						        <p:focus context="form"/>
 							<h:outputLabel value="Placer le curseur ici pour scanner "></h:outputLabel>
-							<p:inputText value="#{stockInCtl.scanDefault}"
+							<p:inputText immediate="true" value="#{stockInCtl.scanDefault}"
 								onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
 								<p:ajax event="change" listener="#{stockInCtl.scan()}"
 									update="tablist" />

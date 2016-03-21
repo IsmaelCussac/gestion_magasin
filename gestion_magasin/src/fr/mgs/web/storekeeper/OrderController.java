@@ -35,7 +35,7 @@ import fr.mgs.toolbox.SortMap;
  */
 @ManagedBean(name = "ordersView", eager = false)
 @SessionScoped
-public class OrdersView implements Serializable {
+public class OrderController implements Serializable {
 	private static final long serialVersionUID = -5914169092116908790L;
 
 	private Map<Team, Collection<Order>> ordersToDeliverByTeam;

@@ -41,20 +41,22 @@
 						<p:column style="width:30px">
 							<p:rowToggler />
 						</p:column>
-						<p:column headerText="Destinataire">
+						<p:column headerText="Destinataire"
+							sortBy="#{order.orderUser.lastName}">
 							<h:outputText value="#{order.orderUser.lastName}" />
 						</p:column>
-						<p:column headerText="Numéro">
+						<p:column headerText="Numéro" sortBy="#{order.orderId}">
 							<h:outputText value="#{order.orderId}" />
 						</p:column>
-						<p:column headerText="Soumission">
+						<p:column headerText="Soumission" sortBy="#{order.submissionDate}">
 							<h:outputText value="#{order.submissionDate}" />
 						</p:column>
 
-						<p:column headerText="Livraison">
+						<p:column headerText="Livraison" sortBy="#{order.deliveryDate}">
 							<h:outputText value="#{order.deliveryDate}" />
 						</p:column>
-						<p:column headerText="Nombre de produits">
+						<p:column headerText="Nombre de produits"
+							sortBy="#{order.orderLines.size()}">
 							<h:outputText value="#{order.orderLines.size()}" />
 						</p:column>
 
@@ -138,7 +140,7 @@
 				</p:panel>
 
 			</ui:repeat>
-		
+
 		</h:form>
 
 	</ui:define>

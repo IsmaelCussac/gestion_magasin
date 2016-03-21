@@ -30,16 +30,17 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:tabView dynamic="true" cache="true">
-				<p:tab title="Livraison par scan">
-
-
+			<p:tabView dynamic="true" cache="true" >
+				<p:tab title="Livraison par scan" id="scanView">
+					<p:focus context="scanView" />
 					<div class="ui-grid ui-grid-responsive">
 						<div class="ui-grid-row">
 
 							<div class="ui-grid-col-6">
+								<p:focus context="scanInput" />
+
 								<h:outputLabel value="Placer le curseur ici pour scanner "></h:outputLabel>
-								<p:inputText value="#{ordersView.initScan}"
+								<p:inputText id="scanInput" value="#{ordersView.initScan}"
 									onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
 									<p:ajax event="change" listener="#{ordersView.scan()}"
 										update="prods2" />
