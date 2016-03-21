@@ -122,6 +122,7 @@
 							</div>
 						</div>
 					</div>
+
 					<!-- Dialog for displaying lot -->
 					<p:overlayPanel id="lotPanel1" for="btnLot1" hideEffect="fade"
 						dynamic="true" style="width:600px" showCloseIcon="true">
@@ -135,14 +136,33 @@
 								<h:outputText value="#{ol.product.productId}" />
 							</p:column>
 
-							<p:column headerText="Lot" style="text-align:center">
-								<h:outputText value="xxxxxxx" />
-							</p:column>
+							<p:rowExpansion>
+								<p:dataTable value="#{ordersView.selectedTeamOrderLines}}"
+									var="lot">
 
-							<p:column style="text-align:center"
-								headerText="Date de péremption">
-								<h:outputText value="jj-mm-aaaa" />
-							</p:column>
+									<p:columnGroup type="header">
+										<p:row>
+											<p:column headerText="Numéro" />
+											<p:column headerText="Quantité" />
+											<p:column headerText="Date de péremption" />
+										</p:row>
+									</p:columnGroup>
+
+									<p:column>
+										<h:outputText value="id" />
+
+									</p:column>
+									<p:column>
+										<h:outputText value="qt" />
+
+									</p:column>
+									<p:column>
+										<h:outputText value="date" />
+									</p:column>
+								</p:dataTable>
+							</p:rowExpansion>
+
+
 						</p:dataTable>
 					</p:overlayPanel>
 
@@ -241,14 +261,32 @@
 								<h:outputText value="#{ol.product.productId}" />
 							</p:column>
 
-							<p:column headerText="Lot" style="text-align:center">
-								<h:outputText value="xxxxxxx" />
-							</p:column>
+							<p:rowExpansion>
+								<p:dataTable value="#{ol.product.lots}" var="lot">
 
-							<p:column style="text-align:center"
-								headerText="Date de péremption">
-								<h:outputText value="jj-mm-aaaa" />
-							</p:column>
+									<p:columnGroup type="header">
+										<p:row>
+											<p:column headerText="Numéro" />
+											<p:column headerText="Quantité" />
+											<p:column headerText="Date de péremption" />
+										</p:row>
+									</p:columnGroup>
+
+									<p:column>
+										<h:outputText value="#{lot.lotId}" />
+
+									</p:column>
+									<p:column>
+										<h:outputText value="#{lot.quantity}" />
+
+									</p:column>
+									<p:column>
+										<h:outputText value="#{lot.expirationDate}" />
+									</p:column>
+								</p:dataTable>
+							</p:rowExpansion>
+
+
 						</p:dataTable>
 					</p:overlayPanel>
 
