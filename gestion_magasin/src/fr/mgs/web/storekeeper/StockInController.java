@@ -2,6 +2,7 @@ package fr.mgs.web.storekeeper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class StockInController {
 	private ProductManager productManager;
 	private Product selectedProduct;
 	private Lot newLot;
+	private Date today;
 
 	List<Product> listProducts;
 
@@ -41,7 +43,7 @@ public class StockInController {
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
 		itemsLot = new ArrayList<Lot>();
-
+		today = new Date();
 		conditioning = 0.0;
 		selectedProduct = new Product();
 		newLot = new Lot();
@@ -155,5 +157,13 @@ public class StockInController {
 
 	public void setNewLot(Lot newLot) {
 		this.newLot = newLot;
+	}
+
+	public Date getToday() {
+		return today;
+	}
+
+	public void setToday(Date today) {
+		this.today = today;
 	}
 }
