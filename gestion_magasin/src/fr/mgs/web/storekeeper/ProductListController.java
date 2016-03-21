@@ -37,7 +37,7 @@ public class ProductListController {
 	private ProductManager productManager;
 	private EventManager eventManager;
 	
-	private Map<String, List<Product>> products;
+	private List<Product> storeProducts;
 	private Product currentProduct;
 	private SubCategory subCategory;
 	private UploadedFile image;
@@ -52,7 +52,7 @@ public class ProductListController {
 		eventManager = new EventManager();
 		eventManager.init(DataSource.LOCAL);
 
-		products = new HashMap<String, List<Product>>();
+		storeProducts = new ArrayList<Product>();
 		subCategory = new SubCategory();
 		
 		user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
@@ -67,12 +67,12 @@ public class ProductListController {
 		this.currentProduct = currentProduct;
 	}
 
-	public Map<String, List<Product>> getStoreProducts() {
-		return products;
+	public List<Product> getStoreProducts() {
+		return storeProducts;
 	}
 
-	public void setStoreProducts(Map<String, List<Product>> products) {
-		this.products = products;
+	public void setStoreProducts(List<Product> storeProducts) {
+		this.storeProducts = storeProducts;
 	}
 
 	public SubCategory getSubCategory() {
@@ -123,17 +123,8 @@ public class ProductListController {
 	 * @return the list of product
 	 * @throws SQLException
 	 */
-	public List<Product> getStoreProducts(SubCategory sub) {
-		List<Product> productList;
-
-		// si la sous catégorie n'est pas présente dans la map, on récupère la
-		// liste de produits et on l'ajoute
-		if (!products.containsKey(sub.getName())) {
-			productList = (List<Product>) productManager.findProductsBySubCategory(sub);
-			products.put(sub.getName(), productList);
-		}
-		return products.get(sub.getName());
-
+	public void loadStoreProducts(SubCategory sub) {
+		storeProducts = (List<Product>) productManager.findProductsBySubCategory(sub);
 	}
 
 	public void updateVisibility(Product product) throws SQLException {

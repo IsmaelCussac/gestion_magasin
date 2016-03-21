@@ -21,13 +21,16 @@
 						onclick="PF('dlg1').show();" update=":updateDialog:updatePanel" />
 				</h:form>
 
-				<p:accordionPanel value="#{skProducts.getAllCategories()}" var="cat">
+				<p:accordionPanel value="#{skProducts.getAllCategories()}" var="cat"
+					activeIndex="null">
 					<p:tab title="#{cat.toString()}">
 						<p:accordionPanel id="subAccordion" dynamic="true" cache="true"
-							value="#{skProducts.getSubCategories(cat)}" var="subCat">
+							value="#{skProducts.getSubCategories(cat)}" var="subCat"
+							activeIndex="null">
+							<p:ajax event="tabChange" listener="#{skProducts.loadStoreProducts(subCat)}" />
 							<p:tab title="#{subCat.name}">
 								<h:form id="form">
-									<p:dataGrid value="#{skProducts.getStoreProducts(subCat)}"
+									<p:dataGrid value="#{skProducts.storeProducts}"
 										var="product" columns="4" layout="grid" rows="8"
 										paginator="true" id="items"
 										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
