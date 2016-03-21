@@ -16,16 +16,17 @@
 			<f:view>
 
 				<p:accordionPanel value="#{cstProducts.getAllCategories()}"
-					var="cat">
+					var="cat" activeIndex="null">
 
 					<p:tab title="#{cat.toString()}">
-						<p:accordionPanel id="subAccordion" dynamic="true" cache="true"
-							value="#{cstProducts.getSubCategories(cat)}" var="subCat">
+						<p:accordionPanel id="subAccordion" dynamic="true" cache="false"
+							value="#{cstProducts.getSubCategories(cat)}" var="subCat" activeIndex="null">
+							<p:ajax event="tabChange" listener="#{cstProducts.loadStoreItems(subCat)}" />
 
 							<p:tab title="#{subCat.name}">
 								<h:form id="form">
 
-									<p:dataGrid value="#{cstProducts.getStoreItems(subCat)}"
+									<p:dataGrid value="#{cstProducts.storeItems}"
 										var="it" columns="4" layout="grid" rows="8" paginator="true"
 										id="items"
 										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

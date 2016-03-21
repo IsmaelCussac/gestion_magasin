@@ -44,7 +44,7 @@ public class OrderController {
 
 	private String userId;
 	private Order currentOrder;
-	private Map<String, List<StoreItem>> storeItems;
+	private Collection<StoreItem> storeItems;
 	private Map<Integer, StoreItem> cart;
 
 	@PostConstruct
@@ -59,7 +59,7 @@ public class OrderController {
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
 
-		storeItems = new HashMap<String, List<StoreItem>>();
+		storeItems = new ArrayList<StoreItem>();
 		cart = new HashMap<Integer, StoreItem>();
 
 		try {
@@ -103,16 +103,15 @@ public class OrderController {
 
 	// Store methods
 	
-	public Map<String, List<StoreItem>> getStoreItems() {
-		return storeItems;
+	public List<StoreItem> getStoreItems() {
+		return (List<StoreItem>) storeItems;
 	}
 
-	public void setStoreItems(Map<String, List<StoreItem>> storeItems) {
+	public void setStoreItems(List<StoreItem> storeItems) {
 		this.storeItems = storeItems;
 	}
 	
 	public void clearStoreItems(){
-		System.out.println("clear");
 		getStoreItems().clear();
 	}
 
@@ -139,24 +138,14 @@ public class OrderController {
 	 * @return the list of product
 	 * @throws SQLException
 	 */
-	public List<StoreItem> getStoreItems(SubCategory sub) {
-		List<StoreItem> items;
-
-		// si la sous catégorie n'est pas présente dans la map, on récupère la liste de produits et on l'ajoute
-		if (!storeItems.containsKey(sub.getName())) {
-			List<Product> prods = (List<Product>) productManager.findProductsBySubCategoryVisible(sub);
-			items = createNewStoreItemList(prods);
-				
-		} else {
-			items = storeItems.get(sub.getName());
-			for (StoreItem item : items) {
-				if (cart.containsKey(item.getProductId())) {
-					item.setQuantity(cart.get(item.getProductId()).getQuantity());
-				}
+	public void loadStoreItems(SubCategory subCat){
+		List<Product> prods = (List<Product>) productManager.findProductsBySubCategoryVisible(subCat);
+		storeItems = createNewStoreItemList(prods);
+		for (StoreItem item : storeItems) {
+			if (cart.containsKey(item.getProductId())) {
+				item.setQuantity(cart.get(item.getProductId()).getQuantity());
 			}
 		}
-		storeItems.put(sub.getName(), items);
-		return storeItems.get(sub.getName());
 	}
 
 	private List<StoreItem> createNewStoreItemList(List<Product> prods) {
@@ -208,7 +197,6 @@ public class OrderController {
 					0);
 			currentOrder.addOrderLine(orderLine);
 		}
-		System.out.println(currentOrder.getOrderLines());
 		orderManager.updateOrder(currentOrder);
 	}
 
