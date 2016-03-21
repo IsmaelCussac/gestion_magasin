@@ -43,8 +43,8 @@ public class ListProductController {
 		
 		List<Product> ListProduct = (List<Product>) productManager.findAllProducts();
 		for(int i = 0 ; i < ListProduct.size(); ++i){
-		    Barcode b = BarcodeFactory.createBarcode(BarcodeType.Code128,BarCode.getProductBarCode(ListProduct.get(i).getDesignation(),ListProduct.get(i).getSubCategory().getName()));  
-		    b.export("png",2,100,true,"C:/Users/anthony/git/gestion_magasin/gestion_magasin/WebContent/resources/image/"+BarCode.getProductBarCode(ListProduct.get(i).getDesignation(),ListProduct.get(i).getSubCategory().getName())+".png");  
+		    Barcode b = BarcodeFactory.createBarcode(BarcodeType.Code128, String.valueOf(ListProduct.get(i).getProductId()));  
+		    b.export("png",2,100,true,"C:/Users/anthony/git/gestion_magasin/gestion_magasin/WebContent/resources/image/"+String.valueOf(ListProduct.get(i).getProductId())+".png");  
 		}
 		return (List<Product>) productManager.findAllProducts();
 	}

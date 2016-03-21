@@ -27,6 +27,7 @@ import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
+import fr.mgs.toolbox.BarCode;
 
 /**
  * 
@@ -159,9 +160,13 @@ public class ProductListController {
 		clearStoreItems();
 	}
 	
-	public void addNewProduct(){
+	public void addNewProduct() throws SQLException{
 		currentProduct = new Product();
-		currentProduct.setProduct(101, "", null, 0, 0, 0, false, null, 0);
+		int productId = BarCode.generateRandomInt();
+		while(productManager.productExists(productId)){
+			productId = BarCode.generateRandomInt();
+		}
+		currentProduct.setProduct(productId, "", null, 0, 0, 0, false, null, 0);
 	}
 	
 	public void handleFileUpload(FileUploadEvent event) {

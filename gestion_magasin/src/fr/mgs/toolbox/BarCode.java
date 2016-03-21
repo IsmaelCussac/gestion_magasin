@@ -1,44 +1,24 @@
 package fr.mgs.toolbox;
 
-import javax.faces.bean.ManagedBean;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
-@ManagedBean(name = "BarCode")
 public class BarCode {
-	
-	String designation;
-	String subCategory;
-	
-	public static String getProductBarCode(String designation, String subCategory) {
 
-		String barcode = "";
+	public static int generateRandomInt() {
+		int ref;
 
-		// nombre de mots dans la désignation ( 2 chiffres )
-		int nbword = designation.split(" ").length;
-		if (nbword < 10)
-			barcode += "0" + nbword;
-		else
-			barcode += nbword;
+		SecureRandom random = new SecureRandom();
 
-		// première lettre de la sous-catégorie produit ( 1 chiffre )
-		char firstletter = subCategory.charAt(0);
-		barcode += firstletter;
+		byte[] a = new byte[5];
+		random.nextBytes(a);
+		byte seed[] = random.generateSeed(20);
+		BigInteger b = new BigInteger(1, seed);
 
-		// la somme des code ascii de la désignation + catégorie ( 5 chiffres )
-		int ascii = 0;
-		String ensembleRef = designation + subCategory;
-		for (int i = 0; i < ensembleRef.length(); ++i) {
-			ascii += (int) ensembleRef.charAt(i);
-		}
-		if (ascii < 100)
-			barcode += "000" + ascii;
-		else if (ascii < 1000)
-			barcode += "00" + ascii;
-		else if (ascii < 10000)
-			barcode += "0" + ascii;
-		else
-			barcode += ascii;
+		String s = String.valueOf(b);
+		s = s.substring(0, 9);
+		ref = Integer.parseInt(s);
 
-		return barcode;
+		return ref;
 	}
-
 }
