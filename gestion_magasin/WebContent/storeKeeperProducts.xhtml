@@ -82,12 +82,12 @@
 								<tr>
 									<td style="width: 70%">
 										<div class="form-group">
-											<label for="Designation">Désignation :</label>
+											<label for="Designation">Désignation* :</label>
 											<h:inputText type="text" class="form-control" id="des"
 												value="#{skProducts.currentProduct.designation}" />
 										</div>
 										<div class="form-group">
-											<label for="Conditionnnement">Conditionnement :</label>
+											<label for="Conditionnnement">Conditionnement* :</label>
 											<h:inputText type="text" class="form-control"
 												name="Conditionnement"
 												value="#{skProducts.currentProduct.conditioning}" />
@@ -99,7 +99,7 @@
 										</div>
 										<div class="form-group">
 											<label for="Durée de préavis">Durée de préavis (en
-												jours):</label>
+												jours)* :</label>
 											<h:inputText type="number" step="any" class="form-control"
 												name="Durée de préavis"
 												value="#{skProducts.currentProduct.warningPeriod}" />
@@ -126,7 +126,7 @@
 								<tr>
 									<td>
 										<div class="form-group">
-											<label for="Quantite">Seuil minimal de quantité:</label>
+											<label for="Quantite">Seuil minimal de quantité* : </label>
 											<h:inputText type="number" class="form-control"
 												name="Quantite"
 												value="#{skProducts.currentProduct.minQuantity}" />

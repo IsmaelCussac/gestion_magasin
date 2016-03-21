@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -48,14 +50,14 @@ public class OrderController {
 	private Map<Integer, StoreItem> cart;
 
 	@PostConstruct
-	public void init(){
+	public void init() {
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
 		userManager = new UserManager();
 		userManager.init(DataSource.LOCAL);
-	
+
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		userId = user.getUsername();
 
@@ -67,7 +69,7 @@ public class OrderController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	// Cart methods
@@ -79,17 +81,17 @@ public class OrderController {
 	public void setCart(Map<Integer, StoreItem> cart) {
 		this.cart = cart;
 	}
-	
-	public void addInCart(StoreItem item){
+
+	public void addInCart(StoreItem item) {
 		cart.put(item.getProductId(), item);
 	}
-	
-	public void removeInCart(StoreItem item){
+
+	public void removeInCart(StoreItem item) {
 		cart.remove(item.getProductId());
 	}
-	
+
 	private void clearCart() {
-		cart.clear();	
+		cart.clear();
 	}
 
 	public void updateCart(StoreItem item) throws SQLException {
@@ -102,17 +104,13 @@ public class OrderController {
 	}
 
 	// Store methods
-	
+
 	public List<StoreItem> getStoreItems() {
 		return (List<StoreItem>) storeItems;
 	}
 
 	public void setStoreItems(List<StoreItem> storeItems) {
 		this.storeItems = storeItems;
-	}
-	
-	public void clearStoreItems(){
-		getStoreItems().clear();
 	}
 
 	public Collection<Category> getAllCategories() {
@@ -138,7 +136,7 @@ public class OrderController {
 	 * @return the list of product
 	 * @throws SQLException
 	 */
-	public void loadStoreItems(SubCategory subCat){
+	public void loadStoreItems(SubCategory subCat) {
 		List<Product> prods = (List<Product>) productManager.findProductsBySubCategoryVisible(subCat);
 		storeItems = createNewStoreItemList(prods);
 		for (StoreItem item : storeItems) {
@@ -153,16 +151,17 @@ public class OrderController {
 		for (Product prod : prods) {
 			StoreItem orderItem = new StoreItem();
 			double quantity = 0;
-			if(cart.containsKey(prod.getProductId()))
+			if (cart.containsKey(prod.getProductId()))
 				quantity = cart.get(prod.getProductId()).getQuantity();
-			orderItem.setStoreItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), quantity, prod.getSubCategory().getName());
+			orderItem.setStoreItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), quantity,
+					prod.getSubCategory().getName());
 			items.add(orderItem);
 		}
 		return items;
 	}
 
 	// Order methods
-	
+
 	public Order getCurrentOrder() {
 		return currentOrder;
 	}
@@ -170,7 +169,7 @@ public class OrderController {
 	public void setCurrentOrder(Order currentOrder) {
 		this.currentOrder = currentOrder;
 	}
-	
+
 	public void newOrder() throws SQLException {
 
 		if (orderManager.hasNotValidatedOrder(userId)) {
@@ -189,6 +188,9 @@ public class OrderController {
 	}
 
 	public void saveOrder() throws SQLException {
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage("buttons:growlSave", new FacesMessage("Commande sauvegardée", "Commande sauvegardée"));
 
 		currentOrder.getOrderLines().clear();
 		for (StoreItem item : cart.values()) {
@@ -201,6 +203,10 @@ public class OrderController {
 	}
 
 	public String submitOrder() throws SQLException {
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage("buttons:growlValidate", new FacesMessage("Commande envoyée", "Commande envoyée"));
+		
 		if (cart.size() > 0) {
 			currentOrder.setStatus(OrderStatus.VALIDATED);
 			currentOrder.setSubmissionDate(new Date());
@@ -208,16 +214,17 @@ public class OrderController {
 			resetCurrentOrder();
 			return "pretty:cstHistory";
 		}
-
 		return "pretty:cstProducts";
 	}
 
 	public void deleteOrder() throws SQLException {
-		for(StoreItem item : cart.values())
-			orderManager.removeOrderLine(new OrderLinePK(item.getProductId(), currentOrder.getOrderId()));
 		
+		List<Order> order = (List<Order>) orderManager.findNotValidatedOrder(userId);
+		for(OrderLine line : order.get(0).getOrderLines()){
+			orderManager.removeOrderLine(line.getOrderLinePK());
+		}
+		//orderManager.updateOrder(currentOrder);
 		cart.clear();
-		storeItems.clear();
 	}
 
 	private void resetCurrentOrder() throws SQLException {
@@ -226,10 +233,9 @@ public class OrderController {
 		currentOrder.setStatus(OrderStatus.NOT_VALIDATED);
 		orderManager.addOrder(currentOrder);
 		clearCart();
-		storeItems.clear();
 	}
-	
-	public void removeOrderLineInDB(StoreItem item) throws SQLException{
+
+	public void removeOrderLineInDB(StoreItem item) throws SQLException {
 		orderManager.removeOrderLine(new OrderLinePK(item.getProductId(), currentOrder.getOrderId()));
 	}
 }
