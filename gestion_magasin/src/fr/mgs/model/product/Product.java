@@ -178,7 +178,7 @@ public class Product {
 	}
 
 	public void setProduct(int id, String designation, SubCategory subCategory, Integer warningPeriod,
-			double minQuantity, double price, boolean visibility, String picture, double conditioning) {
+			double minQuantity, double price, boolean visibility, byte[] picture, double conditioning) {
 
 		setProductId(id);
 		setDesignation(designation);
