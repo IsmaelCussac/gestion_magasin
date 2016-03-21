@@ -9,8 +9,10 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -152,6 +154,9 @@ public class ProductListController {
 	 * @throws SQLException
 	 */
 	public void updateCurrentProduct() throws SQLException {
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage("growlSave", new FacesMessage("Produit sauvegardé", "Produit sauvegardé"));
+		
 		if(!subCategory.getName().equals("")){
 			currentProduct.setSubCategory(productManager.findSubCategory(subCategory.getName()));
 		}
@@ -161,6 +166,7 @@ public class ProductListController {
 	}
 	
 	public void addNewProduct() throws SQLException{
+		
 		currentProduct = new Product();
 		int productId = BarCode.generateRandomInt();
 		while(productManager.productExists(productId)){

@@ -21,7 +21,7 @@
 						onclick="PF('dlg1').show();" update=":updateDialog:updatePanel" />
 				</h:form>
 
-				<p:accordionPanel value="#{skProducts.getAllCategories()}" var="cat"
+				<p:accordionPanel id="accordion" value="#{skProducts.getAllCategories()}" var="cat"
 					activeIndex="null">
 					<p:tab title="#{cat.toString()}">
 						<p:accordionPanel id="subAccordion" dynamic="true" cache="true"
@@ -63,12 +63,13 @@
 
 				<h:form id="updateDialog" prependId="true"
 					enctype="multipart/form-data">
+					<p:growl id="growlSave" />
 					<p:dialog header="Modifier produit" widgetVar="dlg1" modal="false"
 						height="630" width="700">
-						<p:outputPanel id="updatePanel">
+						<p:scrollPanel id="updatePanel">
 
 							<div class="form-group" style="width: 100%">
-								<label for="categorie">Catégorie :</label><br />
+								<label for="categorie">Catégorie * :</label><br />
 								<p:selectOneMenu id="sub" value="#{skProducts.subCategory.name}"
 									style="width: 100% !important;">
 									<f:selectItem
@@ -82,12 +83,12 @@
 								<tr>
 									<td style="width: 70%">
 										<div class="form-group">
-											<label for="Designation">Désignation* :</label>
+											<label for="Designation">Désignation * :</label>
 											<h:inputText type="text" class="form-control" id="des"
 												value="#{skProducts.currentProduct.designation}" />
 										</div>
 										<div class="form-group">
-											<label for="Conditionnnement">Conditionnement* :</label>
+											<label for="Conditionnnement">Conditionnement * :</label>
 											<h:inputText type="text" class="form-control"
 												name="Conditionnement"
 												value="#{skProducts.currentProduct.conditioning}" />
@@ -99,7 +100,7 @@
 										</div>
 										<div class="form-group">
 											<label for="Durée de préavis">Durée de préavis (en
-												jours)* :</label>
+												jours) * :</label>
 											<h:inputText type="number" step="any" class="form-control"
 												name="Durée de préavis"
 												value="#{skProducts.currentProduct.warningPeriod}" />
@@ -126,7 +127,7 @@
 								<tr>
 									<td>
 										<div class="form-group">
-											<label for="Quantite">Seuil minimal de quantité* : </label>
+											<label for="Quantite">Seuil minimal de quantité * : </label>
 											<h:inputText type="number" class="form-control"
 												name="Quantite"
 												value="#{skProducts.currentProduct.minQuantity}" />
@@ -144,11 +145,13 @@
 									</td>
 								</tr>
 							</table>
+							<i>* : Champs obligatoires</i>
+							<br />
 							<p:commandButton value="Enregistrer"
 								action="#{skProducts.updateCurrentProduct()}" update="@all"
 								onclick="PF('dlg1').hide();">
 							</p:commandButton>
-						</p:outputPanel>
+						</p:scrollPanel>
 					</p:dialog>
 				</h:form>
 			</f:view>
