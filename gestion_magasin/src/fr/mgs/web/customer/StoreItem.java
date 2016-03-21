@@ -7,15 +7,13 @@ import java.io.Serializable;
  * @author Ismaël
  *
  */
-public class StoreItem implements Serializable{
-	
+public class StoreItem implements Serializable {
+
 	private int productId;
 	private String designation;
-	private String picture;
+	private byte[] picture;
 	private double quantity;
 	private String subCategory;
-	
-	
 
 	public int getProductId() {
 		return productId;
@@ -33,11 +31,11 @@ public class StoreItem implements Serializable{
 		this.designation = designation;
 	}
 
-	public String getPicture() {
+	public byte[] getPicture() {
 		return picture;
 	}
 
-	public void setPicture(String picture) {
+	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
 
@@ -48,7 +46,7 @@ public class StoreItem implements Serializable{
 	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
-	
+
 	public String getSubCategory() {
 		return subCategory;
 	}
@@ -57,7 +55,7 @@ public class StoreItem implements Serializable{
 		this.subCategory = subCategory;
 	}
 
-	public void setStoreItem(int productId, String designation, String picture, double quantity, String subCategory){
+	public void setStoreItem(int productId, String designation, byte[] picture, double quantity, String subCategory) {
 		setProductId(productId);
 		setDesignation(designation);
 		setPicture(picture);
@@ -67,9 +65,8 @@ public class StoreItem implements Serializable{
 
 	@Override
 	public String toString() {
-		return "OrderItem [productId=" + productId + ", designation=" + designation + ", picture=" + picture
-				+ ", quantity=" + quantity + ", subCategory=" + subCategory +"]";
+		return "OrderItem [productId=" + productId + ", designation=" + designation + ", quantity=" + quantity
+				+ ", subCategory=" + subCategory + "]";
 	}
-	
-	
+
 }

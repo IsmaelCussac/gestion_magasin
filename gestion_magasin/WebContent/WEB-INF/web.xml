@@ -7,6 +7,7 @@
 	id="WebApp_ID" version="3.0">
 	<display-name>Gestion de magasin</display-name>
 	
+	
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -31,6 +32,26 @@
   		<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
   		<param-value>.xhtml</param-value>
  	</context-param>
+ 	
+ 		<!-- File filter for primefaces -->
+	<listener>
+	    <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
+	</listener>
+	
+	<context-param>
+		<param-name>primefaces.UPLOADER</param-name>
+		<param-value>auto|native|commons</param-value>
+	</context-param>
+	<filter>
+	    <filter-name>primeFacesFileUploadFilter</filter-name>
+	    <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+	</filter>
+ 	<filter-mapping>
+    	<filter-name>primeFacesFileUploadFilter</filter-name>
+	    <servlet-name>Faces Servlet</servlet-name>
+	    <dispatcher>REQUEST</dispatcher>
+	    <dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
 
 	<!-- Context listener -->
 	<listener>
@@ -80,7 +101,7 @@
 	</session-config>
 	
 	 <context-param>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+      <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>false</param-value>
     </context-param>
     <listener>
@@ -95,9 +116,9 @@
 	<filter-mapping>
 		<filter-name>Pretty Filter</filter-name>
 		<url-pattern>/*</url-pattern>
-		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>ERROR</dispatcher>
 	</filter-mapping>
-
+	
 </web-app>

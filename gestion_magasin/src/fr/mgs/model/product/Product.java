@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,9 +19,17 @@ import javax.validation.constraints.Min;
 import fr.mgs.model.order.OrderLine;
 
 /**
- * This class describes a product entity in database. It contains : - an id - a
- * name - a level 2 category - a warning period - a minimal quantity in stock -
- * a price - a visibility state - a picture - a conditioning - a list of Lots
+ * This class describes a product entity in database. It contains : 
+ * - an id 
+ * - a name 
+ * - a level 2 category 
+ * - a warning period 
+ * - a minimal quantity in stock 
+ * - a price 
+ * - a visibility state 
+ * - a picture 
+ * - a conditioning 
+ * - a list of Lots
  * 
  * @author Ismaël
  *
@@ -55,8 +64,9 @@ public class Product {
 	@Column(name = "visibility", nullable = false)
 	private boolean visibility;
 
-	@Column(name = "picture", length = 100, nullable = true)
-	private String picture;
+	@Lob
+	@Column(name = "picture", columnDefinition = "mediumblob")
+	private byte[] picture;
 
 	@Column(name = "conditioning", nullable = true)
 	@Min(0)
@@ -135,11 +145,11 @@ public class Product {
 		this.visibility = visibility;
 	}
 
-	public String getPicture() {
+	public byte[] getPicture() {
 		return picture;
 	}
 
-	public void setPicture(String picture) {
+	public void setPicture(byte[] picture) {
 		this.picture = picture;
 	}
 
@@ -169,6 +179,7 @@ public class Product {
 
 	public void setProduct(int id, String designation, SubCategory subCategory, Integer warningPeriod,
 			double minQuantity, double price, boolean visibility, String picture, double conditioning) {
+
 		setProductId(id);
 		setDesignation(designation);
 		;
@@ -245,7 +256,7 @@ public class Product {
 	public String toString() {
 		return "Product [productId=" + productId + ", designation=" + designation + ", subCategory=" + subCategory
 				+ ", warningPeriod=" + warningPeriod + ", minQuantity=" + minQuantity + ", price=" + price
-				+ ", visibility=" + visibility + ", picture=" + picture + ", conditioning=" + conditioning + "]";
+				+ ", visibility=" + visibility + ", conditioning=" + conditioning + "]";
 	}
 
 }

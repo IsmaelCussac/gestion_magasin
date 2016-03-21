@@ -27,13 +27,13 @@
 			<sec:authorize access="hasAuthority('STORE_KEEPER')">
 				<p:menuitem value="Côté magasinier" outcome="pretty:skProducts"
 					icon="ui-icon-star">
-					<f:param name="i" value="0" />
+					<f:param name="i" value="3" />
 				</p:menuitem>
 			</sec:authorize>
 			<sec:authorize access="hasAuthority('APP_ADMIN')">
 				<p:menuitem value="Côté administrateur" outcome="pretty:adminEvents"
 					icon="ui-icon-star">
-					<f:param name="i" value="0" />
+					<f:param name="i" value="4" />
 				</p:menuitem>
 			</sec:authorize>
 		</p:tabMenu>

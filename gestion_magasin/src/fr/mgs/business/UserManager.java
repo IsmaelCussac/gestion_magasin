@@ -13,8 +13,8 @@ import fr.mgs.model.user.Team;
 /**
  * Business class that manage the following DAOs to access database and process
  * data : 
- * - UserDAO 
- * - TeamDAO
+ * - User
+ * - Team
  * 
  * @author Ismaël
  * @author Ibrahima

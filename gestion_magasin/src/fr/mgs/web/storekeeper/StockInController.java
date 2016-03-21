@@ -2,12 +2,8 @@ package fr.mgs.web.storekeeper;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -40,6 +36,7 @@ public class StockInController {
 
 	@ManagedProperty("#{ListProducts}")
 	ListProductController listProducts;
+
 
 	@PostConstruct
 	public void init() {
@@ -110,14 +107,6 @@ public class StockInController {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Nouveau lot ajouté", ""));
 
-	}
-
-	public ListProductController getListProducts() {
-		return listProducts;
-	}
-
-	public void setListProducts(ListProductController listProducts) {
-		this.listProducts = listProducts;
 	}
 
 	public String getScanDefault() {

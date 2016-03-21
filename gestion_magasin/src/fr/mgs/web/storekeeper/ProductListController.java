@@ -1,41 +1,64 @@
 package fr.mgs.web.storekeeper;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.UploadedFile;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+
+import fr.mgs.business.EventManager;
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
+import fr.mgs.model.event.Action;
+import fr.mgs.model.event.Event;
 import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 
+/**
+ * 
+ * @author Ismaël
+ *
+ */
 @ManagedBean(name = "skProducts")
 @ApplicationScoped
 public class ProductListController {
 
 	private ProductManager productManager;
-	private Map<String, List<Product>> products;
-
+	private EventManager eventManager;
+	
+	private List<Product> storeProducts;
 	private Product currentProduct;
-
 	private SubCategory subCategory;
+	private UploadedFile image;
+	
+	private String user;
 
 	@PostConstruct
 	public void init() {
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
+		
+		eventManager = new EventManager();
+		eventManager.init(DataSource.LOCAL);
 
-		products = new HashMap<String, List<Product>>();
+		storeProducts = new ArrayList<Product>();
 		subCategory = new SubCategory();
+		
+		user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
 
 	}
 
@@ -47,12 +70,12 @@ public class ProductListController {
 		this.currentProduct = currentProduct;
 	}
 
-	public Map<String, List<Product>> getStoreProducts() {
-		return products;
+	public List<Product> getStoreProducts() {
+		return storeProducts;
 	}
 
-	public void setStoreProducts(Map<String, List<Product>> products) {
-		this.products = products;
+	public void setStoreProducts(List<Product> storeProducts) {
+		this.storeProducts = storeProducts;
 	}
 
 	public SubCategory getSubCategory() {
@@ -61,6 +84,15 @@ public class ProductListController {
 
 	public void setSubCategory(SubCategory subCategory) {
 		this.subCategory = subCategory;
+	}
+
+	public UploadedFile getImage() {
+		return image;
+	}
+
+	public void setImage(UploadedFile image) {
+		System.out.println("setter");
+		this.image = image;
 	}
 
 	public void clearStoreItems() {
@@ -94,17 +126,8 @@ public class ProductListController {
 	 * @return the list of product
 	 * @throws SQLException
 	 */
-	public List<Product> getStoreProducts(SubCategory sub) {
-		List<Product> productList;
-
-		// si la sous catégorie n'est pas présente dans la map, on récupère la
-		// liste de produits et on l'ajoute
-		if (!products.containsKey(sub.getName())) {
-			productList = (List<Product>) productManager.findProductsBySubCategory(sub);
-			products.put(sub.getName(), productList);
-		}
-		return products.get(sub.getName());
-
+	public void loadStoreProducts(SubCategory sub) {
+		storeProducts = (List<Product>) productManager.findProductsBySubCategory(sub);
 	}
 
 	public void updateVisibility(Product product) throws SQLException {
@@ -131,13 +154,48 @@ public class ProductListController {
 		if(!subCategory.getName().equals("")){
 			currentProduct.setSubCategory(productManager.findSubCategory(subCategory.getName()));
 		}
+	//	currentProduct.setPicture(image.getContents());
 		productManager.updateProduct(currentProduct);
 		clearStoreItems();
 	}
 	
 	public void addNewProduct(){
 		currentProduct = new Product();
-		currentProduct.setProduct(101, "", null, 0, 0, 0, false, "", 0);
+		currentProduct.setProduct(101, "", null, 0, 0, 0, false, null, 0);
+	}
+	
+	public void handleFileUpload(FileUploadEvent event) {
+		System.out.println("ici");
+		setImage(event.getFile());
+		System.out.println("image: " +image.getSize());
+    }
+	
+	public DefaultStreamedContent byteToImage(byte[] imgBytes) throws IOException {
+		ByteArrayInputStream img = new ByteArrayInputStream(imgBytes);
+		return new DefaultStreamedContent(img,"image/jpg");
+		}
+	
+	public void addEvent(Product product) throws SQLException{
+		Event event = new Event();
+//		StringBuilder resume = new StringBuilder();
+//		resume.append(user);
+//		resume.append(" a ajouté le nouveau produit ");
+//		resume.append(product);
+		
+		event.setEvent(user, product, Action.CREATE, new Date(), "");
+		eventManager.addEvent(event);
+	}
+	
+	public void updateEvent(){
+		
+	}
+	
+	public void showEvent(){
+		
+	}
+	
+	public void hideEvent(){
+		
 	}
 
 }

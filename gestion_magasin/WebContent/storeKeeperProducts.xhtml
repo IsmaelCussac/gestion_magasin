@@ -17,19 +17,22 @@
 			<f:view>
 				<h:form>
 					<p:commandButton value="Ajouter un produit"
-						actionListener="#{skProducts.addNewProduct()}" 
+						actionListener="#{skProducts.addNewProduct()}"
 						onclick="PF('dlg1').show();" update=":updateDialog:updatePanel" />
 				</h:form>
 
-				<p:accordionPanel value="#{skProducts.getAllCategories()}" var="cat">
+				<p:accordionPanel value="#{skProducts.getAllCategories()}" var="cat"
+					activeIndex="null">
 					<p:tab title="#{cat.toString()}">
 						<p:accordionPanel id="subAccordion" dynamic="true" cache="true"
-							value="#{skProducts.getSubCategories(cat)}" var="subCat">
+							value="#{skProducts.getSubCategories(cat)}" var="subCat"
+							activeIndex="null">
+							<p:ajax event="tabChange"
+								listener="#{skProducts.loadStoreProducts(subCat)}" />
 							<p:tab title="#{subCat.name}">
 								<h:form id="form">
-									<p:dataGrid value="#{skProducts.getStoreProducts(subCat)}"
-										var="product" columns="4" layout="grid" rows="8"
-										paginator="true" id="items"
+									<p:dataGrid value="#{skProducts.storeProducts}" var="product"
+										columns="4" layout="grid" rows="8" paginator="true" id="items"
 										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 										rowsPerPageTemplate="6,12">
 										<p:panel style="text-align:center">
@@ -58,9 +61,10 @@
 					</p:tab>
 				</p:accordionPanel>
 
-				<h:form id="updateDialog" prependId="true">
-					<p:dialog header="Modifier produit" widgetVar="dlg1" modal="true"
-						height="630" width="500">
+				<h:form id="updateDialog" prependId="true"
+					enctype="multipart/form-data">
+					<p:dialog header="Modifier produit" widgetVar="dlg1" modal="false"
+						height="630" width="700">
 						<p:outputPanel id="updatePanel">
 
 							<div class="form-group" style="width: 100%">
@@ -109,11 +113,13 @@
 									</td>
 									<td>
 										<div class="form-group">
-											<label for="Image">Image produit :</label>
-											<h:inputText type="file" class="form-control" name="Image"
-												value="#{skProducts.currentProduct.picture}" />
-											<i>Image d'extension .jpeg .png autorisée au format 100px
-												par 100px.</i>
+											<label for="Image">Image :</label>
+											<p:fileUpload value="#{skProduct.image}"
+												fileUploadListener="#{skProduct.handleFileUpload}"
+												mode="advanced" auto="true"
+												allowTypes="/(\.|\/)(jpe?g|png)$/" />
+											<i>PNG ou JPEG de taille 100x100px maximum.</i>
+
 										</div>
 									</td>
 								</tr>
@@ -150,3 +156,6 @@
 	</ui:composition>
 </h:body>
 </html>
+
+<!-- <p:graphicImage id="prodImg" value="#{skProducts.byteToImage(image)}"  -->
+<!-- 												cache="false" /> -->
