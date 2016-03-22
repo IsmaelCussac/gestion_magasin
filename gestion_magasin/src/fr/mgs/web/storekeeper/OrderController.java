@@ -84,9 +84,9 @@ public class OrderController implements Serializable {
 					deliveredProducts.remove(orderLine);
 				}
 				double newDelivredQt = orderLine.getDeliveredQuantity() + 1;
-				if (newDelivredQt > orderLine.getQuantity()) {
+				if (newDelivredQt > orderLine.getQuantity() || newDelivredQt < 0) {
 					FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
-							"La quantité saisie doit être inférieure à la quantité demandée", "");
+							"Quanité incorrecte ou supérieur à celle demandée", "");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
 				} else {
 					orderLine.setDeliveredQuantity(newDelivredQt);

@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Past;
 
 /**
  * This class describes a lot entity in database. It contains : - an id - an
@@ -31,6 +33,7 @@ public class Lot {
 
 	@Temporal(TemporalType.DATE)
 	@Column(name = "expiration_date", nullable = true)
+	@Future
 	private Date expirationDate;
 
 	@Column(name = "quantity")
