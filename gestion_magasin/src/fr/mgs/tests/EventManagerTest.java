@@ -1,6 +1,6 @@
 package fr.mgs.tests;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 import java.util.Collection;
@@ -81,33 +81,30 @@ public class EventManagerTest {
 		e1.setEvent("123", product, Action.INCREASING, d1, "test");
 	}
 
-	/*
-	 * 
-	 * Test sur la cr�ation d'une ligne de log
-	 * 
-	 */
+
 	@Test
 	public void testEventCreate() throws SQLException {
 		eventManager.addEvent(e1);
 		assertNotNull(eventManager.findAllEvents());
 	}
+	
+	@Test(expected = Exception.class)
+	public void testExistsEventCreate() throws SQLException{
+	    eventManager.addEvent(e1);
+	    eventManager.addEvent(e1);
+	}
 
-	/*
-	 * 
-	 * Test sur la recherche d'une ligne de log
-	 * 
-	 */
 	@Test
 	public void testEventFind() throws SQLException {
 		eventManager.addEvent(e1);
 		assertNotNull(eventManager.findEvent(e1.getEventId()));
 	}
 
-	/*
-	 * 
-	 * Test sur la recherche d'une ligne de log
-	 * 
-	 */
+	@Test
+	public void testNotEventFind() throws SQLException{
+	    assertNull(eventManager.findEvent(e1.getEventId()));
+	}
+	
 	@Test
 	public void testEventFindAll() throws SQLException {
 		eventManager.addEvent(e1);
@@ -136,5 +133,6 @@ public class EventManagerTest {
 	    Date date2 = new Date();
 	    assertNotNull(eventManager.findEventsByDate(date1, date2));
 	}
+	
 
 }
