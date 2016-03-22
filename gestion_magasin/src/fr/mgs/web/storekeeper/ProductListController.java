@@ -18,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
@@ -52,7 +53,7 @@ public class ProductListController {
 	private List<Product> storeProducts;
 	private Product currentProduct;
 	private SubCategory subCategory;
-	private UploadedFile image;
+	private Part image;
 
 	private String user;
 
@@ -95,11 +96,11 @@ public class ProductListController {
 		this.subCategory = subCategory;
 	}
 
-	public UploadedFile getImage() {
+	public Part getImage() {
 		return image;
 	}
 
-	public void setImage(UploadedFile image) {
+	public void setImage(Part image) {
 		System.out.println("setter");
 		this.image = image;
 	}
@@ -191,15 +192,22 @@ public class ProductListController {
 		currentProduct.setProduct(productId, "", null, 0, 0, 0, false, pic, 1);
 	}
 
-	public void handleFileUpload(FileUploadEvent event) {
-		System.out.println("ici");
-		setImage(event.getFile());
-		System.out.println("image: " + image.getSize());
-	}
+	public void handleFileUpload(FileUploadEvent event) throws IOException {
+		
+		Part uploadedFile=getImage();
 
-	public DefaultStreamedContent byteToImage(byte[] imgBytes) throws IOException {
-		ByteArrayInputStream img = new ByteArrayInputStream(imgBytes);
-		return new DefaultStreamedContent(img, "image/jpg");
+        InputStream bytes=null;
+
+           if (null!=uploadedFile) {
+
+               bytes = uploadedFile.getInputStream();  //
+               System.out.println("ici");
+           }
+
+		
+//		System.out.println("ici");
+//		setImage(event.getFile());
+//		System.out.println("image: " + image.getSize());
 	}
 
 	public void addEvent(Product product) throws SQLException {
