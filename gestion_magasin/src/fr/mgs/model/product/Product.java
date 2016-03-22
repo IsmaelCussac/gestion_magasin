@@ -72,7 +72,7 @@ public class Product {
 	@Min(0)
 	private Double conditioning;
 
-	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.LAZY, orphanRemoval = false, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "lotProduct", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
 	private Set<Lot> lots = new HashSet<Lot>();
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false, cascade = CascadeType.ALL)

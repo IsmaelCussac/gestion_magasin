@@ -42,25 +42,25 @@ public class ProductListController {
 
 	private ProductManager productManager;
 	private EventManager eventManager;
-	
+
 	private List<Product> storeProducts;
 	private Product currentProduct;
 	private SubCategory subCategory;
 	private UploadedFile image;
-	
+
 	private String user;
 
 	@PostConstruct
 	public void init() {
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
-		
+
 		eventManager = new EventManager();
 		eventManager.init(DataSource.LOCAL);
 
 		storeProducts = new ArrayList<Product>();
 		subCategory = new SubCategory();
-		
+
 		user = ((User) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
 
 	}
@@ -116,11 +116,11 @@ public class ProductListController {
 	public List<SubCategory> getSubCategories(Category cat) {
 		return (List<SubCategory>) productManager.findSubCategoriesByCategory(cat);
 	}
-	
+
 	public List<SubCategory> getAllSubCategories() throws SQLException {
 		return (List<SubCategory>) productManager.findAllSubCategories();
 	}
-	
+
 	/**
 	 * Get all the products for the sub category
 	 * 
@@ -139,7 +139,7 @@ public class ProductListController {
 	}
 
 	public int getQuantity(Product product) {
-		if(product == null){
+		if (product == null) {
 			return 0;
 		}
 		int sum = 0;
@@ -153,60 +153,72 @@ public class ProductListController {
 	 * 
 	 * @throws SQLException
 	 */
-	public void updateCurrentProduct() throws SQLException {
+	public void saveCurrentProduct() throws SQLException {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage("growlSave", new FacesMessage("Produit sauvegardé", "Produit sauvegardé"));
-		
-		if(!subCategory.getName().equals("")){
+
+		if (!subCategory.getName().equals("")) {
 			currentProduct.setSubCategory(productManager.findSubCategory(subCategory.getName()));
 		}
-	//	currentProduct.setPicture(image.getContents());
-		productManager.updateProduct(currentProduct);
+		// currentProduct.setPicture(image.getContents());
+
+		if (!productManager.productExists(currentProduct.getProductId())) {
+			productManager.addProduct(currentProduct);
+			addEvent(currentProduct);
+		} else {
+			productManager.updateProduct(currentProduct);
+			updateEvent(currentProduct);
+		}
 		clearStoreItems();
 	}
-	
-	public void addNewProduct() throws SQLException{
-		
+
+	public void addNewProduct() throws SQLException {
+
 		currentProduct = new Product();
 		int productId = BarCode.generateRandomInt();
-		while(productManager.productExists(productId)){
+		while (productManager.productExists(productId)) {
 			productId = BarCode.generateRandomInt();
 		}
 		currentProduct.setProduct(productId, "", null, 0, 0, 0, false, null, 0);
 	}
-	
+
 	public void handleFileUpload(FileUploadEvent event) {
 		System.out.println("ici");
 		setImage(event.getFile());
-		System.out.println("image: " +image.getSize());
-    }
-	
+		System.out.println("image: " + image.getSize());
+	}
+
 	public DefaultStreamedContent byteToImage(byte[] imgBytes) throws IOException {
 		ByteArrayInputStream img = new ByteArrayInputStream(imgBytes);
-		return new DefaultStreamedContent(img,"image/jpg");
-		}
-	
-	public void addEvent(Product product) throws SQLException{
+		return new DefaultStreamedContent(img, "image/jpg");
+	}
+
+	public void addEvent(Product product) throws SQLException {
 		Event event = new Event();
-//		StringBuilder resume = new StringBuilder();
-//		resume.append(user);
-//		resume.append(" a ajouté le nouveau produit ");
-//		resume.append(product);
-		
+		// StringBuilder resume = new StringBuilder();
+		// resume.append(user);
+		// resume.append(" a ajouté le nouveau produit ");
+		// resume.append(product);
 		event.setEvent(user, product, Action.CREATE, new Date(), "");
 		eventManager.addEvent(event);
 	}
-	
-	public void updateEvent(){
-		
+
+	public void updateEvent(Product product) throws SQLException {
+		Event event = new Event();
+		// StringBuilder resume = new StringBuilder();
+		// resume.append(user);
+		// resume.append(" a ajouté le nouveau produit ");
+		// resume.append(product);
+		event.setEvent(user, product, Action.UPDATE, new Date(), "");
+		eventManager.addEvent(event);
 	}
-	
-	public void showEvent(){
-		
+
+	public void showEvent() {
+
 	}
-	
-	public void hideEvent(){
-		
+
+	public void hideEvent() {
+
 	}
 
 }

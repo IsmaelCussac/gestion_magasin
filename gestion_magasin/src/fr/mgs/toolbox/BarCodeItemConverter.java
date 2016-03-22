@@ -10,6 +10,11 @@ import org.primefaces.model.DualListModel;
 
 import fr.mgs.web.storekeeper.BarCodeItem;
 
+/**
+ * 
+ * @author Ismaël
+ *
+ */
 @FacesConverter(value = "barCodeItemConverter", forClass = BarCodeItem.class)
 public class BarCodeItemConverter implements Converter {
 

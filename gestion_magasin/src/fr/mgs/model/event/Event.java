@@ -37,7 +37,7 @@ public class Event implements Serializable {
 	@Column(name = "event_id")
 	private int eventId;
 
-	@Column(name = "store_keeper_id", length = 10, nullable = false)
+	@Column(name = "store_keeper_id", length = 25, nullable = false)
 	private String storeKeeper;
 
 	@Column(name = "product_id", nullable = false)
