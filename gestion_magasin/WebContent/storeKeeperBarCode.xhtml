@@ -43,7 +43,9 @@
 									<h:outputText value="#{item.productName}" />
 								</p:layoutUnit>
 								<p:layoutUnit position="east" size="200">
-									<p:graphicImage value="#{item.productImage}" />
+									<p:graphicImage value="#{imageCvt.image}">
+										<f:param name="image" value="#{item.productId}" />
+									</p:graphicImage>
 								</p:layoutUnit>
 							</p:layout>
 							<p:layout
@@ -51,7 +53,9 @@
 								styleClass="centered"
 								rendered="#{not loop.first and loop.index % 2 == 1}">
 								<p:layoutUnit position="west" size="200">
-									<p:graphicImage value="#{item.productImage}" />
+									<p:graphicImage value="#{imageCvt.image}">
+										<f:param name="image" value="#{item.productId}" />
+									</p:graphicImage>
 								</p:layoutUnit>
 								<p:layoutUnit position="center" size="200">
 									<h:outputText value="#{item.productName}" />

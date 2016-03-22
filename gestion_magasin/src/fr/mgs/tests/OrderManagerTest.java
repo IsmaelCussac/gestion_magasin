@@ -107,6 +107,12 @@ public class OrderManagerTest {
     public void testOrderFindOrder() throws SQLException {
         assertNotNull(orderManager.findOrder(marcOrder.getOrderId()));
     }
+    
+    @Test
+    public void testOrderNotFindOrder() throws SQLException{
+        Order order = new Order();
+        assertNull(orderManager.findOrder(order.getOrderId()));
+    }
 
     @Test
     public void testOrderFindAllOrders() throws SQLException {

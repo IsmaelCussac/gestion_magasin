@@ -1,4 +1,4 @@
-package fr.mgs.services.business;
+package fr.mgs.service.authentication;
 
 import java.util.Collection;
 

@@ -1,7 +1,12 @@
 package fr.mgs.web.storekeeper;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +19,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.UploadedFile;
@@ -172,14 +178,17 @@ public class ProductListController {
 		clearStoreItems();
 	}
 
-	public void addNewProduct() throws SQLException {
+	public void addNewProduct() throws SQLException, IOException {
 
 		currentProduct = new Product();
 		int productId = BarCode.generateRandomInt();
 		while (productManager.productExists(productId)) {
 			productId = BarCode.generateRandomInt();
 		}
-		currentProduct.setProduct(productId, "", null, 0, 0, 0, false, null, 0);
+		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
+			    .getResourceAsStream("resources/image/product-icon.png");
+		byte[] pic = IOUtils.toByteArray(stream);
+		currentProduct.setProduct(productId, "", null, 0, 0, 0, false, pic, 1);
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
@@ -195,20 +204,12 @@ public class ProductListController {
 
 	public void addEvent(Product product) throws SQLException {
 		Event event = new Event();
-		// StringBuilder resume = new StringBuilder();
-		// resume.append(user);
-		// resume.append(" a ajouté le nouveau produit ");
-		// resume.append(product);
 		event.setEvent(user, product, Action.CREATE, new Date(), "");
 		eventManager.addEvent(event);
 	}
 
 	public void updateEvent(Product product) throws SQLException {
 		Event event = new Event();
-		// StringBuilder resume = new StringBuilder();
-		// resume.append(user);
-		// resume.append(" a ajouté le nouveau produit ");
-		// resume.append(product);
 		event.setEvent(user, product, Action.UPDATE, new Date(), "");
 		eventManager.addEvent(event);
 	}

@@ -9,12 +9,18 @@
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
 	<beans:bean id="hashClass" class="fr.mgs.toolbox.Hasher" />
-	<beans:bean id="authManager" class="fr.mgs.services.business.UserService" />
+	<beans:bean id="authManager" class="fr.mgs.service.authentication.UserService" />
 	<beans:bean id="authenticationSuccessHandler"
-		class="fr.mgs.services.business.UrlAuthenticationSuccessHandler" />
+		class="fr.mgs.service.authentication.UrlAuthenticationSuccessHandler" />
 
 	<http use-expressions="true">
 
+		<!-- CSP -->
+		<headers>
+			<header name="Content-Security-Policy" value="img-src 'self'" />
+			<header name="Content-Security-Policy" value="frame-ancestors 'self'" />
+		</headers>
+		
 		<!-- Unique session -->
 		<session-management>
 			<concurrency-control max-sessions="1"
@@ -37,9 +43,10 @@
 			invalidate-session="true" />
 
 		<!-- enable csrf protection -->
-	 <csrf disabled="true" />  <sec:headers /> 
+		<csrf disabled="true" />
+		<sec:headers />
 	</http>
-	
+
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="authManager">

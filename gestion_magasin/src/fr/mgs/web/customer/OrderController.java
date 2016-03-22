@@ -153,7 +153,7 @@ public class OrderController {
 			double quantity = 0;
 			if (cart.containsKey(prod.getProductId()))
 				quantity = cart.get(prod.getProductId()).getQuantity();
-			orderItem.setStoreItem(prod.getProductId(), prod.getDesignation(), prod.getPicture(), quantity,
+			orderItem.setStoreItem(prod.getProductId(), prod.getDesignation(), quantity,
 					prod.getSubCategory().getName());
 			items.add(orderItem);
 		}
@@ -177,8 +177,7 @@ public class OrderController {
 			currentOrder = orderList.get(0);
 			for (OrderLine orderLine : currentOrder.getOrderLines()) {
 				StoreItem item = new StoreItem();
-				item.setStoreItem(orderLine.getProduct().getProductId(), orderLine.getProduct().getDesignation(),
-						orderLine.getProduct().getPicture(), orderLine.getQuantity(),
+				item.setStoreItem(orderLine.getProduct().getProductId(), orderLine.getProduct().getDesignation(), orderLine.getQuantity(),
 						orderLine.getProduct().getSubCategory().getName());
 				cart.put(orderLine.getProduct().getProductId(), item);
 			}
@@ -188,7 +187,7 @@ public class OrderController {
 	}
 
 	public void saveOrder() throws SQLException {
-		
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage("buttons:growlSave", new FacesMessage("Commande sauvegardée", "Commande sauvegardée"));
 
@@ -203,10 +202,10 @@ public class OrderController {
 	}
 
 	public String submitOrder() throws SQLException {
-		
+
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage("buttons:growlValidate", new FacesMessage("Commande envoyée", "Commande envoyée"));
-		
+
 		if (cart.size() > 0) {
 			currentOrder.setStatus(OrderStatus.VALIDATED);
 			currentOrder.setSubmissionDate(new Date());
@@ -218,12 +217,12 @@ public class OrderController {
 	}
 
 	public void deleteOrder() throws SQLException {
-		
+
 		List<Order> order = (List<Order>) orderManager.findNotValidatedOrder(userId);
-		for(OrderLine line : order.get(0).getOrderLines()){
+		for (OrderLine line : order.get(0).getOrderLines()) {
 			orderManager.removeOrderLine(line.getOrderLinePK());
 		}
-		//orderManager.updateOrder(currentOrder);
+		// orderManager.updateOrder(currentOrder);
 		cart.clear();
 	}
 
