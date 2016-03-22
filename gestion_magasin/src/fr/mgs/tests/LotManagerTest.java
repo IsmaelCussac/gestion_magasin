@@ -3,6 +3,8 @@ package fr.mgs.tests;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 
@@ -10,6 +12,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import fr.mgs.business.ProductManager;
@@ -45,7 +48,7 @@ public class LotManagerTest {
 	}
 
 	@Before
-	public void setUp() throws SQLException {
+	public void setUp() throws SQLException, ParseException {
 		productManager.init(DataSource.H2);
 		subCategory = new SubCategory();
 		subCategory.setSubCategory("Gants", Category.PLASTIC);
@@ -57,6 +60,8 @@ public class LotManagerTest {
 
 		lot = new Lot();
 		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		date = sdf.parse("21/12/2017");
 
 		lot.setLot(date, product, 15);
 	}
@@ -67,10 +72,10 @@ public class LotManagerTest {
 
 	@Test
 	public void testAddLot() throws SQLException {
-		productManager.addLot(lot);
+	    productManager.addLot(lot);
 		System.out.println("lot dest : " + lot.getLotId());
 		System.out.println("size liste : " + productManager.findAllLots().size());
-		assertNotNull(productManager.findAllLots());
+		assertNotNull(productManager.findLot(lot.getLotId()));
 	}
 
 	@Test(expected = Exception.class)
@@ -93,11 +98,21 @@ public class LotManagerTest {
 		productManager.addLot(lot);
 		assertTrue(productManager.lotExists(lot.getLotId()));
 	}
+	
+	@Test
+	public void testNoExistsString() throws SQLException {
+	    assertFalse(productManager.lotExists(lot.getLotId()));
+	}
 
 	@Test
 	public void testFindString() throws SQLException {
 		productManager.addLot(lot);
 		assertNotNull(productManager.findLot(lot.getLotId()));
+	}
+	
+	@Test
+	public void testNotFindString() throws SQLException{
+	    assertNull(productManager.findLot(lot.getLotId()));
 	}
 
 	@Test
@@ -106,6 +121,7 @@ public class LotManagerTest {
 		Collection<Lot> collection = productManager.findAllLots();
 		assertNotNull(collection.size());
 	}
+	
 
 	@Test
 	public void testRemoveString() throws SQLException {

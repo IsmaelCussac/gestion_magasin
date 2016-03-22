@@ -15,6 +15,12 @@
 
 	<http use-expressions="true">
 
+		<!-- CSP -->
+		<headers>
+			<header name="Content-Security-Policy" value="img-src 'self'" />
+			<header name="Content-Security-Policy" value="frame-ancestors 'self'" />
+		</headers>
+		
 		<!-- Unique session -->
 		<session-management>
 			<concurrency-control max-sessions="1"
@@ -37,9 +43,10 @@
 			invalidate-session="true" />
 
 		<!-- enable csrf protection -->
-	 <csrf disabled="true" />  <sec:headers /> 
+		<csrf disabled="true" />
+		<sec:headers />
 	</http>
-	
+
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="authManager">

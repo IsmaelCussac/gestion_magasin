@@ -141,6 +141,11 @@ public class OrderLineManagerTest {
         orderManager.updateOrder(order);
         assertTrue(orderManager.orderLineExists(orderline.getOrderLinePK()));
     }
+    
+    @Test
+    public void testNoExistsInteger() throws SQLException {
+        assertFalse(orderManager.orderLineExists(orderline.getOrderLinePK()));
+    }
 
     @Test
     public void testFindInteger() throws SQLException {
