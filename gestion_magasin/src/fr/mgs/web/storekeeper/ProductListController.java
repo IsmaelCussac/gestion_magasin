@@ -179,7 +179,7 @@ public class ProductListController {
 		while (productManager.productExists(productId)) {
 			productId = BarCode.generateRandomInt();
 		}
-		currentProduct.setProduct(productId, "", null, 0, 0, 0, false, null, 0);
+		currentProduct.setProduct(productId, "", null, 0, 0, 0, false, null, 1);
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {

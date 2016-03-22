@@ -18,7 +18,7 @@
 				<h:form>
 					<p:commandButton value="Ajouter un produit"
 						actionListener="#{skProducts.addNewProduct()}"
-						onclick="PF('dlg1').show();" update=":updateDialog:updatePanel" />
+						onclick="PF('dlg1').show();" update=":updateForm:updatePanel" />
 				</h:form>
 				<h:form>
 					<p:commandButton value="Imprimer les code-barres"
@@ -56,7 +56,7 @@
 												<p:commandButton value="Modifier"
 													actionListener="#{skProducts.setCurrentProduct(product)}"
 													onclick="PF('dlg1').show();"
-													update=":updateDialog:updatePanel" />
+													update=":updateForm:updatePanel" />
 											</h:panelGrid>
 										</p:panel>
 									</p:dataGrid>
@@ -66,54 +66,81 @@
 					</p:tab>
 				</p:accordionPanel>
 
-				<h:form id="updateDialog" prependId="true"
+				<h:form id="updateForm" prependId="true"
 					enctype="multipart/form-data">
 					<p:growl id="growlSave" />
-					<p:dialog header="Modifier produit" widgetVar="dlg1" modal="false"
-						height="630" width="700">
-						<p:scrollPanel id="updatePanel">
+					<p:dialog header="Modifier produit" widgetVar="dlg1" modal="true">
+						<p:scrollPanel id="updatePanel" mode="native">
 
 							<div class="form-group" style="width: 100%">
 								<label for="categorie">Catégorie * :</label><br />
 								<p:selectOneMenu id="sub" value="#{skProducts.subCategory.name}"
-									style="width: 100% !important;">
+									style="width: 100% !important;" required="true"
+									validatorMessage="Ne peut être vide">
 									<f:selectItem
 										itemLabel="#{skProducts.currentProduct.subCategory.name}"
 										itemValue="#{skProducts.currentProduct.subCategory.name}" />
 									<f:selectItems value="#{skProducts.getAllSubCategories()}"
 										var="c" itemLabel="#{c.name}" itemValue="#{c.name}" />
 								</p:selectOneMenu>
+								<h:messages for="sub" style="color:red" />
 							</div>
+
 							<table class="table">
 								<tr>
 									<td style="width: 70%">
+
 										<div class="form-group">
 											<label for="Designation">Désignation * :</label>
-											<h:inputText type="text" class="form-control" id="des"
-												value="#{skProducts.currentProduct.designation}" />
+											<h:inputText type="text" class="form-control"
+												id="designation"
+												value="#{skProducts.currentProduct.designation}"
+												required="true" 
+												validatorMessage="Entre 3 et 100 caractères" />
+											<h:messages for="designation" style="color:red" />
 										</div>
+
 										<div class="form-group">
 											<label for="Conditionnnement">Conditionnement * :</label>
 											<h:inputText type="text" class="form-control"
-												name="Conditionnement"
-												value="#{skProducts.currentProduct.conditioning}" />
+												id="conditioning"
+												value="#{skProducts.currentProduct.conditioning}"
+												required="true">
+												<f:validator validatorId="doubleValidator" />
+												<f:ajax />
+											</h:inputText>
+											<h:messages for="conditioning" style="color:red" />
 										</div>
+
 										<div class="form-group">
 											<label for="PrixHT">Prix HT :</label>
 											<h:inputText type="number" step="any" class="form-control"
-												name="PrixHT" value="#{skProducts.currentProduct.price}" />
+												id="price"
+												value="#{skProducts.currentProduct.price}">
+												<f:validator validatorId="doubleValidator" />
+												<f:ajax />
+											</h:inputText>
+											<h:messages for="price" style="color:red" />
 										</div>
+
 										<div class="form-group">
 											<label for="Durée de préavis">Durée de préavis (en
 												jours) * :</label>
 											<h:inputText type="number" step="any" class="form-control"
-												name="Durée de préavis"
-												value="#{skProducts.currentProduct.warningPeriod}" />
+												id="warningPeriod"
+												value="#{skProducts.currentProduct.warningPeriod}">
+												<f:validator validatorId="intValidator" />
+												<f:ajax />
+											</h:inputText>
+											<h:messages for="warningPeriod" style="color:red" />
+											<i>Si 0, vous ne pourrez pas ajouter de date de
+												péremption</i>
 										</div>
+
 										<div class="form-group">
 											<label for="Reference">Référence :</label>
 											<h:inputText type="text" class="form-control" id="ref"
-												name="Reference" disabled="true"
+												disabled="true"
 												value="#{skProducts.currentProduct.productId}" />
 										</div>
 									</td>
@@ -125,20 +152,26 @@
 												mode="advanced" auto="true"
 												allowTypes="/(\.|\/)(jpe?g|png)$/" />
 											<i>PNG ou JPEG de taille 100x100px maximum.</i>
-
 										</div>
 									</td>
+
 								</tr>
 								<tr>
 									<td>
 										<div class="form-group">
 											<label for="Quantite">Seuil minimal de quantité * : </label>
 											<h:inputText type="number" class="form-control"
-												name="Quantite"
-												value="#{skProducts.currentProduct.minQuantity}" />
+												name="Quantite" id="minQuantity"
+												value="#{skProducts.currentProduct.minQuantity}"
+												required="true">
+												<f:validator validatorId="doubleValidator" />
+												<f:ajax />
+											</h:inputText>
+											<h:messages for="minQuantity" style="color:red" />
 										</div>
 									</td>
 									<td>
+
 										<div class="checkbox">
 											<p:selectBooleanButton id="box"
 												value="#{skProducts.currentProduct.visibility}"
@@ -147,15 +180,20 @@
 												style="width:140px">
 											</p:selectBooleanButton>
 										</div>
+
 									</td>
 								</tr>
 							</table>
 							<i>* : Champs obligatoires</i>
 							<br />
+
 							<p:commandButton value="Enregistrer"
-								action="#{skProducts.saveCurrentProduct()}" update="@all"
-								onclick="PF('dlg1').hide();">
+								actionListener="#{skProducts.saveCurrentProduct()}"
+								update=":updateForm:updatePanel"
+								visible="#{updateForm.submitted and facesContext.validationFailed}"
+								oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').hide()">
 							</p:commandButton>
+
 						</p:scrollPanel>
 					</p:dialog>
 				</h:form>

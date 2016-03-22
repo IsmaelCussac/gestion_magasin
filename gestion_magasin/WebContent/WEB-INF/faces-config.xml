@@ -10,5 +10,9 @@
             org.springframework.web.jsf.el.SpringBeanFacesELResolver
         </el-resolver>
     </application>
+    
+    <protected-views>
+		<url-pattern>/*</url-pattern>
+	</protected-views>
 
 </faces-config>

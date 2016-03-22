@@ -19,7 +19,7 @@
 					<h:form>
 						<p:dataTable var="event" value="#{admin.allCreate}">
 							<p:column headerText="Date">
-								<h:outputText value="#{event.date}" />
+								<h:outputText value="#{event.date}" pattern="dd-MM-yyyy"/>
 							</p:column>
 							<p:column headerText="Magasinier">
 								<h:outputText value="#{event.storeKeeper}" />
@@ -35,7 +35,7 @@
 					<h:form>
 						<p:dataTable var="event" value="#{admin.allUpdate}">
 							<p:column headerText="Date">
-								<h:outputText value="#{event.date}" />
+								<h:outputText value="#{event.date}" pattern="dd-MM-yyyy"/>
 							</p:column>
 							<p:column headerText="Magasinier">
 								<h:outputText value="#{event.storeKeeper}" />
@@ -51,7 +51,7 @@
 						<p:dataTable var="event" value="#{admin.allVisibility}">
 
 							<p:column headerText="Date">
-								<h:outputText value="#{event.date}" />
+								<h:outputText value="#{event.date}" pattern="dd-MM-yyyy"/>
 							</p:column>
 							<p:column headerText="Magasinier">
 								<h:outputText value="#{event.storeKeeper}" />
