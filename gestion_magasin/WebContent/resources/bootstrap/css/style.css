@@ -10,7 +10,6 @@ body {
 }
 
 .navbar-default {
-	border-radius: 6px;
 	background-color: #eeeeec;
 	
 }
@@ -20,7 +19,7 @@ body {
 }
 
 #menu {
-	margin-top: 116px;
+	margin-top: 0px;
 	margin-left: 10px;
 	margin-right: 10px;
 }

@@ -33,7 +33,7 @@
 
 
 			<ui:repeat var="team"
-				value="#{ordersView.ordersToDeliverByTeam.entrySet().toArray()}">
+				value="#{ordersView.getOrdersToDeliverByTeam().entrySet().toArray()}">
 
 				<p:panel header="#{team.key.name} (#{team.value.size()})"
 					toggleable="true" toggleSpeed="500" collapsed="true">

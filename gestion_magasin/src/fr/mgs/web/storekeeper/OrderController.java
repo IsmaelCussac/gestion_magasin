@@ -25,6 +25,7 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
+import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 import fr.mgs.toolbox.SortMap;
 
@@ -38,7 +39,6 @@ import fr.mgs.toolbox.SortMap;
 public class OrderController implements Serializable {
 	private static final long serialVersionUID = -5914169092116908790L;
 
-	private Map<Team, Collection<Order>> ordersToDeliverByTeam;
 	private List<OrderLine> deliveredProducts;
 	private Collection<OrderLine> selectedTeamOrderLines;
 	private Map<Integer, Boolean> checkedOrders;
@@ -52,7 +52,6 @@ public class OrderController implements Serializable {
 
 	private Team selectedTeam;
 	private Order orderToEdit;
-	private SortMap sortMap;
 
 	@PostConstruct
 	public void init() {
@@ -68,7 +67,13 @@ public class OrderController implements Serializable {
 		selectedTeamOrderLines = new ArrayList<OrderLine>();
 		deliveredProducts = new ArrayList<OrderLine>();
 		checkedOrders = new HashMap<Integer, Boolean>();
-		sortMap = new SortMap();
+		try {
+			Product p = prodManager.findProduct(15);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -191,7 +196,8 @@ public class OrderController implements Serializable {
 	 */
 
 	public Map<Team, Collection<Order>> getOrdersToDeliverByTeam() throws SQLException {
-		ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
+		Map<Team, Collection<Order>> ordersToDeliverByTeam = new HashMap<Team, Collection<Order>>();
+		SortMap sortMap = new SortMap();
 		for (Team team : userManager.findAllTeams()) {
 			if (!team.getUsers().isEmpty()) {
 				Collection<Order> teamOrdersToDeliver = new ArrayList<Order>();
@@ -203,18 +209,14 @@ public class OrderController implements Serializable {
 				}
 				if (!teamOrdersToDeliver.isEmpty()) {
 					ordersToDeliverByTeam.put(team, teamOrdersToDeliver);
-
 				}
 
 			}
 		}
 
 		sortMap.getTreeMap().putAll(ordersToDeliverByTeam);
-		return sortMap.getTreeMap();
-	}
 
-	public void setOrdersToDeliverByTeam(Map<Team, Collection<Order>> ordersByTeam) {
-		this.ordersToDeliverByTeam = ordersByTeam;
+		return sortMap.getTreeMap();
 	}
 
 	public void setSelectedTeam(Team selectedTeam) {
