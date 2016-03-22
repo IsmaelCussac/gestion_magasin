@@ -7,12 +7,13 @@
 <h:body>
 	<ui:composition template="/template/layout.xhtml">
 		<ui:define name="title">Code-barres</ui:define>
-		
+
 		<ui:define name="menu">
 			<ui:include src="/template/storeKeeperMenu.xhtml" />
 		</ui:define>
-		
+
 		<ui:define name="content">
+			<span>Sélectionnez les code-barres que vous souhaitez imprimer</span>
 			<p:tab title="Liste des produits du magasin">
 				<h:form>
 					<p:pickList id="pickList" value="#{barCode.barCodes}" var="code"

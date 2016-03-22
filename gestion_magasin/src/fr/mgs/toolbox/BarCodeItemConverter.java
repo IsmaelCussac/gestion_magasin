@@ -1,4 +1,4 @@
-package fr.mgs.web.storekeeper;
+package fr.mgs.toolbox;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -7,6 +7,8 @@ import javax.faces.convert.FacesConverter;
 
 import org.primefaces.component.picklist.PickList;
 import org.primefaces.model.DualListModel;
+
+import fr.mgs.web.storekeeper.BarCodeItem;
 
 @FacesConverter(value = "barCodeItemConverter", forClass = BarCodeItem.class)
 public class BarCodeItemConverter implements Converter {

@@ -14,6 +14,7 @@ import org.primefaces.model.DualListModel;
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.product.Product;
+import fr.mgs.toolbox.BarCodeItemConverter;
 
 @ManagedBean(name = "barCode")
 @ViewScoped
