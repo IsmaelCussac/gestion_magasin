@@ -24,6 +24,7 @@ import fr.mgs.model.product.Product;
 @ManagedBean(name = "imageCvt")
 @ApplicationScoped
 public class ImageConverter {
+	
 	private ProductManager productManager;
 
 	@PostConstruct

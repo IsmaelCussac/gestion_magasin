@@ -26,10 +26,6 @@ public class Connection {
 		setEmf(Persistence.createEntityManagerFactory(ds.toString()));
 	}
 
-	public void initEmf(String base) {
-		setEmf(Persistence.createEntityManagerFactory(base));
-	}
-
 	public EntityManager createEm() {
 		return emf.createEntityManager();
 	}

@@ -142,7 +142,7 @@
 
 							<p:rowExpansion>
 								<p:dataTable value="#{ol.product.lots}" var="lot"
-									selection="#{dtSelectionView.selectedCar}"
+									selection="#{ordersView.selectedLot}"
 									rowKey="#{lot.lotId}">
 
 									<p:columnGroup type="header">
@@ -168,7 +168,7 @@
 										<h:outputText value="#{lot.expirationDate}" />
 									</p:column>
 									<p:column selectionMode="single"
-										style="width:16px;text-align:center" />
+										style="width:16px;text-align:center"/>
 								</p:dataTable>
 							</p:rowExpansion>
 

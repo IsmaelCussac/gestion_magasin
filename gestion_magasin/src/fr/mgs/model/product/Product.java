@@ -89,10 +89,6 @@ public class Product {
 		this.productId = product;
 	}
 
-	// public void setProductId() {
-	// this.productId = BarCode.getProductBarCode(designation, subCategory);
-	// }
-
 	public String getDesignation() {
 		return designation;
 	}
@@ -182,7 +178,6 @@ public class Product {
 
 		setProductId(id);
 		setDesignation(designation);
-		;
 		setSubCategory(subCategory);
 		setWarningPeriod(warningPeriod);
 		setMinQuantity(minQuantity);
@@ -193,70 +188,9 @@ public class Product {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((conditioning == null) ? 0 : conditioning.hashCode());
-		result = prime * result + ((designation == null) ? 0 : designation.hashCode());
-		result = prime * result + ((minQuantity == null) ? 0 : minQuantity.hashCode());
-		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
-		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + (visibility ? 1231 : 1237);
-		result = prime * result + ((warningPeriod == null) ? 0 : warningPeriod.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		if (conditioning == null) {
-			if (other.conditioning != null)
-				return false;
-		} else if (!conditioning.equals(other.conditioning))
-			return false;
-		if (designation == null) {
-			if (other.designation != null)
-				return false;
-		} else if (!designation.equals(other.designation))
-			return false;
-		if (minQuantity == null) {
-			if (other.minQuantity != null)
-				return false;
-		} else if (!minQuantity.equals(other.minQuantity))
-			return false;
-		if (picture == null) {
-			if (other.picture != null)
-				return false;
-		} else if (!picture.equals(other.picture))
-			return false;
-		if (price == null) {
-			if (other.price != null)
-				return false;
-		} else if (!price.equals(other.price))
-			return false;
-		if (productId != other.productId)
-			return false;
-		if (visibility != other.visibility)
-			return false;
-		if (warningPeriod == null) {
-			if (other.warningPeriod != null)
-				return false;
-		} else if (!warningPeriod.equals(other.warningPeriod))
-			return false;
-		return true;
-	}
-
-	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", designation=" + designation + ", subCategory=" + subCategory
 				+ ", warningPeriod=" + warningPeriod + ", minQuantity=" + minQuantity + ", price=" + price
 				+ ", visibility=" + visibility + ", conditioning=" + conditioning + "]";
 	}
-
 }

@@ -25,6 +25,7 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
+import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 import fr.mgs.toolbox.SortMap;
@@ -52,6 +53,8 @@ public class OrderController implements Serializable {
 
 	private Team selectedTeam;
 	private Order orderToEdit;
+	private List<Lot> ordersLots;
+	private Lot selectedLot;
 
 	@PostConstruct
 	public void init() {
@@ -67,13 +70,8 @@ public class OrderController implements Serializable {
 		selectedTeamOrderLines = new ArrayList<OrderLine>();
 		deliveredProducts = new ArrayList<OrderLine>();
 		checkedOrders = new HashMap<Integer, Boolean>();
-		try {
-			Product p = prodManager.findProduct(15);
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		selectedLot = new Lot();
+		ordersLots = new ArrayList<Lot>();
 
 	}
 
@@ -130,6 +128,7 @@ public class OrderController implements Serializable {
 			}
 		}
 		endDelivery();
+		System.out.println(ordersLots);
 
 	}
 
@@ -257,5 +256,21 @@ public class OrderController implements Serializable {
 
 	public void setSelectedTeamOrderLines(Collection<OrderLine> teamsOrderLines) {
 		this.selectedTeamOrderLines = teamsOrderLines;
+	}
+
+	public Lot getSelectedLot() {
+		return selectedLot;
+	}
+
+	public void setSelectedLot(Lot selectedLot) {
+		this.selectedLot = selectedLot;
+	}
+
+	public List<Lot> getOrdersLots() {
+		return ordersLots;
+	}
+
+	public void setOrdersLots(List<Lot> ordersLots) {
+		this.ordersLots = ordersLots;
 	}
 }
