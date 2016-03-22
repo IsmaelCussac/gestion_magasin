@@ -9,9 +9,9 @@
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
 	<beans:bean id="hashClass" class="fr.mgs.toolbox.Hasher" />
-	<beans:bean id="authManager" class="fr.mgs.services.business.UserService" />
+	<beans:bean id="authManager" class="fr.mgs.service.authentication.UserService" />
 	<beans:bean id="authenticationSuccessHandler"
-		class="fr.mgs.services.business.UrlAuthenticationSuccessHandler" />
+		class="fr.mgs.service.authentication.UrlAuthenticationSuccessHandler" />
 
 	<http use-expressions="true">
 

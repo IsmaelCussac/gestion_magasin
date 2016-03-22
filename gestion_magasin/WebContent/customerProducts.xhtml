@@ -34,8 +34,9 @@
 										rowsPerPageTemplate="6,12">
 										<p:panel style="text-align:center">
 											<h:panelGrid columns="1" style="text-align:center;width:100%">
-												<p:graphicImage library="image" name="product-icon.png" />
-
+												<p:graphicImage value="#{imageCvt.image}"> 
+													<f:param name="image" value="#{it.productId}" />
+												</p:graphicImage>
 												<h:outputText value="#{it.designation}" />
 
 												<p:spinner id="sp" value="#{it.quantity}" min="0" size="2">

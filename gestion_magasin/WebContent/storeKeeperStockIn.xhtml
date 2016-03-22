@@ -115,7 +115,9 @@
 					rowsPerPageTemplate="5,10,15" editable="true">
 
 					<p:column>
-						<p:graphicImage name="/image/product-icon.png" />
+						<p:graphicImage value="#{imageCvt.image}">
+							<f:param name="image" value="#{it.lotProduct.productId}" />
+						</p:graphicImage>
 					</p:column>
 					<p:column headerText="Désignation">
 						<h:outputText value="#{it.lotProduct.designation}" />

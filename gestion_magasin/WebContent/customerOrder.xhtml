@@ -15,8 +15,8 @@
 		<ui:define name="content">
 			<f:view>
 				<h:form id="buttons">
-					<p:growl id="growlSave"/>
-					<p:growl id="growlValidate"/>
+					<p:growl id="growlSave" />
+					<p:growl id="growlValidate" />
 					<p:commandButton value="Vider" id="submit"
 						action="#{cstProducts.deleteOrder}" icon="ui-icon-trash"
 						update="list" />
@@ -34,7 +34,9 @@
 						rowClasses="course-table-odd-row,course-table-even-row">
 
 						<p:column headerText="Photo">
-							<p:graphicImage name="/image/product-icon.png" />
+							<p:graphicImage value="#{imageCvt.image}">
+								<f:param name="image" value="#{entry.value.productId}" />
+							</p:graphicImage>
 						</p:column>
 						<p:column headerText="Désignation">
 							<h:outputText value="#{entry.value.designation}" />

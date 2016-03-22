@@ -11,7 +11,6 @@ public class StoreItem implements Serializable {
 
 	private int productId;
 	private String designation;
-	private byte[] picture;
 	private double quantity;
 	private String subCategory;
 
@@ -31,14 +30,6 @@ public class StoreItem implements Serializable {
 		this.designation = designation;
 	}
 
-	public byte[] getPicture() {
-		return picture;
-	}
-
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
-	}
-
 	public double getQuantity() {
 		return quantity;
 	}
@@ -55,10 +46,9 @@ public class StoreItem implements Serializable {
 		this.subCategory = subCategory;
 	}
 
-	public void setStoreItem(int productId, String designation, byte[] picture, double quantity, String subCategory) {
+	public void setStoreItem(int productId, String designation, double quantity, String subCategory) {
 		setProductId(productId);
 		setDesignation(designation);
-		setPicture(picture);
 		setQuantity(quantity);
 		setSubCategory(subCategory);
 	}

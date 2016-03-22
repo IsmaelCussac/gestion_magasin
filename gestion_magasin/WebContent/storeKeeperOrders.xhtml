@@ -87,7 +87,9 @@
 								</p:columnGroup>
 
 								<p:column>
-									<p:graphicImage library="image" name="product-icon.png" />
+									<p:graphicImage value="#{imageCvt.image}">
+										<f:param name="image" value="#{ol.product.productId}" />
+									</p:graphicImage>
 
 								</p:column>
 								<p:column>

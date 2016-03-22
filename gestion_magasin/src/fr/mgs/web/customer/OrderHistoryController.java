@@ -73,7 +73,7 @@ public class OrderHistoryController {
 			List<Order> orderList = (List<Order>) orderManager.findNotValidatedOrder(userId);
 			dupOrder = orderList.get(0);
 		}
-		//orderController.clearStoreItems();
+		// orderController.clearStoreItems();
 		updateNewOrder(order);
 		updateCart();
 
@@ -107,8 +107,8 @@ public class OrderHistoryController {
 		orderController.getCart().clear();
 		for (OrderLine l : newOrder.getOrderLines()) {
 			StoreItem i = new StoreItem();
-			i.setStoreItem(l.getProduct().getProductId(), l.getProduct().getDesignation(), l.getProduct().getPicture(),
-					l.getQuantity(), l.getProduct().getSubCategory().getName());
+			i.setStoreItem(l.getProduct().getProductId(), l.getProduct().getDesignation(), l.getQuantity(),
+					l.getProduct().getSubCategory().getName());
 			orderController.getCart().put(l.getProduct().getProductId(), i);
 		}
 	}

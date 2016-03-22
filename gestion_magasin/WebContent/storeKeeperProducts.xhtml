@@ -42,7 +42,9 @@
 										rowsPerPageTemplate="6,12">
 										<p:panel style="text-align:center">
 											<h:panelGrid columns="1" style="text-align:center;width:100%">
-												<p:graphicImage library="image" name="product-icon.png" />
+												<p:graphicImage value="#{imageCvt.image}">
+													<f:param name="image" value="#{product.productId}" />
+												</p:graphicImage>
 												<h:outputText value="#{product.designation}" />
 												<h:outputText value="Ref : #{product.productId}" />
 												<h:outputText
@@ -95,8 +97,7 @@
 											<h:inputText type="text" class="form-control"
 												id="designation"
 												value="#{skProducts.currentProduct.designation}"
-												required="true" 
-												validatorMessage="Entre 3 et 100 caractères" />
+												required="true" validatorMessage="Entre 3 et 100 caractères" />
 											<h:messages for="designation" style="color:red" />
 										</div>
 
@@ -115,8 +116,7 @@
 										<div class="form-group">
 											<label for="PrixHT">Prix HT :</label>
 											<h:inputText type="number" step="any" class="form-control"
-												id="price"
-												value="#{skProducts.currentProduct.price}">
+												id="price" value="#{skProducts.currentProduct.price}">
 												<f:validator validatorId="doubleValidator" />
 												<f:ajax />
 											</h:inputText>
@@ -186,7 +186,7 @@
 							</table>
 							<i>* : Champs obligatoires</i>
 							<br />
-							
+
 							<p:commandButton value="Enregistrer"
 								actionListener="#{skProducts.saveCurrentProduct()}"
 								update=":updateForm:updatePanel"
@@ -202,6 +202,3 @@
 	</ui:composition>
 </h:body>
 </html>
-
-<!-- <p:graphicImage id="prodImg" value="#{skProducts.byteToImage(image)}"  -->
-<!-- 												cache="false" /> -->
