@@ -1,4 +1,4 @@
-package fr.mgs.web.converter;
+package fr.mgs.service.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
