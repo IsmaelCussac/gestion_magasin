@@ -45,7 +45,8 @@ public class Manager {
 	 * Close Entity Manager
 	 */
 	protected void closeEm() {
-		em.close();
+		if (em.isOpen())
+			em.close();
 	}
 
 	/**
