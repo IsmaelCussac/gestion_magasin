@@ -2,7 +2,7 @@
 	// nombre de ligne de produit
 	var nb_line =  $("table tbody tr").length;
 	
-	// on parcours le tabmeau
+	// on parcours le tableau
 	for (var i=0; i <= nb_line; ++i) {
 		
 		if (i % 2 == 0) continue;

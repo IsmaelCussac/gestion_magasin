@@ -20,8 +20,13 @@
 						actionListener="#{skProducts.addNewProduct()}"
 						onclick="PF('dlg1').show();" update=":updateDialog:updatePanel" />
 				</h:form>
+				<h:form>
+					<p:commandButton value="Imprimer les code-barres"
+						action="pretty:skBarCodes" />
+				</h:form>
 
-				<p:accordionPanel id="accordion" value="#{skProducts.getAllCategories()}" var="cat"
+				<p:accordionPanel id="accordion"
+					value="#{skProducts.getAllCategories()}" var="cat"
 					activeIndex="null">
 					<p:tab title="#{cat.toString()}">
 						<p:accordionPanel id="subAccordion" dynamic="true" cache="true"
