@@ -42,7 +42,6 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		for (GrantedAuthority grantedAuthority : authorities) {
-			System.out.println(grantedAuthority.getAuthority());
 			if (grantedAuthority.getAuthority().equals(Privilege.CUSTOMER.name())) {
 				return "/customer/products";
 			} else if (grantedAuthority.getAuthority().equals(Privilege.STORE_KEEPER.name())) {

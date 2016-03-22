@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+		<ui:define name="title">Code-barres</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="/template/storeKeeperMenu.xhtml" />
+		</ui:define>
+
+		<ui:define name="content">
+			<span>Sélectionnez les code-barres que vous souhaitez imprimer</span>
+			<p:tab title="Liste des produits du magasin">
+				<h:form>
+					<p:pickList id="pickList" value="#{barCode.barCodes}" var="code"
+						itemLabel="#{code.productName}" itemValue="#{code}"
+						converter="barCodeItemConverter" />
+
+					<p:commandButton id="submit" update="panel" value="Générer"
+						style="margin-top:5px" />
+					<br />
+					<br />
+					<p:commandButton id="printId" value="Imprimer" type="button"
+						icon="ui-icon-print">
+						<p:printer target="panel" />
+					</p:commandButton>
+					<br />
+					<h:panelGrid id="panel" columns="3" style="width:600px">
+						<ui:repeat value="#{barCode.barCodes.target}" var="item"
+							varStatus="loop">
+							<p:layout
+								style="min-width:400px;min-height:105px;text-align:center;position:relative;"
+								styleClass="centered"
+								rendered="#{not loop.first and loop.index % 2 == 0}">
+								<p:layoutUnit position="west" size="200">
+									<p:barcode value="#{item.productId}" type="code128" />
+								</p:layoutUnit>
+								<p:layoutUnit position="center" size="200">
+									<h:outputText value="#{item.productName}" />
+								</p:layoutUnit>
+								<p:layoutUnit position="east" size="200">
+									<p:graphicImage value="#{item.productImage}" />
+								</p:layoutUnit>
+							</p:layout>
+							<p:layout
+								style="min-width:400px;min-height:105px;text-align:center;position:relative;"
+								styleClass="centered"
+								rendered="#{not loop.first and loop.index % 2 == 1}">
+								<p:layoutUnit position="west" size="200">
+									<p:graphicImage value="#{item.productImage}" />
+								</p:layoutUnit>
+								<p:layoutUnit position="center" size="200">
+									<h:outputText value="#{item.productName}" />
+								</p:layoutUnit>
+								<p:layoutUnit position="east" size="200">
+									<p:barcode value="#{item.productId}" type="code128" />
+								</p:layoutUnit>
+							</p:layout>
+						</ui:repeat>
+					</h:panelGrid>
+				</h:form>
+			</p:tab>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

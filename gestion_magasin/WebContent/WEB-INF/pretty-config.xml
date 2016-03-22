@@ -77,6 +77,11 @@
 		<pattern value="/storekeeper/createproducts" />
 		<view-id value="/storeKeeperCreateProduct.xhtml" />
 	</url-mapping>
+	
+	<url-mapping id="skBarCodes">
+		<pattern value="/storekeeper/barCodes" />
+		<view-id value="/storeKeeperBarCode.xhtml" />
+	</url-mapping>
 
 	<!-- Admin -->
 

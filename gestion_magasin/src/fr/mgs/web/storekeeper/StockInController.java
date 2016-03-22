@@ -1,9 +1,10 @@
 package fr.mgs.web.storekeeper;
 
-import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -27,47 +28,74 @@ import fr.mgs.model.product.Product;
 @SessionScoped
 public class StockInController {
 
-	private Set<Product> items;
+	private List<Lot> itemsLot;
 	private String scanDefault;
 	private Double conditioning;
 	private ProductManager productManager;
 	private Product selectedProduct;
 	private Lot newLot;
-	
-	@ManagedProperty("#{ListProducts}")
-	ListProductController listProducts;
+	private Date today;
+
+	List<Product> listProducts;
 
 	@PostConstruct
-	public void ini() {
+	public void init() {
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
-		items = new HashSet<Product>();
+		itemsLot = new ArrayList<Lot>();
+		today = new Date();
 		conditioning = 0.0;
 		selectedProduct = new Product();
 		newLot = new Lot();
 		newLot.setQuantity(0);
 
+		try {
+			listProducts = (List<Product>) productManager.findAllProducts();
+
+			for (Product product : listProducts) {
+				Lot l = new Lot();
+				l.setLotProduct(product);
+				itemsLot.add(l);
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
 	}
 
-	public void saveProducts() {
+	public void saveProducts() throws SQLException {
+		for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
+			Lot lKey = (Lot) i.next();
+			if (lKey.getQuantity() > 0) {
+				productManager.addLot(lKey);
+			}
+
+		}
+		FacesContext context = FacesContext.getCurrentInstance();
+		context.addMessage(null, new FacesMessage("Lots ajouté", ""));
 
 	}
 
 	public void scan() throws NumberFormatException, SQLException {
-		System.out.println(scanDefault);
-		Product product = productManager.findProduct(Integer.valueOf(scanDefault));
-		if (product != null && isPlastic(product)) {
-			Lot lot = new Lot();
-			lot.setLotProduct(product);
-			lot.setQuantity(product.getConditioning());
-			product.getConditioning();
-			conditioning = 100.0;
+		Product prod = productManager.findProduct(Integer.valueOf(scanDefault));
+
+		if (prod != null && isPlastic(prod)) {
+			for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
+				Lot lKey = (Lot) i.next();
+				if (lKey.getLotProduct().getProductId() == prod.getProductId()) {
+					lKey.setQuantity(lKey.getLotProduct().getConditioning());
+				}
+			}
+
 		}
 		scanDefault = "";
 	}
 
 	public void resetScan() {
-
+		for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
+			i.next().setQuantity(0.0);
+		}
 	}
 
 	public boolean isPlastic(Product p) {
@@ -83,11 +111,11 @@ public class StockInController {
 
 	}
 
-	public ListProductController getListProducts() {
+	public List<Product> getListProducts() {
 		return listProducts;
 	}
 
-	public void setListProducts(ListProductController listProducts) {
+	public void setListProducts(List<Product> listProducts) {
 		this.listProducts = listProducts;
 	}
 
@@ -99,12 +127,12 @@ public class StockInController {
 		this.scanDefault = value;
 	}
 
-	public Set<Product> getItems() {
-		return items;
+	public List<Lot> getItems() {
+		return itemsLot;
 	}
 
-	public void setItems(Set<Product> items) {
-		this.items = items;
+	public void setItems(List<Lot> items) {
+		this.itemsLot = items;
 	}
 
 	public Double getConditioning() {
@@ -129,5 +157,13 @@ public class StockInController {
 
 	public void setNewLot(Lot newLot) {
 		this.newLot = newLot;
+	}
+
+	public Date getToday() {
+		return today;
+	}
+
+	public void setToday(Date today) {
+		this.today = today;
 	}
 }

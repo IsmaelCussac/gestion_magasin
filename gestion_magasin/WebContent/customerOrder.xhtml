@@ -14,13 +14,15 @@
 		</ui:define>
 		<ui:define name="content">
 			<f:view>
-				<h:form>
+				<h:form id="buttons">
+					<p:growl id="growlSave"/>
+					<p:growl id="growlValidate"/>
 					<p:commandButton value="Vider" id="submit"
 						action="#{cstProducts.deleteOrder}" icon="ui-icon-trash"
 						update="list" />
-					<p:commandButton value="Sauvegarder" id="save"
+					<p:commandButton value="Sauvegarder" id="save" update="growlSave"
 						action="#{cstProducts.saveOrder}" icon="ui-icon-disk" />
-					<p:commandButton value="Valider" id="remove"
+					<p:commandButton value="Valider" id="remove" update="growlValidate"
 						action="#{cstProducts.submitOrder}" icon="ui-icon-cart" />
 				</h:form>
 

@@ -33,24 +33,24 @@
  	</context-param>
  	
  		<!-- File filter for primefaces -->
-	<listener>
-	    <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
-	</listener>
+<!-- 	<listener> -->
+<!-- 	    <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class> -->
+<!-- 	</listener> -->
 	
-	<context-param>
-		<param-name>primefaces.UPLOADER</param-name>
-		<param-value>auto|native|commons</param-value>
-	</context-param>
-	<filter>
-	    <filter-name>primeFacesFileUploadFilter</filter-name>
-	    <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
-	</filter>
- 	<filter-mapping>
-    	<filter-name>primeFacesFileUploadFilter</filter-name>
-	    <servlet-name>Faces Servlet</servlet-name>
-	    <dispatcher>REQUEST</dispatcher>
-	    <dispatcher>FORWARD</dispatcher>
-	</filter-mapping>
+<!-- 	<context-param> -->
+<!-- 		<param-name>primefaces.UPLOADER</param-name> -->
+<!-- 		<param-value>auto|native|commons</param-value> -->
+<!-- 	</context-param> -->
+<!-- 	<filter> -->
+<!-- 	    <filter-name>primeFacesFileUploadFilter</filter-name> -->
+<!-- 	    <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class> -->
+<!-- 	</filter> -->
+<!--  	<filter-mapping> -->
+<!--     	<filter-name>primeFacesFileUploadFilter</filter-name> -->
+<!-- 	    <servlet-name>Faces Servlet</servlet-name> -->
+<!-- 	    <dispatcher>REQUEST</dispatcher> -->
+<!-- 	    <dispatcher>FORWARD</dispatcher> -->
+<!-- 	</filter-mapping> -->
 
 	<!-- Context listener -->
 	<listener>
@@ -96,7 +96,7 @@
 	
 	<!-- Session timeout -->
 	<session-config>
-		<session-timeout>5</session-timeout>
+		<session-timeout>10</session-timeout>
 	</session-config>
 	
 	 <context-param>

@@ -1,17 +1,39 @@
 body {
-	padding-top: 10px;
-	margin-left: 50px;
-	margin-right: 50px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
-[class*="col-"], footer {
+[class*="col-"]{
 	border-radius: 6px;
 	line-height: 30px;
 	text-align: center;
 }
 
 .navbar-default {
-	background-color: blue;
-	color: white;
+	border-radius: 6px;
+	background-color: #eeeeec;
+	
 }
 
+.img-responsive {
+	float: left;
+}
+
+#menu {
+	margin-top: 116px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#content {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#footer {
+	border-radius: 6px;
+	text-align: center;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 
+}

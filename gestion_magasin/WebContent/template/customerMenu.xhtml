@@ -26,7 +26,7 @@
 			</p:menuitem>
 			<sec:authorize access="hasAuthority('STORE_KEEPER')">
 				<p:menuitem value="Côté magasinier" outcome="pretty:skProducts"
-					actionListener="#{cstProducts.clearStoreItems()}" icon="ui-icon-star">
+					icon="ui-icon-star">
 					<f:param name="i" value="3" />
 				</p:menuitem>
 			</sec:authorize>

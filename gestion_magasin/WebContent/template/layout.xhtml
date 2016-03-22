@@ -17,7 +17,8 @@
 		<h:outputStylesheet library="bootstrap/css" name="style.css" />
 		<script
 			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
-		<h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+		<h:outputScript library="primefaces" name="jquery/jquery.js"
+			target="head" />
 		<h:outputScript library="bootstrap/js" name="bootstrap.js" />
 	</f:facet>
 	<f:facet name="last">
@@ -26,30 +27,19 @@
 </h:head>
 
 <h:body>
-
 	<div id="page">
 		<div id="header">
 			<ui:insert name="header">
 				<ui:include src="header.xhtml" />
 			</ui:insert>
 		</div>
-		<!-- 		Menu    Client -->
-		<!-- 		<ui:insert name="customerMenu"> -->
-		<!-- 			<ui:include src="customerMenu.xhtml" /> -->
-		<!-- 		</ui:insert> -->
+		<div id="menu">
 
-		<!-- 		Menu  Magasinier -->
+			<ui:insert name="menu">
+				<ui:insert name="menu" />
 
-		<ui:insert name="menu">
-			<ui:insert name="menu" />
-		</ui:insert>
-
-		<!-- 		Menu    Admin -->
-
-		<!-- 		<ui:insert name="app_adminMenu"> -->
-		<!-- 			<ui:include src="app_adminMenu.xhtml" /> -->
-		<!-- 		</ui:insert> -->
-
+			</ui:insert>
+		</div>
 
 		<ui:debug />
 		<div id="content">

@@ -109,6 +109,8 @@ public class ProductManager extends Manager {
 		return (Collection<Lot>) query.getResultList();
 		
 	}
+	
+	
 
 
 	// PRODUCT
@@ -182,7 +184,7 @@ public class ProductManager extends Manager {
 	 */
 	public Collection<Product> findAllProducts() throws SQLException {
 		loadEm();
-		TypedQuery<Product> query = em.createQuery("FROM products p order by p.designation asc", Product.class);
+		TypedQuery<Product> query = em.createQuery("FROM products p order by p.designation, p.subCategory.name asc", Product.class);
 		List<Product> result = query.getResultList();
 		closeEm();
 		return result;

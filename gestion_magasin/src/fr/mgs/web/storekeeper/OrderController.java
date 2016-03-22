@@ -35,7 +35,7 @@ import fr.mgs.toolbox.SortMap;
  */
 @ManagedBean(name = "ordersView", eager = false)
 @SessionScoped
-public class OrdersView implements Serializable {
+public class OrderController implements Serializable {
 	private static final long serialVersionUID = -5914169092116908790L;
 
 	private Map<Team, Collection<Order>> ordersToDeliverByTeam;
@@ -84,9 +84,9 @@ public class OrdersView implements Serializable {
 					deliveredProducts.remove(orderLine);
 				}
 				double newDelivredQt = orderLine.getDeliveredQuantity() + 1;
-				if (newDelivredQt > orderLine.getQuantity()) {
+				if (newDelivredQt > orderLine.getQuantity() || newDelivredQt < 0) {
 					FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL,
-							"La quantité saisie doit être inférieure à la quantité demandée", "");
+							"Quanité incorrecte ou supérieur à celle demandée", "");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
 				} else {
 					orderLine.setDeliveredQuantity(newDelivredQt);
@@ -208,7 +208,7 @@ public class OrdersView implements Serializable {
 
 			}
 		}
-		
+
 		sortMap.getTreeMap().putAll(ordersToDeliverByTeam);
 		return sortMap.getTreeMap();
 	}

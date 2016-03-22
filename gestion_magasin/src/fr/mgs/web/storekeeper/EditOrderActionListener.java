@@ -13,7 +13,7 @@ public class EditOrderActionListener implements ActionListener{
 	@Override
 	public void processAction(ActionEvent event) throws AbortProcessingException {
 		UIComponent c = event.getComponent();
-		OrdersView odersView = (OrdersView) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
+		OrderController odersView = (OrderController) FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
 				.get("ordersView");
 		odersView.setOrderToEdit((Order) c.getAttributes().get("orderToEdit"));
 	}

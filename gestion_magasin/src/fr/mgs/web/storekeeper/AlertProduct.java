@@ -2,6 +2,11 @@ package fr.mgs.web.storekeeper;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author Ismaël
+ *
+ */
 public class AlertProduct implements Serializable {
 
 	private int productId;
