@@ -15,7 +15,11 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import fr.mgs.model.user.Privilege;
-
+/**
+ * The class manage the url authentification
+ * @author Ismael, Ibrahima, Anthony
+ *
+ */
 public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
@@ -27,6 +31,13 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 		clearAuthenticationAttributes(request);
 	}
 
+	/**
+	 * This method detemine target url and redirect
+	 * @param request the request
+	 * @param response the reponse
+	 * @param authentication the authentification
+	 * @throws IOException the exception
+	 */
 	protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException {
 		String targetUrl = determineTargetUrl(authentication);
@@ -38,6 +49,11 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 		redirectStrategy.sendRedirect(request, response, targetUrl);
 	}
 
+	/**
+	 * determine the target url
+	 * @param authentication the authentification 
+	 * @return url redirection
+	 */
 	protected String determineTargetUrl(Authentication authentication) {
 
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -53,6 +69,10 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 		return "/403";
 	}
 
+	/**
+	 * Clear the authentification attributes
+	 * @param request the request
+	 */
 	protected void clearAuthenticationAttributes(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
@@ -61,10 +81,18 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 		session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
 	}
 
+	/**
+	 * Set the redirection strategy
+	 * @param redirectStrategy
+	 */
 	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
 		this.redirectStrategy = redirectStrategy;
 	}
 
+	/**
+	 * Return the redirect strategy
+	 * @return redirectStrategy the redirection
+	 */
 	protected RedirectStrategy getRedirectStrategy() {
 		return redirectStrategy;
 	}

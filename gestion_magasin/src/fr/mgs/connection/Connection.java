@@ -12,25 +12,50 @@ import javax.persistence.Persistence;
  */
 public class Connection {
 
-	protected EntityManagerFactory emf;
+    protected EntityManagerFactory emf;
 
-	public EntityManagerFactory getEmf() {
-		return emf;
-	}
+    /**
+     * Return the Entity manager Factory
+     * 
+     * @return emf entity manager factory
+     */
+    public EntityManagerFactory getEmf() {
+        return emf;
+    }
 
-	public void setEmf(EntityManagerFactory emf) {
-		this.emf = emf;
-	}
+    /**
+     * Set the Entity Manager Factory
+     * 
+     * @param emf
+     *            entity manager factory
+     */
+    public void setEmf(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
-	public void initEmf(DataSource ds) {
-		setEmf(Persistence.createEntityManagerFactory(ds.toString()));
-	}
+    /**
+     * Initialize the data source for the Entity Manager Factory
+     * 
+     * @param ds
+     *            the data source
+     */
+    public void initEmf(DataSource ds) {
+        setEmf(Persistence.createEntityManagerFactory(ds.toString()));
+    }
 
-	public EntityManager createEm() {
-		return emf.createEntityManager();
-	}
+    /**
+     * Create the Entity Manager Factory
+     * 
+     * @return emfCreation the Entity's creation
+     */
+    public EntityManager createEm() {
+        return emf.createEntityManager();
+    }
 
-	public void close() {
-		emf.close();
-	}
+    /**
+     * Close the Entity Manager Factory
+     */
+    public void close() {
+        emf.close();
+    }
 }
