@@ -58,7 +58,6 @@ public class OrderController implements Serializable {
 
 	@PostConstruct
 	public void init() {
-
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
 		userManager = new UserManager();
@@ -72,7 +71,7 @@ public class OrderController implements Serializable {
 		checkedOrders = new HashMap<Integer, Boolean>();
 		selectedLot = new Lot();
 		ordersLots = new ArrayList<Lot>();
-	
+
 	}
 
 	/**

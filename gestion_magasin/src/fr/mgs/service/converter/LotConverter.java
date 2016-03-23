@@ -1,8 +1,9 @@
-package fr.mgs.web.storekeeper;
+package fr.mgs.service.converter;
 
+import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -13,21 +14,27 @@ import javax.faces.convert.FacesConverter;
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.product.Lot;
+import fr.mgs.web.storekeeper.OrderController;
 
 @FacesConverter("lotConverter")
-public class LotConverter implements Converter {
+public class LotConverter implements Converter, Serializable {
 
 	private ProductManager prodManager;
+	ArrayList<Lot> selectedLot = new ArrayList<Lot>();
 
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		prodManager = new ProductManager();
 		prodManager.init(DataSource.LOCAL);
 		if (value != null && value.trim().length() > 0) {
 			try {
-				OrderController service = (OrderController) fc.getExternalContext().getApplicationMap()
-						.get("ordersView");
+
+				OrderController orderController = (OrderController) FacesContext.getCurrentInstance()
+						.getExternalContext().getSessionMap().get("ordersView");
 
 				try {
+					orderController.getOrdersLots().add(prodManager.findLot(Integer.parseInt(value)));
+					System.out.println(orderController.getOrdersLots().size());
+
 					return prodManager.findLot(Integer.parseInt(value));
 				} catch (SQLException e) {
 					e.printStackTrace();

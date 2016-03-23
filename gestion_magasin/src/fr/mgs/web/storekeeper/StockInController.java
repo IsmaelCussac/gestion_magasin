@@ -11,6 +11,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import fr.mgs.business.ProductManager;
@@ -25,7 +26,7 @@ import fr.mgs.model.product.Product;
  *
  */
 @ManagedBean(name = "stockInCtl")
-@SessionScoped
+@ViewScoped
 public class StockInController {
 
 	private List<Lot> itemsLot;
