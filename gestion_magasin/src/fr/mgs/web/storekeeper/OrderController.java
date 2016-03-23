@@ -127,6 +127,7 @@ public class OrderController implements Serializable {
 			}
 		}
 		endDelivery();
+		updateLots();
 		System.out.println(ordersLots);
 
 	}
@@ -149,7 +150,17 @@ public class OrderController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	
+	public void updateLots() throws SQLException {
+		for (OrderLine orderLine : deliveredProducts) {
+			for (Lot lot : ordersLots) {
+				if (orderLine.getProduct().getProductId() == lot.getLotProduct().getProductId()) {
+					lot.setQuantity(lot.getQuantity() - orderLine.getDeliveredQuantity());
+					prodManager.updateLot(lot);
+				}
+
+			}
+		}
+	}
 
 	public void updateStatus(OrderLine ol, Order o) throws SQLException {
 
@@ -219,8 +230,8 @@ public class OrderController implements Serializable {
 		return sortMap.getTreeMap();
 	}
 
-	public void onLotChanges() {
-		System.out.println(selectedLot);
+	public void onLotChanges() throws SQLException {
+		Lot lot = prodManager.findLot(selectedLot.getLotId());
 		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Lot ajouté", "");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 

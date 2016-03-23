@@ -62,7 +62,7 @@
 
 						<p:columnGroup type="header">
 							<p:row>
-								<p:column colspan="10"
+								<p:column colspan="7"
 									headerText="#{ordersView.selectedTeam.name}" />
 								<p:column colspan="6" headerText="Livraison du 11-03-2016" />
 
@@ -72,9 +72,7 @@
 								<p:column colspan="3" headerText="Référence" />
 								<p:column colspan="3" headerText="Qté demandée" />
 								<p:column colspan="3" headerText="Qté scannée" />
-								<p:column colspan="3" headerText="Lots" />
-
-
+					
 							</p:row>
 						</p:columnGroup>
 
@@ -91,30 +89,7 @@
 						<p:column colspan="3" style="text-align:center">
 							<h:outputText value="#{ol.deliveredQuantity}" />
 						</p:column>
-						<p:column colspan="3" style="text-align:center">
-
-							<p:selectOneMenu value="#{ordersView.selectedLot}"
-								converter="lotConverter" panelStyle="width:300px" effect="fade"
-								var="l" style="width:160px" filter="true"
-								filterMatchMode="startsWith">
-								<p:ajax listener="#{ordersView.onLotChanges()}" />
-								<f:selectItems value="#{ol.product.lots}" var="lot"
-									itemLabel="#{lot.lotId}" itemValue="#{lot}" />
-
-								<p:column style="width:10%" headerText="Num">
-									<h:outputText value="#{l.lotId}" />
-								</p:column>
-
-								<p:column headerText="Qté">
-									<h:outputText value="#{l.quantity}" />
-								</p:column>
-								<p:column headerText="Exp">
-									<h:outputText value="#{l.expirationDate}" />
-								</p:column>
-							</p:selectOneMenu>
-
-
-						</p:column>
+					
 					</p:dataTable>
 					<br />
 
