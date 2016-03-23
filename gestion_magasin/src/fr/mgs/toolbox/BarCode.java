@@ -16,7 +16,7 @@ public class BarCode {
 		BigInteger b = new BigInteger(1, seed);
 
 		String s = String.valueOf(b);
-		s = s.substring(0, 9);
+		s = s.substring(0, 7);
 		ref = Integer.parseInt(s);
 
 		return ref;
