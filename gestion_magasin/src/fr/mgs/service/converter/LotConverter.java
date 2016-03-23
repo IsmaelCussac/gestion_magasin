@@ -16,12 +16,20 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.model.product.Lot;
 import fr.mgs.web.storekeeper.OrderController;
 
+/**
+ * Class lot Converter
+ * @author Ismael, Ibrahima, Anthony
+ *
+ */
 @FacesConverter("lotConverter")
 public class LotConverter implements Converter, Serializable {
 
 	private ProductManager prodManager;
 	ArrayList<Lot> selectedLot = new ArrayList<Lot>();
 
+	/**
+	 * return the object
+	 */
 	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
 		prodManager = new ProductManager();
 		prodManager.init(DataSource.LOCAL);
@@ -51,6 +59,9 @@ public class LotConverter implements Converter, Serializable {
 		return value;
 	}
 
+	/**
+	 * Return a string value of the lot
+	 */
 	public String getAsString(FacesContext fc, UIComponent uic, Object object) {
 		if (object != null) {
 			return String.valueOf(((Lot) object).getLotId());
