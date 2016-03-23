@@ -18,7 +18,7 @@ import fr.mgs.web.storekeeper.OrderController;
 
 /**
  * Class lot Converter
- * @author Ismael, Ibrahima, Anthony
+ * @author Ibrahima
  *
  */
 @FacesConverter("lotConverter")

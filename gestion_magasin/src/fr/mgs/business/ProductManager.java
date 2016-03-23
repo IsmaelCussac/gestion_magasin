@@ -73,7 +73,7 @@ public class ProductManager extends Manager {
 	public Lot findLot(Integer id) throws SQLException {
 		loadEm();
 		return em.find(Lot.class, id);
-		
+
 	}
 
 	/**
@@ -100,18 +100,16 @@ public class ProductManager extends Manager {
 		commit();
 		closeEm();
 	}
-	
+
 	public Collection<Lot> findAllOutOfDateLots() {
 		loadEm();
 		Date currentDate = new Date(System.currentTimeMillis());
-		Query query = em.createQuery("SELECT l FROM lots l WHERE l.expirationDate <= DATE(:currentDate) + l.lotProduct.warningPeriod");
+		Query query = em.createQuery(
+				"SELECT l FROM lots l WHERE l.expirationDate <= DATE(:currentDate) + l.lotProduct.warningPeriod");
 		query.setParameter("currentDate", currentDate);
 		return (Collection<Lot>) query.getResultList();
-		
-	}
-	
-	
 
+	}
 
 	// PRODUCT
 
@@ -184,7 +182,8 @@ public class ProductManager extends Manager {
 	 */
 	public Collection<Product> findAllProducts() throws SQLException {
 		loadEm();
-		TypedQuery<Product> query = em.createQuery("FROM products p order by p.designation, p.subCategory.name asc", Product.class);
+		TypedQuery<Product> query = em.createQuery("FROM products p order by p.designation, p.subCategory.name asc",
+				Product.class);
 		List<Product> result = query.getResultList();
 		closeEm();
 		return result;
@@ -305,5 +304,5 @@ public class ProductManager extends Manager {
 		query.setParameter("c", category);
 		return query.getResultList();
 	}
-	
+
 }

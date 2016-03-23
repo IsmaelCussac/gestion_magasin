@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
-* This class describes a level 2 category entity in database. It contains : 
+ * This class describes a level 2 category entity in database. It contains : 
  * - a name 
  * - a level 1 category
  * 
@@ -23,7 +23,7 @@ import javax.persistence.Table;
  */
 @Entity(name = "subCategories")
 @Table(name = "sub_category_t")
-public class SubCategory {
+public class SubCategory implements Serializable {
 
 	@Id
 	@Column(name = "sub_category_name")
@@ -35,9 +35,6 @@ public class SubCategory {
 
 	@OneToMany(mappedBy = "subCategory", fetch = FetchType.EAGER, orphanRemoval = false)
 	private Set<Product> products = new HashSet<Product>();
-
-	public SubCategory() {
-	}
 
 	public String getName() {
 		return name;
@@ -62,11 +59,11 @@ public class SubCategory {
 	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
-	
-	public void setSubCategory(String name, Category category){
+
+	public void setSubCategory(String name, Category category) {
 		setName(name);
 		setCategory(category);
-		
+
 	}
 
 	@Override

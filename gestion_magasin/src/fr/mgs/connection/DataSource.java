@@ -3,20 +3,21 @@ package fr.mgs.connection;
 /**
  * Data source enumeration
  * 
- * @author Ismael, Ibrahima, Anthony
+ * @author Ismael
  *
  */
 public enum DataSource {
-    H2("gestion_magasin_h2"), LOCAL("gestion_magasin_local");
+	H2("gestion_magasin_h2"), 
+	LOCAL("gestion_magasin_local");
 
-    private final String text;
+	private final String text;
 
-    private DataSource(final String text) {
-        this.text = text;
-    }
+	private DataSource(final String text) {
+		this.text = text;
+	}
 
-    @Override
-    public String toString() {
-        return text;
-    }
+	@Override
+	public String toString() {
+		return text;
+	}
 }

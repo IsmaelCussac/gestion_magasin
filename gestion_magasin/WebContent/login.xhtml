@@ -9,8 +9,6 @@
 
 	<ui:composition template="/template/layout.xhtml">
 		<ui:define name="title">Accueil</ui:define>
-
-
 		<ui:define name="content">
 			<div class="row">
 				<section class="col-lg-12">
@@ -31,11 +29,11 @@
 						</c:if>
 						<form method="post" action="login_check">
 							<div class="form-group">
-								<label for="login_connect">Nom de compte:</label> <input
+								<label for="login_connect">Nom de compte</label> <input
 									type="text" class="form-control" name="username" />
 							</div>
 							<div class="form-group">
-								<label for="pwd_connect">Mot de passe:</label> <input
+								<label for="pwd_connect">Mot de passe</label> <input
 									type="password" class="form-control" name="password" />
 							</div>
 							<input type="hidden" name="${_csrf.parameterName}"
@@ -48,11 +46,5 @@
 			</div>
 		</ui:define>
 	</ui:composition>
-
-
 </h:body>
 </html>
-
-
-
-

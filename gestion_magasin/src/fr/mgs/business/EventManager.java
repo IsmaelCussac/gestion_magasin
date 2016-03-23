@@ -17,7 +17,6 @@ import fr.mgs.model.event.Event;
  * - Event
  * 
  * @author Ismaël
- * @author Ibrahima
  * 
  */
 public class EventManager extends Manager {
@@ -72,7 +71,7 @@ public class EventManager extends Manager {
 		query.setParameter("a", action);
 		return (List<Event>) query.getResultList();
 	}
-	
+
 	/**
 	 * return the given actions' events
 	 * 

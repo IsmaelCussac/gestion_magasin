@@ -1,5 +1,6 @@
 package fr.mgs.model.product;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,18 +15,20 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.Past;
 
 /**
- * This class describes a lot entity in database. It contains : - an id - an
- * expiration date - a product id - a quantity
+ * This class describes a lot entity in database. It contains : 
+ * - an id 
+ * - an expiration date 
+ * - a product id 
+ * - a quantity
  *
  * @author Ismaël
  *
  */
 @Entity(name = "lots")
 @Table(name = "lot_t")
-public class Lot {
+public class Lot implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "lots_id")
@@ -42,9 +45,6 @@ public class Lot {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lot_product")
 	private Product lotProduct;
-
-	public Lot() {
-	}
 
 	public int getLotId() {
 		return lotId;

@@ -18,7 +18,7 @@ import fr.mgs.model.user.Team;
 /**
  * Business class that manage the following DAOs to access database and process
  * data : 
- * - Order
+ * - Order 
  * - OrderLine
  * 
  * @author Ismaël
@@ -110,7 +110,7 @@ public class OrderManager extends Manager {
 		query.setParameter("ou", person.getPersonId());
 		return (List<Order>) query.getResultList();
 	}
-	
+
 	/**
 	 * return the given team's orders
 	 * 
@@ -191,7 +191,7 @@ public class OrderManager extends Manager {
 		query.setParameter("s", OrderStatus.NOT_VALIDATED);
 		return query.getResultList();
 	}
-	
+
 	/**
 	 * Looks for all VALIDATED and SHORTAGE order
 	 * 
@@ -266,12 +266,13 @@ public class OrderManager extends Manager {
 	 * @param order
 	 *            the order
 	 */
-//	public List<OrderLine> findOrderLineByOrder(Order order) {
-//		loadEm();
-//		Query query = em.createQuery("SELECT o FROM orderLines o WHERE o.order = :or");
-//		query.setParameter("or", order);
-//		return (List<OrderLine>) query.getResultList();
-//	}
+	// public List<OrderLine> findOrderLineByOrder(Order order) {
+	// loadEm();
+	// Query query = em.createQuery("SELECT o FROM orderLines o WHERE o.order =
+	// :or");
+	// query.setParameter("or", order);
+	// return (List<OrderLine>) query.getResultList();
+	// }
 
 	/**
 	 * remove an orderLine stored in database using his PK

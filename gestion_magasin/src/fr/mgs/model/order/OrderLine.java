@@ -1,5 +1,7 @@
 package fr.mgs.model.order;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -9,20 +11,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.Pattern;
 
 import fr.mgs.model.product.Product;
 
 /**
- * This class describes an order line entity in database. It contains : - an id
- * - an user - a product - a quantity - a delivered quantity
+ * This class describes an order line entity in database. It contains : 
+ * - an id
+ * - an user 
+ * - a product 
+ * - a quantity 
+ * - a delivered quantity
  * 
  * @author Ismaël
  *
  */
 @Entity(name = "orderLines")
 @Table(name = "order_line_t")
-public class OrderLine {
+public class OrderLine implements Serializable{
 
 	@EmbeddedId
 	OrderLinePK orderLinePK;
@@ -44,9 +49,6 @@ public class OrderLine {
 	@Column(name = "delivered_quantity", nullable = true)
 	@Min(value = 0, message = "La quantité ne peut être négatif")
 	private double deliveredQuantity;
-
-	public OrderLine() {
-	}
 
 	public OrderLinePK getOrderLinePK() {
 		return orderLinePK;

@@ -17,7 +17,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import fr.mgs.model.user.Privilege;
 /**
  * The class manage the url authentification
- * @author Ismael, Ibrahima, Anthony
+ * @author Ismael
  *
  */
 public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {

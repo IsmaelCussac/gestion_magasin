@@ -48,9 +48,6 @@ public class Team implements Serializable {
 	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY, orphanRemoval = false)
 	private Set<Person> users = new HashSet<Person>();
 
-	public Team() {
-	}
-
 	public String getTeamId() {
 		return teamId;
 	}

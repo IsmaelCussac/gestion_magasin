@@ -18,15 +18,21 @@ import fr.mgs.model.order.Order;
 import fr.mgs.toolbox.Hasher;
 
 /**
- * This class describes an user entity in database. It contains : - an id - a
- * first name - a last name - a team - a phone number - a mail - a password
+ * This class describes an user entity in database. It contains : 
+ * - an id 
+ * - a first name 
+ * - a last name 
+ * - a team 
+ * - a phone number 
+ * - a mail 
+ * - a password
  * 
  * @author Ismaël
  *
  */
 @Entity(name = "users")
 @Table(name = "user_t")
-public class Person {
+public class Person implements Serializable {
 
 	@Id
 	@Column(name = "user_id")
@@ -51,7 +57,7 @@ public class Person {
 	@Column(name = "password", length = 100, nullable = false)
 	private String password;
 
-	@OneToMany(mappedBy = "orderUser", fetch = FetchType.EAGER, orphanRemoval = true, cascade = {CascadeType.ALL })
+	@OneToMany(mappedBy = "orderUser", fetch = FetchType.EAGER, orphanRemoval = true, cascade = { CascadeType.ALL })
 	private Set<Order> orders = new HashSet<Order>();
 
 	public String getPersonId() {

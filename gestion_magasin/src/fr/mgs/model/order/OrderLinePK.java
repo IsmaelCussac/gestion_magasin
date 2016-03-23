@@ -2,10 +2,12 @@ package fr.mgs.model.order;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
+ * Embedded Id used to join a product and an order. It contains:
+ * - a product
+ * - an order
  * 
  * @author Ismaël
  *

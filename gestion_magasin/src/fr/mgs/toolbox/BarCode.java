@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 
 /**
  * Class Barcode
- * @author Ismael, Ibrahima, Anthony
+ * @author Ismael
  *
  */
 public class BarCode {

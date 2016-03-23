@@ -25,6 +25,7 @@ import fr.mgs.model.product.Product;
 
 /**
  * 
+ * 
  * @author Ismaël
  *
  */

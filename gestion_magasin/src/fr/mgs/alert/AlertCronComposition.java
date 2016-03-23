@@ -12,6 +12,11 @@ import javax.mail.internet.MimeMessage;
 
 import fr.mgs.web.storekeeper.AlertController;
 
+/**
+ * 
+ * @author Anthony
+ *
+ */
 public class AlertCronComposition {
 
 	public static void sendMessage(String text) {

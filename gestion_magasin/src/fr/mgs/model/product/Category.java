@@ -1,16 +1,16 @@
 package fr.mgs.model.product;
 
 /**
- * This class describes a level 1 category. 
+ * This class describes a level 1 category.
  * 
  * @author Ismaël
  *
  */
 public enum Category {
-	PAPER("Papeterie"),
-	PLASTIC("Plastique"),
+	PAPER("Papeterie"), 
+	PLASTIC("Plastique"), 
 	CULTURE_PLASTIC("Plastique de culture");
-	
+
 	private final String text;
 
 	private Category(final String text) {

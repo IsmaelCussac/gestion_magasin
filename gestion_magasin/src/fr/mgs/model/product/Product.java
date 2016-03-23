@@ -1,6 +1,7 @@
 
 package fr.mgs.model.product;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ import fr.mgs.model.order.OrderLine;
  */
 @Entity(name = "products")
 @Table(name = "product_t")
-public class Product {
+public class Product  implements Serializable{
 
 	@Id
 	@Column(name = "product_id")
@@ -77,9 +78,6 @@ public class Product {
 
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = false, cascade = CascadeType.ALL)
 	private Set<OrderLine> orderLines = new HashSet<OrderLine>();
-
-	public Product() {
-	}
 
 	public int getProductId() {
 		return productId;

@@ -53,7 +53,6 @@ public class BarCodeController {
 		for(Product prod : listProduct){
 			BarCodeItem barCodeItem = new BarCodeItem();
 			barCodeItem.setBarCodeItem(prod.getProductId(), prod.getDesignation(), prod.getSubCategory().getName(), prod.getPicture());
-			System.out.println(barCodeItem.toString());
 			source.add(barCodeItem);
 		}
 		barCodes = new DualListModel<BarCodeItem>(source, target);

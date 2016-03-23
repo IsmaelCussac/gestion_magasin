@@ -24,9 +24,14 @@ import javax.persistence.TemporalType;
 import fr.mgs.model.user.Person;
 
 /**
- * This class describes an order entity in database. It contains : - an id - an
- * user id - a submission date - a delivery date - a list of order lines - a
- * comment - an order status
+ * This class describes an order entity in database. It contains : 
+ * - an id 
+ * - an  user id 
+ * - a submission date 
+ * - a delivery date 
+ * - a list of order lines 
+ * - a comment 
+ * - an order status
  * 
  * @author Ismaël
  *

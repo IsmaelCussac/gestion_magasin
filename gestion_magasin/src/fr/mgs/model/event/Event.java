@@ -17,12 +17,12 @@ import javax.persistence.TemporalType;
 import fr.mgs.model.product.Product;
 
 /**
-* This class describes a event monitor entity in database. It contains : 
- * - an id
- * - a store keeper id
- * - a product
- * - an action
- * - a date
+ * This class describes a event monitor entity in database. It contains : 
+ * - an id 
+ * - a store keeper id 
+ * - a product 
+ * - an action 
+ * - a date 
  * - a comment
  * 
  * @author Ismaël
@@ -42,7 +42,7 @@ public class Event implements Serializable {
 
 	@Column(name = "product_id", nullable = false)
 	private int productId;
-	
+
 	@Column(name = "product_name", nullable = false)
 	private String productName;
 
@@ -56,9 +56,6 @@ public class Event implements Serializable {
 
 	@Column(name = "resume", length = 250, nullable = true)
 	private String resume;
-
-	public Event() {
-	}
 
 	public int getEventId() {
 		return eventId;
