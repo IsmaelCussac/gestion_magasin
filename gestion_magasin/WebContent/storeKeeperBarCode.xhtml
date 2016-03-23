@@ -12,12 +12,21 @@
 		</ui:define>
 
 		<ui:define name="content">
+			<br />
 			<span>Sélectionnez les code-barres que vous souhaitez imprimer</span>
+			<br />
 			<p:tab title="Liste des produits du magasin">
 				<h:form enctype="multipart/form-data">
 					<p:pickList id="pickList" value="#{barCode.barCodes}" var="code"
-						itemLabel="#{code.productName}" itemValue="#{code}"
-						converter="barCodeItemConverter" />
+						itemLabel="#{code.productName} - #{code.categoryName}" itemValue="#{code}"
+						converter="barCodeItemConverter" responsive="true"
+						showTargetControls="true" showSourceFilter="true"
+						showTargetFilter="true" filterMatchMode="contains" >
+					<p:column style="width:50%;">
+						<h:outputText value="#{code.productName} - " />
+						<h:outputText value="#{code.categoryName}" />
+					</p:column>
+					</p:pickList>
 
 					<p:commandButton id="submit" update="panel" value="Générer"
 						style="margin-top:5px" />

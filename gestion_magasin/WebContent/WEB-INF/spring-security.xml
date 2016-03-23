@@ -27,7 +27,7 @@
 				expired-url="/connection" />
 		</session-management>
 
-		<intercept-url pattern="/connection" access="permitAll" />
+		<intercept-url pattern="/connection" access="isAnonymous()" />
 		<intercept-url pattern="/image/**" access="permitAll" />
 		<intercept-url pattern="/customer/**"
 			access="hasAuthority('CUSTOMER') OR hasAuthority('STORE_KEEPER') OR hasAuthority('APP_ADMIN')" />
