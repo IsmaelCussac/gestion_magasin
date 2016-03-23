@@ -17,6 +17,7 @@ import fr.mgs.connection.DataSource;
 import fr.mgs.model.product.Product;
 
 /**
+ * Converter of Image
  * 
  * @author Ismaël
  *
@@ -24,23 +25,32 @@ import fr.mgs.model.product.Product;
 @ManagedBean(name = "imageCvt")
 @ApplicationScoped
 public class ImageConverter {
-	
-	private ProductManager productManager;
 
-	@PostConstruct
-	public void init() {
-		productManager = new ProductManager();
-		productManager.init(DataSource.LOCAL);
-	}
+    private ProductManager productManager;
 
-	public StreamedContent getImage() throws NumberFormatException, SQLException {
-		FacesContext context = FacesContext.getCurrentInstance();
-		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-			return new DefaultStreamedContent();
-		} else {
-			String id = context.getExternalContext().getRequestParameterMap().get("image");
-			Product product = productManager.findProduct(Integer.parseInt(id));
-			return new DefaultStreamedContent(new ByteArrayInputStream(product.getPicture()));
-		}
-	}
+    @PostConstruct
+    public void init() {
+        productManager = new ProductManager();
+        productManager.init(DataSource.LOCAL);
+    }
+
+    /**
+     * Return the image of the product
+     * 
+     * @return the picture of the product
+     * @throws NumberFormatException
+     *             Exception format
+     * @throws SQLException
+     *             exception SQL
+     */
+    public StreamedContent getImage() throws NumberFormatException, SQLException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            return new DefaultStreamedContent();
+        } else {
+            String id = context.getExternalContext().getRequestParameterMap().get("image");
+            Product product = productManager.findProduct(Integer.parseInt(id));
+            return new DefaultStreamedContent(new ByteArrayInputStream(product.getPicture()));
+        }
+    }
 }
