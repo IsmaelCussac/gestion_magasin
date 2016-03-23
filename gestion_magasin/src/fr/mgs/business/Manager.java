@@ -68,6 +68,7 @@ public class Manager {
 	 * Close the persistence unit
 	 */
 	public void close() {
+		closeEm();
 		connection.close();
 	}
 }
