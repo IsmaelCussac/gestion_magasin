@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.event.CellEditEvent;
 
@@ -26,7 +27,6 @@ import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Lot;
-import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 import fr.mgs.toolbox.SortMap;
 
@@ -72,7 +72,7 @@ public class OrderController implements Serializable {
 		checkedOrders = new HashMap<Integer, Boolean>();
 		selectedLot = new Lot();
 		ordersLots = new ArrayList<Lot>();
-
+	
 	}
 
 	/**
@@ -216,6 +216,13 @@ public class OrderController implements Serializable {
 		sortMap.getTreeMap().putAll(ordersToDeliverByTeam);
 
 		return sortMap.getTreeMap();
+	}
+
+	public void onLotChanges() {
+		System.out.println(selectedLot);
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Lot ajouté", "");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+
 	}
 
 	public void setSelectedTeam(Team selectedTeam) {
