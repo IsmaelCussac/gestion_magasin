@@ -32,10 +32,12 @@ public class LotConverter implements Converter, Serializable {
 						.getExternalContext().getSessionMap().get("ordersView");
 
 				try {
-					orderController.getOrdersLots().add(prodManager.findLot(Integer.parseInt(value)));
-					System.out.println(orderController.getOrdersLots().size());
+					if (orderController.getOrdersLots() != null
+							&& orderController.getOrdersLots().contains(prodManager.findLot(Integer.parseInt(value)))) {
 
-					return prodManager.findLot(Integer.parseInt(value));
+					}
+					// orderController.getOrdersLots().add(prodManager.findLot(Integer.parseInt(value)));
+					return value;
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
