@@ -136,7 +136,8 @@ public class AlertController {
 			}
 			// si la quantité cumulée des lots est inférieure à la quantité
 			// minimale on ajoute à la liste
-			if (sumLot < product.getMinQuantity() || sumLot < quantities.get(product.getProductId())) {
+			if (sumLot < product.getMinQuantity() || (quantities.containsKey(product.getProductId())
+					&& sumLot < quantities.get(product.getProductId()))) {
 				AlertProduct aP = new AlertProduct();
 				if (quantities.containsKey(product.getProductId())) {
 					aP.setAlertProduct(product.getProductId(), product.getDesignation(),
@@ -151,6 +152,11 @@ public class AlertController {
 			}
 		}
 		return limitedProds;
+	}
+
+	public void delete(Lot lot) throws SQLException {
+		outOfDateLots.remove(lot);
+		productManager.removeLot(lot.getLotId());
 	}
 
 	public List<AlertProduct> getOnDemandProducts() {

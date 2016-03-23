@@ -68,7 +68,8 @@
 				</p:accordionPanel>
 
 				<p:dialog header="Modifier produit" widgetVar="dlg1" modal="true">
-					<h:form id="updateForm" prependId="false" enctype="multipart/form-data">
+					<h:form id="updateForm" prependId="false"
+						enctype="multipart/form-data">
 						<p:growl id="growlSave" />
 						<p:scrollPanel id="updatePanel" mode="native">
 							<div class="form-group" style="width: 100%">
@@ -147,7 +148,7 @@
 											<h:inputFile id="fu" value="#{skProducts.image}">
 
 											</h:inputFile>
-						
+
 										</div>
 									</td>
 
@@ -188,7 +189,7 @@
 								update=":updateForm:updatePanel"
 								visible="#{updateForm.submitted and facesContext.validationFailed}"
 								oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').hide()">
-								<f:attribute name="formenctype" value="multipart/form-data" ></f:attribute>
+								<f:attribute name="formenctype" value="multipart/form-data"></f:attribute>
 							</p:commandButton>
 						</p:scrollPanel>
 					</h:form>

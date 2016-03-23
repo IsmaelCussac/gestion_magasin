@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import fr.mgs.business.EventManager;
+import fr.mgs.business.UserManager;
 import fr.mgs.connection.DataSource;
 import fr.mgs.model.event.Action;
 import fr.mgs.model.event.Event;
@@ -17,12 +18,16 @@ import fr.mgs.model.event.Event;
 public class AdminController {
 	
 	private EventManager eventManager;
+	private UserManager userManager;
 
 	@PostConstruct
 	public void init() {
 
 		eventManager = new EventManager();
 		eventManager.init(DataSource.LOCAL);
+		
+		userManager = new UserManager();
+		userManager.init(DataSource.LOCAL);
 	}
 	
 	public List<Event> getAllCreate(){
@@ -37,11 +42,7 @@ public class AdminController {
 	}
 	
 	public List<Event> getAllUpdate(){
-		List<Action> actions = new ArrayList<Action>();
-		actions.add(Action.UPDATE);
-		actions.add(Action.INCREASING);
-		actions.add(Action.DECREASING);
-		return eventManager.findEventsByAction(actions);
+		return eventManager.findEventsByAction(Action.UPDATE);
 	}
 
 }

@@ -7,12 +7,10 @@ package fr.mgs.model.event;
  */
 public enum Action {
 	
-	CREATE(" a créé le produit "),
-	UPDATE(" a mis à jour le produit "),
-	HIDE(" a caché le produit "),
-	SHOW(" a rendu visible le produit "),
-	INCREASING(" a augmenté la quantité du produit "),
-	DECREASING(" a réduit la quantité du produit ");
+	CREATE("Création"),
+	UPDATE("Mise à jour"),
+	HIDE("Cache"),
+	SHOW("Affiche");
 	
 	private final String text;
 

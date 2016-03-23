@@ -41,7 +41,10 @@ public class Event implements Serializable {
 	private String storeKeeper;
 
 	@Column(name = "product_id", nullable = false)
-	private int product;
+	private int productId;
+	
+	@Column(name = "product_name", nullable = false)
+	private String productName;
 
 	@Column(name = "action", nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -73,12 +76,20 @@ public class Event implements Serializable {
 		this.storeKeeper = storeKeeper;
 	}
 
-	public int getProduct() {
-		return product;
+	public int getProductId() {
+		return productId;
 	}
 
-	public void setProduct(int product) {
-		this.product = product;
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 
 	public Action getAction() {
@@ -107,7 +118,8 @@ public class Event implements Serializable {
 
 	public void setEvent(String storeKeeper, Product product, Action action, Date date, String resume) {
 		setStoreKeeper(storeKeeper);
-		setProduct(product.getProductId());
+		setProductId(product.getProductId());
+		setProductName(product.getDesignation());
 		setAction(action);
 		setDate(date);
 		setResume(resume);
@@ -115,7 +127,7 @@ public class Event implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Historical [eventId=" + eventId + ", storeKeeper=" + storeKeeper + ", product=" + product
+		return "Historical [eventId=" + eventId + ", storeKeeper=" + storeKeeper + ", product=" + productId
 				+ ", action=" + action + ", date=" + date + ", resume=" + resume + "]";
 	}
 

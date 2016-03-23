@@ -38,8 +38,9 @@
 					</h:form>
 				</p:tab>
 				<p:tab title="Lots arrivant à expiration">
-					<h:form>
-						<p:dataTable var="lot" value="#{skAlert.outOfDateLots}">
+					<h:form id="dateForm">
+						<p:dataTable id="dateTable" var="lot"
+							value="#{skAlert.outOfDateLots}">
 							<p:column headerText="Produit"
 								sortBy="#{lot.lotProduct.designation}">
 								<h:outputText value="#{lot.lotProduct.designation}" />
@@ -50,6 +51,11 @@
 
 							<p:column headerText="Nombre d'articles" sortBy="#{lot.quantity}">
 								<h:outputText value="#{lot.quantity}" />
+							</p:column>
+
+							<p:column headerText="Supprimer">
+								<p:commandButton actionListener="#{skAlert.delete(lot)}"
+									update="dateTable" icon="ui-icon-trash" title="Supprimer" />
 							</p:column>
 						</p:dataTable>
 					</h:form>

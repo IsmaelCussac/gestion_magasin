@@ -78,7 +78,7 @@ public class EventManagerTest {
 
 		e1 = new Event();
 		d1 = new Date();
-		e1.setEvent("123", product, Action.INCREASING, d1, "test");
+		e1.setEvent("123", product, Action.HIDE, d1, "test");
 	}
 
 
@@ -114,7 +114,7 @@ public class EventManagerTest {
 	
 	@Test
 	public void testFindEventsByAction(){
-	    assertNotNull(eventManager.findEventsByAction(Action.INCREASING));
+	    assertNotNull(eventManager.findEventsByAction(Action.HIDE));
 	}
 	
 	@Test
