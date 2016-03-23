@@ -11,7 +11,11 @@ import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.user.Person;
 import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.Team;
-
+/**
+ * DataBase insert
+ * @author Ismael, Ibrahima
+ *
+ */
 public class DBInsert {
 
 	private static OrderManager orderManager;

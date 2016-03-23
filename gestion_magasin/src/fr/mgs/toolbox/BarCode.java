@@ -3,8 +3,17 @@ package fr.mgs.toolbox;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
+/**
+ * Class Barcode
+ * @author Ismael, Ibrahima, Anthony
+ *
+ */
 public class BarCode {
 
+    /**
+     * Generete a random Barcode
+     * @return ref barcode
+     */
 	public static int generateRandomInt() {
 		int ref;
 
