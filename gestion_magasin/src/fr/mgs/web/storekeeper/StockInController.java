@@ -81,7 +81,7 @@ public class StockInController {
 	public void scan() throws NumberFormatException, SQLException {
 		Product prod = productManager.findProduct(Integer.valueOf(scanDefault));
 
-		if (prod != null) {
+		if (prod != null && isPlastic(prod)) {
 			for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
 				Lot lKey = (Lot) i.next();
 				if (lKey.getLotProduct().getProductId() == prod.getProductId()) {
@@ -89,6 +89,8 @@ public class StockInController {
 				}
 			}
 
+		} else {
+			
 		}
 		scanDefault = "";
 	}
@@ -97,6 +99,11 @@ public class StockInController {
 		for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
 			i.next().setQuantity(0.0);
 		}
+	}
+
+	public boolean isPlastic(Product p) {
+		return (p.getSubCategory().getCategory().equals(Category.PLASTIC)
+				|| p.getSubCategory().getCategory().equals(Category.CULTURE_PLASTIC));
 	}
 
 	public void saveLot() throws SQLException {

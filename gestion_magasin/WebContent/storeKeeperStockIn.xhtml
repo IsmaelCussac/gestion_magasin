@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/template/layout.xhtml">
-	<ui:define name="title">Livraison</ui:define>
+	<ui:define name="title">Entrée de stock</ui:define>
 	<ui:define name="menu">
 		<ui:include src="/template/storeKeeperMenu.xhtml" />
 	</ui:define>
@@ -112,11 +112,11 @@
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="5,10,15" editable="true">
 
-<!-- 					<p:column> -->
-<!-- 						<p:graphicImage value="#{imageCvt.image}"> -->
-<!-- 							<f:param name="image" value="#{it.lotProduct.productId}" /> -->
-<!-- 						</p:graphicImage> -->
-<!-- 					</p:column> -->
+					<!-- 					<p:column> -->
+					<!-- 						<p:graphicImage value="#{imageCvt.image}"> -->
+					<!-- 							<f:param name="image" value="#{it.lotProduct.productId}" /> -->
+					<!-- 						</p:graphicImage> -->
+					<!-- 					</p:column> -->
 					<p:column headerText="Désignation">
 						<h:outputText value="#{it.lotProduct.designation}" />
 					</p:column>
@@ -132,7 +132,8 @@
 					<p:column headerText="Date de péremption">
 						<p:calendar id="itExpDate" locale="fr" navigator="true"
 							pattern="dd-MM-yyyy" value="#{it.expirationDate}"
-							mindate="#{stockInCtl.today}" validatorMessage="Date incorrecte" />
+							mindate="#{stockInCtl.today}" validatorMessage="Date incorrecte"
+							disabled="#{it.lotProduct.warningPeriod eq 0}" />
 						<p:message for="itExpDate" />
 					</p:column>
 

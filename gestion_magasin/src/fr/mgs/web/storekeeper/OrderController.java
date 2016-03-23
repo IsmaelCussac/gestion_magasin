@@ -149,6 +149,8 @@ public class OrderController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
+	
+
 	public void updateStatus(OrderLine ol, Order o) throws SQLException {
 
 		if (checkedOrders.get(o.getOrderId()) == null) {
