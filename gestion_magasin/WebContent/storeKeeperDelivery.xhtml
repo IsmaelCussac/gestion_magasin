@@ -30,7 +30,7 @@
 				</f:facet>
 			</p:panelGrid>
 			<br />
-			<p:tabView dynamic="true" cache="true" >
+			<p:tabView dynamic="true" cache="true">
 				<p:tab title="Livraison par scan" id="scanView">
 					<p:focus context="scanView" />
 					<div class="ui-grid ui-grid-responsive">
@@ -96,7 +96,7 @@
 						<div class="ui-grid-row">
 							<div class="ui-grid-col-6">
 								<p:commandButton style="float:left" id="btnLot1"
-									value="Consulter les lots"></p:commandButton>
+									value="Sélectionner les lots"></p:commandButton>
 							</div>
 							<div class="ui-grid-col-6">
 								<p:commandButton value="Réinitialiser les valeurs"
@@ -129,6 +129,9 @@
 						dynamic="true" style="width:600px" showCloseIcon="true">
 						<p:dataTable value="#{ordersView.selectedTeamOrderLines}" var="ol"
 							rows="5" paginator="true">
+							<p:column style="width:30px">
+								<p:rowToggler />
+							</p:column>
 							<p:column headerText="Produit" style="text-align:center">
 								<h:outputText value="#{ol.product.designation}" />
 							</p:column>
@@ -138,28 +141,34 @@
 							</p:column>
 
 							<p:rowExpansion>
-								<p:dataTable value="#{ordersView.selectedTeamOrderLines}}"
-									var="lot">
+								<p:dataTable value="#{ol.product.lots}" var="lot"
+									selection="#{ordersView.selectedLot}"
+									rowKey="#{lot.lotId}">
 
 									<p:columnGroup type="header">
 										<p:row>
-											<p:column headerText="Numéro" />
+
+											<p:column headerText="Lot" />
 											<p:column headerText="Quantité" />
 											<p:column headerText="Date de péremption" />
+											<p:column />
+
 										</p:row>
 									</p:columnGroup>
 
 									<p:column>
-										<h:outputText value="id" />
+										<h:outputText value="#{lot.lotId}" />
 
 									</p:column>
 									<p:column>
-										<h:outputText value="qt" />
+										<h:outputText value="#{lot.quantity}" />
 
 									</p:column>
 									<p:column>
-										<h:outputText value="date" />
+										<h:outputText value="#{lot.expirationDate}" />
 									</p:column>
+									<p:column selectionMode="single"
+										style="width:16px;text-align:center"/>
 								</p:dataTable>
 							</p:rowExpansion>
 

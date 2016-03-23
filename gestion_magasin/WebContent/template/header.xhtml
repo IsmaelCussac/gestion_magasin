@@ -7,16 +7,15 @@
 
 <ui:composition>
 
-	<header class="navbar-fixed-top">
-		<div class="col-lg-12">
 			<div class="navbar navbar-default" role="navigation">
 				<div class="container-fluid">
 					<h:graphicImage library="image" name="logo-ibdm.png"
 						styleClass="img-responsive" width="150" />
-					<h:outputText style="float:right;font-size:20px;color:MidnightBlue;margin-top:10px"
+					<h:outputText
+						style="float:right;font-size:20px;color:MidnightBlue;margin-top:10px"
 						value="Application de gestion du magasin" />
 				</div>
-				
+
 				<sec:authorize access="isAuthenticated()">
 					<h:form>
 						<h:outputText style="float:left" value="Bonjour #{user.username}" />
@@ -25,8 +24,6 @@
 					</h:form>
 				</sec:authorize>
 			</div>
-		</div>
-	</header>
 
 </ui:composition>
 </html>
