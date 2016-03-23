@@ -18,14 +18,16 @@
 			<p:tab title="Liste des produits du magasin">
 				<h:form enctype="multipart/form-data">
 					<p:pickList id="pickList" value="#{barCode.barCodes}" var="code"
-						itemLabel="#{code.productName} - #{code.categoryName}" itemValue="#{code}"
+						itemLabel="#{code.productName}" itemValue="#{code}"
 						converter="barCodeItemConverter" responsive="true"
 						showTargetControls="true" showSourceFilter="true"
-						showTargetFilter="true" filterMatchMode="contains" >
-					<p:column style="width:50%;">
-						<h:outputText value="#{code.productName} - " />
-						<h:outputText value="#{code.categoryName}" />
-					</p:column>
+						showTargetFilter="true" filterMatchMode="contains">
+						<p:column style="width:50%;">
+							<h:outputText value="#{code.productName}" />
+						</p:column>
+						<p:column style="width:50%;">
+							<h:outputText value="#{code.categoryName}" />
+						</p:column>
 					</p:pickList>
 
 					<p:commandButton id="submit" update="panel" value="Générer"
@@ -37,39 +39,40 @@
 						<p:printer target="panel" />
 					</p:commandButton>
 					<br />
+					<br />
 					<h:panelGrid id="panel" columns="3" style="width:600px">
 						<ui:repeat value="#{barCode.barCodes.target}" var="item"
 							varStatus="loop">
 							<p:layout
 								style="min-width:400px;min-height:105px;text-align:center;position:relative;"
 								styleClass="centered"
-								rendered="#{not loop.first and loop.index % 2 == 0}">
+								rendered="#{loop.index % 2 == 1}">
 								<p:layoutUnit position="west" size="200">
-									<p:barcode value="#{item.productId}" type="code128" />
+									<p:graphicImage value="#{imageCvt.image}">
+										<f:param name="image" value="#{item.productId}" />
+									</p:graphicImage>
 								</p:layoutUnit>
 								<p:layoutUnit position="center" size="200">
 									<h:outputText value="#{item.productName}" />
 								</p:layoutUnit>
 								<p:layoutUnit position="east" size="200">
-									<p:graphicImage value="#{imageCvt.image}">
-										<f:param name="image" value="#{item.productId}" />
-									</p:graphicImage>
+									<p:barcode value="#{item.productId}" type="code128" />
 								</p:layoutUnit>
 							</p:layout>
 							<p:layout
-								style="min-width:400px;min-height:105px;text-align:center;position:relative;"
+								style="min-width:400px;min-height:110px;text-align:center;position:relative;"
 								styleClass="centered"
-								rendered="#{not loop.first and loop.index % 2 == 1}">
+								rendered="#{loop.index % 2 == 0}">
 								<p:layoutUnit position="west" size="200">
-									<p:graphicImage value="#{imageCvt.image}">
-										<f:param name="image" value="#{item.productId}" />
-									</p:graphicImage>
+									<p:barcode value="#{item.productId}" type="code128" />
 								</p:layoutUnit>
 								<p:layoutUnit position="center" size="200">
 									<h:outputText value="#{item.productName}" />
 								</p:layoutUnit>
 								<p:layoutUnit position="east" size="200">
-									<p:barcode value="#{item.productId}" type="code128" />
+									<p:graphicImage value="#{imageCvt.image}">
+										<f:param name="image" value="#{item.productId}" />
+									</p:graphicImage>
 								</p:layoutUnit>
 							</p:layout>
 						</ui:repeat>
