@@ -37,15 +37,17 @@ public class UserService implements UserDetailsService {
 	 *            the user's id
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String userId){
+	public UserDetails loadUserByUsername(String userId) {
 		Person user = null;
 		try {
 			user = userManager.findPerson(userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		List<GrantedAuthority> authorities = buildAuthorities(user.getTeam().getPrivilege());
+		List<GrantedAuthority> authorities = null;
+		if (user != null) {
+			authorities = buildAuthorities(user.getTeam().getPrivilege());
+		}
 		return buildUserForAuthentication(user, authorities);
 	}
 
@@ -57,10 +59,14 @@ public class UserService implements UserDetailsService {
 	 *            previously built authority list
 	 * @return a built spring security user
 	 */
-	private UserDetailWithName buildUserForAuthentication(Person user, List<GrantedAuthority> authorities) {
-		UserDetailWithName result = new UserDetailWithName(user.getPersonId(), user.getPassword(), authorities);
-
-		result.setFirstname(user.getFirstName());
+	private UserDetailWithName buildUserForAuthentication(Person user,
+			List<GrantedAuthority> authorities) {
+		UserDetailWithName result = null;
+		if (user != null) {
+			result = new UserDetailWithName(user.getPersonId(),
+					user.getPassword(), authorities);
+			result.setFirstname(user.getFirstName());
+		}
 
 		return result;
 	}

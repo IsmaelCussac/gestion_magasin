@@ -137,6 +137,12 @@ public class ProductListController {
 
 	public void updateVisibility(Product product) throws SQLException {
 		productManager.updateProduct(product);
+		if(product.isVisible()){
+			showEvent(product);
+		}
+		else {
+			hideEvent(product);
+		}
 
 	}
 
@@ -188,10 +194,8 @@ public class ProductListController {
 	}
 
 	public void uploadFile() throws IOException {
-		System.out.println("la");
 		try (InputStream input = image.getInputStream()) {
 			byte[] bytes = IOUtils.toByteArray(input);
-			System.out.println("ici");
 		} catch (IOException e) {
 		}
 	}
@@ -208,12 +212,16 @@ public class ProductListController {
 		eventManager.addEvent(event);
 	}
 
-	public void showEvent() {
-
+	public void showEvent(Product product) throws SQLException {
+		Event event = new Event();
+		event.setEvent(user, product, Action.SHOW, new Date(), "");
+		eventManager.addEvent(event);
 	}
 
-	public void hideEvent() {
-
+	public void hideEvent(Product product) throws SQLException {
+		Event event = new Event();
+		event.setEvent(user, product, Action.HIDE, new Date(), "");
+		eventManager.addEvent(event);
 	}
 
 }

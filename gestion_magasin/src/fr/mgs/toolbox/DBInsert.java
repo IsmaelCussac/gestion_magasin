@@ -13,91 +13,72 @@ import fr.mgs.model.user.Privilege;
 import fr.mgs.model.user.Team;
 
 public class DBInsert {
-	
+
 	private static OrderManager orderManager;
 	private static UserManager userManager;
-	
-	private static Order marcOrder;
-	private static Order paulOrder;
-	private static Order marieOrder;
 
-	private static Team team;
-	private static Team team2;
-
-	private static Person marc;
-	private static Person paul;
-	private static Person marie;
-	
-	
-	public static void fill() throws SQLException{
+	public static void init() throws SQLException {
 		userManager = new UserManager();
 		userManager.init(DataSource.LOCAL);
 
 		orderManager = new OrderManager();
 		orderManager.init(DataSource.LOCAL);
 
-		team = new Team();
-		team2 = new Team();
+	}
 
-		marc = new Person();
-		paul = new Person();
-		marie = new Person();
+	public static void insertUsers() throws SQLException {
+		Person marc = new Person();
+		Person paul = new Person();
+		Person marie = new Person();
 
-		marcOrder = new Order();
-		paulOrder = new Order();
-		marieOrder = new Order();
-		
-		
-		team.setTeam("100", "Approches physiques de la dynamique cellulaire et de la morphogénèse des tissus", 8,
-				Privilege.CUSTOMER);
-		team2.setTeam("101", "Biologie des épithéliums ciliés", 8, Privilege.CUSTOMER);
+		Person mariana = new Person();
+		Person ismael = new Person();
+		Person claire = new Person();
+		Person michelle = new Person();
+		Person ibrahima = new Person();
+		Person anthony = new Person();
 
-		marc.setPerson("s14027276", "Marc", "Dupont", team, "0452050554", "marc.dupont@mail.fr", "pass");
-		paul.setPerson("s14027277", "Paul", "Durand", team, "0482060564", "paul.durand@mail.fr", "pass");
-		marie.setPerson("s14027278", "Marie", "Curie", team2, "0482067563", "marie.curie@mail.fr", "pass");
+		Team team = userManager.findTeam("10");
+		Team team2 = userManager.findTeam("19");
+		Team sk = userManager.findTeam("41");
+		Team admin = userManager.findTeam("42");
 
-		marcOrder.setOrder(marc, new Date(), new Date(), null, "commande de marc", OrderStatus.NOT_VALIDATED);
-		paulOrder.setOrder(paul, new Date(), new Date(), null, "commande de paul", OrderStatus.VALIDATED);
-		marieOrder.setOrder(marie, new Date(), new Date(), null, "commande de marie", OrderStatus.VALIDATED);
+		marc.setPerson("s14027276", "Marc", "Dupont", team, "0452050554",
+				"marc.dupont@mail.fr", "pass");
+		paul.setPerson("s14027277", "Paul", "Durand", team, "0482060564",
+				"paul.durand@mail.fr", "pass");
+		marie.setPerson("s14027278", "Marie", "Curie", team2, "0482067563",
+				"marie.curie@mail.fr", "pass");
 
-		userManager.addTeam(team);
-		userManager.addTeam(team2);
+		mariana.setPerson("mariana", "Mariana", "Andujar", admin, "0452050554",
+				"mariana.andujarf@gmail.com", "mariana");
+		ismael.setPerson("ismael", "Ismaël", "Cussac", sk, "0482060564",
+				"ismael.cussac@gmail.com", "ismael");
+		claire.setPerson("claire", "Claire", "Gérard", team2, "0482067563",
+				"claire.gerard@mail.fr", "claire");
+		michelle.setPerson("michelle", "Michelle", "Kameni", team,
+				"0452050554", "michelle.kameni@mail.fr", "michelle");
+		ibrahima.setPerson("ibrahima", "Ibrahima", "Seye", sk, "0482060564",
+				"ibrahima.seye@mail.fr", "ibrahima");
+		anthony.setPerson("anthony", "Anthony", "Trieli", team2, "0482067563",
+				"anthony.trieli@mail.fr", "anthony");
 
 		userManager.addPerson(marc);
 		userManager.addPerson(paul);
 		userManager.addPerson(marie);
+		userManager.addPerson(mariana);
+		userManager.addPerson(ismael);
+		userManager.addPerson(claire);
+		userManager.addPerson(michelle);
+		userManager.addPerson(ibrahima);
+		userManager.addPerson(anthony);
+	}
 
-		orderManager.addOrder(marcOrder);
-		orderManager.addOrder(paulOrder);
-		orderManager.addOrder(marieOrder);
-	}
-	
-	public static void insertUsers() throws SQLException{
-		userManager = new UserManager();
-		userManager.init(DataSource.LOCAL);
-		
-		
-		Person admin = new Person();
-		Person magasinier = new Person();
-		
-		Team adminT = userManager.findTeam("42");
-		Team magasinierT = userManager.findTeam("41");
-		
-		admin.setPerson("admin1", "Jean", "Dupré", adminT , "0452050554", "jean.dupré@mail.fr", "admin");
-		magasinier.setPerson("magasinier1", "Luc", "Dela", magasinierT, "0482034234", "luc.dela@mail.fr", "magasinier");
-		
-		userManager.addPerson(admin);
-		userManager.addPerson(magasinier);
-		
-	}
-	
-	public static void main(String[] args){
-		try {
-			fill();
-			insertUsers();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws SQLException {
+
+		init();
+		insertUsers();
+
 	}
 
 }
