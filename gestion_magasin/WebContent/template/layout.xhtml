@@ -1,9 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<f:facet name="first">
@@ -13,13 +12,13 @@
 		<title><ui:insert name="title">Gestion magasin</ui:insert></title>
 	</f:facet>
 	<f:facet name="middle">
-		<h:outputStylesheet library="bootstrap/css" name="bootstrap.css" />
-		<h:outputStylesheet library="bootstrap/css" name="style.css" />
+		<h:outputStylesheet name="bootstrap/css/bootstrap.css" />
+		<h:outputStylesheet name="bootstrap/css/style.css" />
 		<script type="text/javascript"
 			src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" />
-		<h:outputScript library="primefaces" name="jquery/jquery.js"
+		<h:outputScript name="primefaces/jquery/jquery.js"
 			target="head" />
-		<h:outputScript library="bootstrap/js" name="bootstrap.js" />
+		<h:outputScript name="bootstrap/js/bootstrap.js" />
 	</f:facet>
 	<f:facet name="last">
 	</f:facet>

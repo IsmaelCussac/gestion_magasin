@@ -1,12 +1,7 @@
 package fr.mgs.web.storekeeper;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,12 +12,12 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 
 import org.apache.commons.io.IOUtils;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -44,7 +39,7 @@ import fr.mgs.toolbox.BarCode;
  *
  */
 @ManagedBean(name = "skProducts")
-@ApplicationScoped
+@SessionScoped
 public class ProductListController {
 
 	private ProductManager productManager;
@@ -53,8 +48,8 @@ public class ProductListController {
 	private List<Product> storeProducts;
 	private Product currentProduct;
 	private SubCategory subCategory;
-	private Part image;
 
+	private Part image;
 	private String user;
 
 	@PostConstruct
@@ -187,27 +182,18 @@ public class ProductListController {
 			productId = BarCode.generateRandomInt();
 		}
 		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
-			    .getResourceAsStream("resources/image/product-icon.png");
+				.getResourceAsStream("resources/image/product-icon.png");
 		byte[] pic = IOUtils.toByteArray(stream);
 		currentProduct.setProduct(productId, "", null, 0, 0, 0, false, pic, 1);
 	}
 
-	public void handleFileUpload(FileUploadEvent event) throws IOException {
-		
-		Part uploadedFile=getImage();
-
-        InputStream bytes=null;
-
-           if (null!=uploadedFile) {
-
-               bytes = uploadedFile.getInputStream();  //
-               System.out.println("ici");
-           }
-
-		
-//		System.out.println("ici");
-//		setImage(event.getFile());
-//		System.out.println("image: " + image.getSize());
+	public void uploadFile() throws IOException {
+		System.out.println("la");
+		try (InputStream input = image.getInputStream()) {
+			byte[] bytes = IOUtils.toByteArray(input);
+			System.out.println("ici");
+		} catch (IOException e) {
+		}
 	}
 
 	public void addEvent(Product product) throws SQLException {

@@ -35,7 +35,6 @@ public class ImageConverter {
 
 	public StreamedContent getImage() throws NumberFormatException, SQLException {
 		FacesContext context = FacesContext.getCurrentInstance();
-
 		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
 			return new DefaultStreamedContent();
 		} else {
