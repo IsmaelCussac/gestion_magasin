@@ -74,6 +74,7 @@
 								<p:column colspan="3" headerText="Qté scannée" />
 								<p:column colspan="3" headerText="Lots" />
 
+
 							</p:row>
 						</p:columnGroup>
 
@@ -95,11 +96,11 @@
 
 
 							<p:selectOneMenu converter="lotConverter"
-								value="#{ordersView.selectedLot}" panelStyle="width:300px"
-								effect="fade" var="l" style="width:160px" filter="true"
-								filterMatchMode="startsWith">
+								panelStyle="width:300px" effect="fade" var="l"
+								style="width:160px" filter="true" filterMatchMode="startsWith">
+								<p:ajax listener="#{ordersView.onLotChanges()}" />
 								<f:selectItems value="#{ol.product.lots}" var="lot"
-									itemLabel="#{lot.lotId}" itemValue="#{lot.lotId}" />
+									itemLabel="#{lot.lotId}" itemValue="#{lot}" />
 
 								<p:column style="width:10%" headerText="Num">
 									<h:outputText value="#{l.lotId}" />
@@ -131,11 +132,12 @@
 							</div>
 
 							<div class="ui-grid-col-6">
-								<p:commandButton value="Enregistrer"
+								<p:commandButton  value="Enregistrer"
 									action="#{ordersView.saveDeliveredProducts()}"
 									style="float:right">
 									<p:confirm header="Confirmation"
 										message="Confirmez la livraison" icon="ui-icon-alert" />
+
 								</p:commandButton>
 								<p:confirmDialog global="true" showEffect="fade"
 									hideEffect="fade">

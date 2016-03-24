@@ -42,11 +42,10 @@ public class LotConverter implements Converter, Serializable {
 
 				try {
 					Lot l = prodManager.findLot(Integer.parseInt(value));
-					orderController.setSelectedLot(l.getLotId());
 					if (orderController.getOrdersLots() != null && orderController.getOrdersLots().contains(l)) {
 						orderController.getOrdersLots().add(l);
 					}
-					return l.getLotId();
+					return l;
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

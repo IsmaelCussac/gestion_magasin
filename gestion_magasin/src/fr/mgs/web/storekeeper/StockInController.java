@@ -72,10 +72,11 @@ public class StockInController implements Serializable {
 	}
 
 	public void saveProducts() throws SQLException {
-		System.out.println("gghhhhkkkkgkjkgjkjkggjgjgjgjjgjjjgk");
 		for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
 			Lot lKey = (Lot) i.next();
-			productManager.addLot(lKey);
+			Product p = productManager.findProduct(lKey.getLotProduct().getProductId());
+			p.getLots().add(lKey);
+			productManager.addProduct(p);
 
 		}
 		FacesContext context = FacesContext.getCurrentInstance();

@@ -54,7 +54,7 @@ public class OrderController implements Serializable {
 	private Team selectedTeam;
 	private Order orderToEdit;
 	private List<Lot> ordersLots;
-	private Integer selectedLot;
+	private Lot selectedLot;
 
 	private String console;
 
@@ -71,6 +71,7 @@ public class OrderController implements Serializable {
 		selectedTeamOrderLines = new ArrayList<OrderLine>();
 		deliveredProducts = new ArrayList<OrderLine>();
 		checkedOrders = new HashMap<Integer, Boolean>();
+		selectedLot = new Lot();
 		ordersLots = new ArrayList<Lot>();
 
 	}
@@ -232,13 +233,12 @@ public class OrderController implements Serializable {
 		return sortMap.getTreeMap();
 	}
 
-	// public void onLotChanges() throws SQLException {
-	// Lot lot = prodManager.findLot(selectedLot.getLotId());
-	// FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Lot
-	// ajouté", "");
-	// FacesContext.getCurrentInstance().addMessage(null, msg);
-	//
-	// }
+	public void onLotChanges() throws SQLException {
+		Lot lot = prodManager.findLot(selectedLot.getLotId());
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Lot ajouté", "");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+
+	}
 
 	public void setSelectedTeam(Team selectedTeam) {
 		this.selectedTeam = selectedTeam;
@@ -280,11 +280,11 @@ public class OrderController implements Serializable {
 		this.selectedTeamOrderLines = teamsOrderLines;
 	}
 
-	public Integer getSelectedLot() {
+	public Lot getSelectedLot() {
 		return selectedLot;
 	}
 
-	public void setSelectedLot(Integer selectedLot) {
+	public void setSelectedLot(Lot selectedLot) {
 		this.selectedLot = selectedLot;
 	}
 
