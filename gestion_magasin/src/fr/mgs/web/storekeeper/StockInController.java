@@ -1,5 +1,6 @@
 package fr.mgs.web.storekeeper;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +28,7 @@ import fr.mgs.model.product.Product;
  */
 @ManagedBean(name = "stockInCtl")
 @ViewScoped
-public class StockInController {
+public class StockInController implements Serializable {
 
 	private List<Lot> itemsLot;
 	private String scanDefault;
@@ -71,11 +72,10 @@ public class StockInController {
 	}
 
 	public void saveProducts() throws SQLException {
+		System.out.println("gghhhhkkkkgkjkgjkjkggjgjgjgjjgjjjgk");
 		for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
 			Lot lKey = (Lot) i.next();
-			if (lKey.getQuantity() > 0) {
-				productManager.addLot(lKey);
-			}
+			productManager.addLot(lKey);
 
 		}
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -93,14 +93,14 @@ public class StockInController {
 				if (isPlastic(prod)) {
 					lKey.setQuantity(lKey.getLotProduct().getConditioning());
 				} else {
-					lKey.setQuantity(lKey.getQuantity()+lKey.getLotProduct().getConditioning());
+					lKey.setQuantity(lKey.getQuantity() + lKey.getLotProduct().getConditioning());
 				}
 
 			}
 
 		}
 
-			scanDefault = "";
+		scanDefault = "";
 	}
 
 	public void resetScan() {
@@ -116,6 +116,7 @@ public class StockInController {
 
 	public void saveLot() throws SQLException {
 		newLot.setLotProduct(selectedProduct);
+		newLot.setQuantity(newLot.getQuantity() * selectedProduct.getConditioning());
 		productManager.addLot(newLot);
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Nouveau lot ajouté", ""));
