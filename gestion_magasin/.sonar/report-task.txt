@@ -1,5 +1,5 @@
 projectKey=isl:project
 serverUrl=http://localhost:7223
 dashboardUrl=http://localhost:7223/dashboard/index/isl:project
-ceTaskId=AVOgM1XHRkUvr6U0gaOy
-ceTaskUrl=http://localhost:7223/api/ce/task?id=AVOgM1XHRkUvr6U0gaOy
+ceTaskId=AVOqaICf41hf3qrqVI2q
+ceTaskUrl=http://localhost:7223/api/ce/task?id=AVOqaICf41hf3qrqVI2q

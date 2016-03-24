@@ -23,13 +23,13 @@ public class TestFailToLoad {
   @Before
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
-    baseUrl = "https://addons.mozilla.org/";
+    baseUrl = "http://localhost:8080";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
   public void testFailToLoad() throws Exception {
-    driver.get(baseUrl + "/en-US/firefox/addon/selenium-expert-selenium-ide/");
+    driver.get(baseUrl + "/gestion_magasin/connection");
     driver.findElement(By.id("main-wrapper")).click();
     driver.findElement(By.name("username")).clear();
     driver.findElement(By.name("username")).sendKeys("azjeka");
