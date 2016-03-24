@@ -187,6 +187,8 @@ public class UserManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT u FROM users u WHERE u.team = :ot");
 		query.setParameter("ot", team);
-		return (List<Person>) query.getResultList();
+		List<Person> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 }

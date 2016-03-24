@@ -72,8 +72,9 @@ public class ProductManager extends Manager {
 	 */
 	public Lot findLot(Integer id) throws SQLException {
 		loadEm();
-		return em.find(Lot.class, id);
-
+		Lot lot = em.find(Lot.class, id);
+		closeEm();
+		return lot;
 	}
 
 	/**
@@ -84,7 +85,9 @@ public class ProductManager extends Manager {
 	public Collection<Lot> findAllLots() throws SQLException {
 		loadEm();
 		Query query = em.createQuery("SELECT l FROM lots l");
-		return (Collection<Lot>) query.getResultList();
+		Collection<Lot> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -107,7 +110,9 @@ public class ProductManager extends Manager {
 		Query query = em.createQuery(
 				"SELECT l FROM lots l WHERE l.expirationDate <= DATE(:currentDate) + l.lotProduct.warningPeriod");
 		query.setParameter("currentDate", currentDate);
-		return (Collection<Lot>) query.getResultList();
+		Collection<Lot> result = query.getResultList();
+		closeEm();
+		return result;
 
 	}
 
@@ -199,7 +204,9 @@ public class ProductManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT p FROM products p WHERE p.subCategory = :sc AND p.visibility = true");
 		query.setParameter("sc", subCategory);
-		return query.getResultList();
+		List<Product> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -212,7 +219,9 @@ public class ProductManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT p FROM products p WHERE p.subCategory = :sc");
 		query.setParameter("sc", subCategory);
-		return query.getResultList();
+		List<Product> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	// SUB CATEGORY
@@ -302,7 +311,9 @@ public class ProductManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT s FROM subCategories s WHERE s.category = :c");
 		query.setParameter("c", category);
-		return query.getResultList();
+		List<SubCategory> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 }

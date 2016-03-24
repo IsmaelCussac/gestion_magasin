@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 import fr.mgs.model.event.Action;
 import fr.mgs.model.event.Event;
+import fr.mgs.model.order.Order;
 
 /**
  * Business class that manage the following DAO to access database and process
@@ -69,7 +70,9 @@ public class EventManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT e FROM events e WHERE e.action = :a");
 		query.setParameter("a", action);
-		return (List<Event>) query.getResultList();
+		List<Event> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -82,7 +85,9 @@ public class EventManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT e FROM events e WHERE e.action IN :a");
 		query.setParameter("a", actions);
-		return (List<Event>) query.getResultList();
+		List<Event> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -95,7 +100,9 @@ public class EventManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT e FROM events e WHERE e.product = :p");
 		query.setParameter("p", productId);
-		return (List<Event>) query.getResultList();
+		List<Event> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -108,7 +115,9 @@ public class EventManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT e FROM events e WHERE e.storeKeeper = :sk");
 		query.setParameter("sk", storeKeeperId);
-		return (List<Event>) query.getResultList();
+		List<Event> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -123,7 +132,9 @@ public class EventManager extends Manager {
 		Query query = em.createQuery("SELECT e FROM events e WHERE e.date >= :min AND e.date <= :max");
 		query.setParameter("min", minDate);
 		query.setParameter("max", maxDate);
-		return (List<Event>) query.getResultList();
+		List<Event> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 }

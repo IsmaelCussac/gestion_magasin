@@ -82,7 +82,9 @@ public class OrderManager extends Manager {
 	public List<Order> findAllOrders() throws SQLException {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o");
-		return (List<Order>) query.getResultList();
+		List<Order> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -95,7 +97,9 @@ public class OrderManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.status = :os");
 		query.setParameter("os", status);
-		return (List<Order>) query.getResultList();
+		List<Order> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -108,7 +112,9 @@ public class OrderManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :ou");
 		query.setParameter("ou", person.getPersonId());
-		return (List<Order>) query.getResultList();
+		List<Order> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -121,7 +127,9 @@ public class OrderManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.team = :ot");
 		query.setParameter("ot", team);
-		return (Collection<Order>) query.getResultList();
+		List<Order> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -150,7 +158,9 @@ public class OrderManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u ORDER BY o.orderId desc");
 		query.setParameter("u", personId);
-		return query.getResultList();
+		List<Order> result = query.getResultList();
+		closeEm();
+		return result;
 
 	}
 
@@ -165,7 +175,9 @@ public class OrderManager extends Manager {
 		loadEm();
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser = :u ORDER BY o.orderId desc");
 		query.setParameter("u", person);
-		return query.getResultList();
+		List<Order> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -189,7 +201,9 @@ public class OrderManager extends Manager {
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.orderUser.userId = :u AND o.status = :s");
 		query.setParameter("u", userId);
 		query.setParameter("s", OrderStatus.NOT_VALIDATED);
-		return query.getResultList();
+		List<Order> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	/**
@@ -205,7 +219,9 @@ public class OrderManager extends Manager {
 		status.add(OrderStatus.SHORTAGE);
 		Query query = em.createQuery("SELECT o FROM orders o WHERE o.status IN :s");
 		query.setParameter("s", status);
-		return query.getResultList();
+		List<Order> result = query.getResultList();
+		closeEm();
+		return result;
 	}
 
 	// ORDERLINE
