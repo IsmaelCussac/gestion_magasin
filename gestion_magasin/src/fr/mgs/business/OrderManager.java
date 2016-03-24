@@ -73,7 +73,9 @@ public class OrderManager extends Manager {
 	 */
 	public Order findOrder(Integer orderId) throws SQLException {
 		loadEm();
-		return em.find(Order.class, orderId);
+		Order result = em.find(Order.class, orderId);
+		closeEm();
+		return result;
 	}
 
 	/**
