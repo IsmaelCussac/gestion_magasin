@@ -27,7 +27,7 @@ import fr.mgs.model.product.Product;
  *
  */
 @ManagedBean(name = "stockInCtl")
-@ViewScoped
+@SessionScoped
 public class StockInController implements Serializable {
 
 	private List<Lot> itemsLot;
@@ -115,9 +115,11 @@ public class StockInController implements Serializable {
 	}
 
 	public void saveLot() throws SQLException {
+		Product p = productManager.findProduct(selectedProduct.getProductId());
 		newLot.setLotProduct(selectedProduct);
-		newLot.setQuantity(newLot.getQuantity() * selectedProduct.getConditioning());
+		newLot.setQuantity(newLot.getQuantity() * p.getConditioning());
 		productManager.addLot(newLot);
+		newLot = new Lot();
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Nouveau lot ajouté", ""));
 
