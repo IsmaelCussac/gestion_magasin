@@ -3,6 +3,11 @@ package fr.mgs.web.storekeeper;
 import java.io.Serializable;
 
 /**
+ * Object used to display barcode's information in the barcode view. It contains:
+ * - a product id
+ * - a product designation
+ * - the product sub category
+ * - the product image
  * 
  * @author Ismaël
  *
@@ -13,7 +18,6 @@ public class BarCodeItem implements Serializable {
 	private String productName;
 	private String categoryName;
 	private byte[] productImage;
-	private byte[] productBarCode;
 
 	public String getProductId() {
 		return productId;
@@ -47,14 +51,6 @@ public class BarCodeItem implements Serializable {
 		this.productImage = productImage;
 	}
 
-	public byte[] getProductBarCode() {
-		return productBarCode;
-	}
-
-	public void setProductBarCode(byte[] productBarCode) {
-		this.productBarCode = productBarCode;
-	}
-
 	public void setBarCodeItem(int id, String name, String category, byte[] image) {
 		setProductId(String.valueOf(id));
 		setProductName(name);
@@ -62,5 +58,4 @@ public class BarCodeItem implements Serializable {
 		setProductImage(image);
 
 	}
-
 }

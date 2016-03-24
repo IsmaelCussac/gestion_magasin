@@ -3,6 +3,14 @@ package fr.mgs.web.storekeeper;
 import java.io.Serializable;
 
 /**
+ * Object used to display product's information in the alert list. It contains:
+ * - a product id
+ * - a product designation
+ * - the product sub category
+ * - the needed quantity
+ * - the missing quantity
+ * - the available quantity
+ * - the required quantity
  * 
  * @author Ismaël
  *

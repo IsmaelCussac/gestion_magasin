@@ -3,6 +3,11 @@ package fr.mgs.web.customer;
 import java.io.Serializable;
 
 /**
+ * Object used to display product's information in the store list. It contains:
+ * - a product id
+ * - a product designation
+ * - a wanted quantity
+ * - the product sub category
  * 
  * @author Ismaël
  *
