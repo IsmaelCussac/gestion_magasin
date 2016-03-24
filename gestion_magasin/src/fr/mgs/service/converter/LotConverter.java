@@ -42,6 +42,8 @@ public class LotConverter implements Converter, Serializable {
 
 				try {
 					Lot l = prodManager.findLot(Integer.parseInt(value));
+					System.out.println(l.getLotId());
+					orderController.setSelectedLot(l);
 					if (orderController.getOrdersLots() != null && orderController.getOrdersLots().contains(l)) {
 						orderController.getOrdersLots().add(l);
 					}
