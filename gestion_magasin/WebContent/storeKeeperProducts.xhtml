@@ -186,11 +186,9 @@
 
 							<p:commandButton value="Enregistrer"
 								actionListener="#{skProducts.saveCurrentProduct()}"
-								update="@all"
+								update="@form"
 								visible="#{updateForm.submitted and facesContext.validationFailed}"
-								oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').hide()">
-								<f:attribute name="formenctype" value="multipart/form-data"></f:attribute>
-							</p:commandButton>
+								oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').hide()"/>
 						</p:scrollPanel>
 					</h:form>
 				</p:dialog>
