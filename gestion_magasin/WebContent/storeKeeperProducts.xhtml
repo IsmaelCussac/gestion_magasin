@@ -185,7 +185,7 @@
 
 							<p:commandButton value="Enregistrer"
 								actionListener="#{skProducts.saveCurrentProduct()}"
-								update=":updateForm:updatePanel"
+								update="@all"
 								visible="#{updateForm.submitted and facesContext.validationFailed}"
 								oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').hide()">
 								<f:attribute name="formenctype" value="multipart/form-data"></f:attribute>
