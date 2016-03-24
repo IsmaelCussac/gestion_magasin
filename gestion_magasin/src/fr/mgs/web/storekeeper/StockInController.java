@@ -70,9 +70,19 @@ public class StockInController implements Serializable {
 	}
 
 	public void saveProducts() throws SQLException {
+		boolean found;
 		for (Lot lot : itemsLot) {
-			Product p = productManager.findProduct(lot.getLotProduct().getProductId());
-			p.getLots().add(lot);
+			found = false;
+			Product p = productManager.findProduct(lot.getLotProduct()
+					.getProductId());
+			for (Lot l : p.getLots()) {
+				if (l.getLotId() == lot.getLotId()) {
+					l.setQuantity(l.getQuantity() + lot.getQuantity());
+					found = true;
+				}
+			}
+			if (!found)
+				p.getLots().add(lot);
 			productManager.updateProduct(p);
 
 		}
@@ -91,7 +101,8 @@ public class StockInController implements Serializable {
 				if (isPlastic(prod)) {
 					lKey.setQuantity(lKey.getLotProduct().getConditioning());
 				} else {
-					lKey.setQuantity(lKey.getQuantity() + lKey.getLotProduct().getConditioning());
+					lKey.setQuantity(lKey.getQuantity()
+							+ lKey.getLotProduct().getConditioning());
 				}
 
 			}
@@ -108,8 +119,9 @@ public class StockInController implements Serializable {
 	}
 
 	public boolean isPlastic(Product p) {
-		return (p.getSubCategory().getCategory().equals(Category.PLASTIC)
-				|| p.getSubCategory().getCategory().equals(Category.CULTURE_PLASTIC));
+		return (p.getSubCategory().getCategory().equals(Category.PLASTIC) || p
+				.getSubCategory().getCategory()
+				.equals(Category.CULTURE_PLASTIC));
 	}
 
 	public void saveLot() throws SQLException {

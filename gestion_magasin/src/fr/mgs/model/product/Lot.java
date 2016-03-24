@@ -29,6 +29,7 @@ import javax.validation.constraints.Future;
 @Entity(name = "lots")
 @Table(name = "lot_t")
 public class Lot implements Serializable {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "lots_id")
