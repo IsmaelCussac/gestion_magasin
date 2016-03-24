@@ -59,7 +59,7 @@
 							style="font-weight:bold" />
 
 						<p:calendar id="expDate" locale="fr" navigator="true"
-							pattern="dd-MM-yyyy" value="#{stockInCtl.newLot.expirationDate}" />
+							pattern="dd-MM-yyyy" mindate="#{stockInCtl.today}" value="#{stockInCtl.newLot.expirationDate}" />
 						<h:outputLabel for="ref" value="Référence du produit:"
 							style="font-weight:bold" />
 

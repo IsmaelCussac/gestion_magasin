@@ -52,11 +52,16 @@ public class StockInController {
 
 		try {
 			listProducts = (List<Product>) productManager.findAllProducts();
-
 			for (Product product : listProducts) {
-				Lot l = new Lot();
-				l.setLotProduct(product);
-				itemsLot.add(l);
+				if (!isPlastic(product)) {
+					for (Lot lot : product.getLots()) {
+						itemsLot.add(lot);
+					}
+				} else {
+					Lot l = new Lot();
+					l.setLotProduct(product);
+					itemsLot.add(l);
+				}
 			}
 		} catch (SQLException e) {
 
@@ -81,18 +86,21 @@ public class StockInController {
 	public void scan() throws NumberFormatException, SQLException {
 		Product prod = productManager.findProduct(Integer.valueOf(scanDefault));
 
-		if (prod != null && isPlastic(prod)) {
-			for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
-				Lot lKey = (Lot) i.next();
-				if (lKey.getLotProduct().getProductId() == prod.getProductId()) {
+		for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
+			Lot lKey = (Lot) i.next();
+			if (lKey.getLotProduct().getProductId() == prod.getProductId()) {
+
+				if (isPlastic(prod)) {
 					lKey.setQuantity(lKey.getLotProduct().getConditioning());
+				} else {
+					lKey.setQuantity(lKey.getQuantity()+lKey.getLotProduct().getConditioning());
 				}
+
 			}
 
-		} else {
-			
 		}
-		scanDefault = "";
+
+			scanDefault = "";
 	}
 
 	public void resetScan() {

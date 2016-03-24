@@ -18,6 +18,7 @@ import fr.mgs.web.storekeeper.OrderController;
 
 /**
  * Class lot Converter
+ * 
  * @author Ibrahima
  *
  */
@@ -40,12 +41,12 @@ public class LotConverter implements Converter, Serializable {
 						.getExternalContext().getSessionMap().get("ordersView");
 
 				try {
-					if (orderController.getOrdersLots() != null
-							&& orderController.getOrdersLots().contains(prodManager.findLot(Integer.parseInt(value)))) {
-
+					Lot l = prodManager.findLot(Integer.parseInt(value));
+					orderController.setSelectedLot(l.getLotId());
+					if (orderController.getOrdersLots() != null && orderController.getOrdersLots().contains(l)) {
+						orderController.getOrdersLots().add(l);
 					}
-					// orderController.getOrdersLots().add(prodManager.findLot(Integer.parseInt(value)));
-					return value;
+					return l.getLotId();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
