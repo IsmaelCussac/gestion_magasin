@@ -38,7 +38,8 @@ public class Hasher implements PasswordEncoder {
 	/**
 	 * Convert a byte array into a string in hexadecimal
 	 * 
-	 * @param input byte array
+	 * @param input
+	 *            byte array
 	 * @return hexadecimal string of input
 	 */
 	public static String toHex(byte[] input) {
@@ -63,6 +64,5 @@ public class Hasher implements PasswordEncoder {
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
 		return encode(rawPassword.toString()).equals(encodedPassword);
 	}
-
 
 }

@@ -28,7 +28,7 @@ import fr.mgs.model.product.Category;
 import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
-import fr.mgs.toolbox.BarCode;
+import fr.mgs.toolbox.Reference;
 
 /**
  * 
@@ -180,9 +180,9 @@ public class ProductListController {
 	public void addNewProduct() throws SQLException, IOException {
 
 		currentProduct = new Product();
-		int productId = BarCode.generateRandomInt();
+		int productId = Reference.generateRandomInt();
 		while (productManager.productExists(productId)) {
-			productId = BarCode.generateRandomInt();
+			productId = Reference.generateRandomInt();
 		}
 		InputStream stream = FacesContext.getCurrentInstance().getExternalContext()
 				.getResourceAsStream("resources/image/product-icon.png");

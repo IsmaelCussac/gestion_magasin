@@ -4,16 +4,13 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 
 /**
- * Class Barcode
+ * Generate a random reference for product id
+ * 
  * @author Ismael
  *
  */
-public class BarCode {
+public class Reference {
 
-    /**
-     * Generete a random Barcode
-     * @return ref barcode
-     */
 	public static int generateRandomInt() {
 		int ref;
 

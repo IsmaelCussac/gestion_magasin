@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
 /**
- * Class extending spring user security to pass firstname in parameter
+ * Class extending spring user security to add firstname in User object
  * 
  * @author Ismaël
  *

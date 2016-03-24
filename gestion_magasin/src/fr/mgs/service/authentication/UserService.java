@@ -59,15 +59,12 @@ public class UserService implements UserDetailsService {
 	 *            previously built authority list
 	 * @return a built spring security user
 	 */
-	private UserDetailWithName buildUserForAuthentication(Person user,
-			List<GrantedAuthority> authorities) {
+	private UserDetailWithName buildUserForAuthentication(Person user, List<GrantedAuthority> authorities) {
 		UserDetailWithName result = null;
 		if (user != null) {
-			result = new UserDetailWithName(user.getPersonId(),
-					user.getPassword(), authorities);
+			result = new UserDetailWithName(user.getPersonId(), user.getPassword(), authorities);
 			result.setFirstname(user.getFirstName());
 		}
-
 		return result;
 	}
 

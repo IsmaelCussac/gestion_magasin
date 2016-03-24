@@ -9,7 +9,8 @@ import fr.mgs.model.order.Order;
 import fr.mgs.model.user.Team;
 
 /**
- * This is a tool used to sort team names 
+ * This is a tool used to sort a Map containing Team associated with Order
+ * collection
  * 
  * @author Ibrahima
  *
@@ -21,11 +22,9 @@ public class SortMap {
 		public int compare(Team t1, Team t2) {
 			return t1.getName().compareTo(t2.getName());
 		}
-
 	});
 
 	public Map<Team, Collection<Order>> getTreeMap() {
 		return treeMap;
 	}
-
 }

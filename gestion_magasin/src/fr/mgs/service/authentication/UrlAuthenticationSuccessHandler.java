@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import fr.mgs.model.user.Privilege;
 /**
  * The class manage the url authentification
+ * 
  * @author Ismael
  *
  */
@@ -50,7 +51,7 @@ public class UrlAuthenticationSuccessHandler implements AuthenticationSuccessHan
 	}
 
 	/**
-	 * determine the target url
+	 * determine the target url after authentication using authorities
 	 * @param authentication the authentification 
 	 * @return url redirection
 	 */

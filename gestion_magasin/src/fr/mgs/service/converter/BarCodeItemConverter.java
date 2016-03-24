@@ -11,16 +11,17 @@ import org.primefaces.model.DualListModel;
 import fr.mgs.web.storekeeper.BarCodeItem;
 
 /**
- * Class manage to convert Barcode
+ * Class manage to convert BarCodeItem to String and String to BarCodeItem
+ * 
  * @author Ismaël
  *
  */
 @FacesConverter(value = "barCodeItemConverter", forClass = BarCodeItem.class)
 public class BarCodeItemConverter implements Converter {
 
-    /**
-     * convert the barcode item
-     */
+	/**
+	 * convert a String value in BarCodeItem
+	 */
 	@Override
 	public Object getAsObject(FacesContext ctx, UIComponent component, String value) {
 		Object ret = null;
@@ -47,7 +48,7 @@ public class BarCodeItemConverter implements Converter {
 	}
 
 	/**
-	 * get a String 
+	 * convert a BarCodeItem value in String
 	 */
 	@Override
 	public String getAsString(FacesContext ctx, UIComponent component, Object value) {

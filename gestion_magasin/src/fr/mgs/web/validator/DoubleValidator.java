@@ -7,6 +7,12 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+/**
+ * Method used to validate a Double
+ * 
+ * @author Ismaël
+ *
+ */
 @FacesValidator("doubleValidator")
 public class DoubleValidator implements Validator{
 
