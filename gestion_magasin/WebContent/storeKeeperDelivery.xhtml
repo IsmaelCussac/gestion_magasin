@@ -94,29 +94,6 @@
 						<p:column colspan="3" style="text-align:center"
 							rendered="#{not ol.product.lots.isEmpty()}">
 
-
-							<p:selectOneMenu converter="lotConverter"
-								panelStyle="width:300px" effect="fade" var="l"
-								style="width:160px" filter="true" filterMatchMode="startsWith">
-								<p:ajax listener="#{ordersView.onLotChanges()}" />
-								<f:selectItems value="#{ol.product.lots}" var="lot"
-									itemLabel="#{lot.lotId}" itemValue="#{lot}" />
-
-								<p:column style="width:10%" headerText="Num">
-									<h:outputText value="#{l.lotId}" />
-								</p:column>
-
-								<p:column headerText="Qté">
-									<h:outputText value="#{l.quantity}" />
-								</p:column>
-								<p:column headerText="Exp">
-									<h:outputText value="#{l.expirationDate}" />
-								</p:column>
-							</p:selectOneMenu>
-
-
-
-
 						</p:column>
 					</p:dataTable>
 					<br />
