@@ -10,8 +10,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -27,7 +25,7 @@ import fr.mgs.model.product.Product;
  *
  */
 @ManagedBean(name = "stockInCtl")
-@SessionScoped
+@ViewScoped
 public class StockInController implements Serializable {
 
 	private List<Lot> itemsLot;
@@ -72,11 +70,10 @@ public class StockInController implements Serializable {
 	}
 
 	public void saveProducts() throws SQLException {
-		for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
-			Lot lKey = (Lot) i.next();
-			Product p = productManager.findProduct(lKey.getLotProduct().getProductId());
-			p.getLots().add(lKey);
-			productManager.addProduct(p);
+		for (Lot lot : itemsLot) {
+			Product p = productManager.findProduct(lot.getLotProduct().getProductId());
+			p.getLots().add(lot);
+			productManager.updateProduct(p);
 
 		}
 		FacesContext context = FacesContext.getCurrentInstance();
