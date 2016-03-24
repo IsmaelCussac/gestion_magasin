@@ -12,8 +12,6 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -29,7 +27,7 @@ import fr.mgs.model.product.Product;
  *
  */
 @ManagedBean(name = "stockInCtl")
-@SessionScoped
+@ViewScoped
 public class StockInController implements Serializable {
 
 	private Set<Lot> itemsLot;
@@ -74,11 +72,20 @@ public class StockInController implements Serializable {
 	}
 
 	public void saveProducts() throws SQLException {
-		for (Iterator<Lot> i = itemsLot.iterator(); i.hasNext();) {
-			Lot lKey = (Lot) i.next();
-			Product p = productManager.findProduct(lKey.getLotProduct().getProductId());
-			p.getLots().add(lKey);
-			productManager.addProduct(p);
+		boolean found;
+		for (Lot lot : itemsLot) {
+			found = false;
+			Product p = productManager.findProduct(lot.getLotProduct()
+					.getProductId());
+			for (Lot l : p.getLots()) {
+				if (l.getLotId() == lot.getLotId()) {
+					l.setQuantity(l.getQuantity() + lot.getQuantity());
+					found = true;
+				}
+			}
+			if (!found)
+				p.getLots().add(lot);
+			productManager.updateProduct(p);
 
 		}
 		itemsLot = new HashSet<>();
@@ -97,7 +104,8 @@ public class StockInController implements Serializable {
 				if (isPlastic(prod)) {
 					lKey.setQuantity(lKey.getLotProduct().getConditioning());
 				} else {
-					lKey.setQuantity(lKey.getQuantity() + lKey.getLotProduct().getConditioning());
+					lKey.setQuantity(lKey.getQuantity()
+							+ lKey.getLotProduct().getConditioning());
 				}
 
 			}
@@ -114,8 +122,9 @@ public class StockInController implements Serializable {
 	}
 
 	public boolean isPlastic(Product p) {
-		return (p.getSubCategory().getCategory().equals(Category.PLASTIC)
-				|| p.getSubCategory().getCategory().equals(Category.CULTURE_PLASTIC));
+		return (p.getSubCategory().getCategory().equals(Category.PLASTIC) || p
+				.getSubCategory().getCategory()
+				.equals(Category.CULTURE_PLASTIC));
 	}
 
 	public void saveLot() throws SQLException {
