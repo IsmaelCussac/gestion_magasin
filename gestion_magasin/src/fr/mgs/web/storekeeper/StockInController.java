@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -30,7 +32,7 @@ import fr.mgs.model.product.Product;
 @SessionScoped
 public class StockInController implements Serializable {
 
-	private List<Lot> itemsLot;
+	private Set<Lot> itemsLot;
 	private String scanDefault;
 	private Double conditioning;
 	private ProductManager productManager;
@@ -44,7 +46,7 @@ public class StockInController implements Serializable {
 	public void init() {
 		productManager = new ProductManager();
 		productManager.init(DataSource.LOCAL);
-		itemsLot = new ArrayList<Lot>();
+		itemsLot = new HashSet<Lot>();
 		today = new Date();
 		conditioning = 0.0;
 		selectedProduct = new Product();
@@ -79,6 +81,7 @@ public class StockInController implements Serializable {
 			productManager.addProduct(p);
 
 		}
+		itemsLot = new HashSet<>();
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Lots ajouté", ""));
 
@@ -142,11 +145,11 @@ public class StockInController implements Serializable {
 		this.scanDefault = value;
 	}
 
-	public List<Lot> getItems() {
+	public Set<Lot> getItems() {
 		return itemsLot;
 	}
 
-	public void setItems(List<Lot> items) {
+	public void setItems(Set<Lot> items) {
 		this.itemsLot = items;
 	}
 

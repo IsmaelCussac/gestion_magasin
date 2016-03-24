@@ -71,6 +71,8 @@
 					<h:form id="updateForm" prependId="false"
 						enctype="multipart/form-data">
 						<p:growl id="growlSave" />
+													<i>* Champs obligatoires</i>
+						
 						<p:scrollPanel id="updatePanel" mode="native">
 							<div class="form-group" style="width: 100%">
 								<label for="categorie">Catégorie * :</label><br />
@@ -156,7 +158,7 @@
 								<tr>
 									<td>
 										<div class="form-group">
-											<label for="Quantite">Seuil minimal de quantité * : </label>
+											<label for="Quantite">Seuil minimal de quantité : </label>
 											<h:inputText type="number" class="form-control"
 												name="Quantite" id="minQuantity"
 												value="#{skProducts.currentProduct.minQuantity}"
@@ -180,7 +182,6 @@
 									</td>
 								</tr>
 							</table>
-							<i>* Champs obligatoires</i>
 							<br />
 
 							<p:commandButton value="Enregistrer"
