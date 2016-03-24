@@ -41,6 +41,9 @@
 					<h:form id="dateForm">
 						<p:dataTable id="dateTable" var="lot"
 							value="#{skAlert.outOfDateLots}">
+							<p:column headerText="Numéro">
+								<h:outputText value="#{lot.lotProduct.lotId}" />
+							</p:column>
 							<p:column headerText="Produit"
 								sortBy="#{lot.lotProduct.designation}">
 								<h:outputText value="#{lot.lotProduct.designation}" />

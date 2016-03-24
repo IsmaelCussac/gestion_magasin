@@ -84,7 +84,7 @@ public class StockInController implements Serializable {
 					found = true;
 				}
 			}
-			if (!found)
+			if (!found && lot.getQuantity() != 0)
 				p.getLots().add(lot);
 			productManager.updateProduct(p);
 
