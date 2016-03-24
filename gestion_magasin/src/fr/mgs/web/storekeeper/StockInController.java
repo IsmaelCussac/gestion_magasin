@@ -14,6 +14,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 
 import fr.mgs.business.ProductManager;
 import fr.mgs.connection.DataSource;
@@ -39,6 +40,7 @@ public class StockInController implements Serializable {
 	private Date today;
 
 	List<Product> listProducts;
+	private boolean caldisabled;
 
 	@PostConstruct
 	public void init() {
@@ -75,8 +77,7 @@ public class StockInController implements Serializable {
 		boolean found;
 		for (Lot lot : itemsLot) {
 			found = false;
-			Product p = productManager.findProduct(lot.getLotProduct()
-					.getProductId());
+			Product p = productManager.findProduct(lot.getLotProduct().getProductId());
 			for (Lot l : p.getLots()) {
 				if (l.getLotId() == lot.getLotId()) {
 					l.setQuantity(l.getQuantity() + lot.getQuantity());
@@ -104,8 +105,7 @@ public class StockInController implements Serializable {
 				if (isPlastic(prod)) {
 					lKey.setQuantity(lKey.getLotProduct().getConditioning());
 				} else {
-					lKey.setQuantity(lKey.getQuantity()
-							+ lKey.getLotProduct().getConditioning());
+					lKey.setQuantity(lKey.getQuantity() + lKey.getLotProduct().getConditioning());
 				}
 
 			}
@@ -122,9 +122,8 @@ public class StockInController implements Serializable {
 	}
 
 	public boolean isPlastic(Product p) {
-		return (p.getSubCategory().getCategory().equals(Category.PLASTIC) || p
-				.getSubCategory().getCategory()
-				.equals(Category.CULTURE_PLASTIC));
+		return (p.getSubCategory().getCategory().equals(Category.PLASTIC)
+				|| p.getSubCategory().getCategory().equals(Category.CULTURE_PLASTIC));
 	}
 
 	public void saveLot() throws SQLException {
@@ -136,6 +135,14 @@ public class StockInController implements Serializable {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage("Nouveau lot ajouté", ""));
 
+	}
+
+	public void checkSelectedVal(ValueChangeEvent event) {
+
+		String selectedVal = event.getNewValue().toString();
+		if (selectedVal.equalsIgnoreCase(selectedProduct.getDesignation())) {
+			caldisabled = (selectedProduct.getSubCategory().getCategory().name()=="PAPER");
+		}
 	}
 
 	public List<Product> getListProducts() {
@@ -193,4 +200,14 @@ public class StockInController implements Serializable {
 	public void setToday(Date today) {
 		this.today = today;
 	}
+
+	public boolean getCaldisabled() {
+		return caldisabled;
+	}
+
+	public void setCaldisabled(boolean caldisabled) {
+		this.caldisabled = caldisabled;
+	}
+	
+	
 }

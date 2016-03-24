@@ -32,6 +32,11 @@
   		<param-value>.xhtml</param-value>
  	</context-param>
  	
+ 	 <error-page>
+        <error-code>404</error-code>
+        <location>/404.xhtml</location>
+    </error-page>
+ 	
  		<!-- File filter for primefaces -->
 <!-- 	<listener> -->
 <!-- 	    <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class> -->

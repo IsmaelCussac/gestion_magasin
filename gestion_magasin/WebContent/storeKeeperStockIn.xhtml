@@ -37,30 +37,34 @@
 
 				<p:dialog id="formLot" header="Nouveau lot" widgetVar="dlg1"
 					modal="true" height="200" width="600" style="margin-top:20px">
-
 					<h:panelGrid id="panLot" columns="2" cellpadding="5">
-						<h:outputLabel for="prod" value="Produit:"
+						<h:outputLabel for="prod" value="Produit : "
 							style="font-weight:bold" />
-
-						<p:selectOneMenu id="prod"
-							value="#{stockInCtl.selectedProduct.productId}" style="width:px">
-							<p:ajax update="ref" />
+						<p:selectOneMenu id="prod" immediate="true"
+							valueChangeListener="#{stockInCtl.checkSelectedVal}"
+							value="#{stockInCtl.selectedProduct.productId}"
+							style="width:100px">
+							<f:ajax update="expDate" event="change" execute="@this"
+								render="expDate" />
+							<!-- 							<f:ajax update="ref" render="expDate" /> -->
 							<f:selectItems id="item" value="#{stockInCtl.listProducts}"
 								var="product" itemLabel="#{product.designation}"
 								itemValue="#{product.productId}" />
-
 						</p:selectOneMenu>
 
-						<h:outputLabel for="qte" value="Nombre d'articles:"
+						<h:outputLabel for="qte" value="Nombre d'articles : "
 							style="font-weight:bold" />
 
 						<p:spinner id="qte" min="0" value="#{stockInCtl.newLot.quantity}" />
-						<h:outputLabel for="expDate" value="Date de péremption:"
+						<h:outputLabel for="expDate" value="Date de péremption : "
 							style="font-weight:bold" />
 
-						<p:calendar id="expDate" locale="fr" navigator="true"
-							pattern="dd-MM-yyyy" mindate="#{stockInCtl.today}" value="#{stockInCtl.newLot.expirationDate}" />
-						<h:outputLabel for="ref" value="Référence du produit:"
+						<p:calendar disabled="#{stockInCtl.caldisabled}" id="expDate"
+							locale="fr" navigator="true" pattern="dd-MM-yyyy"
+							mindate="#{stockInCtl.today}"
+							value="#{stockInCtl.newLot.expirationDate}">
+						</p:calendar>
+						<h:outputLabel for="ref" value="Référence du produit : "
 							style="font-weight:bold" />
 
 						<p:inputText id="ref"
@@ -111,6 +115,12 @@
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					rowsPerPageTemplate="5,10,15" editable="true">
+
+					<!-- 					<p:column> -->
+					<!-- 						<p:graphicImage value="#{imageCvt.image}"> -->
+					<!-- 							<f:param name="image" value="#{it.lotProduct.productId}" /> -->
+					<!-- 						</p:graphicImage> -->
+					<!-- 					</p:column> -->
 					<p:column headerText="Désignation">
 						<h:outputText value="#{it.lotProduct.designation}" />
 					</p:column>
@@ -160,20 +170,23 @@
 							<p:commandButton action="pretty:skProducts" value="Enregistrer"
 								actionListener="#{stockInCtl.saveProducts()}"
 								style="height:25px;float:right">
-<!-- 								<p:confirm header="Confirmation" -->
-<!-- 									message="Confirmez la sauvegarde" icon="ui-icon-alert" /> -->
+								<!-- 								<p:confirm header="Confirmation" -->
+								<!-- 									message="Confirmez la sauvegarde" icon="ui-icon-alert" /> -->
 							</p:commandButton>
-<!-- 							<p:confirmDialog global="true" showEffect="fade" -->
-<!-- 								hideEffect="fade"> -->
-<!-- 								<p:commandButton value="Oui" type="button" -->
-<!-- 									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" /> -->
-<!-- 								<p:commandButton value="Non" type="button" -->
-<!-- 									styleClass="ui-confirmdialog-no" icon="ui-icon-close" /> -->
-<!-- 							</p:confirmDialog> -->
+							<!-- 							<p:confirmDialog global="true" showEffect="fade" -->
+							<!-- 								hideEffect="fade"> -->
+							<!-- 								<p:commandButton value="Oui" type="button" -->
+							<!-- 									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" /> -->
+							<!-- 								<p:commandButton value="Non" type="button" -->
+							<!-- 									styleClass="ui-confirmdialog-no" icon="ui-icon-close" /> -->
+							<!-- 							</p:confirmDialog> -->
 
 						</div>
 					</div>
 				</div>
+
+
+
 
 			</h:form>
 		</f:view>
