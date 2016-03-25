@@ -79,10 +79,10 @@
 				
 				<p:dialog id="formLotPap" header="Nouveau lot" widgetVar="dlg2" modal="true" height="200" width="600" style="margin-top:20px">
 					<h:panelGrid id="panLot2" columns="2" cellpadding="5">
+
 						<h:outputLabel for="prod2" value="Produit : " style="font-weight:bold" />
 						<p:selectOneMenu id="prod2" immediate="true" valueChangeListener="#{stockInCtl.checkSelectedVal}"
-							value="#{stockInCtl.selectedProduct.productId}" style="width:100px">
-
+							value="#{stockInCtl.selectedProduct.productId}" style="width:220px">
 							<f:ajax update="ref2" render="expDate" />
 							<f:selectItems id="item" value="#{stockInCtl.papers}" var="product" itemLabel="#{product.designation}"
 								itemValue="#{product.productId}" />

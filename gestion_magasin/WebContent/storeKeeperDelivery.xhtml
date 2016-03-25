@@ -22,14 +22,14 @@
 			<p:panelGrid columns="3" layout="grid">
 				<f:facet name="header">
 					<p:row>
-						<p:commandButton action="pretty:skOrders" value="Retour"
-							style="height:25px;float:left" />
-						<h:outputText
-							value="Livraison de l'équipe: #{ordersView.selectedTeam.name} - Etage #{ordersView.selectedTeam.floor}" />
+						<p:commandButton action="pretty:skOrders" value="Retour" style="height:25px;float:left" />
+						<h:outputText value="Livraison de l'équipe: #{ordersView.selectedTeam.name} - Etage #{ordersView.selectedTeam.floor}" />
 					</p:row>
 				</f:facet>
 			</p:panelGrid>
+			
 			<br />
+			
 			<p:tabView dynamic="true" cache="true">
 				<p:tab title="Livraison par scan" id="scanView">
 					<p:focus context="scanView" />
@@ -40,30 +40,21 @@
 								<p:focus context="scanInput" />
 
 								<h:outputLabel value="Placer le curseur ici pour scanner "></h:outputLabel>
-								<p:inputText id="scanInput" value="#{ordersView.initScan}"
-									onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
-									<p:ajax event="change" listener="#{ordersView.scan()}"
-										update="prods2" />
+								<p:inputText id="scanInput" value="#{ordersView.initScan}" onkeypress="if (event.keyCode == 13) {onchange();this.value=''; return false;}">
+									<p:ajax event="change" listener="#{ordersView.scan()}" update="prods2" />
 								</p:inputText>
 							</div>
-
-
 						</div>
 					</div>
 
-
-
 					<br />
-					<p:dataTable id="prods2"
-						value="#{ordersView.selectedTeamOrderLines}" var="ol"
-						editable="true" editMode="cell">
-						<p:ajax event="cellEdit" listener="#{ordersView.scan()}"
-							update="prods2,msgs" />
+					
+					<p:dataTable id="prods2" value="#{ordersView.selectedTeamOrderLines}" var="ol" editable="true" editMode="cell">
+						<p:ajax event="cellEdit" listener="#{ordersView.scan()}" update="prods2,msgs" />
 
 						<p:columnGroup type="header">
 							<p:row>
-								<p:column colspan="10"
-									headerText="#{ordersView.selectedTeam.name}" />
+								<p:column colspan="10" headerText="#{ordersView.selectedTeam.name}" />
 								<p:column colspan="6" headerText="Livraison du 11-03-2016" />
 
 							</p:row>
@@ -72,18 +63,17 @@
 								<p:column colspan="3" headerText="Référence" />
 								<p:column colspan="3" headerText="Qté demandée" />
 								<p:column colspan="3" headerText="Qté scannée" />
-<!-- 								<p:column colspan="3" headerText="Lots" /> -->
-
-
 							</p:row>
 						</p:columnGroup>
 
 						<p:column colspan="4" style="text-align:center">
 							<h:outputText value="#{ol.product.designation}" />
 						</p:column>
+						
 						<p:column colspan="3" style="text-align:center">
 							<h:outputText value="#{ol.product.productId}" />
 						</p:column>
+						
 						<p:column colspan="3" style="text-align:center">
 							<h:outputText value="#{ol.quantity}" />
 						</p:column>
@@ -91,78 +81,62 @@
 						<p:column colspan="3" style="text-align:center">
 							<h:outputText value="#{ol.deliveredQuantity}" />
 						</p:column>
-<!-- 						<p:column colspan="3" style="text-align:center" -->
-<!-- 							rendered="#{not ol.product.lots.isEmpty()}"> -->
 
-						</p:column>
 					</p:dataTable>
+					
 					<br />
 
 					<div class="ui-grid ui-grid-responsive">
 						<div class="ui-grid-row">
 
 							<div class="ui-grid-col-6">
-								<p:commandButton value="Réinitialiser les valeurs"
-									action="#{ordersView.resetScan()}" update="prods2,prods"
+								<p:commandButton value="Réinitialiser les valeurs" action="#{ordersView.resetScan()}" update="prods2,prods"
 									style="float:right">
 								</p:commandButton>
 							</div>
 
 							<div class="ui-grid-col-6">
-								<p:commandButton  value="Enregistrer"
-									action="#{ordersView.saveDeliveredProducts()}"
-									style="float:right">
-									<p:confirm header="Confirmation"
-										message="Confirmez la livraison" icon="ui-icon-alert" />
-
+								<p:commandButton  value="Enregistrer" action="#{ordersView.saveDeliveredProducts()}" style="float:right">
+									<p:confirm header="Confirmation" message="Confirmez la livraison" icon="ui-icon-alert" />
 								</p:commandButton>
-								<p:confirmDialog global="true" showEffect="fade"
-									hideEffect="fade">
-									<p:commandButton value="Oui" type="button"
-										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-									<p:commandButton value="Non" type="button"
-										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 								</p:confirmDialog>
-
 							</div>
 						</div>
 					</div>
-
-
-
 				</p:tab>
 
 				<p:tab title="Livraison par saisie">
-					<p:dataTable id="prods"
-						value="#{ordersView.selectedTeamOrderLines}" var="ol"
+					<p:dataTable id="prods" value="#{ordersView.selectedTeamOrderLines}" var="ol"
 						editable="true" editMode="cell">
 
-						<p:ajax event="cellEdit" listener="#{ordersView.onCellEdit}"
-							update="prods,msgs" />
+						<p:ajax event="cellEdit" listener="#{ordersView.onCellEdit}" update="prods,msgs" />
 
 						<p:columnGroup type="header">
 							<p:row>
-								<p:column colspan="7"
-									headerText="#{ordersView.selectedTeam.name}" />
+								<p:column colspan="7" headerText="#{ordersView.selectedTeam.name}" />
 								<p:column colspan="6" headerText="Livraison du 11-03-2016" />
-
-
 							</p:row>
+							
 							<p:row>
 								<p:column colspan="4" headerText="Produits demandés" />
 								<p:column colspan="3" headerText="Référence" />
 								<p:column colspan="3" headerText="Qté demandée" />
-								<p:column colspan="3"
-									headerText="Qté à livrer (Entrée par saisie)" />
+								<p:column colspan="3" headerText="Qté à livrer (Entrée par saisie)" />
 							</p:row>
 						</p:columnGroup>
 
 						<p:column colspan="4" style="text-align:center">
 							<h:outputText value="#{ol.product.designation}" />
 						</p:column>
+						
 						<p:column colspan="3" style="text-align:center">
 							<h:outputText value="#{ol.product.productId}" />
 						</p:column>
+						
 						<p:column colspan="3" style="text-align:center">
 							<h:outputText value="#{ol.quantity}" />
 						</p:column>
@@ -177,46 +151,37 @@
 										style="width:100%" />
 								</f:facet>
 								<f:attribute name="editedOl" value="#{ol}" />
-
 							</p:cellEditor>
-
 						</p:column>
-
-
+						
 					</p:dataTable>
+					
 					<br />
+					
 					<div class="ui-grid ui-grid-responsive">
 						<div class="ui-grid-row">
 							<div class="ui-grid-col-6">
-								<p:commandButton style="float:left" id="btnLot"
-									value="Consulter les lots"></p:commandButton>
+								<p:commandButton style="float:left" id="btnLot" value="Consulter les lots"/>
 							</div>
 							<div class="ui-grid-col-6">
-								<p:commandButton action="pretty:skOrders" value="Enregistrer"
-									actionListener="#{ordersView.saveDeliveredProducts()}"
+							
+								<p:commandButton action="pretty:skOrders" value="Enregistrer" actionListener="#{ordersView.saveDeliveredProducts()}"
 									style="float:right">
-									<p:confirm header="Confirmation"
-										message="Confirmez la livraison" icon="ui-icon-alert" />
+									<p:confirm header="Confirmation" message="Confirmez la livraison" icon="ui-icon-alert" />
 								</p:commandButton>
-								<p:confirmDialog global="true" showEffect="fade"
-									hideEffect="fade">
-									<p:commandButton value="Oui" type="button"
-										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-									<p:commandButton value="Non" type="button"
-										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								
+								<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+									<p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 								</p:confirmDialog>
-
 							</div>
-
-
 						</div>
 					</div>
 
 					<!-- Dialog for displaying lot -->
-					<p:overlayPanel id="lotPanel" for="btnLot" hideEffect="fade"
-						dynamic="true" style="width:600px" showCloseIcon="true">
-						<p:dataTable value="#{ordersView.selectedTeamOrderLines}" var="ol"
-							rows="5" paginator="true">
+					<p:overlayPanel id="lotPanel" for="btnLot" hideEffect="fade" dynamic="true" style="width:600px" showCloseIcon="true">
+						<p:dataTable value="#{ordersView.selectedTeamOrderLines}" var="ol" rows="5" paginator="true">
+						
 							<p:column headerText="Produit" style="text-align:center">
 								<h:outputText value="#{ol.product.designation}" />
 							</p:column>
@@ -247,20 +212,17 @@
 									<p:column>
 										<h:outputText value="#{lot.expirationDate}" />
 									</p:column>
+									
 								</p:dataTable>
 							</p:rowExpansion>
 
 
 						</p:dataTable>
 					</p:overlayPanel>
-
-
 				</p:tab>
-
 			</p:tabView>
 
 		</h:form>
 	</ui:define>
 </ui:composition>
-
 </html>
