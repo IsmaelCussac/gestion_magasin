@@ -2,6 +2,8 @@ package fr.mgs.web.storekeeper;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,6 +29,7 @@ import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Lot;
+import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 import fr.mgs.toolbox.SortMap;
 
@@ -116,14 +119,26 @@ public class OrderController implements Serializable {
 	 * save delivered orders
 	 * 
 	 * @throws SQLException
+	 * @throws ParseException
 	 */
-	public String saveDeliveredProducts() throws SQLException {
-		System.out.println("hjhjhjhjhj");
+	public String saveDeliveredProducts() throws SQLException, ParseException {
 		for (OrderLine orderLine : deliveredProducts) {
 			try {
 				orderManager.updateOrderLine(orderLine);
 				Order o = orderLine.getOrder();
 				updateStatus(orderLine, o);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date dateBase = sdf.parse("2050-12-31");
+				Lot minLot = new Lot();
+				minLot.setExpirationDate(dateBase);
+
+				for (Lot lot : orderLine.getProduct().getLots()) {
+					if (lot.getExpirationDate().before(minLot.getExpirationDate())) {
+						minLot = lot;
+					}
+				}
+				minLot.setQuantity(minLot.getQuantity() - orderLine.getDeliveredQuantity());
+				prodManager.updateLot(minLot);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
