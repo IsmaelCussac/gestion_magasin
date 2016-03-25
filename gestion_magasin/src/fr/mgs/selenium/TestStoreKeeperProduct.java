@@ -18,7 +18,7 @@ public class TestStoreKeeperProduct {
   @Before
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
-    baseUrl = "http://localhost:8080";
+    baseUrl = "http://localhost:8088";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
@@ -43,35 +43,35 @@ public class TestStoreKeeperProduct {
     driver.findElement(By.cssSelector("span.ui-icon.ui-icon-closethick")).click();
     driver.findElement(By.id("accordion:0:subAccordion:9:form:items:2:j_idt51")).click();
     driver.findElement(By.cssSelector("span.ui-icon.ui-icon-closethick")).click();
-    driver.findElement(By.id("j_idt38:j_idt39")).click();
-    driver.findElement(By.xpath("//div[@id='sub']/div[3]")).click();
-    driver.findElement(By.id("sub_2")).click();
-    driver.findElement(By.id("designation")).clear();
-    driver.findElement(By.id("designation")).sendKeys("Stylo 4 couleurs");
-    driver.findElement(By.cssSelector("#box > span.ui-button-text.ui-c")).click();
-    driver.findElement(By.id("j_idt72")).click();
-    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[2]")).click();
-    driver.findElement(By.linkText("Entrée de stock")).click();
-    driver.findElement(By.id("j_idt40")).click();
-    driver.findElement(By.xpath("//div[@id='prod']/div[3]")).click();
-    driver.findElement(By.id("prod_0")).click();
-    driver.findElement(By.id("j_idt50")).click();
-    driver.findElement(By.cssSelector("span.ui-icon.ui-icon-closethick")).click();
-    driver.findElement(By.linkText("Etat de stock")).click();
-    driver.findElement(By.xpath("//div[@id='accordion']/h3")).click();
-    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[9]")).click();
-    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[9]")).click();
-    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[10]")).click();
-    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[10]")).click();
-    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[11]")).click();
-    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[2]/a/span[2]")).click();
-    driver.findElement(By.id("j_idt70")).click();
-    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[3]/a/span[2]")).click();
-    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[5]/a/span[2]")).click();
-    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[6]/a/span[2]")).click();
-    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[4]/a/span[2]")).click();
-    driver.findElement(By.id("j_idt40:j_idt41")).click();
-    driver.findElement(By.id("j_idt17:logout")).click();
+//    driver.findElement(By.id("j_idt38:j_idt39")).click();
+//    driver.findElement(By.xpath("//div[@id='sub']/div[3]")).click();
+//    driver.findElement(By.id("sub_2")).click();
+//    driver.findElement(By.id("designation")).clear();
+//    driver.findElement(By.id("designation")).sendKeys("Stylo 4 couleurs");
+//    driver.findElement(By.cssSelector("#box > span.ui-button-text.ui-c")).click();
+//    driver.findElement(By.id("j_idt72")).click();
+//    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[2]")).click();
+//    driver.findElement(By.linkText("Entrée de stock")).click();
+//    driver.findElement(By.id("j_idt40")).click();
+//    driver.findElement(By.xpath("//div[@id='prod']/div[3]")).click();
+//    driver.findElement(By.id("prod_0")).click();
+//    driver.findElement(By.id("j_idt50")).click();
+//    driver.findElement(By.cssSelector("span.ui-icon.ui-icon-closethick")).click();
+//    driver.findElement(By.linkText("Etat de stock")).click();
+//    driver.findElement(By.xpath("//div[@id='accordion']/h3")).click();
+//    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[9]")).click();
+//    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[9]")).click();
+//    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[10]")).click();
+//    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[10]")).click();
+//    driver.findElement(By.xpath("//div[@id='accordion:0:subAccordion']/h3[11]")).click();
+//    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[2]/a/span[2]")).click();
+//    driver.findElement(By.id("j_idt70")).click();
+//    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[3]/a/span[2]")).click();
+//    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[5]/a/span[2]")).click();
+//    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[6]/a/span[2]")).click();
+//    driver.findElement(By.xpath("//div[@id='j_idt21:j_idt22']/ul/li[4]/a/span[2]")).click();
+//    driver.findElement(By.id("j_idt40:j_idt41")).click();
+//    driver.findElement(By.id("j_idt17:logout")).click();
   }
 
   @After
