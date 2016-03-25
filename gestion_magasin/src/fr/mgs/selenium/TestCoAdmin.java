@@ -15,15 +15,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class TestCoAdmin {
-	private WebDriver driver;
-	private String baseUrl;
+	private static WebDriver driver;
+	private static String baseUrl;
 	private boolean acceptNextAlert = true;
-	private StringBuffer verificationErrors = new StringBuffer();
+	private static StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeClass
-	public void setUp() throws Exception {
+	public static void setUp() throws Exception {
 		driver = new FirefoxDriver();
-		baseUrl = "http://localhost:8080";
+		baseUrl = "http://localhost:8088";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
@@ -36,13 +36,11 @@ public class TestCoAdmin {
 		driver.findElement(By.name("password")).sendKeys("mariana");
 		driver.findElement(By.name("valide_connect")).click();
 		driver.findElement(By.linkText("Modification")).click();
-		driver.findElement(By.linkText("VisibilitÃ©")).click();
-		driver.findElement(By.linkText("Rechercher actions")).click();
-		driver.findElement(By.id("j_idt17:logout")).click();
+		driver.findElement(By.linkText("Visibilité")).click();
 	}
 
 	@AfterClass
-	public void tearDown() throws Exception {
+	public static void tearDown() throws Exception {
 		driver.quit();
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {

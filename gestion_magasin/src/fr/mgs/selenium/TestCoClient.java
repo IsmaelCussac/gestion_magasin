@@ -23,7 +23,7 @@ public class TestCoClient {
 	@Before
 	public void setUp() throws Exception {
 		driver = new FirefoxDriver();
-		baseUrl = "http://localhost:8080";
+		baseUrl = "http://localhost:8088";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
@@ -70,7 +70,6 @@ public class TestCoClient {
 		driver.findElement(By.id("buttons:remove")).click();
 		driver.findElement(By.id("list:j_idt32:0:sp_input")).clear();
 		driver.findElement(By.id("list:j_idt32:0:sp_input")).sendKeys("0");
-		driver.findElement(By.id("j_idt17:logout")).click();
 	}
 
 	@After
