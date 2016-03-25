@@ -20,11 +20,8 @@
 				
 					<f:facet name="header">
 						<p:row>
-							<p:commandButton value="Créer un lot de plastic" style="height:25px;float:left" 
+							<p:commandButton value="Créer un lot" style="height:25px;float:left" 
 								onclick="PF('dlg1').show();" update="panLot"/>
-							
-							<p:commandButton value="Créer un lot de papier" style="height:25px;float:left" 
-								onclick="PF('dlg2').show();" update="panLot"/>
 	
 							<h:outputText value="Alimenter le stock de produit" />
 							
@@ -37,14 +34,14 @@
 
 				</p:panelGrid>
 
-				<p:dialog id="formLotPlastic" header="Nouveau lot" widgetVar="dlg1" modal="true" height="200" width="600" style="margin-top:20px">
+				<p:dialog id="formLot" header="Nouveau lot" widgetVar="dlg1" modal="true" height="200" width="600" style="margin-top:20px">
 					<h:panelGrid id="panLot" columns="2" cellpadding="5">
 					
 						<h:outputLabel for="prod" value="Produit : " style="font-weight:bold" />
 						<p:selectOneMenu id="prod" immediate="true" valueChangeListener="#{stockInCtl.checkSelectedVal}"
 							value="#{stockInCtl.selectedProduct.productId}" style="width:220px">
-							<f:ajax update="ref" render="expDate" />
-							<f:selectItems id="item2" value="#{stockInCtl.plastics}" var="product" itemLabel="#{product.designation}"
+							<f:ajax update="ref2" render="expDate" />
+							<f:selectItems id="item2" value="#{stockInCtl.listProducts}" var="product" itemLabel="#{product.designation}"
 								itemValue="#{product.productId}" />
 						</p:selectOneMenu>
 
@@ -57,7 +54,7 @@
 							value="#{stockInCtl.newLot.expirationDate}">
 						</p:calendar>
 						
-						<h:outputLabel for="ref" value="Référence du produit : " style="font-weight:bold" />
+						<h:outputLabel for="ref2" value="Référence du produit : " style="font-weight:bold" />
 
 						<p:inputText id="ref2" value="#{stockInCtl.selectedProduct.productId}" label="Référence du produit" disabled="true"/>
 
@@ -76,31 +73,6 @@
 				</p:dialog>
 
 				<br />
-				
-				<p:dialog id="formLotPap" header="Nouveau lot" widgetVar="dlg2" modal="true" height="200" width="600" style="margin-top:20px">
-					<h:panelGrid id="panLot2" columns="2" cellpadding="5">
-
-						<h:outputLabel for="prod2" value="Produit : " style="font-weight:bold" />
-						<p:selectOneMenu id="prod2" immediate="true" valueChangeListener="#{stockInCtl.checkSelectedVal}"
-							value="#{stockInCtl.selectedProduct.productId}" style="width:220px">
-							<f:ajax update="ref2" render="expDate" />
-							<f:selectItems id="item" value="#{stockInCtl.papers}" var="product" itemLabel="#{product.designation}"
-								itemValue="#{product.productId}" />
-						</p:selectOneMenu>
-
-						<h:outputLabel for="qte" value="Nombre d'articles : " style="font-weight:bold" />
-
-						<p:spinner id="qte" min="0" value="#{stockInCtl.newLot.quantity}" />
-
-						<h:outputLabel for="ref" value="Référence du produit : " style="font-weight:bold" />
-
-						<p:inputText id="ref" value="#{stockInCtl.selectedProduct.productId}" label="Référence du produit" disabled="true"/>
-
-					</h:panelGrid>
-
-					<p:commandButton value="Ajouter" update=":form:msgs" icon="ui-icon-check" validateClient="true"
-						style="margin-right:10px" actionListener="#{stockInCtl.saveLot()}" />
-				</p:dialog>
 				
 				<br />
 

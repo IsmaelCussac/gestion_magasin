@@ -60,11 +60,6 @@ public class StockInController implements Serializable {
 		try {
 			listProducts = (List<Product>) productManager.findAllProducts();
 			for (Product product : listProducts) {
-				if (product.getSubCategory().getCategory().name() == "PAPER") {
-					papers.add(product);
-				} else {
-					plastics.add(product);
-				}
 				if (!isPlastic(product)) {
 					for (Lot lot : product.getLots()) {
 						itemsLot.add(lot);
