@@ -1,0 +1,17 @@
+fr.mgs.alert
+fr.mgs.business
+fr.mgs.connection
+fr.mgs.model.event
+fr.mgs.model.order
+fr.mgs.model.product
+fr.mgs.model.user
+fr.mgs.selenium
+fr.mgs.service.authentication
+fr.mgs.service.converter
+fr.mgs.tests
+fr.mgs.toolbox
+fr.mgs.web.admin
+fr.mgs.web.authentication
+fr.mgs.web.customer
+fr.mgs.web.storekeeper
+fr.mgs.web.validator

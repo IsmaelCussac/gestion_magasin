@@ -11,8 +11,10 @@
 		<ui:define name="menu">
 			<ui:include src="/template/storeKeeperMenu.xhtml" />
 		</ui:define>
+		
 		<ui:define name="content">
 			<p:tabView dynamic="true" cache="true">
+			
 				<p:tab title="Produits en demande">
 					<h:form>
 						<p:dataTable var="line" value="#{skAlert.onDemandProducts}">
@@ -25,29 +27,30 @@
 								<h:outputText value="#{line.designation}" />
 							</p:column>
 
-							<p:column headerText="Sous-catégorie"
-								sortBy="#{line.subCategory}">
+							<p:column headerText="Sous-catégorie" sortBy="#{line.subCategory}">
 								<h:outputText value="#{line.subCategory}" />
 							</p:column>
 
-							<p:column headerText="Nombre d'articles manquants"
-								sortBy="#{line.neededQuantity}">
+							<p:column headerText="Nombre d'articles manquants" sortBy="#{line.neededQuantity}">
 								<h:outputText value="#{line.neededQuantity}" />
 							</p:column>
+							
 						</p:dataTable>
 					</h:form>
 				</p:tab>
+				
 				<p:tab title="Lots arrivant à expiration">
 					<h:form id="dateForm">
-						<p:dataTable id="dateTable" var="lot"
-							value="#{skAlert.outOfDateLots}">
+						<p:dataTable id="dateTable" var="lot" value="#{skAlert.outOfDateLots}">
+						
 							<p:column headerText="Numéro">
-								<h:outputText value="#{lot.lotProduct.lotId}" />
+								<h:outputText value="#{lot.lotId}" />
 							</p:column>
-							<p:column headerText="Produit"
-								sortBy="#{lot.lotProduct.designation}">
+							
+							<p:column headerText="Produit" sortBy="#{lot.lotProduct.designation}">
 								<h:outputText value="#{lot.lotProduct.designation}" />
 							</p:column>
+							
 							<p:column headerText="Jours avant péremption">
 								<h:outputText value="#{skAlert.daysLeft(lot.expirationDate)}" />
 							</p:column>
@@ -57,31 +60,38 @@
 							</p:column>
 
 							<p:column headerText="Supprimer">
-								<p:commandButton actionListener="#{skAlert.delete(lot)}"
-									update="dateTable" icon="ui-icon-trash" title="Supprimer" />
+								<p:commandButton actionListener="#{skAlert.delete(lot)}" update="dateTable" icon="ui-icon-trash" title="Supprimer" />
 							</p:column>
+							
 						</p:dataTable>
 					</h:form>
 				</p:tab>
+				
 				<p:tab title="Stock faible">
 					<h:form>
 						<p:dataTable var="line" value="#{skAlert.shortageStockProducts}">
+						
 							<p:column headerText="Référence">
 								<h:outputText value="#{line.productId}" />
 							</p:column>
+							
 							<p:column headerText="Produit" sortBy="#{line.designation}">
 								<h:outputText value="#{line.designation}" />
 							</p:column>
+							
 							<p:column headerText="Sous-catégorie"
 								sortBy="#{line.subCategory}">
 								<h:outputText value="#{line.subCategory}" />
 							</p:column>
+							
 							<p:column headerText="Quantité disponible">
 								<h:outputText value="#{line.availableQuantity}" />
 							</p:column>
+							
 							<p:column headerText="Quantité conseillée">
 								<h:outputText value="#{line.requiredQuantity}" />
 							</p:column>
+							
 						</p:dataTable>
 					</h:form>
 				</p:tab>

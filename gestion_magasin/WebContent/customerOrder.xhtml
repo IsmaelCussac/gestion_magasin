@@ -11,42 +11,37 @@
 		<ui:define name="menu">
 			<ui:include src="/template/customerMenu.xhtml" />
 		</ui:define>
+		
 		<ui:define name="content">
 			<f:view>
 				<h:form id="buttons" enctype="multipart/form-data">
 					<p:growl id="growlSave" />
 					<p:growl id="growlValidate" />
-					<p:commandButton value="Vider" id="submit"
-						action="#{cstProducts.deleteOrder}" icon="ui-icon-trash"
-						update="list" />
-					<p:commandButton value="Sauvegarder" id="save" update="growlSave"
-						action="#{cstProducts.saveOrder}" icon="ui-icon-disk" />
-					<p:commandButton value="Valider" id="remove" update="growlValidate"
-						action="#{cstProducts.submitOrder}" icon="ui-icon-cart" />
+					<p:commandButton value="Vider" id="submit" action="#{cstProducts.deleteOrder}" icon="ui-icon-trash" update="list" />
+					<p:commandButton value="Sauvegarder" id="save" update="growlSave" action="#{cstProducts.saveOrder}" icon="ui-icon-disk" />
+					<p:commandButton value="Valider" id="remove" update="growlValidate" action="#{cstProducts.submitOrder}" icon="ui-icon-cart" />
 				</h:form>
 
 				<h:form id="list" enctype="multipart/form-data">
-					<p:dataTable value="#{cstProducts.cart.entrySet().toArray()}"
-						var="entry" styleClass="course-table"
-						headerClass="course-table-header"
-						footerClass="course-table-header"
-						rowClasses="course-table-odd-row,course-table-even-row">
+					<p:dataTable value="#{cstProducts.cart.entrySet().toArray()}" var="entry" styleClass="course-table" headerClass="course-table-header"
+						footerClass="course-table-header" rowClasses="course-table-odd-row,course-table-even-row">
 
 						<p:column headerText="Photo">
 							<p:graphicImage value="#{imageCvt.image}">
 								<f:param name="image" value="#{entry.value.productId}" />
 							</p:graphicImage>
 						</p:column>
+						
 						<p:column headerText="Désignation">
 							<h:outputText value="#{entry.value.designation}" />
 						</p:column>
+						
 						<p:column headerText="Quantité">
 							<p:spinner id="sp" value="#{entry.value.quantity}" min="0">
-								<p:ajax event="change"
-									listener="#{cstProducts.updateCart(entry.value)}"
-									update="@form" />
+								<p:ajax event="change" listener="#{cstProducts.updateCart(entry.value)}" update="@form" />
 							</p:spinner>
 						</p:column>
+						
 					</p:dataTable>
 				</h:form>
 			</f:view>

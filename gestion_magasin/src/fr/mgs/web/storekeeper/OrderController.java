@@ -2,6 +2,8 @@ package fr.mgs.web.storekeeper;
 
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -27,6 +29,7 @@ import fr.mgs.model.order.Order;
 import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 import fr.mgs.model.product.Lot;
+import fr.mgs.model.product.Product;
 import fr.mgs.model.user.Team;
 import fr.mgs.toolbox.SortMap;
 
@@ -93,9 +96,13 @@ public class OrderController implements Serializable {
 							"Quanité incorrecte ou supérieur à celle demandée", "");
 					FacesContext.getCurrentInstance().addMessage(null, msg);
 				} else {
-					orderLine.setDeliveredQuantity(newDelivredQt);
+					if (orderLine.getDeliveredQuantity() < orderLine.getQuantity()) {
+						orderLine.setDeliveredQuantity(newDelivredQt);
+					}
+
 				}
 				deliveredProducts.add(orderLine);
+				break;
 
 			}
 		}
@@ -116,21 +123,33 @@ public class OrderController implements Serializable {
 	 * save delivered orders
 	 * 
 	 * @throws SQLException
+	 * @throws ParseException
 	 */
-	public String saveDeliveredProducts() throws SQLException {
-		System.out.println("hjhjhjhjhj");
+	public String saveDeliveredProducts() throws SQLException, ParseException {
 		for (OrderLine orderLine : deliveredProducts) {
 			try {
 				orderManager.updateOrderLine(orderLine);
 				Order o = orderLine.getOrder();
 				updateStatus(orderLine, o);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Date dateBase = sdf.parse("2050-12-31");
+				Lot minLot = new Lot();
+				minLot.setExpirationDate(dateBase);
+
+				for (Lot lot : orderLine.getProduct().getLots()) {
+					if (lot.getExpirationDate().before(minLot.getExpirationDate())) {
+						minLot = lot;
+					}
+				}
+				minLot.setQuantity(minLot.getQuantity() - orderLine.getDeliveredQuantity());
+				prodManager.updateLot(minLot);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 		endDelivery();
-		updateLots();
+
 		return "pretty:skOrders";
 
 	}
@@ -153,17 +172,18 @@ public class OrderController implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void updateLots() throws SQLException {
-		for (OrderLine orderLine : deliveredProducts) {
-			for (Lot lot : ordersLots) {
-				if (orderLine.getProduct().getProductId() == lot.getLotProduct().getProductId()) {
-					lot.setQuantity(lot.getQuantity() - orderLine.getDeliveredQuantity());
-					prodManager.updateLot(lot);
-				}
-
-			}
-		}
-	}
+	// public void updateLots() throws SQLException {
+	// for (OrderLine orderLine : deliveredProducts) {
+	// for (Lot lot : ordersLots) {
+	// if (orderLine.getProduct().getProductId() ==
+	// lot.getLotProduct().getProductId()) {
+	// lot.setQuantity(lot.getQuantity() - orderLine.getDeliveredQuantity());
+	// prodManager.updateLot(lot);
+	// }
+	//
+	// }
+	// }
+	// }
 
 	public void updateStatus(OrderLine ol, Order o) throws SQLException {
 

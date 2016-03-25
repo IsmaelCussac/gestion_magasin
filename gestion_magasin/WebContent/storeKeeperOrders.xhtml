@@ -17,8 +17,7 @@
 	<ui:define name="content">
 
 		<h:form id="form" prependId="false" enctype="multipart/form-data">
-			<p:messages id="messages" showDetail="true" autoUpdate="true"
-				closable="true" />
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
 			<p:panelGrid columns="3" layout="grid">
 				<f:facet name="header">
 					<p:row>
@@ -30,21 +29,23 @@
 			<br />
 
 
-			<ui:repeat var="team"
-				value="#{ordersView.getOrdersToDeliverByTeam().entrySet().toArray()}">
+			<ui:repeat var="team" value="#{ordersView.getOrdersToDeliverByTeam().entrySet().toArray()}">
 
-				<p:panel header="#{team.key.name} (#{team.value.size()})"
-					toggleable="true" toggleSpeed="500" collapsed="true">
+				<p:panel header="#{team.key.name} (#{team.value.size()})" toggleable="true" toggleSpeed="500" collapsed="true">
 					<p:dataTable var="order" value="#{team.value}">
+					
 						<p:column style="width:30px">
 							<p:rowToggler />
 						</p:column>
+						
 						<p:column headerText="Destinataire">
 							<h:outputText value="#{order.orderUser.lastName}" />
 						</p:column>
+						
 						<p:column headerText="Numéro">
 							<h:outputText value="#{order.orderId}" />
 						</p:column>
+						
 						<p:column headerText="Soumission" sortBy="#{order.submissionDate}">
 							<h:outputText value="#{order.submissionDate}" />
 						</p:column>
@@ -52,20 +53,14 @@
 						<p:column headerText="Livraison">
 							<h:outputText value="#{order.deliveryDate}" />
 						</p:column>
+						
 						<p:column headerText="Nombre de produits">
 							<h:outputText value="#{order.orderLines.size()}" />
 						</p:column>
 
 						<p:column headerText="Statut" sortBy="#{order.status.toString()}">
-
-							<h:outputText value="#{order.status.toString()}"
-								style="color:red"
-								rendered="#{order.status.toString() == 'Livrée avec reliquats'}" />
-
-							<h:outputText
-								rendered="#{order.status.toString() != 'Livrée avec reliquats'}"
-								value="#{order.status.toString()}" />
-
+							<h:outputText value="#{order.status.toString()}" style="color:red" rendered="#{order.status.toString() == 'Livrée avec reliquats'}" />
+							<h:outputText rendered="#{order.status.toString() != 'Livrée avec reliquats'}" value="#{order.status.toString()}" />
 						</p:column>
 
 						<p:rowExpansion>
@@ -78,101 +73,89 @@
 										<p:column headerText="Désignation" />
 										<p:column headerText="Réference" />
 										<p:column headerText="Quantité" />
-
 									</p:row>
-
-
 								</p:columnGroup>
 
 								<p:column>
 									<p:graphicImage value="#{imageCvt.image}">
 										<f:param name="image" value="#{ol.product.productId}" />
 									</p:graphicImage>
-
 								</p:column>
+								
 								<p:column>
 									<h:outputText value="#{ol.product.designation}" />
-
 								</p:column>
+								
 								<p:column>
 									<h:outputText value="#{ol.product.productId}" />
-
 								</p:column>
+								
 								<p:column>
 									<h:outputText value="#{ol.quantity}" />
 								</p:column>
 
 							</p:dataTable>
+							
 							<p:panelGrid style="margin-top:1px">
 								<p:row>
+								
 									<p:column style="font-weight: bold;">
 										<h:outputText value="Commentaires:" />
 									</p:column>
 
-									<p:column
-										rendered="#{order.status.toString() == 'Livrée avec reliquats'}">
-										<p:commandButton update="ordDetail"
-											oncomplete="PF('ordDialog').show()"
-											value="Modifier la commande" style="float:right;">
+									<p:column rendered="#{order.status.toString() == 'Livrée avec reliquats'}">
+										<p:commandButton update="ordDetail" oncomplete="PF('ordDialog').show()" value="Modifier la commande" style="float:right;">
 											<f:attribute name="orderToEdit" value="#{order}" />
-											<f:actionListener
-												type="fr.mgs.web.storekeeper.EditOrderActionListener" />
+											<f:actionListener type="fr.mgs.web.storekeeper.EditOrderActionListener" />
 										</p:commandButton>
 									</p:column>
+									
 								</p:row>
 							</p:panelGrid>
+							
 						</p:rowExpansion>
 					</p:dataTable>
 
 					<f:facet name="options">
 						<p:menu>
 							<p:submenu label="Options">
-								<p:menuitem icon="ui-icon-extlink" value="Livrer cette équipe"
-									action="pretty:skDelivery">
+								<p:menuitem icon="ui-icon-extlink" value="Livrer cette équipe" action="pretty:skDelivery">
 									<f:attribute name="teamToDeliver" value="#{team.key}" />
-									<f:actionListener
-										type="fr.mgs.web.storekeeper.OrderDeliveryActionListener" />
+									<f:actionListener type="fr.mgs.web.storekeeper.OrderDeliveryActionListener" />
 								</p:menuitem>
-
 							</p:submenu>
 						</p:menu>
 					</f:facet>
 				</p:panel>
 
 			</ui:repeat>
-			<p:dialog header="Commande: #{ordersView.orderToEdit.orderId}"
-				widgetVar="ordDialog" modal="true" showEffect="fade"
-				hideEffect="fade" resizable="false" width="800"
-				style="margin-top : 10px;">
+			<p:dialog header="Commande: #{ordersView.orderToEdit.orderId}" widgetVar="ordDialog" modal="true" showEffect="fade"
+				hideEffect="fade" resizable="false" width="800" style="margin-top : 10px;">
 				<p:outputPanel id="ordDetail" style="text-align:center;">
+				
 					<p:dataTable var="ol" value="#{ordersView.orderToEdit.orderLines}">
-
-
 						<p:columnGroup type="header">
 							<p:row>
 								<p:column headerText="Désignation" />
 								<p:column headerText="Réference" />
 								<p:column headerText="Quantité" />
-
 							</p:row>
-
-
 						</p:columnGroup>
 
 						<p:column>
 							<h:outputText value="#{ol.product.designation}" />
-
 						</p:column>
+						
 						<p:column>
 							<h:outputText value="#{ol.product.productId}" />
-
 						</p:column>
+						
 						<p:column>
 							<p:spinner id="basic" value="#{ol.quantity}" min="0" />
-
 						</p:column>
 
 					</p:dataTable>
+					
 					<p:panelGrid style="margin-top:1px;">
 						<p:row>
 							<p:column colspan="10">
@@ -184,14 +167,11 @@
 							</p:column>
 
 						</p:row>
-
 					</p:panelGrid>
 
 				</p:outputPanel>
 			</p:dialog>
 		</h:form>
-
 	</ui:define>
 </ui:composition>
-
 </html>

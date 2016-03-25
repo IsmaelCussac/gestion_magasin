@@ -11,9 +11,9 @@
 		<ui:define name="menu">
 			<ui:include src="/template/customerMenu.xhtml" />
 		</ui:define>
+		
 		<ui:define name="content">
 			<f:view>
-
 				<h:form>
 					<p:dataTable var="order" value="#{cstOrderHistory.orders}">
 						<f:facet name="header">
@@ -37,8 +37,7 @@
 						</p:column>
 
 						<p:column rendered="#{order.status.name() != 'NOT_VALIDATED'}">
-							<p:commandButton value="Dupliquer"
-								action="#{cstOrderHistory.duplicateOrder(order)}" id="duplicate" />
+							<p:commandButton value="Dupliquer" action="#{cstOrderHistory.duplicateOrder(order)}" id="duplicate" />
 						</p:column>
 
 						<p:rowExpansion>
@@ -47,8 +46,8 @@
 								<h:outputText value=" x#{line.quantity}" />
 							</p:dataList>
 						</p:rowExpansion>
+						
 					</p:dataTable>
-
 				</h:form>
 			</f:view>
 		</ui:define>

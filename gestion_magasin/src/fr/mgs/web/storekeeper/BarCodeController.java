@@ -17,6 +17,7 @@ import fr.mgs.model.product.Product;
 import fr.mgs.service.converter.BarCodeItemConverter;
 
 /**
+ * Controller used to display the barcode page
  * 
  * @author Ismaël
  *

@@ -40,6 +40,8 @@ public class StockInController implements Serializable {
 	private Date today;
 
 	List<Product> listProducts;
+	List<Product> papers;
+	List<Product> plastics;
 	private boolean caldisabled;
 
 	@PostConstruct
@@ -52,6 +54,8 @@ public class StockInController implements Serializable {
 		selectedProduct = new Product();
 		newLot = new Lot();
 		newLot.setQuantity(0);
+		papers = new ArrayList<Product>();
+		plastics = new ArrayList<Product>();
 
 		try {
 			listProducts = (List<Product>) productManager.findAllProducts();
@@ -141,7 +145,7 @@ public class StockInController implements Serializable {
 
 		String selectedVal = event.getNewValue().toString();
 		if (selectedVal.equalsIgnoreCase(selectedProduct.getDesignation())) {
-			caldisabled = (selectedProduct.getSubCategory().getCategory().name()=="PAPER");
+			caldisabled = (selectedProduct.getSubCategory().getCategory().name() == "PAPER");
 		}
 	}
 
@@ -208,6 +212,20 @@ public class StockInController implements Serializable {
 	public void setCaldisabled(boolean caldisabled) {
 		this.caldisabled = caldisabled;
 	}
-	
-	
+
+	public List<Product> getPapers() {
+		return papers;
+	}
+
+	public void setPapers(List<Product> papers) {
+		this.papers = papers;
+	}
+
+	public List<Product> getPlastics() {
+		return plastics;
+	}
+
+	public void setPlastics(List<Product> plastics) {
+		this.plastics = plastics;
+	}
 }

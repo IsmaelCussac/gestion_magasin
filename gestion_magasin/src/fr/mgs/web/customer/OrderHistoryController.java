@@ -20,6 +20,7 @@ import fr.mgs.model.order.OrderLine;
 import fr.mgs.model.order.OrderStatus;
 
 /**
+ * Controller used to display order history and duplicate order
  * 
  * @author Ismaël
  *
@@ -65,6 +66,13 @@ public class OrderHistoryController {
 		return orders;
 	}
 
+	/**
+	 * Duplicate an order and redirect to order page
+	 * 
+	 * @param order
+	 * @return
+	 * @throws SQLException
+	 */
 	public String duplicateOrder(Order order) throws SQLException {
 
 		newOrder = new Order();
@@ -103,6 +111,9 @@ public class OrderHistoryController {
 		orderManager.updateOrder(newOrder);
 	}
 
+	/**
+	 * Update the cart using the duplicated order data
+	 */
 	public void updateCart() {
 		orderController.getCart().clear();
 		for (OrderLine l : newOrder.getOrderLines()) {

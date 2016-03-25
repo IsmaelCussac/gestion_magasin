@@ -15,50 +15,47 @@
 		<ui:define name="content">
 			<f:view>
 				<h:form enctype="multipart/form-data">
-					<p:commandButton value="Ajouter un produit"
-						actionListener="#{skProducts.addNewProduct()}"
-						onclick="PF('dlg1').show();" update=":updateForm:updatePanel" />
+					<p:commandButton value="Ajouter un produit" actionListener="#{skProducts.addNewProduct()}" onclick="PF('dlg1').show();" update=":updateForm:updatePanel" />
 				</h:form>
+				
 				<h:form enctype="multipart/form-data">
-					<p:commandButton value="Imprimer les code-barres"
-						action="pretty:skBarCodes" />
+					<p:commandButton value="Imprimer les code-barres" action="pretty:skBarCodes" />
 				</h:form>
 
-				<p:accordionPanel id="accordion"
-					value="#{skProducts.getAllCategories()}" var="cat"
-					activeIndex="null">
+				<p:accordionPanel id="accordion" value="#{skProducts.getAllCategories()}" var="cat" activeIndex="null">
 					<p:tab title="#{cat.toString()}">
-						<p:accordionPanel id="subAccordion" dynamic="true" cache="true"
-							value="#{skProducts.getSubCategories(cat)}" var="subCat"
-							activeIndex="null">
-							<p:ajax event="tabChange"
-								listener="#{skProducts.loadStoreProducts(subCat)}" />
+					
+						<p:accordionPanel id="subAccordion" dynamic="true" cache="true" value="#{skProducts.getSubCategories(cat)}" 
+						var="subCat" activeIndex="null">
+							<p:ajax event="tabChange" listener="#{skProducts.loadStoreProducts(subCat)}" />
+							
 							<p:tab title="#{subCat.name}">
 								<h:form id="form" enctype="multipart/form-data">
-									<p:dataGrid value="#{skProducts.storeProducts}" var="product"
-										columns="4" layout="grid" rows="8" paginator="true" id="items"
+									<p:dataGrid value="#{skProducts.storeProducts}" var="product" columns="4" layout="grid" rows="8" paginator="true" id="items"
 										paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 										rowsPerPageTemplate="6,12">
+										
 										<p:panel style="text-align:center">
 											<h:panelGrid columns="1" style="text-align:center;width:100%">
+											
 												<p:graphicImage value="#{imageCvt.image}">
 													<f:param name="image" value="#{product.productId}" />
 												</p:graphicImage>
+												
 												<h:outputText value="#{product.designation}" />
 												<h:outputText value="Ref : #{product.productId}" />
-												<h:outputText
-													value="Quantité :  #{skProducts.getQuantity(product)}" />
-												<p:selectBooleanButton id="box"
-													value="#{product.visibility}" onLabel="Disponible"
-													offLabel="Indisponible" onIcon="ui-icon-check"
-													offIcon="ui-icon-close" style="width:140px">
+												<h:outputText value="Quantité :  #{skProducts.getQuantity(product)}" />
+												
+												<p:selectBooleanButton id="box" value="#{product.visibility}" onLabel="Disponible"
+													offLabel="Indisponible" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:140px">
 													<p:ajax listener="#{skProducts.updateVisibility(product)}" />
 												</p:selectBooleanButton>
-												<p:commandButton value="Modifier"
-													actionListener="#{skProducts.setCurrentProduct(product)}"
-													onclick="PF('dlg1').show();"
-													update=":updateForm:updatePanel" />
+												
+												<p:commandButton value="Modifier" actionListener="#{skProducts.setCurrentProduct(product)}"
+													onclick="PF('dlg1').show();" update=":updateForm:updatePanel" />
+													
 											</h:panelGrid>
+											
 										</p:panel>
 									</p:dataGrid>
 								</h:form>
@@ -68,23 +65,23 @@
 				</p:accordionPanel>
 
 				<p:dialog header="Modifier produit" widgetVar="dlg1" modal="true" width="550" height="600">
-					<h:form id="updateForm" prependId="false"
-						enctype="multipart/form-data">
+					<h:form id="updateForm" prependId="false" enctype="multipart/form-data">
 						<p:growl id="growlSave" />
-													<i>* Champs obligatoires</i>
 						
+						<i>* Champs obligatoires</i>
+
 						<p:scrollPanel id="updatePanel" mode="native">
+						
 							<div class="form-group" style="width: 100%">
 								<label for="categorie">Catégorie * :</label><br />
-								<p:selectOneMenu id="sub" value="#{skProducts.subCategory.name}"
-									style="width: 100% !important;" required="true"
+								<p:selectOneMenu id="sub" value="#{skProducts.subCategory.name}" style="width: 100% !important;" required="true"
 									validatorMessage="Ne peut être vide">
-									<f:selectItem
-										itemLabel="#{skProducts.currentProduct.subCategory.name}"
-										itemValue="#{skProducts.currentProduct.subCategory.name}" />
-									<f:selectItems value="#{skProducts.getAllSubCategories()}"
-										var="c" itemLabel="#{c.name}" itemValue="#{c.name}" />
+									
+									<f:selectItem itemLabel="#{skProducts.currentProduct.subCategory.name}" itemValue="#{skProducts.currentProduct.subCategory.name}" />
+									<f:selectItems value="#{skProducts.getAllSubCategories()}" var="c" itemLabel="#{c.name}" itemValue="#{c.name}" />
+										
 								</p:selectOneMenu>
+								
 								<h:messages for="sub" style="color:red" />
 							</div>
 
@@ -94,19 +91,16 @@
 
 										<div class="form-group">
 											<label for="Designation">Désignation * :</label>
-											<h:inputText type="text" class="form-control"
-												id="designation"
-												value="#{skProducts.currentProduct.designation}"
-												required="true" validatorMessage="Entre 3 et 100 caractères" />
+											<h:inputText type="text" class="form-control" id="designation"
+												value="#{skProducts.currentProduct.designation}" required="true" 
+												validatorMessage="Entre 3 et 100 caractères" />
 											<h:messages for="designation" style="color:red" />
 										</div>
 
 										<div class="form-group">
 											<label for="Conditionnnement">Conditionnement * :</label>
-											<h:inputText type="text" class="form-control"
-												id="conditioning"
-												value="#{skProducts.currentProduct.conditioning}"
-												required="true">
+											<h:inputText type="text" class="form-control" id="conditioning"
+												value="#{skProducts.currentProduct.conditioning}" required="true">
 												<f:validator validatorId="doubleValidator" />
 												<f:ajax />
 											</h:inputText>
@@ -115,8 +109,7 @@
 
 										<div class="form-group">
 											<label for="PrixHT">Prix HT :</label>
-											<h:inputText type="number" step="any" class="form-control"
-												id="price" value="#{skProducts.currentProduct.price}">
+											<h:inputText type="number" step="any" class="form-control" id="price" value="#{skProducts.currentProduct.price}">
 												<f:validator validatorId="doubleValidator" />
 												<f:ajax />
 											</h:inputText>
@@ -124,71 +117,59 @@
 										</div>
 
 										<div class="form-group">
-											<label for="Durée de préavis">Durée de préavis (en
-												jours) * :</label>
-											<h:inputText type="number" step="any" class="form-control"
-												id="warningPeriod"
-												value="#{skProducts.currentProduct.warningPeriod}">
+											<label for="Durée de préavis">Durée de préavis (en jours) * :</label>
+											<h:inputText type="number" step="any" class="form-control" id="warningPeriod" value="#{skProducts.currentProduct.warningPeriod}">
 												<f:validator validatorId="intValidator" />
 												<f:ajax />
 											</h:inputText>
 											<h:messages for="warningPeriod" style="color:red" />
-											<i>Si 0, vous ne pourrez pas ajouter de date de
-												péremption</i>
+											<i>Si 0, vous ne pourrez pas ajouter de date de péremption</i>
 										</div>
 
 										<div class="form-group">
 											<label for="Reference">Référence :</label>
-											<h:inputText type="text" class="form-control" id="ref"
-												disabled="true"
-												value="#{skProducts.currentProduct.productId}" />
+											<h:inputText type="text" class="form-control" id="ref" disabled="true" value="#{skProducts.currentProduct.productId}" />
 										</div>
 									</td>
+									
 									<td>
 										<div class="form-group">
 											<label for="Image">Image :</label>
-											<h:inputFile id="fu" value="#{skProducts.image}">
-
-											</h:inputFile>
-
+											<h:inputFile id="fu" value="#{skProducts.image}"/>
 										</div>
 									</td>
-
 								</tr>
+								
 								<tr>
 									<td>
 										<div class="form-group">
 											<label for="Quantite">Seuil minimal de quantité : </label>
-											<h:inputText type="number" class="form-control"
-												name="Quantite" id="minQuantity"
-												value="#{skProducts.currentProduct.minQuantity}"
-												required="true">
+											<h:inputText type="number" class="form-control" name="Quantite" id="minQuantity"
+												value="#{skProducts.currentProduct.minQuantity}" required="true">
 												<f:validator validatorId="doubleValidator" />
 												<f:ajax />
 											</h:inputText>
 											<h:messages for="minQuantity" style="color:red" />
 										</div>
 									</td>
+									
 									<td>
-
 										<div class="checkbox">
-											<p:selectBooleanButton id="box"
-												value="#{skProducts.currentProduct.visibility}"
-												onLabel="Disponible" offLabel="Indisponible"
-												onIcon="ui-icon-check" offIcon="ui-icon-close"
-												style="width:140px">
+											<p:selectBooleanButton id="box" value="#{skProducts.currentProduct.visibility}"
+												onLabel="Disponible" offLabel="Indisponible" onIcon="ui-icon-check" offIcon="ui-icon-close" style="width:140px">
 											</p:selectBooleanButton>
 										</div>
 									</td>
+									
 								</tr>
+								
 							</table>
+							
 							<br />
 
-							<p:commandButton value="Enregistrer"
-								actionListener="#{skProducts.saveCurrentProduct()}"
-								update="@form"
+							<p:commandButton value="Enregistrer" actionListener="#{skProducts.saveCurrentProduct()}" update="@form"
 								visible="#{updateForm.submitted and facesContext.validationFailed}"
-								oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').hide()"/>
+								oncomplete="if (args &amp;&amp; !args.validationFailed) PF('dlg1').hide()" />
 						</p:scrollPanel>
 					</h:form>
 				</p:dialog>

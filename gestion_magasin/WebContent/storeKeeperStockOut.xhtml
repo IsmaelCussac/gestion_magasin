@@ -15,37 +15,36 @@
 	</ui:define>
 
 	<ui:define name="content">
-
 		<h:form id="form" prependId="false" enctype="multipart/form-data">
-			<p:messages id="messages" showDetail="true" autoUpdate="true"
-				closable="true" />
+			<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+			
 			<p:panelGrid columns="3" layout="grid">
 				<f:facet name="header">
 					<p:row>
 						<p:column>Commandes livrées par équipe</p:column>
 					</p:row>
-
 				</f:facet>
 			</p:panelGrid>
+			
 			<br />
 
+			<ui:repeat var="team" value="#{outOrders.deliveredOrdersByTeam.entrySet().toArray()}">
 
-			<ui:repeat var="team"
-				value="#{outOrders.deliveredOrdersByTeam.entrySet().toArray()}">
-
-				<p:panel header="#{team.key.name} (#{team.value.size()})"
-					toggleable="true" toggleSpeed="500" collapsed="true">
+				<p:panel header="#{team.key.name} (#{team.value.size()})" toggleable="true" toggleSpeed="500" collapsed="true">
 					<p:dataTable var="order" value="#{team.value}">
+					
 						<p:column style="width:30px">
 							<p:rowToggler />
 						</p:column>
-						<p:column headerText="Destinataire"
-							sortBy="#{order.orderUser.lastName}">
+						
+						<p:column headerText="Destinataire" sortBy="#{order.orderUser.lastName}">
 							<h:outputText value="#{order.orderUser.lastName}" />
 						</p:column>
+						
 						<p:column headerText="Numéro" sortBy="#{order.orderId}">
 							<h:outputText value="#{order.orderId}" />
 						</p:column>
+						
 						<p:column headerText="Soumission" sortBy="#{order.submissionDate}">
 							<h:outputText value="#{order.submissionDate}" />
 						</p:column>
@@ -53,27 +52,22 @@
 						<p:column headerText="Livraison" sortBy="#{order.deliveryDate}">
 							<h:outputText value="#{order.deliveryDate}" />
 						</p:column>
-						<p:column headerText="Nombre de produits"
-							sortBy="#{order.orderLines.size()}">
+						
+						<p:column headerText="Nombre de produits" sortBy="#{order.orderLines.size()}">
 							<h:outputText value="#{order.orderLines.size()}" />
 						</p:column>
 
 						<p:column headerText="Statut">
-
-							<h:outputText value="#{order.status.toString()}"
-								style="color:red"
+							<h:outputText value="#{order.status.toString()}" style="color:red"
 								rendered="#{order.status.toString() == 'Livrée avec reliquats'}" />
 
-							<h:outputText
-								rendered="#{order.status.toString() != 'Livrée avec reliquats'}"
+							<h:outputText rendered="#{order.status.toString() != 'Livrée avec reliquats'}"
 								value="#{order.status.toString()}" />
-
 						</p:column>
 
 						<p:rowExpansion>
-
 							<p:dataTable value="#{order.orderLines}" var="ol">
-
+							
 								<p:columnGroup type="header">
 									<p:row>
 										<p:column headerText="Produit" />
@@ -81,69 +75,57 @@
 										<p:column headerText="Réference" />
 										<p:column headerText="Quantité livrée" />
 										<p:column headerText="Quantité" />
-
 									</p:row>
-
-
 								</p:columnGroup>
 
 								<p:column>
 									<p:graphicImage value="#{imageCvt.image}">
 										<f:param name="image" value="#{ol.product.productId}" />
 									</p:graphicImage>
-
 								</p:column>
+								
 								<p:column>
 									<h:outputText value="#{ol.product.designation}" />
-
 								</p:column>
+								
 								<p:column>
 									<h:outputText value="#{ol.product.productId}" />
-
 								</p:column>
+								
 								<p:column>
 									<h:outputText value="#{ol.deliveredQuantity}" />
-
 								</p:column>
 
 								<p:column>
 									<h:outputText value="#{ol.quantity}" />
-
 								</p:column>
 
 							</p:dataTable>
+							
 							<p:panelGrid style="margin-top:1px">
 								<p:row>
+								
 									<p:column style="font-weight: bold;">
 										<h:outputText value="Commentaires:" />
 									</p:column>
 
-									<p:column
-										rendered="#{order.status.toString() == 'Livrée avec reliquats'}">
-										<p:commandButton update="ordDetail"
-											oncomplete="PF('ordDialog').show()"
+									<p:column rendered="#{order.status.toString() == 'Livrée avec reliquats'}">
+										<p:commandButton update="ordDetail" oncomplete="PF('ordDialog').show()"
 											value="Modifier la commande" style="float:right;">
 											<f:attribute name="orderToEdit" value="#{order}" />
-											<f:actionListener
-												type="fr.mgs.web.storekeeper.EditOrderActionListener" />
-
+											<f:actionListener type="fr.mgs.web.storekeeper.EditOrderActionListener" />
 										</p:commandButton>
 									</p:column>
 
 								</p:row>
-
 							</p:panelGrid>
+							
 						</p:rowExpansion>
 					</p:dataTable>
-
-
 				</p:panel>
-
 			</ui:repeat>
-
 		</h:form>
 
 	</ui:define>
 </ui:composition>
-
 </html>

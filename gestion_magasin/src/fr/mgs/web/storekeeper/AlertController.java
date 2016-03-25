@@ -24,7 +24,7 @@ import fr.mgs.model.product.Lot;
 import fr.mgs.model.product.Product;
 
 /**
- * 
+ * Controller used to display stock alerts
  * 
  * @author Ismaël
  *
@@ -86,6 +86,11 @@ public class AlertController {
 		}
 	}
 
+	/**
+	 * Method that return the difference between two date in days
+	 * @param expirationDate
+	 * @return
+	 */
 	public int daysLeft(Date expirationDate) {
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
