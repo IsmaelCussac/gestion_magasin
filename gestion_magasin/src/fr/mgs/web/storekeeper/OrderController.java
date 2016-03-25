@@ -98,11 +98,12 @@ public class OrderController implements Serializable {
 				} else {
 					if (orderLine.getDeliveredQuantity() < orderLine.getQuantity()) {
 						orderLine.setDeliveredQuantity(newDelivredQt);
-						break;
 					}
 
 				}
 				deliveredProducts.add(orderLine);
+				break;
+
 			}
 		}
 		initScan = "";
