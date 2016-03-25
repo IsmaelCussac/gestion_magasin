@@ -44,7 +44,7 @@
 						<p:dataTable id="dateTable" var="lot" value="#{skAlert.outOfDateLots}">
 						
 							<p:column headerText="Numéro">
-								<h:outputText value="#{lot.lotProduct.lotId}" />
+								<h:outputText value="#{lot.lotProduct.productId}" />
 							</p:column>
 							
 							<p:column headerText="Produit" sortBy="#{lot.lotProduct.designation}">
