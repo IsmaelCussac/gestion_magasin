@@ -17,22 +17,22 @@
 				<p:tab title="Création">
 					<h:form>
 						<p:dataTable var="event" value="#{admin.allCreate}">
-							<p:column headerText="Date" filterBy="#{event.date}"
-								filterMatchMode="contains">
+						
+							<p:column headerText="Date" filterBy="#{event.date}" filterMatchMode="contains">
 								<h:outputText value="#{event.date}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Magasinier" filterBy="#{event.storeKeeper}"
-								filterMatchMode="contains">
+							
+							<p:column headerText="Magasinier" filterBy="#{event.storeKeeper}" filterMatchMode="contains">
 								<h:outputText value="#{event.storeKeeper}" />
 							</p:column>
-							<p:column headerText="Référence produit"
-								filterBy="#{event.productId}" filterMatchMode="contains">
+							
+							<p:column headerText="Référence produit" filterBy="#{event.productId}" filterMatchMode="contains">
 								<h:outputText value="#{event.productId}" />
 							</p:column>
-							<p:column headerText="Désignation"
-								filterBy="#{event.productName}" filterMatchMode="contains">
+							
+							<p:column headerText="Désignation" filterBy="#{event.productName}" filterMatchMode="contains">
 								<h:outputText value="#{event.productName}" />
 							</p:column>
 
@@ -42,58 +42,57 @@
 				<p:tab title="Modification">
 					<h:form>
 						<p:dataTable var="event" value="#{admin.allUpdate}">
-							<p:column headerText="Date" filterBy="#{event.date}"
-								filterMatchMode="contains">
+						
+							<p:column headerText="Date" filterBy="#{event.date}" filterMatchMode="contains">
 								<h:outputText value="#{event.date}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Magasinier" filterBy="#{event.storeKeeper}"
-								filterMatchMode="contains">
+							
+							<p:column headerText="Magasinier" filterBy="#{event.storeKeeper}" filterMatchMode="contains">
 								<h:outputText value="#{event.storeKeeper}" />
 							</p:column>
-							<p:column headerText="Référence produit"
-								filterBy="#{event.productId}" filterMatchMode="contains">
+							
+							<p:column headerText="Référence produit" filterBy="#{event.productId}" filterMatchMode="contains">
 								<h:outputText value="#{event.productId}" />
 							</p:column>
-							<p:column headerText="Désignation"
-								filterBy="#{event.productName}" filterMatchMode="contains">
+							
+							<p:column headerText="Désignation" filterBy="#{event.productName}" filterMatchMode="contains">
 								<h:outputText value="#{event.productName}" />
 							</p:column>
+							
 						</p:dataTable>
 					</h:form>
 				</p:tab>
 				<p:tab title="Visibilité">
 					<h:form>
-						<p:dataTable var="event" value="#{admin.allVisibility}"
-							widgetVar="actionTable">
-							<p:column headerText="Date" filterBy="#{event.date}"
-								filterMatchMode="contains">
+						<p:dataTable var="event" value="#{admin.allVisibility}" widgetVar="actionTable">
+						
+							<p:column headerText="Date" filterBy="#{event.date}" filterMatchMode="contains">
 								<h:outputText value="#{event.date}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:column>
-							<p:column headerText="Magasinier" filterBy="#{event.storeKeeper}"
-								filterMatchMode="contains">
+							
+							<p:column headerText="Magasinier" filterBy="#{event.storeKeeper}" filterMatchMode="contains">
 								<h:outputText value="#{event.storeKeeper}" />
 							</p:column>
-							<p:column headerText="Référence" filterBy="#{event.productId}"
-								filterMatchMode="contains">
+							
+							<p:column headerText="Référence" filterBy="#{event.productId}" filterMatchMode="contains">
 								<h:outputText value="#{event.productId}" />
 							</p:column>
-							<p:column headerText="Désignation"
-								filterBy="#{event.productName}" filterMatchMode="contains">
+							
+							<p:column headerText="Désignation" filterBy="#{event.productName}" filterMatchMode="contains">
 								<h:outputText value="#{event.productName}" />
 							</p:column>
-							<p:column headerText="Action"
-								filterBy="#{event.action.toString()}" filterMatchMode="contains">
+							
+							<p:column headerText="Action" filterBy="#{event.action.toString()}" filterMatchMode="contains">
 								<h:outputText value="#{event.action.toString()}" />
 							</p:column>
 						</p:dataTable>
 					</h:form>
 				</p:tab>
 			</p:tabView>
-
 		</ui:define>
 	</ui:composition>
 </h:body>

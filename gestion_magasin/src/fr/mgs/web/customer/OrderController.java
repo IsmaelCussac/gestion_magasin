@@ -30,7 +30,7 @@ import fr.mgs.model.product.Product;
 import fr.mgs.model.product.SubCategory;
 
 /**
- * this class is the product's controller for the customer
+ * This class is the product's controller for the customer
  * 
  * @author Mana, Ismael
  *
@@ -94,6 +94,13 @@ public class OrderController {
 		cart.clear();
 	}
 
+	/**
+	 * Update the cart. If quantity = 0, the item is removed from the cart and
+	 * in DB
+	 * 
+	 * @param item
+	 * @throws SQLException
+	 */
 	public void updateCart(StoreItem item) throws SQLException {
 		if (item.getQuantity() == 0) {
 			removeOrderLineInDB(item);
@@ -113,6 +120,11 @@ public class OrderController {
 		this.storeItems = storeItems;
 	}
 
+	/**
+	 * Get all first level categories
+	 * 
+	 * @return Collection
+	 */
 	public Collection<Category> getAllCategories() {
 
 		Collection<Category> categories = new ArrayList<Category>();
@@ -124,12 +136,19 @@ public class OrderController {
 		return categories;
 	}
 
+	/**
+	 * Get all second level categories
+	 * 
+	 * @param cat
+	 * @return List
+	 */
 	public List<SubCategory> getSubCategories(Category cat) {
 		return (List<SubCategory>) productManager.findSubCategoriesByCategory(cat);
 	}
 
 	/**
-	 * Get all the products for the sub category
+	 * Get all the products for the sub category, and put it in the store list.
+	 * Update the quantity if the item is in the cart
 	 * 
 	 * @param sub
 	 *            the sub category
@@ -146,6 +165,12 @@ public class OrderController {
 		}
 	}
 
+	/**
+	 * Create a storeItem list using a product list and set the quantity to 0
+	 * 
+	 * @param prods
+	 * @return
+	 */
 	private List<StoreItem> createNewStoreItemList(List<Product> prods) {
 		List<StoreItem> items = new ArrayList<StoreItem>();
 		for (Product prod : prods) {
@@ -170,6 +195,11 @@ public class OrderController {
 		this.currentOrder = currentOrder;
 	}
 
+	/**
+	 * Create new order
+	 * 
+	 * @throws SQLException
+	 */
 	public void newOrder() throws SQLException {
 
 		if (orderManager.hasNotValidatedOrder(userId)) {
@@ -177,8 +207,8 @@ public class OrderController {
 			currentOrder = orderList.get(0);
 			for (OrderLine orderLine : currentOrder.getOrderLines()) {
 				StoreItem item = new StoreItem();
-				item.setStoreItem(orderLine.getProduct().getProductId(), orderLine.getProduct().getDesignation(), orderLine.getQuantity(),
-						orderLine.getProduct().getSubCategory().getName());
+				item.setStoreItem(orderLine.getProduct().getProductId(), orderLine.getProduct().getDesignation(),
+						orderLine.getQuantity(), orderLine.getProduct().getSubCategory().getName());
 				cart.put(orderLine.getProduct().getProductId(), item);
 			}
 		} else {
@@ -186,6 +216,11 @@ public class OrderController {
 		}
 	}
 
+	/**
+	 * Save the order in DB
+	 * 
+	 * @throws SQLException
+	 */
 	public void saveOrder() throws SQLException {
 
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -201,6 +236,12 @@ public class OrderController {
 		orderManager.updateOrder(currentOrder);
 	}
 
+	/**
+	 * Submit the order to the store keeper
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public String submitOrder() throws SQLException {
 
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -216,6 +257,11 @@ public class OrderController {
 		return "pretty:cstProducts";
 	}
 
+	/**
+	 * Clear the order
+	 * 
+	 * @throws SQLException
+	 */
 	public void deleteOrder() throws SQLException {
 
 		List<Order> order = (List<Order>) orderManager.findNotValidatedOrder(userId);
@@ -226,6 +272,11 @@ public class OrderController {
 		cart.clear();
 	}
 
+	/**
+	 * Instanciate a new Order and set a NOT_VALIDATED status
+	 * 
+	 * @throws SQLException
+	 */
 	private void resetCurrentOrder() throws SQLException {
 		currentOrder = new Order();
 		currentOrder.setOrderUser(userManager.findPerson(userId));

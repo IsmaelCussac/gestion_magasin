@@ -6,32 +6,30 @@
 	xmlns:sec="http://www.springframework.org/security/tags">
 
 <h:body>
-
 	<ui:composition template="/template/layout.xhtml">
 		<ui:define name="title">403</ui:define>
 
 		<ui:define name="content">
 			<div class="row">
 				<section class="col-lg-12">
+				
 					<div class="alert alert-danger alert-dismissible" role="alert">
-						<button type="button" class="close" data-dismiss="alert"
-							aria-label="Close"></button>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"></button>
 						<strong>403!</strong> Ressource non autorisée
 					</div>
+					
 					<h:form>
 						<sec:authorize access="hasAuthority('APP_ADMIN')">
-							<p:commandLink action="pretty:adminEvents"
-							value="Retour à l'accueil"/>
+							<p:commandLink action="pretty:adminEvents" value="Retour à l'accueil" />
 						</sec:authorize>
+						
 						<sec:authorize access="hasAuthority('STORE_KEEPER')">
-							<p:commandLink action="pretty:skProducts"
-							value="Retour à l'accueil"/>
+							<p:commandLink action="pretty:skProducts" value="Retour à l'accueil" />
 						</sec:authorize>
+						
 						<sec:authorize access="hasAuthority('CUSTOMER')">
-							<p:commandLink action="pretty:cstProducts"
-							value="Retour à l'accueil"/>
+							<p:commandLink action="pretty:cstProducts" value="Retour à l'accueil" />
 						</sec:authorize>
-					
 					</h:form>
 				</section>
 			</div>

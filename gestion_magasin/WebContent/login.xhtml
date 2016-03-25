@@ -9,31 +9,33 @@
 
 	<ui:composition template="/template/layout.xhtml">
 		<ui:define name="title">Accueil</ui:define>
+		
 		<ui:define name="content">
 			<div class="row">
 				<section class="col-lg-12">
-					<div
-						style="width: 350px; padding: 8px; margin: auto; margin-bottom: 50px; margin-top: 50px; border-radius: 8px;">
+					<div style="width: 350px; padding: 8px; margin: auto; margin-bottom: 50px; margin-top: 50px; border-radius: 8px;">
+					
 						<h2 style="text-align: center;">
-							<h:graphicImage library="image" width="50" height="50"
-								name="cadenas.jpg" />
+							<h:graphicImage library="image" width="50" height="50" name="cadenas.jpg" />
 							CONNEXION
-							<h:graphicImage library="image" width="50" height="50"
-								name="cadenas.jpg" />
+							<h:graphicImage library="image" width="50" height="50" name="cadenas.jpg" />
 						</h2>
+						
 						<form method="post" action="login_check">
+						
 							<div class="form-group">
 								<label for="login_connect">Nom de compte</label> <input
 									type="text" class="form-control" name="username" />
 							</div>
+							
 							<div class="form-group">
-								<label for="pwd_connect">Mot de passe</label> <input
-									type="password" class="form-control" name="password" />
+								<label for="pwd_connect">Mot de passe</label> 
+								<input type="password" class="form-control" name="password" />
 							</div>
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
-							<button class="btn btn-primary" type="submit"
-								name="valide_connect">Connexion</button>
+							
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+							<button class="btn btn-primary" type="submit" name="valide_connect">Connexion</button>
+							
 						</form>
 					</div>
 				</section>
